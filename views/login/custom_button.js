@@ -8,7 +8,6 @@ import {
 export default class CustomButton extends Component{
   static defaultProps = {
     title: 'untitled',
-    buttonColor: '#000',
     titleColor: '#fff',
     onPress: () => null,
     alignItems : 'center',
@@ -19,6 +18,8 @@ export default class CustomButton extends Component{
     flex : null,
     width : null,
     height : null,
+    marginRight : null,
+    marginLeft : null,
   }
 
   constructor(props){
@@ -28,14 +29,17 @@ export default class CustomButton extends Component{
   render(){
     return (
       <TouchableOpacity style={[
-        {alignItems : this.props.alignItems,
-        justifyContent : this.props.justifyContent,
-        marginBottom : this.props.marginBottom,
-        borderRadius : this.props.borderRadius,
-        backgroundColor: this.props.buttonColor,
-        flex : this.props.flex,
-        width : this.props.width,
-        height : this.props.height,
+        {
+          alignItems : this.props.alignItems,
+          justifyContent : this.props.justifyContent,
+          marginBottom : this.props.marginBottom,
+          borderRadius : this.props.borderRadius,
+          backgroundColor: this.props.buttonColor,
+          flex : this.props.flex,
+          width : this.props.width,
+          height : this.props.height,
+          marginRight : this.props.marginRight,
+          marginLeft : this.props.mrginLeft
         }
       ]}
       onPress={this.props.onPress}>

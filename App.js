@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import {View, Text, TextInput, Button} from "react-native";
 import React, {Component, Fragment} from "react";
 import {createStackNavigator} from "@react-navigation/stack";
-import LoginScreen from "./views/login/Login";
+import LoginScreen from "./views/login/caller";
 import Register_s from "./register/Register_s";
 import Register_norm from "./register/Register_norm";
 import Register_com from "./register/Register_com";
@@ -26,4 +26,5 @@ const App = () => {
     );
   
 };
+
 export default App;
