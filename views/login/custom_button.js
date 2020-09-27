@@ -39,7 +39,7 @@ export default class CustomButton extends Component{
           width : this.props.width,
           height : this.props.height,
           marginRight : this.props.marginRight,
-          marginLeft : this.props.mrginLeft
+          marginLeft : this.props.marginLeft
         }
       ]}
       onPress={this.props.onPress}>
