@@ -6,7 +6,7 @@ import {
   StatusBar, TextInput, Button
 } from "react-native";
 import CustomButton from './custom_button';
-import { Container, Header, Content, Form, Item, Input } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 Icon.loadFont();
 
@@ -44,7 +44,7 @@ class LoginScreen extends Component {
                 borderRadius={5}
                 width='100%'
                 height='100%'
-                onPress={() => this.props.navigation.navigate('Select')}
+                onPress={() => this.props.navigation.navigate('PLScreen')}
               />
             </View>
             <View style={{ marginTop: '3%', height: '10%' }} >
