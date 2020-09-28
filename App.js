@@ -26,9 +26,11 @@ const App = () => {
               title : '우만동', 
               headerStyle : {
                 backgroundColor : '#EFF3C6', 
-                shadowColor : 'gray', shadowRadius : 5,
+                shadowColor : 'gray', 
+                shadowRadius : 5,
               },
-              headerTitleStyle : {fontSize : 25,}
+              headerTitleStyle : {fontSize : 25,},
+              headerLeft : null
               } }/>
         </Stack.Navigator>
       </NavigationContainer>

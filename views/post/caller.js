@@ -19,31 +19,31 @@ class PostListScreen extends Component {
             <Text>Im a search bar</Text>
           </View>
           <View style = {{width : '90%', height : '40%', flexDirection : 'row',}}>
-            <Button vertical style = {{width : '22%', height : '80%', alignSelf : 'center', marginRight : '2%'}}>
-              <IconM name = 'dishwasher'/>
+            <Button vertical style = {{backgroundColor: '#F0A500',width : '22%', height : '80%', alignSelf : 'center', marginRight : '2%', justifyContent : 'center'}}>
+              <IconM name = 'dishwasher' size = {60}/>
             </Button>
-            <Button vertical style = {{width : '22%', height : '80%', alignSelf : 'center', marginRight : '2%', marginLeft : '2%'}}>
-              <IconM name = 'dishwasher'/>
+            <Button vertical style = {{backgroundColor: '#F0A500', width : '22%', height : '80%', alignSelf : 'center', marginRight : '2%', marginLeft : '2%', justifyContent : 'center'}}>
+              <IconM name = 'tent' size = {60}/>
             </Button>
-            <Button vertical style = {{width : '22%', height : '80%', alignSelf : 'center', marginRight : '2%', marginLeft : '2%'}}>
-              <IconM name = 'dishwasher'/>
+            <Button vertical style = {{backgroundColor: '#F0A500',width : '22%', height : '80%', alignSelf : 'center', marginRight : '2%', marginLeft : '2%', justifyContent : 'center'}}>
+              <IconM name = 'fish' size = {60}/>
             </Button>
-            <Button vertical style = {{width : '22%', height : '80%', alignSelf : 'center', marginLeft : '2%'}}>
-              <IconM name = 'dishwasher'/>
+            <Button vertical style = {{backgroundColor: '#F0A500',width : '22%', height : '80%', alignSelf : 'center', marginLeft : '2%', justifyContent : 'center'}}>
+              <IconM name = 'bread-slice' size = {60}/>
             </Button>
           </View>
           <View style = {{width : '90%', height : '40%', flexDirection : 'row'}}>
-          <Button vertical style = {{width : '22%', height : '80%', alignSelf : 'center', marginRight : '2%'}}>
-              <IconM name = 'dishwasher'/>
+          <Button vertical style = {{backgroundColor: '#F0A500', width : '22%', height : '80%', alignSelf : 'center', marginRight : '2%', justifyContent : 'center'}}>
+              <IconM name = 'gamepad-variant-outline' size = {60}/>
             </Button>
-            <Button vertical style = {{width : '22%', height : '80%', alignSelf : 'center', marginRight : '2%', marginLeft : '2%'}}>
-              <IconM name = 'dishwasher'/>
+            <Button vertical style = {{backgroundColor: '#F0A500', width : '22%', height : '80%', alignSelf : 'center', marginRight : '2%', marginLeft : '2%', justifyContent : 'center'}}>
+              <IconM name = 'camera' size = {60}/>
             </Button>
-            <Button vertical style = {{width : '22%', height : '80%', alignSelf : 'center', marginRight : '2%', marginLeft : '2%'}}>
-              <IconM name = 'dishwasher'/>
+            <Button vertical style = {{backgroundColor: '#F0A500', width : '22%', height : '80%', alignSelf : 'center', marginRight : '2%', marginLeft : '2%', justifyContent : 'center'}}>
+              <IconM name = 'bike' size = {60}/>
             </Button>
-            <Button vertical style = {{width : '22%', height : '80%', alignSelf : 'center', marginLeft : '2%'}}>
-              <IconM name = 'dishwasher'/>
+            <Button vertical style = {{backgroundColor: '#F0A500', width : '22%', height : '80%', alignSelf : 'center', marginLeft : '2%', justifyContent : 'center'}}>
+              <IconM name = 'tablet-ipad' size = {60}/>
             </Button>
           </View>
       </View>
