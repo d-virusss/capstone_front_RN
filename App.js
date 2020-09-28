@@ -4,6 +4,8 @@ import {View, Text, TouchableOpacity, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import MainScreen from './views/registration/caller';
+import FooterTabsBadgeExample from './views/post/caller';
+import {Root} from 'native-base';
 
 function HomeScreen({navigation}) {
   return (
