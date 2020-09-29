@@ -7,8 +7,8 @@ import LoginScreen from "./views/login/caller";
 import Register_s from "./register/Register_s";
 import Register_norm from "./register/Register_norm";
 import Register_com from "./register/Register_com";
-import PostListScreen from "./views/post/caller";
-import { ScreenStackHeaderBackButtonImage } from "react-native-screens";
+import PostListScreen from "./views/post";
+import C_I from './views/post/category_index';
 
 const Stack = createStackNavigator();
 const Tabnav = createBottomTabNavigator();
@@ -32,6 +32,7 @@ const App = () => {
               headerTitleStyle : {fontSize : 25,},
               headerLeft : null
               } }/>
+          <Stack.Screen name = 'C_index' component = {C_I}/>
         </Stack.Navigator>
       </NavigationContainer>
      
