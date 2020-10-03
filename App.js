@@ -9,6 +9,7 @@ import Register_norm from "./register/Register_norm";
 import Register_com from "./register/Register_com";
 import PostListScreen from "./views/post";
 import C_I from './views/post/category_index';
+import PostWrite_p from './views/post/postwrite_p';
 
 const Stack = createStackNavigator();
 const Tabnav = createBottomTabNavigator();
@@ -33,6 +34,8 @@ const App = () => {
               headerLeft : null
               } }/>
           <Stack.Screen name = 'C_index' component = {C_I}/>
+          <Stack.Screen name = 'P_W_p' component = {PostWrite_p} options={
+            {headerTitle : '대여글 쓰기', headerTitleStyle : {fontSize : 25}}}/>
         </Stack.Navigator>
       </NavigationContainer>
      

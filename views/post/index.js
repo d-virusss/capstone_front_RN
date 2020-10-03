@@ -77,7 +77,7 @@ class PostListScreen extends Component {
               <Icon name="newspaper"/>
               <Text>리스트</Text>
             </Button>
-            <Button vertical onPress = {() => this.props.navigation.navigate('Logins')}>
+            <Button vertical onPress = {() => this.props.navigation.navigate('P_W_p')}>
               <Icon name="pencil" />
               <Text>글쓰기</Text>
             </Button>
