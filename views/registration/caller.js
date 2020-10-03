@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, {Component} from 'react';
 import {StyleSheet, Platform, View, Alert} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
@@ -12,24 +13,47 @@ import {
   Button,
   Text,
 } from 'native-base';
+import getLoginClient from '../../apiAuth/loggedInClient';
+//Import the file if you are logged in
 
-export default class MainScreen extends Component<Props> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      e_mail: '',
-      pw1: '',
-      pw2: '',
-      nickname: '',
-      region: '',
-      phone: '',
-    };
+export default class MainScreen extends React.Component {
+  state = {
+    myInfo: [],
+    e_mail: '',
+    pw1: '',
+    pw2: '',
+    nickname: '',
+    region: '',
+    phone: '',
+  };
+
+  componentDidMount() {
+    axios.get('http://localhost:3000').then((res) => {
+      console.log('res : ' + res);
+      this.setState({myInfo: res.data.data.children});
+    });
   }
 
-  _join_number(event) {
-    let temp = this.state;
-    console.log('obj' + temp.e_mail + '' + temp.pw1);
-  }
+  onButtonPress = async () => {
+    await axios.get('https://naver.com')
+    .then((res) => {
+      console.log('res : ' + res);
+      this.setState({ myInfo: res.data.data.children });
+    })
+    .catch(error => {console.log(error); console.log("cant't accept")});
+    // const {randomMesage} = this.state;
+    // const client = await getLoginClient();
+    // client
+    //   .post('contactSupport', {
+    //     message: randomMessage,
+    //   })
+    //   .then((response) => {
+    //     console.log('response is', response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+  };
 
   _submit_mail(event) {
     let temp = this.state.e_mail;
@@ -58,56 +82,106 @@ export default class MainScreen extends Component<Props> {
 
   render() {
     console.log(this.state.e_mail);
-
+    console.log(this.state.myInfo);
     return (
       <Container>
-        <Form>
-          <Item>
-            <Label> E-mail</Label>
-            <Input onChangeText={(e_mail) => this.setState({e_mail})} />
+        <Content>
+          {/* email */}
+          <Item inlineLabel>
+            <Label>E-mail</Label>
+            <Input
+              ref="e_mail"
+              value={this.state.e_mail}
+              placeholder="Enter your e-mail"
+              onChangeText={(e_mail) => this.setState({e_mail})}
+            />
+          </Item>
+
+          {/* pw */}
+          <Item inlineLabel>
+            <Label>Password</Label>
+            <Input
+              placeholder="Enter your password"
+              onChangeText={(pw1) => this.setState({pw1})}
+            />
           </Item>
 
           <Item inlineLabel>
-            <Label> Password</Label>
-            <Input onChangeText={(pw1) => this.setState({pw1})} />
-          </Item>
-
-          <Item inlineLabel>
-            <Label> Password again</Label>
-            <Input onChangeText={(pw2) => this.setState({pw2})} />
-          </Item>
-
-          <Item inlineLabel>
-            <Label> Name</Label>
-            <Input onChangeText={(e_mail) => this.setState({e_mail})} />
-            <Button bordered primary onPress={this._submit_nickname.bind(this)}>
-              <Text>중복 확인</Text>
+            <Label>Password</Label>
+            <Input
+              placeholder="Password again"
+              onChangeText={(pw2) => this.setState({pw2})}
+            />
+            <Button bordered>
+              <Text>submit</Text>
             </Button>
           </Item>
 
+          {/* nickname */}
           <Item inlineLabel>
-            <Label> Region</Label>
-            <Input onChangeText={(region) => this.setState({region})} />
-            <Button bordered light onPress={this._find_region.bind(this)}>
-              <Text> 검색</Text>
+            <Label>Name</Label>
+            <Input
+              placeholder="Enter your name"
+              onChangeText={(name) => this.setState({name})}
+            />
+            <Button bordered>
+              <Text>중복확인</Text>
             </Button>
           </Item>
 
+          {/* region */}
           <Item inlineLabel>
-            <Label> Phone Number</Label>
-            <Input onChangeText={(phone) => this.setState({phone})} />
-            <Button bordered light onPress={this._submit_phoneNum.bind(this)}>
-              <Text> 인증</Text>
+            <Label>Region</Label>
+            <Input
+              placeholder="Search Region"
+              onChangeText={(region) => this.setState({region})}
+            />
+            <Button bordered>
+              <Text>검색</Text>
             </Button>
           </Item>
-        </Form>
 
-        <Button bordered light onPress={this._join_number.bind(this)}>
-          <Text> 가입</Text>
-        </Button>
+          {/* phone */}
+          <Item inlineLabel>
+            <Label>Contact</Label>
+            <Input
+              placeholder="PhoneNumber"
+              onChangeText={(phone) => this.setState({phone})}
+            />
+          </Item>
+        </Content>
+
+        <Content>
+          <Button bordered onPress={this.onButtonPress}>
+            <Text>검색</Text>
+          </Button>
+        </Content>
       </Container>
     );
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  bigBlue: {
+    color: 'blue',
+    fontWeight: 'bold',
+    fontSize: 30,
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  backgroundImage: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  textInput: {
+    alignItems: 'stretch',
+    borderTopWidth: 3,
+    borderBottomWidth: 3,
+    borderRightWidth: 3,
+    borderLeftWidth: 3,
+    height: 50,
+    borderColor: 'black',
+  },
+});
