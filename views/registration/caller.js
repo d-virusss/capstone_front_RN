@@ -14,11 +14,14 @@ import {
   Text,
 } from 'native-base';
 import getLoginClient from '../../apiAuth/loggedInClient';
+import AsyncStorage from '@react-native-community/async-storage';
 //Import the file if you are logged in
 
 export default class MainScreen extends React.Component {
   state = {
     myInfo: [],
+    randomMesage: [],
+    test: 'aaaa',
     e_mail: '',
     pw1: '',
     pw2: '',
@@ -55,6 +58,21 @@ export default class MainScreen extends React.Component {
     //   });
   };
 
+  // onButtonPress2 = async () => {
+  //   try {
+  //     await AsyncStorage.getItem('KEY', (err, value) => {
+  //       if (err == null) {
+  //         let json = JSON.parse(value);
+  //         console.log('fail');
+  //       } else {
+  //         console.log('success');
+  //       }
+  //     });
+  //   } catch (err) {
+  //     console.log('press2 : ' + err);
+  //   }
+  // };
+
   _submit_mail(event) {
     let temp = this.state.e_mail;
     console.log('temp : ' + temp);
@@ -83,7 +101,8 @@ export default class MainScreen extends React.Component {
   render() {
     console.log(this.state.e_mail);
     console.log(this.state.myInfo);
-    return (
+
+    https: return (
       <Container>
         <Content>
           {/* email */}
@@ -136,7 +155,7 @@ export default class MainScreen extends React.Component {
               placeholder="Search Region"
               onChangeText={(region) => this.setState({region})}
             />
-            <Button bordered>
+            <Button bordered onPress={this.onButtonPress2}>
               <Text>검색</Text>
             </Button>
           </Item>

@@ -7,6 +7,7 @@ const getAccessToken = async () => {
   try {
     const retrievedItem = await AsyncStorage.getItem('tokenData');
     if (retrievedItem !== null) {
+      console.log('getAccessToken');
       const item = JSON.parse(retrievedItem);
       console.log(item);
       const authorization = `Bearer ${item.token}`;
@@ -15,6 +16,7 @@ const getAccessToken = async () => {
     }
     return null;
   } catch (error) {
+    console.log('error');
     // Error retrieving data
   }
 };
