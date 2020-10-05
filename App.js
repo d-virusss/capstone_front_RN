@@ -1,8 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
-import {View, Text, TextInput, Button} from "react-native";
+import {View, Text, TextInput} from "react-native";
 import React, {Component, Fragment} from "react";
 import {createStackNavigator, HeaderBackButton} from "@react-navigation/stack";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {Button, Icon} from 'native-base';
 import LoginScreen from "./views/login/caller";
 import Register_s from "./register/Register_s";
 import Register_norm from "./register/Register_norm";
@@ -12,7 +12,6 @@ import C_I from './views/post/category_index';
 import PostWrite_p from './views/post/postwrite_p';
 
 const Stack = createStackNavigator();
-const Tabnav = createBottomTabNavigator();
 
 const App = () => {
     return (
@@ -31,7 +30,18 @@ const App = () => {
                 shadowRadius : 5,
               },
               headerTitleStyle : {fontSize : 25,},
-              headerLeft : null
+              headerLeft : null,
+              headerRight: () =>(
+                <Button
+                  onPress={() => alert('This is a button!')}
+                  transparent
+                >
+                  <Icon name = 'search' style={{color : 'black'}}/>
+                  <Text>
+                    
+                  </Text>
+                </Button>
+              )
               } }/>
           <Stack.Screen name = 'C_index' component = {C_I}/>
           <Stack.Screen name = 'P_W_p' component = {PostWrite_p} options={
