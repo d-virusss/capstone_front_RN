@@ -10,6 +10,7 @@ import Register_com from "./register/Register_com";
 import PostListScreen from "./views/post";
 import C_I from './views/post/category_index';
 import PostWrite_p from './views/post/postwrite_p';
+import chatIndex from './views/chat/chat_index';
 
 const Stack = createStackNavigator();
 const Tabnav = createBottomTabNavigator();
@@ -34,6 +35,11 @@ const App = () => {
               headerLeft : null
               } }/>
           <Stack.Screen name = 'C_index' component = {C_I}/>
+          <Stack.Screen name = "Chats" component = {chatIndex}
+            options = { {
+              title : '채팅',
+              headerLeft : null
+            } } />
           <Stack.Screen name = 'P_W_p' component = {PostWrite_p} options={
             {headerTitle : '대여글 쓰기', headerTitleStyle : {fontSize : 25}}}/>
         </Stack.Navigator>

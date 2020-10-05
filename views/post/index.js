@@ -75,13 +75,13 @@ class PostListScreen extends Component {
           <FooterTab>
             <Button vertical onPress={() => this.props.navigation.navigate('PLScreen')}>
               <Icon name="newspaper"/>
-              <Text>리스트</Text>
+              <Text>홈</Text>
             </Button>
             <Button vertical onPress = {() => this.props.navigation.navigate('P_W_p')}>
               <Icon name="pencil" />
               <Text>글쓰기</Text>
             </Button>
-            <Button badge vertical onPress = {() => this.props.navigation.navigate('Logins')}>
+            <Button badge vertical onPress = {() => this.props.navigation.navigate('Chats')}>
               <Badge ><Text>51</Text></Badge>
               <Icon name="chatbubble" />
               <Text>채팅</Text>
