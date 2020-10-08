@@ -4,13 +4,15 @@ import {
     View, ScrollView
   } from "react-native";
 import CategoryPicker from './categorypicker';
+import ImageSelect from './imageselect';
 
   class PostWrite_c extends Component{
     render(){
       return(
         <ScrollView>
           <View style={{width : '95%', height : '40%', justifyContent : 'center', alignItems: 'center', alignSelf: 'center'}}>
-            <Icon name = 'person'></Icon>
+            
+            <ImageSelect></ImageSelect>
           </View>
           <View style = {{ alignItems : 'center'}}>
             <View style = {{ width : '95%',}}>

@@ -1,84 +1,145 @@
-import React, { Component, Fragment } from "react";
+import axios from 'axios';
+import React, {Component, Fragment} from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  StatusBar, TextInput, Button
-} from "react-native";
+  StatusBar,
+  TextInput,
+  Button,
+} from 'react-native';
 import CustomButton from './custom_button';
-import { Container, Header, Content, Form, Item, Input, } from 'native-base';
+import {Container, Header, Content, Form, Item, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
+import PostWrite_p from '../post/postwrite_p';
 Icon.loadFont();
+const api = axios.create({baseURL: 'http://52.79.179.211'});
 
+var user = {
+  user: {
+    email: 'min06814@ajou.ac.kr',
+    password: '1234',
+  },
+};
 
 class LoginScreen extends Component {
+  state = {
+    token : ""
+  }
+  senddata = () => {
+    
+  }
+  componentDidMount() {
+    api
+      .post('/users/sign_in', user)
+      .then(function (response) {
+        console.log('true_token : ' + response.data.token.jwt);
+        
+        senddata()
+        this.props.navigation.navigate('PostWrite_p', {
+          data: {
+            title: 'Hello World',
+            token: response.data.token.jwt,
+          },
+        });
+      })
+      .catch(function (error) {
+        console.log('false: ' + error);
+      });
+  }
+
   render() {
     return (
-      <View style={{ flex: 1,  }}>
-        <View style={{ flex: 1 }}></View>
-        <View style={{ flex: 4, width : '70%', alignSelf : 'center' }}>
-          <Text style={{
-            color: 'black', fontSize: 40, textAlign: 'center', flex : 1
-          }}>모두나눔</Text>
-          <View style = {{ flex : 1}}>
-            <View style = {{ flexDirection : 'row', height : '50%', alignItems : 'center'}}>
-              <Icon name="ios-person-outline" size={30} color="black" style={{ flex : 1 }}></Icon>
-              <Item style = {{flex : 4}}>
-                  <Input style={{ fontSize: 25, }} placeholder="Username" />
+      <View style={{flex: 1}}>
+        <View style={{flex: 1}}></View>
+        <View style={{flex: 4, width: '70%', alignSelf: 'center'}}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 40,
+              textAlign: 'center',
+              flex: 1,
+            }}>
+            모두나눔
+          </Text>
+          <View style={{flex: 1}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                height: '50%',
+                alignItems: 'center',
+              }}>
+              <Icon
+                name="ios-person-outline"
+                size={30}
+                color="black"
+                style={{flex: 1}}></Icon>
+              <Item style={{flex: 4}}>
+                <Input style={{fontSize: 25}} placeholder="Username" />
               </Item>
             </View>
-            <View style = {{ flexDirection : 'row', height : '50%', alignItems : 'center'}}>
-              <Icon name='key' size={30} color='black' style={{ flex : 1 }}></Icon>
-              <Item style = {{flex : 4}}>
-                    <Input style={{ fontSize: 25, }} placeholder="Password" />
+            <View
+              style={{
+                flexDirection: 'row',
+                height: '50%',
+                alignItems: 'center',
+              }}>
+              <Icon name="key" size={30} color="black" style={{flex: 1}}></Icon>
+              <Item style={{flex: 4}}>
+                <Input style={{fontSize: 25}} placeholder="Password" />
               </Item>
             </View>
           </View>
-          <View name = 'buttons' style = {{ flex : 3}}>
-            <View style={{ marginTop: '10%', height: '10%' }} >
+          <View name="buttons" style={{flex: 3}}>
+            <View style={{marginTop: '10%', height: '10%'}}>
               <CustomButton
                 title="로그인"
                 titleColor="black"
                 buttonColor="white"
                 borderWidth={5}
                 borderRadius={5}
-                width='100%'
-                height='100%'
+                width="100%"
+                height="100%"
                 onPress={() => this.props.navigation.navigate('PLScreen')}
               />
             </View>
-            <View style={{ marginTop: '3%', height: '10%' }} >
+            <View style={{marginTop: '3%', height: '10%'}}>
               <CustomButton
                 title="회원가입"
                 titleColor="#fff"
                 buttonColor="#64b5f6"
-                width='100%'
-                height='100%'
+                width="100%"
+                height="100%"
                 onPress={() => this.props.navigation.navigate('Register')}
               />
             </View>
-            <View style={{height: '10%', marginTop: '3%' }}>
-              <View style = {{width : '100%', flexDirection : 'row', alignSelf : 'center'}}>
-                <View style = {{width : '47%', marginRight : '3%'}}>
+            <View style={{height: '10%', marginTop: '3%'}}>
+              <View
+                style={{
+                  width: '100%',
+                  flexDirection: 'row',
+                  alignSelf: 'center',
+                }}>
+                <View style={{width: '47%', marginRight: '3%'}}>
                   <CustomButton
                     title="ID찾기"
                     titleColor="#fff"
                     buttonColor="#C8C8C8"
-                    width = '100%'
-                    height='100%'
+                    width="100%"
+                    height="100%"
                     fontSize={15}
-                    onPress={() => this.props.navigation.navigate('Register')}
+                    onPress={() => this.props.navigation.navigate('Find_id')}
                   />
                 </View>
-                <View style = {{width : '47%', marginLeft : '3%'}}>
+                <View style={{width: '47%', marginLeft: '3%'}}>
                   <CustomButton
                     title="PW찾기"
                     titleColor="#fff"
                     buttonColor="#C8C8C8"
-                    width = '100%'
-                    height='100%'
+                    width="100%"
+                    height="100%"
                     fontSize={15}
-                    onPress={() => this.props.navigation.navigate('Register')}
+                    onPress={() => this.props.navigation.navigate('Find_pw')}
                   />
                 </View>
               </View>

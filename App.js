@@ -4,11 +4,14 @@ import React, {Component, Fragment} from "react";
 import {createStackNavigator, HeaderBackButton} from "@react-navigation/stack";
 import {Button, Icon} from 'native-base';
 import LoginScreen from "./views/login/caller";
-import RegisterScreen from "./views/registration/caller";
+import Register_form from './views/registration/caller';
+import FindId from './views/findid/caller';
+import FindPw from './views/findpw/caller';
 import PostListScreen from "./views/post";
 import C_I from './views/post/category_index';
 import PostWrite_p from './views/post/postwrite_p';
 import PostWrite_c from './views/post/postwrite_c';
+import SearchBar from './views/post/search_bar';
 
 const Stack = createStackNavigator();
 
@@ -17,34 +20,16 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator initialRouteName = "Logins">
           <Stack.Screen name = 'Logins' component = {LoginScreen} options={{headerShown : false}}/>
-          <Stack.Screen name = 'Register' component = {RegisterScreen}/>
-          <Stack.Screen name = 'PLScreen' component = {PostListScreen} options={
-            {
-              title : '우만동', 
-              headerStyle : {
-                backgroundColor : '#EFF3C6', 
-                shadowColor : 'gray', 
-                shadowRadius : 5,
-              },
-              headerTitleStyle : {fontSize : 25,},
-              headerLeft : null,
-              headerRight: () =>(
-                <Button
-                  onPress={() => alert('This is a button!')}
-                  transparent
-                >
-                  <Icon name = 'search' style={{color : 'black'}}/>
-                  <Text>
-                    
-                  </Text>
-                </Button>
-              )
-              } }/>
+          <Stack.Screen name = 'Register' component = {Register_form}/>
+          <Stack.Screen name="Find_id" component={FindId} />
+          <Stack.Screen name="Find_pw" component={FindPw} />
+          <Stack.Screen name = 'PLScreen' component = {PostListScreen} options={{headerShown : false}}/>
           <Stack.Screen name = 'C_index' component = {C_I}/>
           <Stack.Screen name = 'P_W_p' component = {PostWrite_p} options={
             {headerTitle : '대여글 쓰기', headerTitleStyle : {fontSize : 25}}}/>
-            <Stack.Screen name = 'P_W_c' component = {PostWrite_c} options={
+          <Stack.Screen name = 'P_W_c' component = {PostWrite_c} options={
             {headerTitle : '대여요청글 쓰기', headerTitleStyle : {fontSize : 25}}}/>
+          <Stack.Screen name = 'Seach' component = {SearchBar}/>
         </Stack.Navigator>
       </NavigationContainer>
      

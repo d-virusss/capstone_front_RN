@@ -14,6 +14,7 @@
     "@react-navigation/bottom-tabs": "^5.9.1",
     "@react-navigation/native": "^5.7.4",
     "@react-navigation/stack": "^5.9.1",
+    "axios": "^0.20.0",
     "native-base": "^2.13.14",
     "react": "16.13.1",
     "react-native": "0.63.2",
@@ -25,6 +26,7 @@
     "react-native-safe-area-context": "^3.1.8",
     "react-native-screen": "^1.0.1",
     "react-native-screens": "^2.11.0",
+    "react-native-search-header": "^0.3.5",
     "react-native-upload-multiple-images": "^1.0.6-rc",
     "react-native-vector-icons": "^7.1.0"
   },

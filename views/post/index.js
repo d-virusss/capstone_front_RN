@@ -2,10 +2,11 @@ import React, { Component, Fragment } from "react";
 import {
   StyleSheet,
   View,
-  StatusBar, TextInput, 
+  StatusBar, TextInput,
+  TouchableOpacity 
 } from "react-native";
 import CustomButton from './custom_button';
-import { Container, Header, Content, Form, Item, Input, Footer, FooterTab, Badge, Button,Text, Icon,Tabs, Tab, TabHeading, ActionSheet, Root } from 'native-base';
+import { Container, Header, Footer, FooterTab, Badge, Button,Text, Icon,Tabs, Tab, TabHeading, ActionSheet, Root } from 'native-base';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Search_Bar from './search_bar';
 import {Overlay} from 'react-native-elements';
@@ -26,6 +27,7 @@ class PostListScreen extends Component {
     return(
       <View style = {{flex : 1, backgroundColor : 'white'}}>
         <View style = {{flex : 1}}>
+          <Search_Bar></Search_Bar>
           <View style={{flex : 1}}>
             <Container>
               <Example></Example>
