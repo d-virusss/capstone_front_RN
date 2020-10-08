@@ -54,7 +54,7 @@ class LoginScreen extends Component {
                 buttonColor="#64b5f6"
                 width='100%'
                 height='100%'
-                onPress={() => this.props.navigation.navigate('Select')}
+                onPress={() => this.props.navigation.navigate('Register')}
               />
             </View>
             <View style={{height: '10%', marginTop: '3%' }}>
@@ -67,7 +67,7 @@ class LoginScreen extends Component {
                     width = '100%'
                     height='100%'
                     fontSize={15}
-                    onPress={() => this.props.navigation.navigate('Select')}
+                    onPress={() => this.props.navigation.navigate('Register')}
                   />
                 </View>
                 <View style = {{width : '47%', marginLeft : '3%'}}>
@@ -78,7 +78,7 @@ class LoginScreen extends Component {
                     width = '100%'
                     height='100%'
                     fontSize={15}
-                    onPress={() => this.props.navigation.navigate('Select')}
+                    onPress={() => this.props.navigation.navigate('Register')}
                   />
                 </View>
               </View>

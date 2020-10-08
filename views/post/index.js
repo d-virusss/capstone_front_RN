@@ -58,15 +58,22 @@ class PostListScreen extends Component {
                     title: "Testing ActionSheet"
                   },
                   buttonIndex => {
-                    this.setState({ clicked: BUTTONS[buttonIndex] });
-                  }
+                    if(buttonIndex === 0) {
+                      this.props.navigation.navigate('P_W_p');
+                    }
+                    if(buttonIndex === 1) {
+                      this.props.navigation.navigate('P_W_c');
+                    }
+                  },
                 )}
               >
                 <Icon name="pencil" />
                 <Text>글쓰기</Text>
               </Button>
             </Root>
-            <Button badge vertical onPress = {() => this.props.navigation.navigate('Logins')}>
+            <Button badge vertical onPress = {() => {
+              this.props.navigation.navigate('Logins')}
+            }>
               <Badge ><Text>51</Text></Badge>
               <Icon name="chatbubble" />
               <Text>채팅</Text>
