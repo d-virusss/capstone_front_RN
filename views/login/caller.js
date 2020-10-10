@@ -23,33 +23,70 @@ var user_obj = {
   },
 };
 
+
+let userinfo = {
+  user: {
+    email: "",
+    password: ""
+  }
+}
+
 class LoginScreen extends Component {
   state = {
-    token : ""
+    token : "",
+    title : "first",
+    user : {
+      email: "",
+      password: "",
+      asdf: "",
+      ttas: ""
+    }
   }
+
   senddata(data){
-    this.setState({
-      token : data
-    })
+    console.log("enter senddata")
+    // this.setState({
+    //   token : toString(data)
+    // })
   }
   componentDidMount() {
+    console.log(this.state.user)
+  }
+
+  makeRequest(){
+    console.log("start send request to server")
+    console.log(this.state.user)
+    userinfo.user.email = "hahah"
+    userinfo.user.password = "pass!213"
+    console.log(userinfo)
     api
       .post('/users/sign_in', user_obj)
-      .then(function (response) {
+      .then((response) => {
         console.log("create success!")
-        console.log('true_token : ' + response.data.token.jwt);
-        console.log("all token : " + response);
-        senddata(response)
-        this.props.navigation.navigate('PostWrite_p', {
-          data: {
-            title: 'Hello World',
-            token: response.data.token.jwt,
-          },
-        });
+        console.log(response)
+        this.setState({token : response.data.token})
+        // this.props.navigation.navigate('PLScreen')
       })
       .catch(function (error) {
-        console.log('axios call fail 422? : ' + error);
+        console.log('axios call failed!! : ' + error);
       });
+  }
+  
+  changeUsername = (text, type) => {
+    if(type === "email"){
+      this.setState({
+        user: {
+          email: text
+        }
+      }, () => { console.log(this.state.user.email) })
+    }
+    else if (type === "password") {
+      this.setState({
+        user: {
+          password: text
+        }
+      }, () => { console.log(this.state.user.password) })
+    }
   }
 
   render() {
@@ -79,7 +116,8 @@ class LoginScreen extends Component {
                 color="black"
                 style={{flex: 1}}></Icon>
               <Item style={{flex: 4}}>
-                <Input style={{fontSize: 25}} placeholder="Username" />
+                <Input style={{fontSize: 25}} placeholder="Username" autoCapitalize='none'
+                onChangeText={(text) => this.changeUsername(text, "email")} />
               </Item>
             </View>
             <View
@@ -90,7 +128,9 @@ class LoginScreen extends Component {
               }}>
               <Icon name="key" size={30} color="black" style={{flex: 1}}></Icon>
               <Item style={{flex: 4}}>
-                <Input style={{fontSize: 25}} placeholder="Password" />
+                <Input style={{fontSize: 25}} placeholder="Password"
+                  autoCapitalize='none' secureTextEntry={true}
+                onChangeText={(text) => this.changeUsername(text, "password")} />
               </Item>
             </View>
           </View>
@@ -104,7 +144,7 @@ class LoginScreen extends Component {
                 borderRadius={5}
                 width="100%"
                 height="100%"
-                onPress={() => this.props.navigation.navigate('PLScreen')}
+                onPress={() => this.makeRequest()}
               />
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>
