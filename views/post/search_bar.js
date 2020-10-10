@@ -77,6 +77,7 @@ class Search_Bar extends React.Component {
   myFunction() {
     this.state.suggestion_list.map((item, index) => {
       console.log('!!!' + item + index);
+      console.log("here is search_bar")
       return (
         <TouchableOpacity key={index} onPress={this.onPressHandler(index)}>
           <Text>{item}</Text>

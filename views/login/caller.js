@@ -7,6 +7,7 @@ import {
   StatusBar,
   TextInput,
   Button,
+  TouchableHighlightBase,
 } from 'react-native';
 import CustomButton from './custom_button';
 import {Container, Header, Content, Form, Item, Input} from 'native-base';
@@ -15,10 +16,12 @@ import PostWrite_p from '../post/postwrite_p';
 Icon.loadFont();
 const api = axios.create({baseURL: 'http://52.79.179.211'});
 
-var user = {
+var user_obj = {
   user: {
-    email: 'min06814@ajou.ac.kr',
+    email: 'test@test.com',
     password: '1234',
+    password_confirmation: '1234',
+    nickname: "new_appleman",
   },
 };
 
@@ -26,16 +29,19 @@ class LoginScreen extends Component {
   state = {
     token : ""
   }
-  senddata = () => {
-    
+  senddata(data){
+    this.setState({
+      token : data
+    })
   }
   componentDidMount() {
     api
-      .post('/users/sign_in', user)
+      .post('/users/sign_up', user_obj)
       .then(function (response) {
+        console.log("create success!")
         console.log('true_token : ' + response.data.token.jwt);
-        
-        senddata()
+        console.log("all token : " + response);
+        senddata(response)
         this.props.navigation.navigate('PostWrite_p', {
           data: {
             title: 'Hello World',
@@ -44,7 +50,7 @@ class LoginScreen extends Component {
         });
       })
       .catch(function (error) {
-        console.log('false: ' + error);
+        console.log('axios call faiddddl: ' + error);
       });
   }
 
