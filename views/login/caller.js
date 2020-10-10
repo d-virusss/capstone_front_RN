@@ -18,10 +18,8 @@ const api = axios.create({baseURL: 'http://52.79.179.211'});
 
 var user_obj = {
   user: {
-    email: 'test@test.com',
-    password: '1234',
-    password_confirmation: '1234',
-    nickname: "new_appleman",
+    email: 'tester1@test.com',
+    password: 'test123',
   },
 };
 
@@ -36,7 +34,7 @@ class LoginScreen extends Component {
   }
   componentDidMount() {
     api
-      .post('/users/sign_up', user_obj)
+      .post('/users/sign_in', user_obj)
       .then(function (response) {
         console.log("create success!")
         console.log('true_token : ' + response.data.token.jwt);
@@ -50,7 +48,7 @@ class LoginScreen extends Component {
         });
       })
       .catch(function (error) {
-        console.log('axios call faiddddl: ' + error);
+        console.log('axios call fail 422? : ' + error);
       });
   }
 
