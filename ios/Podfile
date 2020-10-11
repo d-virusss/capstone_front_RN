@@ -8,6 +8,10 @@ target 'capstone_frontend' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+
+
+
+
   target 'capstone_frontendTests' do
     inherit! :complete
     # Pods for testing
