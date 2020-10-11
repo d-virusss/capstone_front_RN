@@ -144,7 +144,7 @@ class LoginScreen extends Component {
                 borderRadius={5}
                 width="100%"
                 height="100%"
-                onPress={() => this.makeRequest()}
+                onPress={() => this.makeRequest(), () => this.props.navigation.navigate("PLScreen")}
               />
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>

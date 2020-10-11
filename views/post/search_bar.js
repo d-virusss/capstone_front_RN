@@ -9,8 +9,11 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
-import {Button} from 'native-base'
+import ProvidingList from './providerindex';
+import A_F_Rent from './ask_for_rent';
+import {Button, Container, Tabs, Tab, TabHeading} from 'native-base'
 import SearchHeader from 'react-native-search-header';
+import Example from './categorymodal';
 IconM.loadFont();
 //https://www.npmjs.com/package/react-native-search-header
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -26,7 +29,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
     elevation: 2,
     width: DEVICE_WIDTH,
-    height: 21,
+    height: 30,
     backgroundColor: '#00bcd4',
   },
   header: {
@@ -91,7 +94,7 @@ class Search_Bar extends React.Component {
     // console.log(this.state.suggestion_list);
     this.myFunction();
     return (
-      <View>
+      <View style = {{flex : 1}}>
         <StatusBar barStyle="light-content" />
         <View style={styles.status} />
         <View style={styles.header}>
@@ -113,6 +116,7 @@ class Search_Bar extends React.Component {
           </Button>
         </View>
         <SearchHeader
+          topOffset = {40}
           ref={this.searchHeaderRef}
           placeholder="Search..."
           placeholderColor="gray"
@@ -139,6 +143,17 @@ class Search_Bar extends React.Component {
             // }
           }}
         />
+        <Example></Example>
+        <Container>
+              <Tabs style={{marginTop : '0%',}}>
+                <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
+                  <ProvidingList></ProvidingList>
+                </Tab>
+                <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
+                  <A_F_Rent></A_F_Rent>
+                </Tab>
+              </Tabs>
+            </Container>
       </View>
     );
   }
