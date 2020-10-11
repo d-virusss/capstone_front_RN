@@ -10,12 +10,9 @@ import FindPw from './views/findpw/caller';
 import PostListScreen from "./views/post";
 import C_I from './views/post/category_index';
 import PostWrite_p from './views/post/postwrite_p';
-<<<<<<< HEAD
 import PostWrite_c from './views/post/postwrite_c';
 import SearchBar from './views/post/search_bar';
-=======
 import chatIndex from './views/chat/chat_index';
->>>>>>> 1e2afb6d3bfe90921e7f04d1b5b528de172223ea
 
 const Stack = createStackNavigator();
 

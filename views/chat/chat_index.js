@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { 
   Container, Header, Content, List, ListItem, 
-  Left, Body, Right, Thumbnail, Text, View } from 'native-base';
+  Left, Body, Right, Thumbnail, Text, View , Footer, FooterTab, Button, Icon, Root, Badge, ActionSheet} from 'native-base';
+
+var BUTTONS = ["제공 글쓰기", "대여요청 글쓰기", "취소"];
+var CANCEL_INDEX = 2;
 
 class ListAvatarExample extends Component {
 
@@ -20,6 +23,51 @@ class ListAvatarExample extends Component {
             <ListProfile imageURI="https://picsum.photos/id/1001/150/150" title="엄마" body="밥 먹었어?" time="8:49 pm"></ListProfile>
           </List>
         </Content>
+        <Footer>
+          <FooterTab>
+            <Button vertical onPress={() => this.props.navigation.navigate('PLScreen')}>
+              <Icon name="home"/>
+              <Text>홈</Text>
+            </Button>
+            <Root vertical transparent>
+              <Button 
+                transparent
+                vertical 
+                style = {{alignSelf : 'center'}}
+                onPress = {() =>
+                ActionSheet.show(
+                  {
+                    options: BUTTONS,
+                    cancelButtonIndex: CANCEL_INDEX,
+                    title: "글쓰기"
+                  },
+                  buttonIndex => {
+                    if(buttonIndex === 0) {
+                      this.props.navigation.navigate('P_W_p');
+                    }
+                    if(buttonIndex === 1) {
+                      this.props.navigation.navigate('P_W_c');
+                    }
+                  },
+                )}
+              >
+                <Icon name="pencil" style = {{color : '#6b6b6b'}}/>
+                <Text style = {{fontSize : 14, color : '#6b6b6b'}}>글쓰기</Text>
+              </Button>
+            </Root>
+            <Button badge vertical onPress = {() => {
+              this.props.navigation.navigate('Chats')}
+            }>
+              <Badge ><Text>51</Text></Badge>
+              <Icon name="chatbubble" />
+              <Text>채팅</Text>
+            </Button>
+            <Button vertical onPress = {() => this.props.navigation.navigate('Logins')}>
+              <Icon name="person" />
+              <Text>Mypage</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       </Container>
     );
   }

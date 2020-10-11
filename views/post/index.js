@@ -9,10 +9,6 @@ import CustomButton from './custom_button';
 import { Container, Header, Footer, FooterTab, Badge, Button,Text, Icon,Tabs, Tab, TabHeading, ActionSheet, Root } from 'native-base';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Search_Bar from './search_bar';
-import {Overlay} from 'react-native-elements';
-import ProvidingList from './providerindex';
-import A_F_Rent from './ask_for_rent';
-import { ScrollView } from "react-native-gesture-handler";
 IconM.loadFont();
 
 var BUTTONS = ["제공 글쓰기", "대여요청 글쓰기", "취소"];
@@ -63,7 +59,7 @@ class PostListScreen extends Component {
               </Button>
             </Root>
             <Button badge vertical onPress = {() => {
-              this.props.navigation.navigate('Logins')}
+              this.props.navigation.navigate('Chats')}
             }>
               <Badge ><Text>51</Text></Badge>
               <Icon name="chatbubble" />
