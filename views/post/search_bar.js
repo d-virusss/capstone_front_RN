@@ -6,10 +6,10 @@ import {
   StyleSheet,
   View,
   Text,
-  Button,
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+import {Button} from 'native-base'
 import SearchHeader from 'react-native-search-header';
 IconM.loadFont();
 //https://www.npmjs.com/package/react-native-search-header
@@ -27,15 +27,16 @@ const styles = StyleSheet.create({
     elevation: 2,
     width: DEVICE_WIDTH,
     height: 21,
-    backgroundColor: '#0097a7',
+    backgroundColor: '#00bcd4',
   },
   header: {
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     width: DEVICE_WIDTH,
     height: 56,
     marginBottom: 6,
     backgroundColor: '#00bcd4',
+    flexDirection : 'row'
   },
   button: {
     justifyContent: 'center',
@@ -93,11 +94,22 @@ class Search_Bar extends React.Component {
         <StatusBar barStyle="light-content" />
         <View style={styles.status} />
         <View style={styles.header}>
+          <Button transparent>
+            <IconM name = 'search' size = {25} style={{opacity : 0}}/>
+          </Button>
           <Button
-            title="Search"
-            color="#f5fcff"
+            transparent
+            style = {{alignSelf : 'center'}}
+          >
+            <Text style = {{fontSize : 25}}>우만동</Text>
+          </Button>
+          <Button
+            transparent
+            style = {{alignSelf : 'center'}}
             onPress={() => this.searchHeaderRef.current.show()}
-          />
+          >
+            <IconM name = 'search' size = {25} style = {{margin : '1%'}}/>
+          </Button>
         </View>
         <SearchHeader
           ref={this.searchHeaderRef}
