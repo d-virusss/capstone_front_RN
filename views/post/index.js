@@ -24,7 +24,6 @@ class PostListScreen extends Component {
       <View style = {{flex : 1, backgroundColor : 'white'}}>
         <View style = {{flex : 1}} >
           <Search_Bar></Search_Bar>
-          
         </View>
         <Footer>
           <FooterTab>

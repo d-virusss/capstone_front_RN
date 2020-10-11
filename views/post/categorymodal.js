@@ -3,7 +3,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { Button } from 'native-base';
+import { Button, Icon, Right } from 'native-base';
 import Modal from 'react-native-modal';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -24,7 +24,7 @@ class Example extends Component {
 
   render() {
     return (
-      <View>
+      <View style = {{backgroundColor : '#fffff'}}>
         <Modal
           animationType={'fade'}
           isVisible={this.state.visibility}
@@ -103,19 +103,36 @@ class Example extends Component {
         </Modal>
 
         <Button
-          transparent
           onPress={() => this.setModalVisibility(true)}
-          style = {{width : '100%', justifyContent : 'center'}}
+          bordered dark
+          style = {{
+            width : '80%', 
+            justifyContent : 'center',
+            alignSelf : 'center',
+            backgroundColor : 'white',
+            borderRadius : 0,
+            margin : 10,
+            zIndex : 0
+          }}
         >
           <Text
             style = {{
               textAlign : 'center',
-              fontSize : 25,
-              color : '#00bcd4'
+              fontSize : 20,
+              color : '#000',
+              alignSelf : 'center'
             }}
           >
             카테고리
           </Text>
+          <Icon name = 'arrow-down'
+            
+            style={{
+              zIndex : 1,
+              position : 'absolute',
+              right : '2%'
+            }}
+          />
         </Button>
       </View>
     );
