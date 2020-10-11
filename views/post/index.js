@@ -13,6 +13,7 @@ import {Overlay} from 'react-native-elements';
 import ProvidingList from './providerindex';
 import A_F_Rent from './ask_for_rent';
 import Example from './categorymodal';
+import FootTab from '../shared/bottom_tab'
 IconM.loadFont();
 
 var BUTTONS = ["제공 글쓰기", "대여요청 글쓰기", "취소"];
@@ -45,25 +46,22 @@ class PostListScreen extends Component {
         <Footer>
           <FooterTab>
             <Button vertical onPress={() => this.props.navigation.navigate('PLScreen')}>
-              <Icon name="newspaper"/>
+              <Icon name="newspaper" />
               <Text>홈</Text>
             </Button>
             <Root>
-              <Button 
-                transparent
-                vertical 
-                onPress = {() =>
-                ActionSheet.show(
+              <Button
+                transparent vertical onPress={() => ActionSheet.show(
                   {
                     options: BUTTONS,
                     cancelButtonIndex: CANCEL_INDEX,
                     title: "Testing ActionSheet"
                   },
                   buttonIndex => {
-                    if(buttonIndex === 0) {
-                      this.props.navigation.navigate('P_W_p');
+                    if (buttonIndex === 0) {
+                        this.props.navigation.navigate('P_W_p');
                     }
-                    if(buttonIndex === 1) {
+                    if (buttonIndex === 1) {
                       this.props.navigation.navigate('P_W_c');
                     }
                   },
@@ -73,14 +71,15 @@ class PostListScreen extends Component {
                 <Text>글쓰기</Text>
               </Button>
             </Root>
-            <Button badge vertical onPress = {() => {
-              this.props.navigation.navigate('Logins')}
+            <Button badge vertical onPress={() => {
+              this.props.navigation.navigate('Chats')
+            }
             }>
               <Badge ><Text>51</Text></Badge>
               <Icon name="chatbubble" />
               <Text>채팅</Text>
             </Button>
-            <Button vertical onPress = {() => this.props.navigation.navigate('Logins')}>
+            <Button vertical onPress={() => this.props.navigation.navigate('Logins')}>
               <Icon name="person" />
               <Text>Mypage</Text>
             </Button>

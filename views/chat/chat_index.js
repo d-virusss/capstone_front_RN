@@ -3,6 +3,8 @@ import {
   Container, Header, Content, List, ListItem, 
   Left, Body, Right, Thumbnail, Text, View } from 'native-base';
 
+import FootTab from '../shared/bottom_tab'
+
 class ListAvatarExample extends Component {
 
   callimage = () => {
@@ -20,6 +22,7 @@ class ListAvatarExample extends Component {
             <ListProfile imageURI="https://picsum.photos/id/1001/150/150" title="엄마" body="밥 먹었어?" time="8:49 pm"></ListProfile>
           </List>
         </Content>
+        <FootTab></FootTab>
       </Container>
     );
   }

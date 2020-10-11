@@ -56,11 +56,12 @@ class LoginScreen extends Component {
     console.log("start send request to server")
     console.log(userinfo.user)
     api
-      .post('/users/sign_in', userinfo)
+      .post('/users/sign_in', user_obj)
       .then((response) => {
         console.log("create success!")
         console.log(response)
         this.setState({token : response.data.token})
+        console.log(this)
         this.props.navigation.navigate('PLScreen')
       })
       .catch(function (error) {
