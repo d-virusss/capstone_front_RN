@@ -40,8 +40,12 @@
     "jest": "^26.4.2",
     "metro-react-native-babel-preset": "^0.63.0",
     "react-native-debugger-open": "^0.3.25",
+<<<<<<< HEAD
     "react-test-renderer": "16.13.1",
     "redux-devtools-extension": "^2.13.8"
+=======
+    "react-test-renderer": "16.13.1"
+>>>>>>> 1e2afb6d3bfe90921e7f04d1b5b528de172223ea
   },
   "jest": {
     "preset": "react-native"
