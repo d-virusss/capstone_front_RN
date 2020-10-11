@@ -7,6 +7,7 @@ import {
   StatusBar,
   TextInput,
   Button,
+  TouchableHighlightBase,
 } from 'react-native';
 import CustomButton from './custom_button';
 import {Container, Header, Content, Form, Item, Input} from 'native-base';
@@ -15,37 +16,77 @@ import PostWrite_p from '../post/postwrite_p';
 Icon.loadFont();
 const api = axios.create({baseURL: 'http://52.79.179.211'});
 
-var user = {
+var user_obj = {
   user: {
-    email: 'min06814@ajou.ac.kr',
-    password: '1234',
+    email: 'tester1@test.com',
+    password: 'test123',
   },
 };
 
+
+let userinfo = {
+  user: {
+    email: "",
+    password: ""
+  }
+}
+
 class LoginScreen extends Component {
   state = {
-    token : ""
+    token : "",
+    title : "first",
+    user : {
+      email: "",
+      password: "",
+      asdf: "",
+      ttas: ""
+    }
   }
-  senddata = () => {
-    
+
+  senddata(data){
+    console.log("enter senddata")
+    // this.setState({
+    //   token : toString(data)
+    // })
   }
   componentDidMount() {
+    console.log(this.state.user)
+  }
+
+  makeRequest(){
+    console.log("start send request to server")
+    console.log(this.state.user)
+    userinfo.user.email = "hahah"
+    userinfo.user.password = "pass!213"
+    console.log(userinfo)
     api
-      .post('/users/sign_in', user)
-      .then(function (response) {
-        console.log('true_token : ' + response.data.token.jwt);
-        
-        senddata()
-        this.props.navigation.navigate('PostWrite_p', {
-          data: {
-            title: 'Hello World',
-            token: response.data.token.jwt,
-          },
-        });
+      .post('/users/sign_in', user_obj)
+      .then((response) => {
+        console.log("create success!")
+        console.log(response)
+        this.setState({token : response.data.token})
+        // this.props.navigation.navigate('PLScreen')
       })
       .catch(function (error) {
-        console.log('false: ' + error);
+        console.log('axios call failed!! : ' + error);
       });
+  }
+  
+  changeUsername = (text, type) => {
+    if(type === "email"){
+      this.setState({
+        user: {
+          email: text
+        }
+      }, () => { console.log(this.state.user.email) })
+    }
+    else if (type === "password") {
+      this.setState({
+        user: {
+          password: text
+        }
+      }, () => { console.log(this.state.user.password) })
+    }
   }
 
   render() {
@@ -75,7 +116,8 @@ class LoginScreen extends Component {
                 color="black"
                 style={{flex: 1}}></Icon>
               <Item style={{flex: 4}}>
-                <Input style={{fontSize: 25}} placeholder="Username" />
+                <Input style={{fontSize: 25}} placeholder="Username" autoCapitalize='none'
+                onChangeText={(text) => this.changeUsername(text, "email")} />
               </Item>
             </View>
             <View
@@ -86,7 +128,9 @@ class LoginScreen extends Component {
               }}>
               <Icon name="key" size={30} color="black" style={{flex: 1}}></Icon>
               <Item style={{flex: 4}}>
-                <Input style={{fontSize: 25}} placeholder="Password" />
+                <Input style={{fontSize: 25}} placeholder="Password"
+                  autoCapitalize='none' secureTextEntry={true}
+                onChangeText={(text) => this.changeUsername(text, "password")} />
               </Item>
             </View>
           </View>
@@ -100,7 +144,7 @@ class LoginScreen extends Component {
                 borderRadius={5}
                 width="100%"
                 height="100%"
-                onPress={() => this.props.navigation.navigate('PLScreen')}
+                onPress={() => this.makeRequest()}
               />
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>
