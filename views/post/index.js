@@ -46,7 +46,7 @@ class PostListScreen extends Component {
           <FooterTab>
             <Button vertical onPress={() => this.props.navigation.navigate('PLScreen')}>
               <Icon name="newspaper"/>
-              <Text>리스트</Text>
+              <Text>홈</Text>
             </Button>
             <Root>
               <Button 

@@ -140,7 +140,11 @@ export default class RegistrationScreen extends React.Component {
               placeholder="Search Region"
               onChangeText={(region) => this.setState({region})}
             />
+<<<<<<< HEAD
             <Button bordered>
+=======
+            <Button bordered onPress={this.onButtonPress2}>
+>>>>>>> 1e2afb6d3bfe90921e7f04d1b5b528de172223ea
               <Text>검색</Text>
             </Button>
           </Item>
@@ -188,4 +192,8 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: 'black',
   },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 1e2afb6d3bfe90921e7f04d1b5b528de172223ea
