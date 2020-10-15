@@ -7,16 +7,36 @@ import { Button, Icon, Right } from 'native-base';
 import Modal from 'react-native-modal';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-a = '전체';
-
 class Example extends Component {
   constructor() {
     super();
     this.state = {
       visibility: false,
+      modalText : "전체"
     };
   }
 
+  setModalText(modalIndex){
+    if (modalIndex == 0){
+      this.state.modalText = '캠핑용품';
+    }
+    else if (modalIndex == 1){
+      this.state.modalText = '낚시용품';
+    }
+    else if (modalIndex == 2){
+      this.state.modalText = '카메라';
+    }
+    else if (modalIndex == 3){
+      this.state.modalText = '게임기';
+    }
+    else if (modalIndex == 4){
+      this.state.modalText = '캠핑용품';
+    }
+    else if (modalIndex == 5){
+      this.state.modalText = '캠핑용품';
+    }
+    
+  }
 
   setModalVisibility(visible) {
     this.setState({
@@ -24,7 +44,13 @@ class Example extends Component {
     });
   }
 
+  onPFunction(modalIndex){
+    this.setModalVisibility(!this.state.visibility);
+    this.setModalText(modalIndex);
+  }
+
   render() {
+    this.modalText = '전체';
     return (
       <View style = {{backgroundColor : '#fffff'}}>
         <Modal
@@ -63,7 +89,7 @@ class Example extends Component {
               <Button
                 transparent
                 color="#000"
-                onPress={() => this.setModalVisibility(!this.state.visibility)}
+                onPress={() => this.onPFunction(0)}
                 style = {{justifyContent : 'center', width : '100%'}}
               >
                 <Text>
@@ -73,7 +99,7 @@ class Example extends Component {
               <Button
                 transparent
                 color="#000"
-                onPress={() => this.setModalVisibility(!this.state.visibility)}
+                onPress={() => this.onPFunction(1)}
                 style = {{justifyContent : 'center', width : '100%'}}
               >
                 <Text>
@@ -83,7 +109,7 @@ class Example extends Component {
               <Button
                 transparent
                 color="#000"
-                onPress={() => this.setModalVisibility(!this.state.visibility)}
+                onPress={() => this.onPFunction(2)}
                 style = {{justifyContent : 'center', width : '100%'}}
               >
                 <Text>
@@ -93,7 +119,7 @@ class Example extends Component {
               <Button
                 transparent
                 color="#000"
-                onPress={() => this.setModalVisibility(!this.state.visibility)}
+                onPress={() => this.onPFunction(3)}
                 style = {{justifyContent : 'center', width : '100%'}}
               >
                 <Text>
@@ -135,7 +161,7 @@ class Example extends Component {
               alignSelf : 'center'
             }}
           >
-            {a}
+            {this.state.modalText}
           </Text>
           <Icon name = 'arrow-down'
             
