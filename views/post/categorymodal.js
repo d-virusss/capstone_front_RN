@@ -7,6 +7,8 @@ import { Button, Icon, Right } from 'native-base';
 import Modal from 'react-native-modal';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+a = '전체';
+
 class Example extends Component {
   constructor() {
     super();
@@ -26,13 +28,21 @@ class Example extends Component {
     return (
       <View style = {{backgroundColor : '#fffff'}}>
         <Modal
-          animationType={'fade'}
+          animationIn={'fadeIn'}
+          animationOut={'fadeOut'}
           isVisible={this.state.visibility}
-          hasBackdrop
           style = {{flex : 1,  margin : 0,}}
-          onBackdropPress={() => this.setModalVisibility(!this.state.visibility)}
+          onPress={() => this.setModalVisibility(!this.state.visibility)}
         >
-          <View style = {{flex : 1, justifyContent : 'center', alignItems : 'center'}}>
+          <View style = {{flex : 1, justifyContent : 'center', alignItems : 'center',}}>
+            <View style = {{ opacity : 0.5, zIndex : 0}}>
+              <TouchableOpacity
+                style = {{width : '100%', height : '100%'}}
+                onPress={() => this.setModalVisibility(!this.state.visibility)}
+              >
+                <Text style = {{opacity : 0}}>asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasa</Text>
+              </TouchableOpacity>
+            </View>
             <View style = {{
               width : '70%',
               backgroundColor: "white",
@@ -45,7 +55,9 @@ class Example extends Component {
               },
               shadowOpacity: 0.25,
               shadowRadius: 3.84,
-              elevation: 5
+              elevation: 5,
+              zIndex : 10,
+              position : 'absolute'
             }}>
               <Text style = {{fontSize : 25, margin : '3%'}}>카테고리</Text>
               <Button
@@ -123,7 +135,7 @@ class Example extends Component {
               alignSelf : 'center'
             }}
           >
-            카테고리
+            {a}
           </Text>
           <Icon name = 'arrow-down'
             

@@ -3,10 +3,10 @@ import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } f
 import {
     View, 
 } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+//import { useNavigation } from '@react-navigation/native';
 
 class ProvidingList extends Component{
-  navigation = useNavigation();
+  //navigation = useNavigation();
   render(){
     return(
       <View style={{flex : 1}}>
