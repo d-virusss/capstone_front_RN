@@ -6,7 +6,7 @@ import {
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
 
-  class PostWrite_p extends Component{
+  class Post_provide extends Component{
     render(){
       return(
         <ScrollView>
@@ -39,4 +39,4 @@ import ImageSelect from './imageselect';
   }
 }
 
-export default PostWrite_p;
+export default Post_provide;

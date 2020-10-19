@@ -13,7 +13,7 @@ import {
 import CustomButton from './custom_button';
 import {Container, Header, Content, Form, Item, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import PostWrite_p from '../post/postwrite_p';
+import Post_provide from '../post/post_provide';
 Icon.loadFont();
 const api = axios.create({baseURL: 'http://52.79.179.211'});
 

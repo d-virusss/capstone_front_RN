@@ -9,8 +9,8 @@ import FindId from './views/findid/caller';
 import FindPw from './views/findpw/caller';
 import PostListScreen from "./views/post/index";
 import C_I from './views/post/category_index';
-import PostWrite_p from './views/post/postwrite_p';
-import PostWrite_c from './views/post/postwrite_c';
+import Post_provide from './views/post/post_provide';
+import Post_ask from './views/post/post_ask';
 import SearchBar from './views/post/search_bar';
 import chatIndex from './views/chat/chat_index';
 import PostShow from './views/post/postshow';
@@ -34,9 +34,9 @@ const App = () => {
               title : '채팅',
               headerLeft : null
             } } />
-          <Stack.Screen name = 'P_W_p' component = {PostWrite_p} options={
+          <Stack.Screen name = 'P_W_p' component = {Post_provide} options={
             {headerTitle : '대여글 쓰기', headerTitleStyle : {fontSize : 25}}}/>
-          <Stack.Screen name = 'P_W_c' component = {PostWrite_c} options={
+          <Stack.Screen name = 'P_W_c' component = {Post_ask} options={
             {headerTitle : '대여요청글 쓰기', headerTitleStyle : {fontSize : 25}}}/>
           <Stack.Screen name = 'Seach' component = {SearchBar}/>
           <Stack.Screen name = 'PostShow' component = {PostShow}/>
