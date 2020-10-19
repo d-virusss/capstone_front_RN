@@ -14,6 +14,7 @@ import A_F_Rent from './ask_for_rent';
 import {Button, Container, Tabs, Tab, TabHeading} from 'native-base'
 import SearchHeader from 'react-native-search-header';
 import Example from './categorymodal';
+
 IconM.loadFont();
 //https://www.npmjs.com/package/react-native-search-header
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -146,7 +147,7 @@ class Search_Bar extends React.Component {
         <Container>
               <Tabs style={{marginTop : '0%',}}>
                 <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
-                  <ProvidingList></ProvidingList>
+                  <ProvidingList navigation = {this.props.navigation}></ProvidingList>
                 </Tab>
                 <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
                   <A_F_Rent></A_F_Rent>

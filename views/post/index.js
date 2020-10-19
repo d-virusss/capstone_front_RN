@@ -23,7 +23,7 @@ class PostListScreen extends Component {
     return(
       <View style = {{flex : 1, backgroundColor : 'white'}}>
         <View style = {{flex : 1}} >
-          <Search_Bar></Search_Bar>
+          <Search_Bar navigation = {this.props.navigation}></Search_Bar>
         </View>
         <Footer>
           <FooterTab>

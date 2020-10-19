@@ -3,10 +3,8 @@ import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } f
 import {
     View, 
 } from "react-native";
-//import { useNavigation } from '@react-navigation/native';
 
 class ProvidingList extends Component{
-  //navigation = useNavigation();
   render(){
     return(
       <View style={{flex : 1}}>
@@ -21,7 +19,7 @@ class ProvidingList extends Component{
                 <Text note numberOfLines={1}>Its time to build a difference . .</Text>
               </Body>
               <Right>
-                <Button transparent onPress = {() => navigation.navigate('PostShow')}>
+                <Button transparent onPress = {() => this.props.navigation.navigate('PostShow')}>
                   <Text>View</Text>
                 </Button>
               </Right>
