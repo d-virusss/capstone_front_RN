@@ -22,8 +22,8 @@ class ListAvatarExample extends Component {
         <Content>
           <List>
             <ListProfile navigation = {this.props.navigation} imageURI="https://picsum.photos/id/3/150/150" title="시스템프로그래밍" body="과제 너무 어렵지만 즐겁다 ㅎㅎ" time="9:02 pm"></ListProfile>
-            <ListProfile imageURI="https://picsum.photos/id/100/150/150" title="캡디" body="아 리액트 ㅡㅡ" time="8:55 pm"></ListProfile>
-            <ListProfile imageURI="https://picsum.photos/id/1001/150/150" title="엄마" body="밥 먹었어?" time="8:49 pm"></ListProfile>
+            <ListProfile navigation = {this.props.navigation} imageURI="https://picsum.photos/id/100/150/150" title="캡디" body="아 리액트 ㅡㅡ" time="8:55 pm"></ListProfile>
+            <ListProfile chat_target = {this.chattarget1} navigation = {this.props.navigation} imageURI="https://picsum.photos/id/1001/150/150" title="엄마" body="밥 먹었어?" time="8:49 pm"></ListProfile>
           </List>
         </Content>
         <BottomTab navigation = {this.props.navigation}></BottomTab>
