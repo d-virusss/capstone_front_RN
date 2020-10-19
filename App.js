@@ -15,6 +15,7 @@ import SearchBar from './views/post/search_bar';
 import chatIndex from './views/chat/chat_index';
 import PostShow from './views/post/postshow';
 import ProvidingList from './views/post/providerindex';
+import ChatRoom from "./views/chat/chat_room";
 
 const Stack = createStackNavigator();
 
@@ -39,6 +40,7 @@ const App = () => {
             {headerTitle : '대여요청글 쓰기', headerTitleStyle : {fontSize : 25}}}/>
           <Stack.Screen name = 'Seach' component = {SearchBar}/>
           <Stack.Screen name = 'PostShow' component = {PostShow}/>
+          <Stack.Screen name = 'ChatRoom' component = {ChatRoom}/>
         </Stack.Navigator>
       </NavigationContainer>
      
