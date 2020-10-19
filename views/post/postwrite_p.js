@@ -34,9 +34,9 @@ import ImageSelect from './imageselect';
             </View>
           </View>
         </ScrollView>
-        
-      );
-    }
+      
+    );
   }
+}
 
-  export default PostWrite_p;
+export default PostWrite_p;

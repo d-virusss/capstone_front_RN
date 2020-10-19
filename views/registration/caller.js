@@ -13,65 +13,51 @@ import {
   Button,
   Text,
 } from 'native-base';
-import getLoginClient from '../../apiAuth/loggedInClient';
-import AsyncStorage from '@react-native-community/async-storage';
+//import getLoginClient from '../../apiAuth/loggedInClient';
 //Import the file if you are logged in
+const api = axios.create({baseURL: 'http://52.79.179.211'});
+var user = {
+  user: {
+    email: 'min06814@ajou.ac.kr',
+    nickname: 'min06814',
+    password: '1234',
+    password_confirmation: '1234',
+  },
+};
 
-export default class MainScreen extends React.Component {
-  state = {
-    myInfo: [],
-    randomMesage: [],
-    test: 'aaaa',
-    e_mail: '',
-    pw1: '',
-    pw2: '',
-    nickname: '',
-    region: '',
-    phone: '',
-  };
+export default class RegistrationScreen extends React.Component {
+  state = user;
 
   componentDidMount() {
-    axios.get('http://localhost:3000').then((res) => {
-      console.log('res : ' + res);
-      this.setState({myInfo: res.data.data.children});
-    });
+    api
+      .post('/users/sign_up', user)
+      .then(function (response) {
+        console.log('true : ' + response);
+      })
+      .catch(function (error) {
+        console.log('false: ' + error);
+      });
+
+    // axios.post('http://52.79.179.211/').then((res) => {
+    //   console.log('!!!!!!!!res : ' + res);
+    //   this.setState({myInfo: res.data.data.children});
+    // });
   }
 
   onButtonPress = async () => {
-    await axios.get('https://naver.com')
-    .then((res) => {
-      console.log('res : ' + res);
-      this.setState({ myInfo: res.data.data.children });
-    })
-    .catch(error => {console.log(error); console.log("cant't accept")});
-    // const {randomMesage} = this.state;
-    // const client = await getLoginClient();
-    // client
-    //   .post('contactSupport', {
-    //     message: randomMessage,
-    //   })
-    //   .then((response) => {
-    //     console.log('response is', response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    const {randomMesage} = this.state;
+    const client = await getLoginClient();
+    client
+      .post('contactSupport', {
+        message: randomMessage,
+      })
+      .then((response) => {
+        console.log('response is', response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-
-  // onButtonPress2 = async () => {
-  //   try {
-  //     await AsyncStorage.getItem('KEY', (err, value) => {
-  //       if (err == null) {
-  //         let json = JSON.parse(value);
-  //         console.log('fail');
-  //       } else {
-  //         console.log('success');
-  //       }
-  //     });
-  //   } catch (err) {
-  //     console.log('press2 : ' + err);
-  //   }
-  // };
 
   _submit_mail(event) {
     let temp = this.state.e_mail;
@@ -99,10 +85,9 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
-    console.log(this.state.e_mail);
-    console.log(this.state.myInfo);
-
-    https: return (
+    //console.log(this.state.e_mail);
+    //console.log(this.state.myInfo);
+    return (
       <Container>
         <Content>
           {/* email */}

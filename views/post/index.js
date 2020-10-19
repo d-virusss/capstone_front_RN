@@ -9,6 +9,11 @@ import CustomButton from './custom_button';
 import { Container, Header, Footer, FooterTab, Badge, Button,Text, Icon,Tabs, Tab, TabHeading, ActionSheet, Root } from 'native-base';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Search_Bar from './search_bar';
+import {Overlay} from 'react-native-elements';
+import ProvidingList from './providerindex';
+import A_F_Rent from './ask_for_rent';
+import Example from './categorymodal';
+import FootTab from '../shared/bottom_tab'
 IconM.loadFont();
 
 var BUTTONS = ["제공 글쓰기", "대여요청 글쓰기", "취소"];
@@ -44,10 +49,10 @@ class PostListScreen extends Component {
                     title: "글쓰기"
                   },
                   buttonIndex => {
-                    if(buttonIndex === 0) {
-                      this.props.navigation.navigate('P_W_p');
+                    if (buttonIndex === 0) {
+                        this.props.navigation.navigate('P_W_p');
                     }
-                    if(buttonIndex === 1) {
+                    if (buttonIndex === 1) {
                       this.props.navigation.navigate('P_W_c');
                     }
                   },
@@ -64,7 +69,7 @@ class PostListScreen extends Component {
               <Icon name="chatbubble" />
               <Text>채팅</Text>
             </Button>
-            <Button vertical onPress = {() => this.props.navigation.navigate('Logins')}>
+            <Button vertical onPress={() => this.props.navigation.navigate('Logins')}>
               <Icon name="person" />
               <Text>Mypage</Text>
             </Button>

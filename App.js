@@ -7,7 +7,7 @@ import LoginScreen from "./views/login/caller";
 import Register_form from './views/registration/caller';
 import FindId from './views/findid/caller';
 import FindPw from './views/findpw/caller';
-import PostListScreen from "./views/post";
+import PostListScreen from "./views/post/index";
 import C_I from './views/post/category_index';
 import PostWrite_p from './views/post/postwrite_p';
 import PostWrite_c from './views/post/postwrite_c';

@@ -6,6 +6,8 @@ import {
 var BUTTONS = ["제공 글쓰기", "대여요청 글쓰기", "취소"];
 var CANCEL_INDEX = 2;
 
+import FootTab from '../shared/bottom_tab'
+
 class ListAvatarExample extends Component {
 
   callimage = () => {

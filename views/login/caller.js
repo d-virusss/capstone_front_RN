@@ -1,4 +1,5 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component, Fragment} from 'react';
 import {
   StyleSheet,
@@ -50,22 +51,21 @@ class LoginScreen extends Component {
     // })
   }
   componentDidMount() {
-    console.log(this.state.user)
   }
 
   makeRequest(){
     console.log("start send request to server")
-    console.log(this.state.user)
-    userinfo.user.email = "hahah"
-    userinfo.user.password = "pass!213"
-    console.log(userinfo)
+    console.log(userinfo.user)
     api
       .post('/users/sign_in', user_obj)
       .then((response) => {
         console.log("create success!")
         console.log(response)
         this.setState({token : response.data.token})
-        // this.props.navigation.navigate('PLScreen')
+        AsyncStorage.setItem("token", JSON.stringify(response.data.token))
+          .then(() => console.log("async store completed!", AsyncStorage.getItem("token")))
+          .catch((err) => console.log("err : ", err))
+        this.props.navigation.navigate('PLScreen')
       })
       .catch(function (error) {
         console.log('axios call failed!! : ' + error);
@@ -74,18 +74,12 @@ class LoginScreen extends Component {
   
   changeUsername = (text, type) => {
     if(type === "email"){
-      this.setState({
-        user: {
-          email: text
-        }
-      }, () => { console.log(this.state.user.email) })
+      userinfo.user.email = text
+      console.log(userinfo.user.email)
     }
     else if (type === "password") {
-      this.setState({
-        user: {
-          password: text
-        }
-      }, () => { console.log(this.state.user.password) })
+      userinfo.user.password = text
+      console.log(userinfo.user.password)
     }
   }
 

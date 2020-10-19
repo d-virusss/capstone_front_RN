@@ -12,6 +12,8 @@ target 'capstone_frontend' do
 
 
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'capstone_frontendTests' do
     inherit! :complete
     # Pods for testing
