@@ -1,4 +1,5 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component, Fragment} from 'react';
 import {
   StyleSheet,
@@ -61,7 +62,9 @@ class LoginScreen extends Component {
         console.log("create success!")
         console.log(response)
         this.setState({token : response.data.token})
-        console.log(this)
+        AsyncStorage.setItem("token", JSON.stringify(response.data.token))
+          .then(() => console.log("async store completed!", AsyncStorage.getItem("token")))
+          .catch((err) => console.log("err : ", err))
         this.props.navigation.navigate('PLScreen')
       })
       .catch(function (error) {
