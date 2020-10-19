@@ -6,7 +6,7 @@ IconM.loadFont();
 var BUTTONS = ["제공 글쓰기", "대여요청 글쓰기", "취소"];
 var CANCEL_INDEX = 2;
 
-class PostListScreen extends Component {
+class BottomTab extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -14,50 +14,52 @@ class PostListScreen extends Component {
   render() {
     return (
       <Footer>
-        <FooterTab>
-          <Button vertical onPress={() => this.props.navigation.navigate('PLScreen')}>
-            <Icon name="newspaper" />
-            <Text>홈</Text>
-          </Button>
-          <Root>
-            <Button
-              transparent vertical onPress={() => ActionSheet.show(
+          <FooterTab>
+            <Button vertical onPress={() => this.props.navigation.navigate('PLScreen')}>
+              <Icon name="home"/>
+              <Text>홈</Text>
+            </Button>
+            <Root vertical transparent>
+              <Button 
+                transparent
+                vertical 
+                style = {{alignSelf : 'center'}}
+                onPress = {() =>
+                ActionSheet.show(
                   {
                     options: BUTTONS,
                     cancelButtonIndex: CANCEL_INDEX,
-                    title: "Testing ActionSheet"
+                    title: "글쓰기"
                   },
                   buttonIndex => {
                     if (buttonIndex === 0) {
-                      console.
-                      this.props.navigation.navigate('P_W_p');
+                        this.props.navigation.navigate('P_W_p');
                     }
                     if (buttonIndex === 1) {
                       this.props.navigation.navigate('P_W_c');
                     }
                   },
                 )}
-            >
-              <Icon name="pencil" />
-              <Text>글쓰기</Text>
+              >
+                <Icon name="pencil" style = {{color : '#6b6b6b'}}/>
+                <Text style = {{fontSize : 14, color : '#6b6b6b'}}>글쓰기</Text>
+              </Button>
+            </Root>
+            <Button badge vertical onPress = {() => {
+              this.props.navigation.navigate('Chats')}
+            }>
+              <Badge ><Text>51</Text></Badge>
+              <Icon name="chatbubble" />
+              <Text>채팅</Text>
             </Button>
-          </Root>
-          <Button badge vertical onPress={() => {
-            this.props.navigation.navigate('Chats')
-          }
-          }>
-            <Badge ><Text>51</Text></Badge>
-            <Icon name="chatbubble" />
-            <Text>채팅</Text>
-          </Button>
-          <Button vertical onPress={() => this.props.navigation.navigate('Logins')}>
-            <Icon name="person" />
-            <Text>Mypage</Text>
-          </Button>
-        </FooterTab>
-      </Footer>
+            <Button vertical onPress={() => this.props.navigation.navigate('Logins')}>
+              <Icon name="person" />
+              <Text>Mypage</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
     );
   }
 }
 
-export default PostListScreen;
+export default BottomTab;
