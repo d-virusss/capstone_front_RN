@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-crop-picker';
 import { View, Image } from 'react-native';
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
+IconM.loadFont();
+
 //find example of image-crop-picker
 class ImageSelect extends Component{
   constructor(props){
@@ -22,15 +25,19 @@ class ImageSelect extends Component{
   }
   render(){
     return(
-      <View style ={{flex : 1}}>
+      <View style ={{flex : 1, justifyContent : 'center'}}>
           <TouchableOpacity 
-          style = {{width : 100, height : 100,}}
+          style = {{flex : 1, justifyContent : 'center'}}
           onPress = {
             () => this.doPickImage()
           }
           >
+            
+            {this.state.image == ''&& (
+              <IconM name = 'image-multiple' size = {100}/>
+            )}
             {this.state.image != ''&& (
-            <Image source={{ uri: this.state.image}} style = {{widht : 100, height: 100}}/>
+            <Image source={{ uri: this.state.image}} style = {{width : 200, height: 200}}/>
             )}
           </TouchableOpacity>
       </View>
