@@ -75,7 +75,7 @@ class Search_Bar extends React.Component {
   }
 
   onPressHandler = (key) => (event) => {
-    console.log('here : ' + key + event);
+    
   };
 
   myFunction() {

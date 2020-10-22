@@ -1,5 +1,6 @@
 import React, { Component, } from "react";
-import { Footer, FooterTab, Badge, Button, Text, Icon, ActionSheet, Root } from 'native-base';
+import { ActionSheetIOS } from 'react-native';
+import { Footer, FooterTab, Badge, Button, Text, Icon, Root } from 'native-base';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 IconM.loadFont();
 
@@ -25,7 +26,7 @@ class BottomTab extends Component {
                 vertical 
                 style = {{alignSelf : 'center'}}
                 onPress = {() =>
-                ActionSheet.show(
+                ActionSheetIOS.showActionSheetWithOptions(
                   {
                     options: BUTTONS,
                     cancelButtonIndex: CANCEL_INDEX,

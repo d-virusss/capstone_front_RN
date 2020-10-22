@@ -41,7 +41,8 @@ class LoginScreen extends Component {
       password: "",
       asdf: "",
       ttas: ""
-    }
+    },
+    headers : {}
   }
 
   senddata(data){
@@ -75,6 +76,11 @@ class LoginScreen extends Component {
       userinfo.user.password = text
       console.log(userinfo.user.password)
     }
+  }
+
+  makeRequestAndNavigate(){
+    this.makeRequest();
+    this.props.navigation.navigate('PLScreen');
   }
 
   render() {

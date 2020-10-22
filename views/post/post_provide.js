@@ -47,7 +47,6 @@ class Post_provide extends Component{
     post_info.post.price = data.price
     post_info.post.category_id = data.category_id
     console.log(post_info)
-    console.log("---------------------------")
     console.log(this.state.token)
   }
 

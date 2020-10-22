@@ -1,3 +1,5 @@
+import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, Fragment } from "react";
 import {
   StyleSheet,
@@ -23,8 +25,22 @@ var CANCEL_INDEX = 2;
 class PostIndex extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      token : ""
+    };
   }
+
+  makePostShowRequest(){
+    api
+      .then((response) =>{
+        console.log(response);
+        AsyncStorage.getItem('token')
+          .then(() => console.log("async store completed!", AsyncStorage.getItem("token")))
+          .catch((err) => console.log("err : ", err))
+        this.props.navigation.navigate('PostShow');
+      })
+  }
+
   render () {
     return(
       <View style = {{flex : 1, backgroundColor : 'white'}}>
