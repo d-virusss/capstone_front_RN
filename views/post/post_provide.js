@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
-import { Content, Container, Header, Item, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
+import { Content,Item, Thumbnail, Text, Left, Body, Right, Button, Input, Form, Textarea, Icon } from 'native-base';
 import {
-  View, ScrollView, StyleSheet, TextInput
+    View, ScrollView
   } from "react-native";
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
-import axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';
-const api = axios.create({ baseURL: 'http://52.79.179.211' });
 
 let post_info = {
   post: {
@@ -140,10 +137,5 @@ class Post_provide extends Component{
     );
   }
 }
-const styles = StyleSheet.create({
-  textAreaContainer: {
-    marginHorizontal : '2%'
-  },
-})
 
 export default Post_provide;

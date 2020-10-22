@@ -4,7 +4,7 @@ import {Footer, FooterTab, Badge, Button, Text, Icon, Root} from 'native-base';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 IconM.loadFont();
 
-var BUTTONS = ["물품 등록", "대여요청하기", "취소"];
+var BUTTONS = ["제공 글쓰기", "대여요청 글쓰기", "취소"];
 var CANCEL_INDEX = 2;
 
 class BottomTab extends Component {
@@ -15,6 +15,7 @@ class BottomTab extends Component {
   render() {
     return (
       <Footer>
+<<<<<<< HEAD
         <FooterTab>
           <Button vertical onPress={() => this.props.navigation.navigate('postIndex')}>
             <Icon name="home"/>
@@ -27,6 +28,20 @@ class BottomTab extends Component {
               style = {{alignSelf : 'center'}}
               onPress = {() =>
                 ActionSheetIOS.showActionSheetWithOptions(
+=======
+          <FooterTab>
+            <Button vertical onPress={() => this.props.navigation.navigate('PLScreen')}>
+              <Icon name="home"/>
+              <Text>홈</Text>
+            </Button>
+            <Root vertical transparent>
+              <Button 
+                transparent
+                vertical 
+                style = {{alignSelf : 'center'}}
+                onPress = {() =>
+                ActionSheet.show(
+>>>>>>> parent of 0a330e4... post 생성 완료
                   {
                     options: BUTTONS,
                     cancelButtonIndex: CANCEL_INDEX,

@@ -1,44 +1,36 @@
 import React, { Component } from 'react';
-import Vector_Icon from 'react-native-vector-icons/AntDesign'
-Vector_Icon.loadFont()
 import { Container, Header, Content, Form, Item, Picker, Icon, Text } from 'native-base';
 export default class CategoryPicker extends Component {
-  constructor(props) {
+    constructor(props) {
     super(props);
     this.state = {
-      selected: undefined
+      selected2: undefined
     };
   }
-  seleçtedValue(value) {
+  onValueChange2(value: string) {
     this.setState({
-      selected: value
-    }, () => {  console.log(this.state.selected)
-                this.props.setParent(this.state.selected)
-              });
+      selected2: value
+    });
   }
-
   render() {
     return (
-      <Item picker style={{justifyContent: "space-between"}}>
-        <Text style = {{fontSize : 17, paddingHorizontal : '3%'}}>카테고리</Text>
+      <Item picker regular>
+        <Text style = {{fontSize : 17, padding : '2%',}}>카테고리</Text>
         <Picker
           mode="dropdown"
-          iosIcon={<Icon type="AntDesign" name="down"/>}
-          placeholder="전자제품"
-          placeholderStyle={{ color: "gray", }}
+          iosIcon={<Icon name="arrow-down" />}
+          style={{ width: undefined ,}}
+          placeholder="카테고리"
+          placeholderStyle={{ color: "gray" , alignSelf : 'center'}}
           placeholderIconColor="#007aff"
-          selectedValue={this.state.selected}
-          onValueChange={this.seleçtedValue.bind(this)}
+          selectedValue={this.state.selected2}
+          onValueChange={this.onValueChange2.bind(this)}
         >
-          <Picker.Item label="잡화" value="0" />
-          <Picker.Item label="의류" value="1" />
-          <Picker.Item label="뷰티" value="2" />
-          <Picker.Item label="전자제품" value="3" />
-          <Picker.Item label="레져용품" value="4" />
-          <Picker.Item label="생활용품" value="5" />
-          <Picker.Item label="요리" value="6" />
-          <Picker.Item label="자동차" value="7" />
-          <Picker.Item label="유아용품" value="8" />
+          <Picker.Item label="전자제품" value="key0" />
+          <Picker.Item label="바닐라라때" value="key1" />
+          <Picker.Item label="닥터페퍼" value="key2" />
+          <Picker.Item label="유린기" value="key3" />
+          <Picker.Item label="꿍보찌딩" value="key4" />
         </Picker>
       </Item> 
     );
