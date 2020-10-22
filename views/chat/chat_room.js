@@ -12,9 +12,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const api = axios.create({baseURL: 'http://52.79.179.211'});
 const token = AsyncStorage.getItem('token');
 
+getToken = async () => {
+  try{
+    const value = await AsyncStorage.getItem('token');
+    if (value !== null) this.token = value;
+    console.log(this.token);
+  } catch (error){
+    console.log("error : ", error);
+  }
+}
+
 function ChatRoom({navigation : {goBack}}) {
   const [messages, setMessages] = useState([]);
-
   useEffect(() => {
     setMessages([
       /* is an example{
