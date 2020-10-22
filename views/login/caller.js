@@ -41,7 +41,8 @@ class LoginScreen extends Component {
       password: "",
       asdf: "",
       ttas: ""
-    }
+    },
+    headers : {}
   }
 
   senddata(data){
@@ -81,6 +82,11 @@ class LoginScreen extends Component {
       userinfo.user.password = text
       console.log(userinfo.user.password)
     }
+  }
+
+  makeRequestAndNavigate(){
+    this.makeRequest();
+    this.props.navigation.navigate('PLScreen');
   }
 
   render() {
@@ -138,7 +144,7 @@ class LoginScreen extends Component {
                 borderRadius={5}
                 width="100%"
                 height="100%"
-                onPress={() => this.makeRequest(), () => this.props.navigation.navigate("PLScreen")}
+                onPress={() => this.makeRequestAndNavigate()}
               />
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>
