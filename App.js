@@ -40,7 +40,7 @@ const App = () => {
             {headerTitle : '대여요청글 쓰기', headerTitleStyle : {fontSize : 25}}}/>
           <Stack.Screen name = 'Seach' component = {SearchBar}/>
           <Stack.Screen name = 'PostShow' component = {PostShow}/>
-          <Stack.Screen name = 'ChatRoom' component = {ChatRoom}/>
+          <Stack.Screen name = 'ChatRoom' component = {ChatRoom} options = {{headerShown : false}}/>
         </Stack.Navigator>
       </NavigationContainer>
      
