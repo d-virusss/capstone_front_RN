@@ -15,7 +15,6 @@ class BottomTab extends Component {
   render() {
     return (
       <Footer>
-<<<<<<< HEAD
         <FooterTab>
           <Button vertical onPress={() => this.props.navigation.navigate('postIndex')}>
             <Icon name="home"/>
@@ -28,20 +27,6 @@ class BottomTab extends Component {
               style = {{alignSelf : 'center'}}
               onPress = {() =>
                 ActionSheetIOS.showActionSheetWithOptions(
-=======
-          <FooterTab>
-            <Button vertical onPress={() => this.props.navigation.navigate('PLScreen')}>
-              <Icon name="home"/>
-              <Text>홈</Text>
-            </Button>
-            <Root vertical transparent>
-              <Button 
-                transparent
-                vertical 
-                style = {{alignSelf : 'center'}}
-                onPress = {() =>
-                ActionSheet.show(
->>>>>>> parent of 0a330e4... post 생성 완료
                   {
                     options: BUTTONS,
                     cancelButtonIndex: CANCEL_INDEX,

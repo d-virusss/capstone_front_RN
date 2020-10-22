@@ -15,8 +15,6 @@ let post_info = {
     post_type: "provide", // ask or provide
   }
 }
-
-
 class Post_provide extends Component{
   state = {
     title: "",

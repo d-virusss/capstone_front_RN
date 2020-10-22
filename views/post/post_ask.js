@@ -9,7 +9,6 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 const api = axios.create({ baseURL: 'http://52.79.179.211' });
 
-<<<<<<< HEAD
 let post_info = {
   post: {
     title: "",
@@ -75,40 +74,7 @@ class Post_ask extends Component{
       this.setState({
         title: text,
       }, () => { console.log(this.state.title) })
-=======
-  class Post_ask extends Component{
-    render(){
-      return(
-        <ScrollView>
-          <View style={{width : '95%', height : '40%', justifyContent : 'center', alignItems: 'center', alignSelf: 'center'}}>
-            
-            <ImageSelect></ImageSelect>
-          </View>
-          <View style = {{ alignItems : 'center'}}>
-            <View style = {{ width : '95%',}}>
-              <Form>
-                <Item regular style = {{marginBottom : '3%'}}>
-                  <Input placeholder = '제목'/>
-                </Item>
-                <View>
-                  <CategoryPicker></CategoryPicker>
-                </View>
-                <Item regular style = {{marginBottom : '5%', marginTop  :'3%'}}>
-                  <Input placeholder = '희망가격'/>
-                </Item>
-                <Textarea rowSpan = {10} bordered placeholder = "내용" />
-                <Button style = {{alignSelf : 'center', marginTop : '3%'}}>
-                  <Icon name = 'person'></Icon>
-                  <Text>제출완료</Text>
-                </Button>
-              </Form>
-            </View>
-          </View>
-        </ScrollView>
-        
-      );
->>>>>>> parent of 0a330e4... post 생성 완료
     }
   }
-
-  export default Post_ask;
+}
+export default Post_ask;
