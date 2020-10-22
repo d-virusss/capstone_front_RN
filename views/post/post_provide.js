@@ -1,10 +1,13 @@
-import React, {Component} from 'react';
-import { Content,Item, Thumbnail, Text, Left, Body, Right, Button, Input, Form, Textarea, Icon } from 'native-base';
+import React, { Component } from 'react';
+import { Content, Container, Header, Item, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
 import {
-    View, ScrollView
-  } from "react-native";
+  View, ScrollView, StyleSheet, TextInput
+} from "react-native";
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
+import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
+const api = axios.create({ baseURL: 'http://52.79.179.211' });
 
 let post_info = {
   post: {
@@ -15,7 +18,9 @@ let post_info = {
     post_type: "provide", // ask or provide
   }
 }
-class Post_provide extends Component{
+
+
+class Post_provide extends Component {
   state = {
     title: "",
     body: "",
@@ -31,7 +36,7 @@ class Post_provide extends Component{
     console.log(this.state.token)
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.getToken()
     console.log("component did mount ---")
   }
@@ -45,13 +50,13 @@ class Post_provide extends Component{
     console.log(this.state.token)
   }
 
-  makePostRequest(){
+  makePostRequest() {
     console.log("Start create Post")
     this.setPostInfo(this.state)
     api
       .post('/posts', (post_info), {
-        headers : {
-          'Authorization' : this.state.token
+        headers: {
+          'Authorization': this.state.token
         }
       })
       .then((res) => {
@@ -59,29 +64,29 @@ class Post_provide extends Component{
         console.log(res)
         this.props.navigation.navigate("postIndex")
       })
-      .catch(function(e){
-        
+      .catch(function (e) {
+
         console.log('send post failed!!!!' + e)
       })
   }
 
   changedata = (text, type) => {
-    if(type === "title"){
+    if (type === "title") {
       this.setState({
-        title : text,
-      }, () => {console.log(this.state.title)})
+        title: text,
+      }, () => { console.log(this.state.title) })
     }
-    else if(type === "body"){
+    else if (type === "body") {
       this.setState({
         body: text,
-      }, () => {console.log(this.state.body)})
+      }, () => { console.log(this.state.body) })
     }
-    else if(type === "price"){
+    else if (type === "price") {
       this.setState({
         price: text,
       }, () => { console.log(this.state.price) })
     }
-    else if(type === "image"){
+    else if (type === "image") {
       this.setState({
         image: text,
       }, () => { console.log(this.state.image) })
@@ -90,7 +95,7 @@ class Post_provide extends Component{
 
   setSelect = (data) => {
     this.setState({
-      category_id : data
+      category_id: data
     })
   }
 
@@ -98,34 +103,34 @@ class Post_provide extends Component{
     console.log(data)
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <ScrollView>
-        <View style={{marginTop: 50, width : '70%', justifyContent : 'center', alignItems: 'center', alignSelf: 'center'}}>
+        <View style={{ marginTop: 50, width: '70%', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
           <ImageSelect></ImageSelect>
         </View>
         <Container>
-          <Header/>
+          <Header />
           <Content>
             <Form>
               <Item inlinelabel>
                 <Label>제목</Label>
                 <Input autoCapitalize='none'
-                onChangeText={(text) => this.changedata(text, "title")} />
+                  onChangeText={(text) => this.changedata(text, "title")} />
               </Item>
               <CategoryPicker setParent={this.setSelect}></CategoryPicker>
               <Item inlinelabel last>
                 <Label>가격</Label>
                 <Input keyboardType="numeric"
-                onChangeText={(text) => this.changedata(text, "price")}  />
+                  onChangeText={(text) => this.changedata(text, "price")} />
               </Item>
-              <TextInput  />
-              <Textarea rowSpan = {8} placeholder = "게시글 내용을 입력해주세요" autoCapitalize='none'
+              <TextInput />
+              <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
                 onChangeText={(text) => this.changedata(text, "body")}
-                style={ styles.textAreaContainer } />
-              <Button style = {{alignSelf : 'center', marginTop : '3%'}}
-               onPress={ () => this.makePostRequest()} >
-                <Icon name = 'person'></Icon>
+                style={styles.textAreaContainer} />
+              <Button style={{ alignSelf: 'center', marginTop: '3%' }}
+                onPress={() => this.makePostRequest()} >
+                <Icon name='person'></Icon>
                 <Text>완료</Text>
               </Button>
             </Form>
@@ -135,5 +140,10 @@ class Post_provide extends Component{
     );
   }
 }
+const styles = StyleSheet.create({
+  textAreaContainer: {
+    marginHorizontal: '2%'
+  },
+})
 
 export default Post_provide;
