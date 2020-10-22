@@ -28,10 +28,16 @@ IconA.loadFont();
 IconB.loadFont();
 IconC.loadFont();
 
-class MypageScreen extends Component {
+class InitMypageScreen extends Component {
   render() {
     const uri =
       'https://facebook.github.io/react-native/docs/assets/favicon.png';
+
+    const goToSetLocation = () => {
+      this.props.navigation.navigate('MyPage_Location');
+      console.log('Navigation router run...');
+    };
+
     return (
       <Container>
         <Header>
@@ -87,7 +93,11 @@ class MypageScreen extends Component {
             </ListItem>
 
             <Separator bordered></Separator>
-            <ListItem>
+            <ListItem
+              button
+              onPress={() => {
+                goToSetLocation();
+              }}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text> 소속 인증</Text>
@@ -148,4 +158,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
 });
-export default MypageScreen;
+export default InitMypageScreen;
