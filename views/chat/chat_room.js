@@ -10,13 +10,17 @@ import { KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const api = axios.create({baseURL: 'http://52.79.179.211'});
-const token = AsyncStorage.getItem('token');
+var token = 0;
+var syncflag = 0;
 
 getToken = async () => {
   try{
     const value = await AsyncStorage.getItem('token');
-    if (value !== null) this.token = value;
-    console.log(this.token);
+    if (value !== null) {
+      token = value;
+      syncflag = 1;
+    }
+    console.log(token);
   } catch (error){
     console.log("error : ", error);
   }
@@ -46,8 +50,29 @@ function ChatRoom({navigation : {goBack}}) {
 
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    console.log(messages[0].text);
+    api
+      .post(`/chats/${2}/messages`, 
+        {
+          body : {
+            body : messages[0].text
+          }
+        },
+        {
+          headers : {
+            'Authorization' : token
+          }
+        }
+      )
+      .then((response) => {
+        console.log("create success!")
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log('axios call failed!! : ' + error);
+      });
   }, [])
-
+  getToken();
   return (
     <Container>
       <Header style = {{height : 56}}>
