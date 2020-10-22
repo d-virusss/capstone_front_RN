@@ -2,24 +2,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import BottomTab from '../shared/bottom_tab';
 import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Right,
-  Button,
-  Icon,
-  Title,
-  Text,
-  Thumbnail,
-  Footer,
-  FooterTab,
-  Content,
-  ListItem,
-  List,
-  Separator,
-  Card,
-  CardItem,
+  Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbnail, Footer, FooterTab, Content, ListItem, List, Separator
 } from 'native-base';
 import IconA from 'react-native-vector-icons/AntDesign';
 import IconB from 'react-native-vector-icons/Feather';
