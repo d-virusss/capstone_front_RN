@@ -7,7 +7,7 @@ import LoginScreen from "./views/login/caller";
 import Register_form from './views/registration/caller';
 import FindId from './views/findid/caller';
 import FindPw from './views/findpw/caller';
-import PostListScreen from "./views/post/index";
+import PostIndex from "./views/post/index";
 import C_I from './views/post/category_index';
 import Post_provide from './views/post/post_provide';
 import Post_ask from './views/post/post_ask';
@@ -27,7 +27,7 @@ const App = () => {
           <Stack.Screen name = 'Register' component = {Register_form}/>
           <Stack.Screen name="Find_id" component={FindId} />
           <Stack.Screen name="Find_pw" component={FindPw} />
-          <Stack.Screen name = 'PLScreen' component = {PostListScreen} options={{headerShown : false}}/>
+          <Stack.Screen name = 'postIndex' component = {PostIndex} options={{headerShown : false}}/>
           <Stack.Screen name = 'C_index' component = {C_I}/>
           <Stack.Screen name = "Chats" component = {chatIndex}
             options = { {
@@ -35,9 +35,9 @@ const App = () => {
               headerLeft : null
             } } />
           <Stack.Screen name = 'P_W_p' component = {Post_provide} options={
-            {headerTitle : '대여글 쓰기', headerTitleStyle : {fontSize : 25}}}/>
+            {headerTitle : '대여품 등록', headerTitleStyle : {fontSize : 25}}}/>
           <Stack.Screen name = 'P_W_c' component = {Post_ask} options={
-            {headerTitle : '대여요청글 쓰기', headerTitleStyle : {fontSize : 25}}}/>
+            {headerTitle : '대여요청하기', headerTitleStyle : {fontSize : 25}}}/>
           <Stack.Screen name = 'Seach' component = {SearchBar}/>
           <Stack.Screen name = 'PostShow' component = {PostShow}/>
           <Stack.Screen name = 'ChatRoom' component = {ChatRoom}/>

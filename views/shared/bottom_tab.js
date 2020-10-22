@@ -3,7 +3,7 @@ import { Footer, FooterTab, Badge, Button, Text, Icon, ActionSheet, Root } from 
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 IconM.loadFont();
 
-var BUTTONS = ["제공 글쓰기", "대여요청 글쓰기", "취소"];
+var BUTTONS = ["물품 등록", "대여요청하기", "취소"];
 var CANCEL_INDEX = 2;
 
 class BottomTab extends Component {
@@ -15,7 +15,7 @@ class BottomTab extends Component {
     return (
       <Footer>
           <FooterTab>
-            <Button vertical onPress={() => this.props.navigation.navigate('PLScreen')}>
+            <Button vertical onPress={() => this.props.navigation.navigate('postIndex')}>
               <Icon name="home"/>
               <Text>홈</Text>
             </Button>

@@ -17,10 +17,10 @@ import FootTab from '../shared/bottom_tab'
 import BottomTab from "../shared/bottom_tab";
 IconM.loadFont();
 
-var BUTTONS = ["제공 글쓰기", "대여요청 글쓰기", "취소"];
+var BUTTONS = ["대여품 등록", "대여요청하기", "취소"];
 var CANCEL_INDEX = 2;
 
-class PostListScreen extends Component {
+class PostIndex extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -37,4 +37,4 @@ class PostListScreen extends Component {
   }
 }
 
-export default PostListScreen;
+export default PostIndex;
