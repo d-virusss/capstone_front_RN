@@ -7,7 +7,7 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-function ChatRoom() {
+function ChatRoom({navigation : {goBack}}) {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -30,13 +30,26 @@ function ChatRoom() {
   }, [])
 
   return (
-    <GiftedChat
-      messages={messages}
-      onSend={messages => onSend(messages)}
-      user={{
-        _id: 1,
-      }}
-    />
+    <Container>
+      <Header style = {{height : 56}}>
+        <Left>
+          <Button transparent onPress = {() => goBack()}>
+            <Icon name = 'arrow-back'/>
+          </Button>
+        </Left>
+        <Body>
+          <Text style = {{fontSize : 18}}>채팅</Text>
+        </Body>
+        <Right></Right>
+      </Header>
+      <GiftedChat
+        messages={messages}
+        onSend={messages => onSend(messages)}
+        user={{
+          _id: 1,
+        }}
+      />
+    </Container>
   )
 }
 
