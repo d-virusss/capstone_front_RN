@@ -1,13 +1,13 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {View, Text, TextInput} from 'react-native';
-import React, {Component, Fragment} from 'react';
-import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
+import { NavigationContainer } from "@react-navigation/native";
+import {View, Text, TextInput} from "react-native";
+import React, {Component, Fragment} from "react";
+import {createStackNavigator, HeaderBackButton} from "@react-navigation/stack";
 import {Button, Icon} from 'native-base';
-import LoginScreen from './views/login/caller';
+import LoginScreen from "./views/login/caller";
 import Register_form from './views/registration/caller';
 import FindId from './views/findid/caller';
 import FindPw from './views/findpw/caller';
-import PostListScreen from "./views/post/index";
+import PostIndex from "./views/post/index";
 import C_I from './views/post/category_index';
 import Post_provide from './views/post/post_provide';
 import Post_ask from './views/post/post_ask';
@@ -15,9 +15,7 @@ import SearchBar from './views/post/search_bar';
 import chatIndex from './views/chat/chat_index';
 import PostShow from './views/post/postshow';
 import ProvidingList from './views/post/providerindex';
-import ChatRoom from './views/chat/chat_room';
-import MyPage from './views/mypage/caller';
-import MyPgae_Location from './views/mypage/location';
+import ChatRoom from "./views/chat/chat_room";
 
 const Stack = createStackNavigator();
 
