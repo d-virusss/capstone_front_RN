@@ -28,7 +28,7 @@ IconA.loadFont();
 IconB.loadFont();
 IconC.loadFont();
 
-class InitMypageScreen extends Component {
+class MypageScreen extends Component {
   render() {
     const uri =
       'https://facebook.github.io/react-native/docs/assets/favicon.png';
@@ -106,11 +106,7 @@ class InitMypageScreen extends Component {
             </ListItem>
 
             <Separator bordered></Separator>
-            <ListItem
-              button
-              onPress={() => {
-                goToSetLocation();
-              }}>
+            <ListItem>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text> 소속 인증</Text>
@@ -185,4 +181,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
 });
-export default InitMypageScreen;
+export default MypageScreen;

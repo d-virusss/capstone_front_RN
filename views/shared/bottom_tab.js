@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {ActionSheetIOS} from 'react-native';
-import {Footer, FooterTab, Badge, Button, Text, Icon, Root} from 'native-base';
+
+import React, { Component, } from "react";
+import { Footer, FooterTab, Badge, Button, Text, Icon, ActionSheet, Root } from 'native-base';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 IconM.loadFont();
 
-var BUTTONS = ['제공 글쓰기', '대여요청 글쓰기', '취소'];
+var BUTTONS = ["물품 등록", "대여요청하기", "취소"];
 var CANCEL_INDEX = 2;
 
 class BottomTab extends Component {
@@ -16,9 +16,7 @@ class BottomTab extends Component {
     return (
       <Footer>
         <FooterTab>
-          <Button
-            vertical
-            onPress={() => this.props.navigation.navigate('PLScreen')}>
+          <Button vertical onPress={() => this.props.navigation.navigate('postIndex')}>
             <Icon name="home" />
             <Text>홈</Text>
           </Button>
@@ -26,15 +24,15 @@ class BottomTab extends Component {
             <Button
               transparent
               vertical
-              style={{alignSelf: 'center'}}
+              style={{ alignSelf: 'center' }}
               onPress={() =>
-                ActionSheetIOS.showActionSheetWithOptions(
+                ActionSheet.show(
                   {
                     options: BUTTONS,
                     cancelButtonIndex: CANCEL_INDEX,
-                    title: '글쓰기',
+                    title: "글쓰기"
                   },
-                  (buttonIndex) => {
+                  buttonIndex => {
                     if (buttonIndex === 0) {
                       this.props.navigation.navigate('P_W_p');
                     }
@@ -42,27 +40,21 @@ class BottomTab extends Component {
                       this.props.navigation.navigate('P_W_c');
                     }
                   },
-                )
-              }>
-              <Icon name="pencil" style={{color: '#6b6b6b'}} />
-              <Text style={{fontSize: 14, color: '#6b6b6b'}}>글쓰기</Text>
+                )}
+            >
+              <Icon name="pencil" style={{ color: '#6b6b6b' }} />
+              <Text style={{ fontSize: 14, color: '#6b6b6b' }}>글쓰기</Text>
             </Button>
           </Root>
-          <Button
-            badge
-            vertical
-            onPress={() => {
-              this.props.navigation.navigate('Chats');
-            }}>
-            <Badge>
-              <Text>51</Text>
-            </Badge>
+          <Button badge vertical onPress={() => {
+            this.props.navigation.navigate('Chats')
+          }
+          }>
+            <Badge ><Text>51</Text></Badge>
             <Icon name="chatbubble" />
             <Text>채팅</Text>
           </Button>
-          <Button
-            vertical
-            onPress={() => this.props.navigation.navigate('MyPage')}>
+          <Button vertical onPress={() => this.props.navigation.navigate('Logins')}>
             <Icon name="person" />
             <Text>Mypage</Text>
           </Button>

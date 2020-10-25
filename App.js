@@ -1,13 +1,13 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {View, Text, TextInput} from 'react-native';
-import React, {Component, Fragment} from 'react';
-import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
-import {Button, Icon} from 'native-base';
-import LoginScreen from './views/login/caller';
+import { NavigationContainer } from "@react-navigation/native";
+import { View, Text, TextInput } from "react-native";
+import React, { Component, Fragment } from "react";
+import { createStackNavigator, HeaderBackButton } from "@react-navigation/stack";
+import { Button, Icon } from 'native-base';
+import LoginScreen from "./views/login/caller";
 import Register_form from './views/registration/caller';
 import FindId from './views/findid/caller';
 import FindPw from './views/findpw/caller';
-import PostListScreen from './views/post/index';
+import PostIndex from "./views/post/index";
 import C_I from './views/post/category_index';
 import Post_provide from './views/post/post_provide';
 import Post_ask from './views/post/post_ask';
@@ -26,23 +26,13 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Logins">
-        <Stack.Screen
-          name="Logins"
-          component={LoginScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen name="Register" component={Register_form} />
+        <Stack.Screen name='Logins' component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name='Register' component={Register_form} />
         <Stack.Screen name="Find_id" component={FindId} />
         <Stack.Screen name="Find_pw" component={FindPw} />
-        <Stack.Screen
-          name="PLScreen"
-          component={PostListScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen name="C_index" component={C_I} />
-        <Stack.Screen
-          name="Chats"
-          component={chatIndex}
+        <Stack.Screen name='postIndex' component={PostIndex} options={{ headerShown: false }} />
+        <Stack.Screen name='C_index' component={C_I} />
+        <Stack.Screen name="Chats" component={chatIndex}
           options={{
             title: '채팅',
             headerLeft: null,
@@ -95,7 +85,9 @@ const App = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
+
   );
+
 };
 
 export default App;
