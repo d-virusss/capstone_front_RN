@@ -24,7 +24,6 @@ class PostShow extends Component{
       try{
         const value = await AsyncStorage.getItem('token');
         if (value !== null) this.token = value;
-        console.log(this.token);
       } catch (error){
         console.log("error : ", error);
       }
