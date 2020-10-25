@@ -13,9 +13,10 @@ class PostShow extends Component{
         category = '보드게임';
         price = 10000;
         bodytext = '어쩌구저쩌구';
+        
         state = {
           token : "",
-          postid : 2
+          postId : 2
         };
     }
 
@@ -44,8 +45,9 @@ class PostShow extends Component{
 
     createAndNavigate(){
       this.chatCreateRequset();
-      this.props.navigation.navigate('ChatRoom');
+      this.props.navigation.navigate('ChatRoom', {postId : 2, check : 0,});
     }
+
     render(){
       this.getToken();
       return(

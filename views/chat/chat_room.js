@@ -5,6 +5,7 @@ import {
   Container, Header, Content, List, ListItem, 
   Left, Body, Right, Thumbnail, Text, View , Footer, FooterTab, Button, Icon, Root, Badge, ActionSheet, Textarea
 } from 'native-base';
+import 'react-native-gesture-handler';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -26,7 +27,7 @@ getToken = async () => {
   }
 }
 
-function ChatRoom({navigation : {goBack}}) {
+function ChatRoom({route, navigation}) {
   const [messages, setMessages] = useState([]);
   useEffect(() => {
     setMessages([
@@ -55,7 +56,8 @@ function ChatRoom({navigation : {goBack}}) {
       .post(`/chats/${2}/messages`, 
         {
           body : {
-            body : messages[0].text
+            body : messages[0].text,
+            images_attributes : { 0 : {}}
           }
         },
         {
@@ -73,16 +75,17 @@ function ChatRoom({navigation : {goBack}}) {
       });
   }, [])
   getToken();
+  //console.log(postId);
   return (
     <Container>
       <Header style = {{height : 56}}>
         <Left>
-          <Button transparent onPress = {() => goBack()}>
+          <Button transparent onPress = {() => navigation.goBack()}>
             <Icon name = 'arrow-back'/>
           </Button>
         </Left>
         <Body>
-          <Text style = {{fontSize : 18}}>채팅</Text>
+          <Text style = {{fontSize : 17}}>채팅</Text>
         </Body>
         <Right></Right>
       </Header>
