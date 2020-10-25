@@ -15,6 +15,7 @@ let post_info = {
     body: "",
     price: "",
     category_id: "",
+    image: "",
     post_type: "provide", // ask or provide
   }
 }
@@ -45,13 +46,14 @@ class Post_provide extends Component {
     post_info.post.title = data.title
     post_info.post.body = data.body
     post_info.post.price = data.price
+    post_info.post.image = data.image
     post_info.post.category_id = data.category_id
     console.log(post_info)
     console.log(this.state.token)
   }
 
   makePostRequest() {
-    console.log("Start create Post")
+    console.log("Start create Post-provide")
     this.setPostInfo(this.state)
     api
       .post('/posts', (post_info), {

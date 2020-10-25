@@ -65,6 +65,19 @@ class LoginScreen extends Component {
         console.log('axios call failed!! : ' + error);
       });
   }
+  makeKakaoRequest(){
+    console.log("kakao login start!")
+    api
+      .get('/users/auth/kakao')
+      .then((response) => {
+        console.log("get kakao login callback")
+        console.log(response)
+
+      })
+      .catch(function(error){
+        console.log("kakao auth call failed!!" + error)
+      })
+  }
 
   changeUsername = (text, type) => {
     if (type === "email") {
@@ -133,6 +146,19 @@ class LoginScreen extends Component {
                 width="100%"
                 height="100%"
                 onPress={() => this.makeRequest()}
+              />
+            </View>
+            <View style={{ marginTop: '3%', height: '10%' }}>
+              <CustomButton
+                title="카카오계정 로그인"
+                icon_name="chatbubble-sharp"
+                titleColor="black"
+                buttonColor="#fae100"
+                borderWidth={5}
+                borderRadius={5}
+                width="100%"
+                height="100%"
+                onPress={() => this.makeKakaoRequest()}
               />
             </View>
             <View style={{ marginTop: '3%', height: '10%' }}>

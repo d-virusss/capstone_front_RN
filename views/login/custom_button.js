@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 export default class CustomButton extends Component{
   static defaultProps = {
@@ -48,7 +49,7 @@ export default class CustomButton extends Component{
                 color: this.props.titleColor,
                 fontSize : this.props.fontSize
             }
-        ]}>{this.props.title}</Text>
+        ]}> <Icon name={this.props.icon_name} size={20} ></Icon> {this.props.title}</Text>
       </TouchableOpacity>
     )
   }

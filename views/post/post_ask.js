@@ -5,6 +5,10 @@ import {
 } from "react-native";
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
+import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
+const api = axios.create({ baseURL: 'http://52.79.179.211' });
+
 
 let post_info = {
   post: {
@@ -27,21 +31,33 @@ class Post_ask extends Component {
     token: ""
   }
 
+  getToken = async () => {
+    let value = await AsyncStorage.getItem("token")
+    this.state.token = value
+    console.log(this.state.token)
+  }
+
+  componentDidMount() {
+    this.getToken()
+    console.log("component did mount ---")
+  }
+
   setPostInfo = (data) => {
     post_info.post.title = data.title
     post_info.post.body = data.body
     post_info.post.price = data.price
-    post_info.post.category_id = data.category_id
     post_info.post.image = data.image
+    post_info.post.category_id = data.category_id
     console.log(post_info)
+    console.log(this.state.token)
   }
 
   makePostRequest() {
-    console.log("Start create Post")
+    console.log("Start create Post-ask")
+    this.setPostInfo(this.state)
     this.setState({
       token: AsyncStorage.getItem("token", (err, data) => { console.log("getitem from asyncstorage" + data) })
     }, () => { console.log("state token set completed!!!") })
-    this.setPostInfo(this.state)
     api
       .post('/posts', post_info, {
         headers: {
@@ -51,7 +67,7 @@ class Post_ask extends Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
-
+        this.props.navigation.navigate("postIndex")
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
@@ -85,6 +101,10 @@ class Post_ask extends Component {
     this.setState({
       category_id: data
     })
+  }
+
+  changeImage = (data) => {
+    console.log(data)
   }
 
   render() {
