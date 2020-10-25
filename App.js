@@ -18,6 +18,7 @@ import ProvidingList from './views/post/providerindex';
 import ChatRoom from './views/chat/chat_room';
 import MyPage from './views/mypage/caller';
 import MyPgae_Location from './views/mypage/location';
+import Mypage_Like_List from './views/mypage/likeList';
 
 const Stack = createStackNavigator();
 
@@ -80,6 +81,15 @@ const App = () => {
           component={MyPgae_Location}
           options={{
             headerTitle: '동네 설정',
+            headerTitleStyle: {fontSize: 25},
+          }}
+        />
+
+        <Stack.Screen
+          name="Like_List"
+          component={Mypage_Like_List}
+          options={{
+            headerTitle: '관심 목록',
             headerTitleStyle: {fontSize: 25},
           }}
         />
