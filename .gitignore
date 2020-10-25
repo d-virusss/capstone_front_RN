@@ -57,6 +57,7 @@ buck-out
 local.properties
 *.iml
 /android/
+/android/app/src/main/assets/fonts/
 
 # Node
 node_modules
