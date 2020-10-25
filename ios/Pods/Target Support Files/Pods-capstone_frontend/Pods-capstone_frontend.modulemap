@@ -1,0 +1,6 @@
+module Pods_capstone_frontend {
+  umbrella header "Pods-capstone_frontend-umbrella.h"
+
+  export *
+  module * { export * }
+}

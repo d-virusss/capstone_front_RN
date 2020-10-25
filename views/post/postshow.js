@@ -13,50 +13,42 @@ class PostShow extends Component{
         category = '보드게임';
         price = 10000;
         bodytext = '어쩌구저쩌구';
+        
         state = {
-          token : '',
-          postid : 0
+          token : "",
+          postId : 2
         };
+    }
+
+    getToken = async () => {
+      try{
+        const value = await AsyncStorage.getItem('token');
+        if (value !== null) this.token = value;
+      } catch (error){
+        console.log("error : ", error);
+      }
     }
 
     chatCreateRequset(){
       api
-        .post('/chats',
-        {
-          headers : {'Authorization' : this.token},
-          post_id : 0
-        })
+        .post(`/chats?post_id=${2}`, null,{ headers : {
+          'Authorization': this.token
+        }})
         .then((response) => {
-          console.log("create success!")
-          console.log(response)
-          this.setState({token : response.data.token})
-          this.token = AsyncStorage.getItem("token")
-            .catch((err) => console.log("err : ", err))
+          console.log('success');
+          console.log(this.token);
+          console.log(response);
         })
-        .catch(function (error) {
-          console.log('axios call failed!! : ' + error);
-        });
+        .catch((err) => console.log("err : ", err))
     }
 
     createAndNavigate(){
       this.chatCreateRequset();
-      this.props.navigation.navigate('ChatRoom');
-    }
-
-    auth(){
-      AuthStr = 'Bearer '.concat(this.token); 
-      axios.get('http://52.79.179.211', { headers: { Authorization: AuthStr } })
-        .then(response => {
-          // If request is good...
-          console.log(response.data);
-      })
-        .catch((error) => {
-            console.log('error ' + error);
-        });  
+      this.props.navigation.navigate('ChatRoom', {postId : 2, check : 0,});
     }
 
     render(){
-      this.auth();
+      this.getToken();
       return(
         <ScrollView>
           <View style={{width : '95%', height : '40%', justifyContent : 'center', alignItems: 'center', alignSelf: 'center'}}>
