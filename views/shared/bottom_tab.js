@@ -54,7 +54,7 @@ class BottomTab extends Component {
             <Icon name="chatbubble" />
             <Text>채팅</Text>
           </Button>
-          <Button vertical onPress={() => this.props.navigation.navigate('Logins')}>
+          <Button vertical onPress={() => this.props.navigation.navigate('MyPage')}>
             <Icon name="person" />
             <Text>Mypage</Text>
           </Button>

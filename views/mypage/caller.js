@@ -106,7 +106,9 @@ class MypageScreen extends Component {
             </ListItem>
 
             <Separator bordered></Separator>
-            <ListItem>
+            <ListItem onPress={()=> {
+              goToSetLocation()
+            }}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text> 소속 인증</Text>
