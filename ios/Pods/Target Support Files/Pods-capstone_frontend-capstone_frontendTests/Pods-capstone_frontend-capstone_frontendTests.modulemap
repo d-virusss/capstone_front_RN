@@ -1,0 +1,6 @@
+module Pods_capstone_frontend_capstone_frontendTests {
+  umbrella header "Pods-capstone_frontend-capstone_frontendTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

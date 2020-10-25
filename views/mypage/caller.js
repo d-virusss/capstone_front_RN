@@ -32,6 +32,20 @@ class MypageScreen extends Component {
   render() {
     const uri =
       'https://facebook.github.io/react-native/docs/assets/favicon.png';
+
+    const goToSetLocation = () => {
+      this.props.navigation.navigate('MyPage_Location');
+      console.log('Navigation router run...');
+    };
+
+    const Logout = () => {
+      this.props.navigation.navigate('Logins');
+    };
+
+    const ShowLikeList = () => {
+      this.props.navigation.navigate('Like_List');
+    };
+
     return (
       <Container>
         <Header>
@@ -80,7 +94,12 @@ class MypageScreen extends Component {
                 <Text> 정보 수정</Text>
               </Button>
 
-              <Button light style={styles.btn}>
+              <Button
+                light
+                style={styles.btn}
+                onPress={() => {
+                  ShowLikeList();
+                }}>
                 <Icon type="Feather" name="heart" />
                 <Text> 관심 목록</Text>
               </Button>
@@ -121,6 +140,20 @@ class MypageScreen extends Component {
               <Left>
                 <Icon type="EvilIcons" name="comment" />
                 <Text> 받은 리뷰</Text>
+              </Left>
+              <Right>
+                <Icon type="AntDesign" name="right" />
+              </Right>
+            </ListItem>
+
+            <ListItem
+              button
+              onPress={() => {
+                Logout();
+              }}>
+              <Left>
+                <Icon type="AntDesign" name="logout" />
+                <Text> 로그아웃</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />

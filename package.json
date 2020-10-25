@@ -1,53 +1,51 @@
 {
-  "name": "capstone_frontend",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "start": "react-native start",
-    "test": "jest",
-    "lint": "eslint .",
-    "postinstall": "rndebugger-open"
-  },
-  "dependencies": {
-    "@react-native-community/async-storage": "^1.12.1",
-    "@react-native-community/masked-view": "^0.1.10",
-    "@react-navigation/bottom-tabs": "^5.9.1",
-    "@react-navigation/native": "^5.7.4",
-    "@react-navigation/stack": "^5.9.1",
-    "axios": "^0.20.0",
-    "firebase": "^7.24.0",
-    "native-base": "^2.13.14",
-    "react": "16.13.1",
-    "react-native": "0.63.2",
-    "react-native-elements": "^2.3.2",
-    "react-native-gesture-handler": "^1.8.0",
-    "react-native-gifted-chat": "^0.16.3",
-    "react-native-image-crop-picker": "^0.35.0",
-    "react-native-image-picker": "^2.3.4",
-    "react-native-modal": "^11.5.6",
-    "react-native-safe-area-context": "^3.1.8",
-    "react-native-screen": "^1.0.1",
-    "react-native-screens": "^2.11.0",
-    "react-native-search-header": "^0.3.5",
-    "react-native-upload-multiple-images": "^1.0.6-rc",
-    "react-native-vector-icons": "^7.1.0",
-    "react-navigation": "^4.4.2"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/runtime": "^7.11.2",
-    "@react-native-community/eslint-config": "^2.0.0",
-    "babel-jest": "^26.3.0",
-    "eslint": "^7.9.0",
-    "jest": "^26.4.2",
-    "metro-react-native-babel-preset": "^0.63.0",
-    "react-native-debugger-open": "^0.3.25",
-    "react-test-renderer": "16.13.1",
-    "redux-devtools-extension": "^2.13.8"
-  },
-  "jest": {
-    "preset": "react-native"
-  }
+    "name": "capstone_frontend",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "android": "react-native run-android",
+        "ios": "react-native run-ios",
+        "start": "react-native start",
+        "test": "jest",
+        "lint": "eslint .",
+        "postinstall": "rndebugger-open"
+    },
+    "dependencies": {
+        "@react-native-community/async-storage": "^1.12.1",
+        "@react-native-community/masked-view": "^0.1.10",
+        "@react-navigation/bottom-tabs": "^5.9.1",
+        "@react-navigation/native": "^5.7.4",
+        "@react-navigation/stack": "^5.9.1",
+        "axios": "^0.20.0",
+        "firebase": "^7.24.0",
+        "native-base": "^2.13.14",
+        "react": "16.13.1",
+        "react-native": "0.63.2",
+        "react-native-elements": "^2.3.2",
+        "react-native-gesture-handler": "^1.8.0",
+        "react-native-gifted-chat": "^0.16.3",
+        "react-native-modal": "^11.5.6",
+        "react-native-safe-area-context": "^3.1.8",
+        "react-native-screen": "^1.0.1",
+        "react-native-screens": "^2.11.0",
+        "react-native-search-header": "^0.3.5",
+        "react-native-upload-multiple-images": "^1.0.6-rc",
+        "react-native-vector-icons": "^7.1.0",
+        "react-navigation": "^4.4.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.11.6",
+        "@babel/runtime": "^7.11.2",
+        "@react-native-community/eslint-config": "^2.0.0",
+        "babel-jest": "^26.3.0",
+        "eslint": "^7.9.0",
+        "jest": "^26.4.2",
+        "metro-react-native-babel-preset": "^0.63.0",
+        "react-native-debugger-open": "^0.3.25",
+        "react-test-renderer": "16.13.1",
+        "redux-devtools-extension": "^2.13.8"
+    },
+    "jest": {
+        "preset": "react-native"
+    }
 }

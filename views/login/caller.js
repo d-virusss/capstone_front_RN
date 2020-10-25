@@ -44,7 +44,22 @@ class LoginScreen extends Component {
     }
   }
 
+<<<<<<< HEAD
   senddata(data) {
+=======
+  setToken = async () => {
+    try {
+      await AsyncStorage.setItem(
+        'token',
+        response.data.token
+      );
+    } catch (error) {
+      // Error saving data
+    }
+  }
+
+  senddata(data){
+>>>>>>> b225c79127d432555f50822727cef746817b9cbb
     console.log("enter senddata")
     // this.setState({
     //   token : toString(data)
@@ -58,8 +73,13 @@ class LoginScreen extends Component {
       .then((response) => {
         console.log("create success!")
         console.log(response)
+<<<<<<< HEAD
         AsyncStorage.setItem("token", (response.data.token))
         this.props.navigation.navigate("postIndex")
+=======
+        this.setState({token : response.data.token})
+        this.setToken();
+>>>>>>> b225c79127d432555f50822727cef746817b9cbb
       })
       .catch(function (error) {
         console.log('axios call failed!! : ' + error);
