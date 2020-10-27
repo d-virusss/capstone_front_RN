@@ -17,31 +17,52 @@ import {
   Title,
   FooterTab,
 } from 'native-base';
-
+import AsyncStorage from '@react-native-community/async-storage';
 const api = axios.create({baseURL: 'http://52.79.179.211'});
 
+let like_list = {
+  post: {
+    type: '',
+    item: '',
+  },
+};
+
 class LikeListScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      token: '',
-    };
+  state = {
+    token: '',
+  };
+
+  getToken = async () => {
+    console.log(this);
+    let value = AsyncStorage.getItem('token');
+    this.state.token = await value;
+    console.log(this.state.token);
+    this.likeListGetRequest();
+  };
+
+  componentDidMount() {
+    console.log('component did mount ---');
+    this.getToken();
   }
 
   likeListGetRequest() {
     console.log('Sending likeListGetRequest ...');
-    // api
-    //   .get('/users//likes', user)
-    //   .then(function (response) {
-    //     console.log('success : ' + response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log('failed: ' + error);
-    //   });
+    api
+      .get(`/users/${1}/likes`, {
+        headers: {
+          Authorization: this.state.token,
+        },
+      })
+      .then(function (response) {
+        console.log('request success!!');
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log('failed: ' + error);
+      });
   }
 
   render() {
-    this.likeListGetRequest();
     return (
       <Container>
         <Content>
