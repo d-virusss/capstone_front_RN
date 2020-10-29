@@ -7,37 +7,37 @@ import {Text, Form, Icon, Textarea, Item, Input, Button} from 'native-base';
 const api = axios.create({baseURL: 'http://52.79.179.211'});
 
 function PostShow ({navigation}) {
-  title = '화이트채플';
-  category = '보드게임';
-  price = 10000;
-  bodytext = '어쩌구저쩌구';
-  token = "",
+  var title = '화이트채플';
+  var category = '보드게임';
+  var price = 10000;
+  var bodytext = '어쩌구저쩌구';
+  var token = "",
   postId = 2
 
   getToken = async () => {
   try{
       const value = await AsyncStorage.getItem('token');
-      if (value !== null) this.token = value;
+      if (value !== null) token = value;
     } catch (error){
       console.log("error : ", error);
     }
   }
 
-  chatCreateRequest = () => {
+  const chatCreateRequest = () => {
     api
       .post(`/chats?post_id=${postId}`, null,{ headers : {
-        'Authorization': this.token
+        'Authorization': token
       }})
       .then((response) => {
         console.log('success');
-        console.log(this.token);
+        console.log(token);
         console.log(response);
       })
       .catch((err) => console.log("err : ", err))
   }
 
-  createAndNavigate = () => {
-    this.chatCreateRequest();
+  const createAndNavigate = () => {
+    chatCreateRequest();
     navigation.navigate('ChatRoom', {
       chat_id : 1, 
     });

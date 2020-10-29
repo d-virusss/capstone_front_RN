@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-import React, { Component, useState, useCallback, useEffect } from 'react';
+import React, { Component, useState, useCallback, useEffect, Fragment } from 'react';
 import { 
   Container, Header, Content, List, ListItem, 
   Left, Body, Right, Thumbnail, Text, View , Footer, FooterTab, Button, Icon, Root, Badge, ActionSheet, Textarea
@@ -13,6 +13,17 @@ const api = axios.create({baseURL: 'http://52.79.179.211'});
 var token = 0;
 var getMessageString;
 var getFlag = 0;
+
+class ChatRoomC extends Component{
+  componentDidMount(){
+
+  }
+  render(){
+    return(
+      <Fragment></Fragment>
+    );
+  }
+}
 
 function ChatRoom ({route , navigation}) {
   getToken = async () => {
@@ -28,51 +39,9 @@ function ChatRoom ({route , navigation}) {
     }
   }
 
-  messageSet = () => {
-    setMessages([
-      {
-        _id: 1,
-        text: getMessageString,
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ])
-  }
-
-  messageGetRequest = () => {
-    api
-      .get(`/chats/${chat_id}/messages`, null,{ headers : {
-        'Authorization': token
-      }})
-      .then((response) => {
-        console.log('success');
-        console.log(response);
-        if(response != null){
-          useEffect(() => {
-            setMessages([
-              {
-                _id: 1,
-                text: 'Hello developer',
-                createdAt: new Date(),
-                user: {
-                  _id: 2,
-                  name: 'React Native',
-                  avatar: 'https://placeimg.com/140/140/any',
-                },
-              },
-            ])
-          }, [])
-        }
-      })
-      .catch((err) => console.log("err : ", err))
-  }
-
   const {chat_id} = route.params;
   const [messages, setMessages] = useState([]);
+  const [val, setVal] = useState(0);
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
     console.log(messages[0].text);
@@ -99,15 +68,61 @@ function ChatRoom ({route , navigation}) {
       });
   }, [])
 
-  useEffect(() => {
-    setTimeout(messageGetRequest, 10000);
-  });
+  const messageGetRequest = () => {
+    console.log(token);
+    api
+      .get(`/chats/${chat_id}/messages`, 
+      { 
+        headers : {
+          'Authorization' : token
+        }
+      }
+      )
+      .then((response) => {
+        console.log('success');
+        console.log(response);
+        if(response != null){
+
+          var num;
+          //num = response.data.message_info.length
+          num = response.data.length;
+          console.log(num);
+          var tempGiftedMessage = {
+            _id: 1,
+            text: '',
+            createdAt: '',
+            user: {
+              _id: 2,
+              name: 'React Native',
+              avatar: 'https://facebook.github.io/react/img/logo_og.png',
+            },
+          }
+          for(var i = 0; i<num; i++){
+            let temp = {
+              message_info : {
+                id : '',
+                created_time :'',
+                chat_id : '',
+                body: '',
+                sender : '',
+              }
+            }
+            temp = response.data[i];
+            console.log(JSON.stringify(temp));
+            console.log(temp.message_info.body);
+            tempGiftedMessage._id = temp.message_info.id;
+            console.log(tempGiftedMessage._id);
+            tempGiftedMessage.text = temp.message_info.body;
+            tempGiftedMessage.createdAt = temp.message_info.created_time;
+            setMessages(previousMessages => GiftedChat.append(previousMessages, tempGiftedMessage));
+            
+          }
+        }
+      })
+      .catch((err) => console.log("err : ", err))
+  }
 
   getToken();
-  console.log('in1');
-  if(getFlag === 1) setTimeout(messageGetRequest,3000);
-  else messageGetRequest();
-  console.log('in2');
   return (
     <Container>
       <Header style = {{height : 56}}>
@@ -119,8 +134,11 @@ function ChatRoom ({route , navigation}) {
         <Body>
           <Text style = {{fontSize : 17}}>채팅</Text>
         </Body>
-        <Right></Right>
+        <Right>
+          <Button onPress = {() => messageGetRequest()}></Button>
+        </Right>
       </Header>
+      <ChatRoomC/>
       <GiftedChat
         messages={messages}
         onSend={messages => onSend(messages)}
