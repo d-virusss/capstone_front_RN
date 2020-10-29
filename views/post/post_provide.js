@@ -46,8 +46,8 @@ class Post_provide extends Component {
     post_info.post.title = data.title
     post_info.post.body = data.body
     post_info.post.price = data.price
-    post_info.post.image = data.image
     post_info.post.category_id = data.category_id
+    post_info.post.image = data.image
     console.log(post_info)
     console.log(this.state.token)
   }
@@ -102,7 +102,9 @@ class Post_provide extends Component {
   }
 
   changeImage = (data) => {
-    console.log(data)
+    this.setState({
+      image: data
+    }, () => {console.log(this.state.image)})
   }
 
   render() {
