@@ -9,7 +9,7 @@ import 'react-native-gesture-handler';
 import { GiftedChat } from 'react-native-gifted-chat';
 
 
-const api = axios.create({baseURL: 'http://52.79.179.211'});
+const api = axios.create({ baseURL: 'http://3.35.9.144'});
 var token = 0;
 var getMessageString;
 var getFlag = 0;
