@@ -12,7 +12,7 @@ class PostShow extends Component{
         title = '화이트채플';
         category = '보드게임';
         price = 10000;
-        bodytext = '어쩌구저쩌구';
+        bodytext = '정말 재밌어요';
         
         state = {
           token : "",
