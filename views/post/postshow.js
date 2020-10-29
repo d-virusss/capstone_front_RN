@@ -7,7 +7,6 @@ import {Text, Form, Icon, Textarea, Item, Input, Button} from 'native-base';
 const api = axios.create({baseURL: 'http://52.79.179.211'});
 
 function PostShow ({navigation}) {
-    
   title = '화이트채플';
   category = '보드게임';
   price = 10000;
@@ -24,9 +23,9 @@ function PostShow ({navigation}) {
     }
   }
 
-  chatCreateRequset = () => {
+  chatCreateRequest = () => {
     api
-      .post(`/chats?post_id=${2}`, null,{ headers : {
+      .post(`/chats?post_id=${postId}`, null,{ headers : {
         'Authorization': this.token
       }})
       .then((response) => {
@@ -38,13 +37,11 @@ function PostShow ({navigation}) {
   }
 
   createAndNavigate = () => {
-    this.chatCreateRequset();
+    this.chatCreateRequest();
     navigation.navigate('ChatRoom', {
-      postId : 2, 
-      check : 'ok',
+      chat_id : 1, 
     });
-  }
-    
+  } 
   getToken();
   return(
     <ScrollView>

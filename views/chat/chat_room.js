@@ -7,11 +7,12 @@ import {
 } from 'native-base';
 import 'react-native-gesture-handler';
 import { GiftedChat } from 'react-native-gifted-chat';
-import {useRoute} from 'react-navigation';
+
 
 const api = axios.create({baseURL: 'http://52.79.179.211'});
 var token = 0;
-var syncflag = 0;
+var getMessageString;
+var getFlag = 0;
 
 function ChatRoom ({route , navigation}) {
   getToken = async () => {
@@ -26,13 +27,57 @@ function ChatRoom ({route , navigation}) {
       console.log("error : ", error);
     }
   }
-  
+
+  messageSet = () => {
+    setMessages([
+      {
+        _id: 1,
+        text: getMessageString,
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
+    ])
+  }
+
+  messageGetRequest = () => {
+    api
+      .get(`/chats/${chat_id}/messages`, null,{ headers : {
+        'Authorization': token
+      }})
+      .then((response) => {
+        console.log('success');
+        console.log(response);
+        if(response != null){
+          useEffect(() => {
+            setMessages([
+              {
+                _id: 1,
+                text: 'Hello developer',
+                createdAt: new Date(),
+                user: {
+                  _id: 2,
+                  name: 'React Native',
+                  avatar: 'https://placeimg.com/140/140/any',
+                },
+              },
+            ])
+          }, [])
+        }
+      })
+      .catch((err) => console.log("err : ", err))
+  }
+
+  const {chat_id} = route.params;
   const [messages, setMessages] = useState([]);
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
     console.log(messages[0].text);
     api
-      .post(`/chats/${1}/messages`, 
+      .post(`/chats/${chat_id}/messages`, 
         {
           message : {
             body : messages[0].text,
@@ -53,8 +98,16 @@ function ChatRoom ({route , navigation}) {
         console.log('axios call failed!! : ' + error);
       });
   }, [])
+
+  useEffect(() => {
+    setTimeout(messageGetRequest, 10000);
+  });
+
   getToken();
-  console.log(postId);
+  console.log('in1');
+  if(getFlag === 1) setTimeout(messageGetRequest,3000);
+  else messageGetRequest();
+  console.log('in2');
   return (
     <Container>
       <Header style = {{height : 56}}>
@@ -76,7 +129,7 @@ function ChatRoom ({route , navigation}) {
         }}
       />
     </Container>
-  )
+  );
   
 }
 
