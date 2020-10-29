@@ -3,7 +3,7 @@ import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } f
 import { View, ScrollView } from "react-native";
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
-const api = axios.create({ baseURL: 'http://52.79.179.211' });
+const api = axios.create({ baseURL: 'http://3.35.9.144' });
 
 class AskIndex extends Component{
   state = {

@@ -7,7 +7,7 @@ import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-const api = axios.create({ baseURL: 'http://52.79.179.211' });
+const api = axios.create({ baseURL: 'http://3.35.9.144' });
 
 let post_info = {
   post: {

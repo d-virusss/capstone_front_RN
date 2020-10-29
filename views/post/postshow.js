@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {View, ScrollView} from 'react-native';
 import {Text, Form, Icon, Textarea, Item, Input, Button} from 'native-base';
 
-const api = axios.create({baseURL: 'http://52.79.179.211'});
+const api = axios.create({ baseURL: 'http://3.35.9.144'});
 
 class PostShow extends Component{
     constructor(props){

@@ -18,7 +18,7 @@ import {
   FooterTab,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
-const api = axios.create({baseURL: 'http://52.79.179.211'});
+const api = axios.create({ baseURL: 'http://53.35.9.144'});
 
 let like_list = {
   post: {

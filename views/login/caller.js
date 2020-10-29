@@ -15,7 +15,7 @@ import { Container, Header, Content, Form, Item, Input } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Post_provide from '../post/post_provide';
 Icon.loadFont();
-const api = axios.create({ baseURL: 'http://52.79.179.211' });
+const api = axios.create({ baseURL: 'http://3.35.9.144' });
 
 var user_obj = {
   user: {
