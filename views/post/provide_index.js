@@ -15,13 +15,13 @@ class ProvideIndex extends Component{
     console.log(this.state.posts)
     return this.state.posts.map((post) => {
       return(
-        <ListItem thumbnail key={post.post_simple_info.id}>
+        <ListItem thumbnail key={post.post_info.id}>
           <Left>
-            <Thumbnail square source={{ uri: post.post_simple_info.image }} />
+            <Thumbnail square source={{ uri: post.post_info.image }} />
           </Left>
           <Body>
-            <Text>{post.post_simple_info.title}</Text>
-            <Text note numberOfLines={1}>{post.post_simple_info.body}</Text>
+            <Text>{post.post_info.title}</Text>
+            <Text note numberOfLines={1}>{post.post_info.body}</Text>
           </Body>
           <Right>
             <Button transparent onPress={() => this.props.navigation.navigate('PostShow')}>
