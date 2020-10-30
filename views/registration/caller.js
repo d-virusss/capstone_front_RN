@@ -15,7 +15,7 @@ import {
 } from 'native-base';
 //import getLoginClient from '../../apiAuth/loggedInClient';
 //Import the file if you are logged in
-const api = axios.create({baseURL: 'http://52.79.179.211'});
+const api = axios.create({baseURL: 'http://3.35.9.144'});
 var user = {
   user: {
     email: 'min06814@ajou.ac.kr',

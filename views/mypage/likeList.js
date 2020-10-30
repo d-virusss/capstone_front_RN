@@ -1,67 +1,10 @@
-import axios from 'axios';
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import BottomTab from '../shared/bottom_tab';
-import {
-  Container,
-  Tabs,
-  Tab,
-  TabHeading,
-  Content,
-  Header,
-  Footer,
-  Body,
-  Right,
-  Button,
-  Icon,
-  Title,
-  FooterTab,
-} from 'native-base';
-import AsyncStorage from '@react-native-community/async-storage';
-const api = axios.create({baseURL: 'http://52.79.179.211'});
-
-let like_list = {
-  post: {
-    type: '',
-    item: '',
-  },
-};
+import {Text, StyleSheet} from 'react-native';
+import {Container, Tabs, Tab, TabHeading, Content} from 'native-base';
+import LikeListUserScreen from './likeList_user';
+import LikeList_Item from './likeList_item';
 
 class LikeListScreen extends Component {
-  state = {
-    token: '',
-  };
-
-  getToken = async () => {
-    console.log(this);
-    let value = AsyncStorage.getItem('token');
-    this.state.token = await value;
-    console.log(this.state.token);
-    this.likeListGetRequest();
-  };
-
-  componentDidMount() {
-    console.log('component did mount ---');
-    this.getToken();
-  }
-
-  likeListGetRequest() {
-    console.log('Sending likeListGetRequest ...');
-    api
-      .get(`/users/${1}/likes`, {
-        headers: {
-          Authorization: this.state.token,
-        },
-      })
-      .then(function (response) {
-        console.log('request success!!');
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log('failed: ' + error);
-      });
-  }
-
   render() {
     return (
       <Container>
@@ -70,47 +13,25 @@ class LikeListScreen extends Component {
             <Tab
               heading={
                 <TabHeading transparent>
-                  <Text>전체</Text>
+                  <Text>품목</Text>
                 </TabHeading>
-              }
-            />
-
-            <Tab
-              heading={
-                <TabHeading transparent>
-                  <Text>게시글</Text>
-                </TabHeading>
-              }
-            />
+              }>
+              <LikeList_Item></LikeList_Item>
+            </Tab>
 
             <Tab
               heading={
                 <TabHeading transparent>
                   <Text>유저</Text>
                 </TabHeading>
-              }
-            />
-
-            <Tab
-              heading={
-                <TabHeading transparent>
-                  <Text>지역</Text>
-                </TabHeading>
-              }
-            />
+              }>
+              <LikeListUserScreen></LikeListUserScreen>
+            </Tab>
           </Tabs>
         </Content>
       </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  btn: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
-  },
-});
 
 export default LikeListScreen;
