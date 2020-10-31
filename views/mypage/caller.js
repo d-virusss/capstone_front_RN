@@ -29,22 +29,22 @@ IconB.loadFont();
 IconC.loadFont();
 
 class MypageScreen extends Component {
+  goToSetLocation() {
+    this.props.navigation.navigate('MyPage_Location');
+    console.log('Navigation router run...');
+  }
+
+  Logout() {
+    this.props.navigation.navigate('Logins');
+  }
+
+  ShowLikeList() {
+    this.props.navigation.navigate('Like_List');
+  }
+
   render() {
     const uri =
       'https://facebook.github.io/react-native/docs/assets/favicon.png';
-
-    const goToSetLocation = () => {
-      this.props.navigation.navigate('MyPage_Location');
-      console.log('Navigation router run...');
-    };
-
-    const Logout = () => {
-      this.props.navigation.navigate('Logins');
-    };
-
-    const ShowLikeList = () => {
-      this.props.navigation.navigate('Like_List');
-    };
 
     return (
       <Container>
@@ -98,7 +98,7 @@ class MypageScreen extends Component {
                 light
                 style={styles.btn}
                 onPress={() => {
-                  ShowLikeList();
+                  this.ShowLikeList();
                 }}>
                 <Icon type="Feather" name="heart" />
                 <Text> 관심 목록</Text>
@@ -106,9 +106,10 @@ class MypageScreen extends Component {
             </ListItem>
 
             <Separator bordered></Separator>
-            <ListItem onPress={()=> {
-              goToSetLocation()
-            }}>
+            <ListItem
+              onPress={() => {
+                this.goToSetLocation();
+              }}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text> 소속 인증</Text>
@@ -151,7 +152,7 @@ class MypageScreen extends Component {
             <ListItem
               button
               onPress={() => {
-                Logout();
+                this.Logout();
               }}>
               <Left>
                 <Icon type="AntDesign" name="logout" />
