@@ -19,7 +19,7 @@ const api = axios.create({ baseURL: 'http://3.35.9.144' });
 
 var user_obj = {
   user: {
-    email: 'tester2@test.com',
+    email: 'tester1@test.com',
     password: 'test123',
   },
 };

@@ -8,21 +8,14 @@ import {
 import 'react-native-gesture-handler';
 import { GiftedChat } from 'react-native-gifted-chat';
 
+var updateFlag = 0;
 
 const api = axios.create({ baseURL: 'http://3.35.9.144'});
-var token = 0;
-var getMessageString;
-var getFlag = 0;
+let token = 0;
 
-class ChatRoomC extends Component{
-  componentDidMount(){
-
-  }
-  render(){
-    return(
-      <Fragment></Fragment>
-    );
-  }
+function forceUpdate(){
+  const [value, setValue] = useState(0);
+  return() => setValue(value => ++value);
 }
 
 function ChatRoom ({route , navigation}) {
@@ -41,7 +34,6 @@ function ChatRoom ({route , navigation}) {
 
   const {chat_id} = route.params;
   const [messages, setMessages] = useState([]);
-  const [val, setVal] = useState(0);
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
     console.log(messages[0].text);
@@ -67,6 +59,9 @@ function ChatRoom ({route , navigation}) {
         console.log('axios call failed!! : ' + error);
       });
   }, [])
+  const onGet = useCallback((messages = []) => {
+    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+  },[])
 
   const messageGetRequest = () => {
     console.log(token);
@@ -82,47 +77,40 @@ function ChatRoom ({route , navigation}) {
         console.log('success');
         console.log(response);
         if(response != null){
-
-          var num;
-          //num = response.data.message_info.length
-          num = response.data.length;
-          console.log(num);
-          var tempGiftedMessage = {
-            _id: 1,
-            text: '',
-            createdAt: '',
-            user: {
-              _id: 2,
-              name: 'React Native',
-              avatar: 'https://facebook.github.io/react/img/logo_og.png',
-            },
-          }
-          for(var i = 0; i<num; i++){
-            let temp = {
-              message_info : {
-                id : '',
-                created_time :'',
-                chat_id : '',
-                body: '',
-                sender : '',
+          let chatDataList= [];
+          if(response.data.length>0) updateFlag = 1;
+          response.data.map(async (loadMessage) => {
+            let gotChatData = 
+            {
+              _id: null,
+              createdAt: null,
+              text: null,
+              user:{
+                _id: 2,
+                name: 'React Native',
+                avatar: 'https://placeimg.com/140/140/any',
               }
             }
-            temp = response.data[i];
-            console.log(JSON.stringify(temp));
-            console.log(temp.message_info.body);
-            tempGiftedMessage._id = temp.message_info.id;
-            console.log(tempGiftedMessage._id);
-            tempGiftedMessage.text = temp.message_info.body;
-            tempGiftedMessage.createdAt = temp.message_info.created_time;
-            setMessages(previousMessages => GiftedChat.append(previousMessages, tempGiftedMessage));
-            
-          }
+            gotChatData._id = loadMessage.message_info.id;
+            gotChatData.createdAt = loadMessage.message_info.created_time;
+            gotChatData.text = loadMessage.message_info.body;
+            console.log("----------------------");
+            console.log(gotChatData.text);
+            chatDataList[chatDataList.length] = gotChatData;
+            console.log(JSON.stringify(chatDataList));
+          })
+          console.log(JSON.stringify(chatDataList));
+          if(response.data.length > 0) onGet(chatDataList);
         }
       })
       .catch((err) => console.log("err : ", err))
   }
 
   getToken();
+  messageGetRequest();
+  const update = forceUpdate();
+  if(updateFlag === 0)
+    setTimeout(update, 2000);
   return (
     <Container>
       <Header style = {{height : 56}}>
@@ -138,7 +126,6 @@ function ChatRoom ({route , navigation}) {
           <Button onPress = {() => messageGetRequest()}></Button>
         </Right>
       </Header>
-      <ChatRoomC/>
       <GiftedChat
         messages={messages}
         onSend={messages => onSend(messages)}

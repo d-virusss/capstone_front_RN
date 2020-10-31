@@ -8,7 +8,7 @@ import {
 import BottomTab from '../shared/bottom_tab';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const api = axios.create({baseURL: 'http://52.79.179.211'});
+const api = axios.create({baseURL: 'http://3.35.9.144'});
 var token;
 var chat_id = [];
 chat_id[0] = 1;
