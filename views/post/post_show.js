@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
 import {View, ScrollView, Image, StyleSheet} from 'react-native';
-import {Text, Form, Icon, Textarea, Item, Input, Button} from 'native-base';
+import {Text, Form, Icon, Textarea, Item, Input, Button, Footer, FooterTab,} from 'native-base';
 
 import DB2 from '../../assets/ddbb2.jpg'
 
@@ -40,7 +40,7 @@ class PostShow extends Component{
       .catch((err) => console.log("err : ", err))
   }
 
-  createAndNavigate(){
+  makeCallchat_navigate(){
     this.chatCreateRequset();
     this.props.navigation.navigate('ChatRoom', {postId : 2, check : 0,});
   }
@@ -57,40 +57,55 @@ class PostShow extends Component{
     const id = params ? params.post.post_info.id : null;
     this.getToken();
     return(
-      <ScrollView>
-        <View style = {styles.imageArea}>
-          <Image source={{ uri : product_image }} style={styles.imageView} />
-        </View>
-        <View>
-          <View>
-            <Form>
-              <Item regular style={styles.componentMargin}>
-                  <Text style={styles.fontView}>{title}</Text>
-              </Item>
-              <Item regular style={styles.componentMargin}>
-                  <Text style={styles.fontView}>보드게임</Text>
-              </Item>
-              <Item regular style = {styles.componentMargin}>
-                  <Text style={styles.fontView}>1일 / {price + '원'}</Text>
-              </Item>
-              <Item regular style = {styles.componentMargin}>
-                  <Text style={styles.fontView}>{body}</Text>
-              </Item>
-              <Button style = {{alignSelf : 'center', marginTop : '3%'}}
-                onPress = {() => this.createAndNavigate()}
-              >
-                <Icon name = 'person'></Icon>
-                <Text>채팅 거래하기</Text>
-              </Button>
-            </Form>
+      <View style={{flex : 1}}>
+        <ScrollView style={styles.container} >
+          <View style = {styles.imageArea}>
+            <Image source={{ uri : product_image }} style={styles.imageView} />
           </View>
-        </View>
-      </ScrollView>
+          <View>
+            <View>
+              <Form>
+                <Item regular style={styles.componentMargin}>
+                    <Text style={styles.fontView}>{title}</Text>
+                </Item>
+                <Item regular style={styles.componentMargin}>
+                    <Text style={styles.fontView}>보드게임</Text>
+                </Item>
+                <Item regular style = {styles.componentMargin}>
+                    <Text style={styles.fontView}>1일 / {price + '원'}</Text>
+                </Item>
+                <Item regular style = {styles.componentMargin}>
+                    <Text style={styles.fontView}>{body}</Text>
+                </Item>
+              </Form>
+            </View>
+          </View>
+        </ScrollView>
+
+        <Footer>
+          <FooterTab>
+            <Button style={{marginLeft:-30}}>
+              <Icon name="heart" />
+            </Button>
+            <Text style={{width: '30%', alignSelf: "center"}}>
+              3,000원 / 1 일
+            </Text>
+            <Button bordered warning onPress={() => { this.makeCallchat_navigate()}}
+                     style={{flexDirection: 'row', width:'40%', marginTop:10}}>
+              <Text>채팅으로 대여하기</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container : {
+    paddingBottom : 50,
+    flex : 1
+  },
   imageArea : {
     width: '95%',
     height : '60%',
@@ -99,7 +114,7 @@ const styles = StyleSheet.create({
     alignSelf : 'center'
   },
   componentMargin : {
-    marginBottom : '3%',
+    marginBottom : '15%',
   },
   fontView : {
     fontSize : 17,
