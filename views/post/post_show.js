@@ -50,7 +50,7 @@ class PostShow extends Component{
     console.log(params)
     console.log(params.post.post_info.title)
     console.log(params.post.post_info.image)
-    const product_image = params ? JSON.stringify(params.post.post_info.image) : null
+    const product_image = params ? params.post.post_info.image : null
     const title = params ? params.post.post_info.title : "기본 이름 ㅎ"
     const price = params ? params.post.post_info.price : "1399"
     const body = params ? params.post.post_info.body : "생각보다 재밌습니다! 연락주세요"
@@ -59,7 +59,7 @@ class PostShow extends Component{
     return(
       <ScrollView>
         <View style = {styles.imageArea}>
-          <Image source={{ uri : 'https://reactnative.dev/img/tiny_logo.png' }} />
+          <Image source={{ uri : product_image }} style={styles.imageView} />
         </View>
         <View>
           <View>
@@ -106,8 +106,8 @@ const styles = StyleSheet.create({
     margin : '5%'
   },
   imageView : {
-    width: '100%',
-    
+    width: '90%',
+    height: 300
   }
 })
 
