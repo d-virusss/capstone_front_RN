@@ -15,10 +15,8 @@ class ProvideIndex extends Component{
     console.log(this.state.posts)
     return this.state.posts.map((post) => {
       return(
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('PostShow', {
-          post : post,
-        })}>
-          <ListItem thumbnail key={post.post_info.id}>
+        <TouchableOpacity onPress={() => console.log('postitem clicked!!')} key={post.post_info.id}>
+          <ListItem thumbnail>
             <Left>
               <Thumbnail square source={{ uri: post.post_info.image }} />
             </Left>
@@ -27,7 +25,7 @@ class ProvideIndex extends Component{
               <Text note numberOfLines={1}>{post.post_info.body}</Text>
             </Body>
             <Right>
-              <Button transparent onPress={() => this.props.navigation.navigate('PostShow')}>
+              <Button transparent onPress={() => this.props.navigation.navigate('PostShow', {post: post})}>
                 <Text>보기</Text>
               </Button>
             </Right>
@@ -38,7 +36,6 @@ class ProvideIndex extends Component{
   }
 
   sendIndexRequest() {
-    console.log("give me post-index!-----------------")
     api
       .get('/posts?post_type=provide', {
         headers: {
@@ -53,19 +50,6 @@ class ProvideIndex extends Component{
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
       })
-    api
-      .get('/posts/1', {
-        headers: {
-          'Authorization': this.state.token
-        }
-      })
-      .then((res) => {
-        console.log("post-show success!!")
-        console.log(res)
-      })
-      .catch(function (e) {
-        console.log('send post failed!!!!' + e)
-      })
   }
 
   getToken = async () => {
@@ -75,7 +59,6 @@ class ProvideIndex extends Component{
   }
 
   componentDidMount(){
-    console.log("render post-provide")
     this.getToken()
   }
 
