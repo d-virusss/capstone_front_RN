@@ -10,8 +10,8 @@ import { Container, Header, Footer, FooterTab, Badge, Button, Text, Icon, Tabs, 
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Search_Bar from './search_bar';
 import { Overlay } from 'react-native-elements';
-import ProvidingList from './providerindex';
-import A_F_Rent from './ask_for_rent';
+import ProvidingList from './provide_index';
+import A_F_Rent from './ask_index';
 import Example from './categorymodal';
 import FootTab from '../shared/bottom_tab'
 import BottomTab from "../shared/bottom_tab";
@@ -25,6 +25,9 @@ class PostIndex extends Component {
     super(props);
     this.state = {};
   }
+  componentDidMount(){
+    console.log("enter post index")
+  }
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -33,6 +36,7 @@ class PostIndex extends Component {
         </View>
         <BottomTab navigation={this.props.navigation}></BottomTab>
       </View>
+      
     );
   }
 }

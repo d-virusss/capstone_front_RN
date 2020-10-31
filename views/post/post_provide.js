@@ -7,7 +7,7 @@ import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-const api = axios.create({ baseURL: 'http://52.79.179.211' });
+const api = axios.create({ baseURL: 'http://3.35.9.144' });
 
 let post_info = {
   post: {
@@ -46,8 +46,8 @@ class Post_provide extends Component {
     post_info.post.title = data.title
     post_info.post.body = data.body
     post_info.post.price = data.price
-    post_info.post.image = data.image
     post_info.post.category_id = data.category_id
+    post_info.post.image = data.image
     console.log(post_info)
     console.log(this.state.token)
   }
@@ -102,7 +102,9 @@ class Post_provide extends Component {
   }
 
   changeImage = (data) => {
-    console.log(data)
+    this.setState({
+      image: data
+    }, () => {console.log(this.state.image)})
   }
 
   render() {

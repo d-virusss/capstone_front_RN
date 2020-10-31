@@ -1,16 +1,9 @@
 import React from 'react';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import {
-  Dimensions,
-  AppRegistry,
-  StyleSheet,
-  View,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-} from 'react-native';
-import ProvidingList from './providerindex';
-import A_F_Rent from './ask_for_rent';
+  Dimensions,  AppRegistry,  StyleSheet,  View,  Text,  StatusBar,  TouchableOpacity,} from 'react-native';
+import ProvideIndex from './provide_index';
+import AskIndex from './ask_index';
 import {Button, Container, Tabs, Tab, TabHeading} from 'native-base'
 import SearchHeader from 'react-native-search-header';
 import Example from './categorymodal';
@@ -145,15 +138,15 @@ class Search_Bar extends React.Component {
         />
         <Example></Example>
         <Container>
-              <Tabs style={{marginTop : '0%',}}>
-                <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
-                  <ProvidingList navigation = {this.props.navigation}></ProvidingList>
-                </Tab>
-                <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
-                  <A_F_Rent></A_F_Rent>
-                </Tab>
-              </Tabs>
-            </Container>
+          <Tabs style={{marginTop : '0%',}}>
+            <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
+              <ProvideIndex navigation = {this.props.navigation}></ProvideIndex>
+            </Tab>
+            <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
+              <AskIndex></AskIndex>
+            </Tab>
+          </Tabs>
+        </Container>
       </View>
     );
   }

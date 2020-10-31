@@ -172,7 +172,7 @@ class LoginScreen extends Component {
                 borderRadius={5}
                 width="100%"
                 height="100%"
-                onPress={() => this.makeKakaoRequest()}
+                onPress={() => this.makeRequest()}
               />
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>

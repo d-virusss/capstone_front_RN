@@ -14,7 +14,7 @@ import Post_ask from './views/post/post_ask';
 import SearchBar from './views/post/search_bar';
 import chatIndex from './views/chat/chat_index';
 import PostShow from './views/post/postshow';
-import ProvidingList from './views/post/providerindex';
+import ProvideIndex from './views/post/provide_index';
 import ChatRoom from './views/chat/chat_room';
 import MyPage from './views/mypage/caller';
 import MyPgae_Location from './views/mypage/location';

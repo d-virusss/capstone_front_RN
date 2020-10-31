@@ -3,7 +3,6 @@ import {Text, StyleSheet} from 'react-native';
 import {Container, Tabs, Tab, TabHeading, Content} from 'native-base';
 import LikeListUserScreen from './likeList_user';
 import LikeList_Item from './likeList_item';
-
 class LikeListScreen extends Component {
   render() {
     return (
