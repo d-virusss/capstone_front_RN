@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
-import { View, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 const api = axios.create({ baseURL: 'http://3.35.9.144' });
@@ -64,13 +64,13 @@ class AskIndex extends Component{
 
   render(){
     return(
-      <View style={{flex : 1}}>
+      <ScrollView style={{flex : 1}}>
         <Content>
           <List>
             {this.makeIndexList()}
           </List>
         </Content>
-      </View>
+      </ScrollView>
     );
   }
 }

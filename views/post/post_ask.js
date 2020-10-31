@@ -104,7 +104,9 @@ class Post_ask extends Component {
   }
 
   changeImage = (data) => {
-    console.log(data)
+    this.setState({
+      image: data
+    }, () => { console.log(this.state.image) })
   }
 
   render() {
@@ -144,8 +146,6 @@ class Post_ask extends Component {
     );
   }
 }
-
-
 const styles = StyleSheet.create({
   textAreaContainer: {
     marginHorizontal: '2%'

@@ -13,7 +13,7 @@ import Post_provide from './views/post/post_provide';
 import Post_ask from './views/post/post_ask';
 import SearchBar from './views/post/search_bar';
 import chatIndex from './views/chat/chat_index';
-import PostShow from './views/post/postshow';
+import PostShow from './views/post/post_show';
 import ProvideIndex from './views/post/provide_index';
 import ChatRoom from './views/chat/chat_room';
 import MyPage from './views/mypage/caller';
