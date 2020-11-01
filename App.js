@@ -17,6 +17,7 @@ import PostShow from './views/post/postshow';
 import ProvideIndex from './views/post/provide_index';
 import ChatRoom from './views/chat/chat_room';
 import MyPage from './views/mypage/caller';
+import KakaoLogin from './views/login/kakao';
 import MyPgae_Location from './views/mypage/location';
 import Mypage_Like_List from './views/mypage/likeList';
 import ProfileShow from './views/profile/profile_show';
@@ -34,6 +35,7 @@ const App = () => {
           component={LoginScreen}
           options={{headerShown: false}}
         />
+        <Stack.Screen name="KakaoLogin" component={KakaoLogin} />
         <Stack.Screen name="Register" component={Register_form} />
         <Stack.Screen name="Find_id" component={FindId} />
         <Stack.Screen name="Find_pw" component={FindPw} />
