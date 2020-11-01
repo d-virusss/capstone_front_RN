@@ -24,7 +24,14 @@ class ProvideIndex extends Component{
             <Text note numberOfLines={1}>{post.post_info.body}</Text>
           </Body>
           <Right>
-            <Button transparent onPress={() => this.props.navigation.navigate('PostShow')}>
+            <Button transparent onPress={() => 
+              this.props.navigation.navigate('PostShow',{
+                post_id : post.post_info.id, 
+                other_id : post.user.user_info.id,
+                other_nickname : post.user.user_info.nickname,
+                other_location : post.user.user_info.location_title,
+              })
+              }>
               <Text>보기</Text>
             </Button>
           </Right>
@@ -75,4 +82,10 @@ class ProvideIndex extends Component{
   }
 }
 
-export default ProvideIndex;
+function ProvideIndexScreen({navigation}){
+  return(
+    <ProvideIndex navigation = {navigation}/>
+  );
+}
+
+export default ProvideIndexScreen;

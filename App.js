@@ -19,6 +19,9 @@ import ChatRoom from './views/chat/chat_room';
 import MyPage from './views/mypage/caller';
 import MyPgae_Location from './views/mypage/location';
 import Mypage_Like_List from './views/mypage/likeList';
+import ProfileShow from './views/profile/profile_show';
+import ProfileShowList from './views/profile/profile_show_list';
+import ProfilePostShow from './views/profile/profile_post_show';
 
 const Stack = createStackNavigator();
 
@@ -92,6 +95,24 @@ const App = () => {
             headerTitle: '관심 목록',
             headerTitleStyle: {fontSize: 25},
           }}
+        />
+        <Stack.Screen
+          name="ProfileShow"
+          component={ProfileShow}
+          options={{
+            headerShown : false,
+          }}
+        />
+        <Stack.Screen
+          name="ProfileShowList"
+          component={ProfileShowList}
+          options={{
+            headerShown : false,
+          }}
+        />
+        <Stack.Screen
+          name="ProfilePostShow"
+          component={ProfilePostShow}
         />
       </Stack.Navigator>
     </NavigationContainer>
