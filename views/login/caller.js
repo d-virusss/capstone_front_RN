@@ -73,6 +73,11 @@ class LoginScreen extends Component {
         console.log('axios call failed!! : ' + error);
       });
   }
+
+  redirectKakaoLogin() {
+    this.props.navigation.navigate('KakaoLogin');
+  }
+
   makeKakaoRequest() {
     console.log('kakao login start!');
     api
@@ -172,7 +177,7 @@ class LoginScreen extends Component {
                 borderRadius={5}
                 width="100%"
                 height="100%"
-                onPress={() => this.makeRequest()}
+                onPress={() => this.redirectKakaoLogin()}
               />
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>

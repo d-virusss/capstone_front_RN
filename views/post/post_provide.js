@@ -15,11 +15,18 @@ let post_info = {
     body: "",
     price: "",
     category_id: "",
-    image: "",
+    image: {},
     post_type: "provide", // ask or provide
   }
 }
 
+const image_info = {
+  uri: '../../assets/ddbb2.jpg',
+  type: 'image/jpg',
+  name: 'dduckbokki.jpg'
+}
+const file_data = new FormData();
+file_data.append('file', image_info);
 
 class Post_provide extends Component {
   state = {
@@ -27,7 +34,7 @@ class Post_provide extends Component {
     body: "",
     price: "",
     category_id: "", // 잡화 의류 뷰티 전자제품 레져용품 생활용품 요리 자동차
-    image: "",
+    image: {},
     token: ""
   }
 
@@ -40,6 +47,7 @@ class Post_provide extends Component {
   componentDidMount() {
     this.getToken()
     console.log("component did mount ---")
+    this.setState({image: file_data}, () => {console.log(this.state.image)})
   }
 
   setPostInfo = (data) => {
@@ -47,7 +55,7 @@ class Post_provide extends Component {
     post_info.post.body = data.body
     post_info.post.price = data.price
     post_info.post.category_id = data.category_id
-    post_info.post.image = data.image
+    post_info.post.image = data.image._parts[0]
     console.log(post_info)
     console.log(this.state.token)
   }
@@ -58,7 +66,7 @@ class Post_provide extends Component {
     api
       .post('/posts', (post_info), {
         headers: {
-          'Authorization': this.state.token
+          'Authorization': this.state.token,
         }
       })
       .then((res) => {
@@ -103,8 +111,8 @@ class Post_provide extends Component {
 
   changeImage = (data) => {
     this.setState({
-      image: data
-    }, () => {console.log(this.state.image)})
+      image: file_data
+    }, () => {console.log('image setted');console.log(this.state.image); console.log(image_info); console.log(file_data)})
   }
 
   render() {
@@ -128,7 +136,6 @@ class Post_provide extends Component {
                 <Input keyboardType="numeric"
                   onChangeText={(text) => this.changedata(text, "price")} />
               </Item>
-              <TextInput />
               <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
                 onChangeText={(text) => this.changedata(text, "body")}
                 style={styles.textAreaContainer} />
@@ -146,7 +153,8 @@ class Post_provide extends Component {
 }
 const styles = StyleSheet.create({
   textAreaContainer: {
-    marginHorizontal: '2%'
+    marginHorizontal: '2%',
+    marginTop: '5%'
   },
 })
 

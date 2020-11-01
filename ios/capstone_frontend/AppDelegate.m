@@ -5,6 +5,7 @@
 #import <React/RCTRootView.h>
 
 #ifdef FB_SONARKIT_ENABLED
+#import <GoogleMaps/GoogleMaps.h>
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
 #import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
@@ -27,6 +28,7 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [GMSServices provideAPIKey:@"AIzaSyC6YmIjtdwK59xW4mE6Haipl79DxVKIUX0"];
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif

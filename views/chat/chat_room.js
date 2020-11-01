@@ -129,6 +129,7 @@ function ChatRoom ({route , navigation}) {
       <GiftedChat
         messages={messages}
         onSend={messages => onSend(messages)}
+        onPressAvatar={()=> navigation.navigate('ProfileShow')}
         user={{
           _id: 1,
         }}
