@@ -13,7 +13,7 @@ import {
   Button,
 } from 'native-base';
 
-const api = axios.create({baseURL: 'http://52.79.179.211'});
+const api = axios.create({ baseURL: 'http://3.35.9.144'});
 
 var like_item = [];
 
