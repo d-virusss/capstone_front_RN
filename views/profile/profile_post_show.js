@@ -6,14 +6,14 @@ import {Text, Form, Icon, Textarea, Item, Input, Button} from 'native-base';
 
 const api = axios.create({ baseURL: 'http://3.35.9.144'});
 
-function PostShow ({route, navigation}) {
+function profilePostShow ({navigation}) {
   let title = '화이트채플';
   let category = '보드게임';
   let price = 10000;
   let bodytext = '어쩌구저쩌구';
   let token = "";
   let chatID;
-  const {post_id, other_id, other_nickname, other_location} = route.params;
+  postId = 2;
 
   getToken = async () => {
   try{
@@ -26,14 +26,14 @@ function PostShow ({route, navigation}) {
 
   const chatCreateRequest = () => {
     api
-      .post(`/chats?post_id=${post_id}`, null,{ headers : {
+      .post(`/chats?post_id=${postId}`, null,{ headers : {
         'Authorization': token
       }})
       .then((response) => {
         console.log('success');
         console.log(token);
         console.log(response);
-        
+        chatID = response.data.id
       })
       .catch((err) => console.log("err : ", err))
   }
@@ -41,32 +41,10 @@ function PostShow ({route, navigation}) {
   const createAndNavigate = () => {
     chatCreateRequest();
     navigation.navigate('ChatRoom', {
-      chat_id : 1, 
+      chat_id : chatID, 
     });
   } 
-  const likeRequest = async() => {
-    await api
-      .post(`/users/like`, {
-        like :{
-          target_id : post_id,
-          target_type : 'post'
-      }
-    },
-    { 
-      headers : {
-        'Authorization': token
-      }
-    })
-      .then((response) => {
-        console.log('success');
-        console.log(token);
-        console.log(response);
-        
-      })
-      .catch((err) => console.log("err : ", err))
-  }
   getToken();
-  console.log(post_id, other_id, other_nickname, other_location);
   return(
     <ScrollView>
       <View style={{width : '95%', height : '40%', justifyContent : 'center', alignItems: 'center', alignSelf: 'center'}}>
@@ -93,15 +71,8 @@ function PostShow ({route, navigation}) {
               <Icon name = 'person'></Icon>
               <Text>채팅 거래하기</Text>
             </Button>
-            <Button onPress = {() => navigation.navigate('ProfileShow',{
-              other_id : other_id,
-              other_nickname : other_nickname,
-              other_location : other_location,
-            })}>
+            <Button onPress = {() => navigation.navigate('ProfileShow')}>
               <Text>프로필보기</Text>
-            </Button>
-            <Button onPress = {() => likeRequest()}>
-              <Text>LIKE</Text>
             </Button>
           </Form>
         </View>
@@ -111,4 +82,4 @@ function PostShow ({route, navigation}) {
     
 }
 
-export default PostShow;
+export default profilePostShow;
