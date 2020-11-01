@@ -84,7 +84,12 @@ class MypageScreen extends Component {
                 flexDirection: 'row',
                 justifyContent: 'center',
               }}>
-              <Button light style={styles.btn}>
+              <Button
+                light
+                style={styles.btn}
+                onPress={() => {
+                  this.goToSetLocation();
+                }}>
                 <Icon type="AntDesign" name="home" />
                 <Text> 동네 설정</Text>
               </Button>
@@ -106,10 +111,7 @@ class MypageScreen extends Component {
             </ListItem>
 
             <Separator bordered></Separator>
-            <ListItem
-              onPress={() => {
-                this.goToSetLocation();
-              }}>
+            <ListItem>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text> 소속 인증</Text>
