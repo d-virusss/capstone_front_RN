@@ -22,6 +22,7 @@ import Mypage_Like_List from './views/mypage/likeList';
 import ProfileShow from './views/profile/profile_show';
 import ProfileShowList from './views/profile/profile_show_list';
 import ProfilePostShow from './views/profile/profile_post_show';
+import Booking from './views/booking/booking';
 
 const Stack = createStackNavigator();
 
@@ -89,6 +90,10 @@ const App = () => {
         <Stack.Screen
           name="ProfilePostShow"
           component={ProfilePostShow}
+        />
+        <Stack.Screen
+          name="Booking"
+          component={Booking}
         />
       </Stack.Navigator>
     </NavigationContainer>
