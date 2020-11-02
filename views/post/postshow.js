@@ -103,6 +103,9 @@ function PostShow ({route, navigation}) {
             <Button onPress = {() => likeRequest()}>
               <Text>LIKE</Text>
             </Button>
+            <Button onPress = {() => navigation.navigate('Booking')}>
+              <Text>book</Text>
+            </Button>
           </Form>
         </View>
       </View>
