@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
 import { ScrollView, TouchableOpacity } from "react-native";
 import AsyncStorage from '@react-native-community/async-storage';
-import axios from 'axios';
-const api = axios.create({ baseURL: 'http://3.35.9.144' });
-
+import api from '../shared/server_address'
 class ProvideIndex extends Component{
   state = {
     token : '',
@@ -75,4 +73,10 @@ class ProvideIndex extends Component{
   }
 }
 
-export default ProvideIndex;
+function ProvideIndexScreen({navigation}){
+  return(
+    <ProvideIndex navigation = {navigation}/>
+  );
+}
+
+export default ProvideIndexScreen;

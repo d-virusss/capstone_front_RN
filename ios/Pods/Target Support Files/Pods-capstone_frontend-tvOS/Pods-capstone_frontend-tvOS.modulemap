@@ -1,0 +1,6 @@
+module Pods_capstone_frontend_tvOS {
+  umbrella header "Pods-capstone_frontend-tvOS-umbrella.h"
+
+  export *
+  module * { export * }
+}

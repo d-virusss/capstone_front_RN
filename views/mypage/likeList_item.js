@@ -1,19 +1,8 @@
-import axios from 'axios';
 import React, {Component} from 'react';
 import {Text} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {
-  List,
-  ListItem,
-  View,
-  Left,
-  Thumbnail,
-  Body,
-  Right,
-  Button,
-} from 'native-base';
-
-const api = axios.create({baseURL: 'http://52.79.179.211'});
+import { List, ListItem, View, Left, Thumbnail, Body, Right, Button } from 'native-base';
+import api from '../shared/server_address'
 
 var like_item = [];
 

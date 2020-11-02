@@ -1,4 +1,3 @@
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component, Fragment} from 'react';
 import {
@@ -13,9 +12,9 @@ import {
 import CustomButton from './custom_button';
 import {Container, Header, Content, Form, Item, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Post_provide from '../post/post_provide';
+import api from '../shared/server_address'
+
 Icon.loadFont();
-const api = axios.create({baseURL: 'http://3.35.9.144'});
 
 var user_obj = {
   user: {
@@ -73,6 +72,11 @@ class LoginScreen extends Component {
         console.log('axios call failed!! : ' + error);
       });
   }
+
+  redirectKakaoLogin() {
+    this.props.navigation.navigate('KakaoLogin');
+  }
+
   makeKakaoRequest() {
     console.log('kakao login start!');
     api
@@ -172,7 +176,7 @@ class LoginScreen extends Component {
                 borderRadius={5}
                 width="100%"
                 height="100%"
-                onPress={() => this.makeRequest()}
+                onPress={() => this.redirectKakaoLogin()}
               />
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>

@@ -1,10 +1,5 @@
 import React, { Component, Fragment } from "react";
-import {
-  StyleSheet,
-  View,
-  StatusBar, TextInput,
-  TouchableOpacity
-} from "react-native";
+import { StyleSheet, View, StatusBar, TextInput, TouchableOpacity } from "react-native";
 import CustomButton from './custom_button';
 import { Container, Header, Footer, FooterTab, Badge, Button, Text, Icon, Tabs, Tab, TabHeading, ActionSheet, Root } from 'native-base';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';

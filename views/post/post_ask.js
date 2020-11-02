@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import { Content, Container, Header, Item, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
-import {
-  View, ScrollView, StyleSheet, TextInput
-} from "react-native";
+import { View, ScrollView, StyleSheet, TextInput } from "react-native";
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-const api = axios.create({ baseURL: 'http://3.35.9.144' });
-
+import api from '../shared/server_address'
 
 let post_info = {
   post: {
