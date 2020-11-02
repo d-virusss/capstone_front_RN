@@ -1,78 +1,167 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {View, Dimensions} from 'react-native';
 import {
   Text, Form, Icon, Textarea, Item, Input, Button, 
   Container, Content, Header
 } from 'native-base';
+import { Calendar } from 'react-native-calendario';
+import api from '../shared/server_address'
+import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 
+let token;
+let dateNumber = 0;
 
-const api = axios.create({ baseURL: 'http://3.35.9.144'});
+class bookingScreen extends Component{
 
-function booking ({navigation}) {
-  const windowWidth = Dimensions.get('window').width;
-  let title = '화이트채플';
-  let category = '보드게임';
-  let price = 10000;
-  let bodytext = '어쩌구저쩌구';
-  let token = "";
-  let chatID;
-  
+  state = {
+    totalPrice : 0,
+    dateNumber : 0,
+    startYear : 0,
+    startMonth : 0,
+    startDay : 0,
+    endYear : 0,
+    endMonth : 0,
+    endDay : 0,
+  };
 
   getToken = async () => {
-  try{
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) token = value;
-    } catch (error){
-      console.log("error : ", error);
-    }
+    let value = await AsyncStorage.getItem("token")
+    this.state.token = value
+    this.sendIndexRequest()
   }
 
-  const chatCreateRequest = () => {
+  bookingCreateRequest = () => {
     api
-      .post(`/chats?post_id=${post_id}`, null,{ headers : {
+      .post(`/bookings`, {
+        booking : {
+          post_id: post_id,
+          start_at : this.state.dateRange.startDate,
+          end_at : this.state.dateRange.endDate
+        }
+      },{ headers : {
         'Authorization': token
       }})
       .then((response) => {
         console.log('success');
         console.log(token);
         console.log(response);
-        
+        navigation.goBack();
       })
       .catch((err) => console.log("err : ", err))
   }
 
-  getToken();
-  return(
-    <Container>
-      <Header style = {{height: 100}}>
-        <View style = {{width : '30%', justifyContent : 'center'}}>
-          <Icon name = 'person' style = {{fontSize : 80, margin : '1%'}}/>
+  calculateDate = (data) => {
+    this.state.startYear = data.startDate.getFullYear();
+    this.state.startMonth = data.startDate.getMonth();
+    this.state.startDay = data.startDate.getDate();
+    this.state.endYear = data.endDate.getFullYear();
+    this.state.endMonth = data.endDate.getMonth();
+    this.state.endDay = data.endDate.getDate();
+    this.state.dateNumber = ((data.endDate - data.startDate) / (1000 * 3600 * 24) + 1)
+  }
+
+  calculatePrice = () => {
+    // this.setState({totalPrice : (this.state.dateNumber * 10000)});
+    this.state.totalPrice = (this.state.dateNumber * 10000)
+    console.log(this.state)
+    this.forceUpdate();
+  }
+
+  componentDidMount(){
+    console.log('screen load!');
+    this.getToken();
+  }
+
+  render(){
+    const { post_id } = this.props.route;
+    return(
+      <Container>
+        <Header style = {{height: 100}}>
+          <View style = {{width : '30%', justifyContent : 'center'}}>
+            <Icon name = 'person' style = {{fontSize : 80, margin : '1%'}}/>
+          </View>
+          <View style = {{width : '40%', justifyContent : 'center'}}>
+            <Text style = {{margin : '1%', fontSize : 25}}>화이트채플</Text>
+            <Text style = {{margin : '1%', fontSize : 20}}>10000원</Text>
+          </View>
+          <View style = {{width : '30%', justifyContent : 'center'}}>
+            <Text style = {{margin : '1%', fontSize : 25}}>대여가격</Text>
+    <Text style = {{margin : '1%', fontSize : 20}}>{this.state.totalPrice + ' 원'}</Text>
+          </View>
+        </Header>
+        <Calendar
+          onChange={(range) => { console.log(range); if(typeof(range.endDate) != "undefined"){
+            this.calculateDate(range); this.calculatePrice()
+          }}} 
+          startDate = {new Date(this.state.startYear, this.state.startMonth, this.state.startDay)}
+          endDate = {new Date(this.state.endYear, this.state.endMonth, this.state.endDay)}
+          numberOfMonths = {3}
+          theme={ theme }
+        />
+        <View style = {{
+          backgroundColor : 'orange',
+          justifyContent : 'center'
+        }}>
+          <Button style = {{
+              alignSelf : 'center', marginTop : '3%',
+              padding : 4,
+              margin : '1%',
+              backgroundColor : 'white'
+            }}
+            onPress = {() => bookingCreateRequest()}
+          >
+            <Text style = {{color : 'black'}}>예약 신청하기</Text>
+          </Button>
         </View>
-        <View style = {{width : '70%', justifyContent : 'center'}}>
-          <Text style = {{margin : '1%', fontSize : 25}}>화이트채플</Text>
-          <Text style = {{margin : '1%', fontSize : 20}}>10000원</Text>
-        </View>
-      </Header>
-    <Content>
-      <View style={{width : '95%', justifyContent : 'center', alignItems: 'center', alignSelf: 'center'}}>
-        
-      </View>
-      <View style = {{ alignItems : 'center'}}>
-        <View style = {{ width : '95%',}}>
-          <Form>
-            <Button style = {{alignSelf : 'center', marginTop : '3%'}}>
-              <Icon name = 'person'></Icon>
-              <Text>예약 신청하기</Text>
-            </Button>
-          </Form>
-        </View>
-      </View>
-    </Content>
-    </Container>
-  );
-    
+      </Container>
+    );
+  };
+};
+
+let theme = {
+  activeDayColor: {},
+  monthTitleTextStyle: {
+    color: '#3264ff',
+    fontWeight: '300',
+    fontSize: 16,
+  },
+  emptyMonthContainerStyle: {},
+  emptyMonthTextStyle: {
+    fontWeight: '200',
+  },
+  weekColumnsContainerStyle: {},
+  weekColumnStyle: {
+    paddingVertical: 10,
+  },
+  weekColumnTextStyle: {
+    color: '#000',
+    fontSize: 13,
+  },
+  nonTouchableDayContainerStyle: {},
+  nonTouchableDayTextStyle: {},
+  startDateContainerStyle: {},
+  endDateContainerStyle: {},
+  dayContainerStyle: {},
+  dayTextStyle: {
+    color: '#000',
+    fontWeight: '200',
+    fontSize: 15,
+  },
+  dayOutOfRangeContainerStyle: {},
+  dayOutOfRangeTextStyle: {},
+  todayContainerStyle: {},
+  todayTextStyle: {
+    color: '#6d95da',
+  },
+  activeDayContainerStyle: {
+    backgroundColor: '#6d95da',
+  },
+  activeDayTextStyle: {
+    color: 'white',
+  },
+  nonTouchableLastMonthDayTextStyle: {},
 }
 
-export default booking;
+export default bookingScreen;

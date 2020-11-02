@@ -48,13 +48,13 @@ function PostShow ({route, navigation}) {
         like :{
           target_id : post_id,
           target_type : 'post'
-      }
-    },
-    { 
-      headers : {
-        'Authorization': token
-      }
-    })
+        }
+      },
+      { 
+        headers : {
+          'Authorization': token
+        }
+      })
       .then((response) => {
         console.log('success');
         console.log(token);
@@ -101,7 +101,7 @@ function PostShow ({route, navigation}) {
             <Button onPress = {() => likeRequest()}>
               <Text>LIKE</Text>
             </Button>
-            <Button onPress = {() => navigation.navigate('Booking')}>
+            <Button onPress = {() => navigation.navigate('Booking', {post_id : post_id})}>
               <Text>book</Text>
             </Button>
           </Form>
