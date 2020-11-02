@@ -1,4 +1,3 @@
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, useState, useCallback, useEffect, Fragment } from 'react';
 import { 
@@ -7,10 +6,11 @@ import {
 } from 'native-base';
 import 'react-native-gesture-handler';
 import { GiftedChat } from 'react-native-gifted-chat';
+import api from '../shared/server_address'
 
 var updateFlag = 0;
 
-const api = axios.create({ baseURL: 'http://3.35.9.144'});
+
 let token = 0;
 
 function forceUpdate(){

@@ -1,21 +1,11 @@
 import axios from 'axios';
 import React, {Component} from 'react';
-import {StyleSheet, Platform, View, Alert} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
-import {
-  Container,
-  Header,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-} from 'native-base';
+import { StyleSheet, Platform, View, Alert } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
+import { Container, Header, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
 //import getLoginClient from '../../apiAuth/loggedInClient';
 //Import the file if you are logged in
-const api = axios.create({baseURL: 'http://3.35.9.144'});
+import api from '../shared/server_address'
 var user = {
   user: {
     email: 'min06814@ajou.ac.kr',

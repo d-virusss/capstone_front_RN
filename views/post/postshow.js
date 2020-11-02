@@ -1,10 +1,8 @@
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import {View, ScrollView} from 'react-native';
 import {Text, Form, Icon, Textarea, Item, Input, Button} from 'native-base';
-
-const api = axios.create({ baseURL: 'http://3.35.9.144'});
+import api from '../shared/server_address'
 
 function PostShow ({navigation}) {
   var title = '화이트채플';
