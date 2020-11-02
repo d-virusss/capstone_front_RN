@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Text} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { List, ListItem, View, Left, Thumbnail, Body, Right, Button } from 'native-base';
-
 import api from '../shared/server_address'
 
 var like_item = [];

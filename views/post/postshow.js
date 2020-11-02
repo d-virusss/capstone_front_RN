@@ -4,13 +4,14 @@ import {View, ScrollView} from 'react-native';
 import {Text, Form, Icon, Textarea, Item, Input, Button} from 'native-base';
 import api from '../shared/server_address'
 
-function PostShow ({navigation}) {
-  var title = '화이트채플';
-  var category = '보드게임';
-  var price = 10000;
-  var bodytext = '어쩌구저쩌구';
-  var token = "",
-  postId = 2
+function PostShow ({route, navigation}) {
+  let title = '화이트채플';
+  let category = '보드게임';
+  let price = 10000;
+  let bodytext = '어쩌구저쩌구';
+  let token = "";
+  let chatID;
+  const {post_id, other_id, other_nickname, other_location} = route.params;
 
   getToken = async () => {
   try{
@@ -23,13 +24,14 @@ function PostShow ({navigation}) {
 
   const chatCreateRequest = () => {
     api
-      .post(`/chats?post_id=${postId}`, null,{ headers : {
+      .post(`/chats?post_id=${post_id}`, null,{ headers : {
         'Authorization': token
       }})
       .then((response) => {
         console.log('success');
         console.log(token);
         console.log(response);
+        
       })
       .catch((err) => console.log("err : ", err))
   }
@@ -40,7 +42,29 @@ function PostShow ({navigation}) {
       chat_id : 1, 
     });
   } 
+  const likeRequest = async() => {
+    await api
+      .post(`/users/like`, {
+        like :{
+          target_id : post_id,
+          target_type : 'post'
+      }
+    },
+    { 
+      headers : {
+        'Authorization': token
+      }
+    })
+      .then((response) => {
+        console.log('success');
+        console.log(token);
+        console.log(response);
+        
+      })
+      .catch((err) => console.log("err : ", err))
+  }
   getToken();
+  console.log(post_id, other_id, other_nickname, other_location);
   return(
     <ScrollView>
       <View style={{width : '95%', height : '40%', justifyContent : 'center', alignItems: 'center', alignSelf: 'center'}}>
@@ -66,6 +90,16 @@ function PostShow ({navigation}) {
             >
               <Icon name = 'person'></Icon>
               <Text>채팅 거래하기</Text>
+            </Button>
+            <Button onPress = {() => navigation.navigate('ProfileShow',{
+              other_id : other_id,
+              other_nickname : other_nickname,
+              other_location : other_location,
+            })}>
+              <Text>프로필보기</Text>
+            </Button>
+            <Button onPress = {() => likeRequest()}>
+              <Text>LIKE</Text>
             </Button>
           </Form>
         </View>
