@@ -5,9 +5,8 @@ import {
 } from "react-native";
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-const api = axios.create({ baseURL: 'http://3.35.9.144' });
+import api from '../shared/server_address'
 
 let post_info = {
   post: {
@@ -19,7 +18,7 @@ let post_info = {
     post_type: "provide", // ask or provide
   }
 }
-
+;
 const image_info = {
   uri: '../../assets/ddbb2.jpg',
   type: 'image/jpg',

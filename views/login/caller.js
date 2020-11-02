@@ -1,4 +1,3 @@
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component, Fragment} from 'react';
 import {
@@ -13,9 +12,9 @@ import {
 import CustomButton from './custom_button';
 import {Container, Header, Content, Form, Item, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Post_provide from '../post/post_provide';
+import api from '../shared/server_address'
+
 Icon.loadFont();
-const api = axios.create({baseURL: 'http://3.35.9.144'});
 
 var user_obj = {
   user: {
