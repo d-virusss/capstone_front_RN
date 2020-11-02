@@ -15,8 +15,6 @@ class SubButton extends Component {
         }}>
         <Icon type="MaterialCommunityIcons" name="heart-plus" size={2} />
 
-        <Icon type="MaterialCommunityIcons" name="bell-alert" size={2} />
-
         <Icon type="MaterialCommunityIcons" name="heart-outline" size={2} />
       </View>
     );

@@ -29,27 +29,32 @@ class ProvideIndex extends Component {
     console.log(this.state.posts);
     return this.state.posts.map((post) => {
       return (
-        <View>
-          <ListItem thumbnail key={post.post_info.id}>
-            <Left>
-              <Thumbnail square source={{uri: post.post_info.image}} />
-            </Left>
-            <Body>
-              <Text>{post.post_info.title}</Text>
-              <Text note numberOfLines={1}>
-                {post.post_info.body}
-              </Text>
-              <SubButton></SubButton>
-            </Body>
-            <Right>
-              <Button
-                transparent
-                onPress={() => this.props.navigation.navigate('PostShow')}>
-                <Text>보기</Text>
-              </Button>
-            </Right>
-          </ListItem>
-        </View>
+        <ListItem thumbnail key={post.post_info.id}>
+          <Left>
+            <Thumbnail square source={{uri: post.post_info.image}} />
+          </Left>
+          <Body>
+            <Text>{post.post_info.title}</Text>
+            <Text note numberOfLines={1}>
+              {post.post_info.body}
+            </Text>
+            <SubButton></SubButton>
+          </Body>
+          <Right>
+            <Button
+              transparent
+              onPress={() =>
+                this.props.navigation.navigate('PostShow', {
+                  post_id: post.post_info.id,
+                  other_id: post.user.user_info.id,
+                  other_nickname: post.user.user_info.nickname,
+                  other_location: post.user.user_info.location_title,
+                })
+              }>
+              <Text>보기</Text>
+            </Button>
+          </Right>
+        </ListItem>
       );
     });
   }
@@ -94,12 +99,8 @@ class ProvideIndex extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  btn: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
-  },
-});
+function ProvideIndexScreen({navigation}) {
+  return <ProvideIndex navigation={navigation} />;
+}
 
-export default ProvideIndex;
+export default ProvideIndexScreen;
