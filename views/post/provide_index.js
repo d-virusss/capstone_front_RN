@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
-import { ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView } from "react-native";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 class ProvideIndex extends Component{
@@ -13,7 +14,7 @@ class ProvideIndex extends Component{
     console.log(this.state.posts)
     return this.state.posts.map((post) => {
       return(
-        <TouchableOpacity onPress={() => console.log('postitem clicked!!')} key={post.post_info.id}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('PostShow', { post: post }) } key={post.post_info.id}>
           <ListItem thumbnail>
             <Left>
               <Thumbnail square source={{ uri: post.post_info.image }} />
@@ -23,9 +24,6 @@ class ProvideIndex extends Component{
               <Text note numberOfLines={1}>{post.post_info.body}</Text>
             </Body>
             <Right>
-              <Button transparent onPress={() => this.props.navigation.navigate('PostShow', {post: post})}>
-                <Text>보기</Text>
-              </Button>
             </Right>
           </ListItem>
         </TouchableOpacity>
