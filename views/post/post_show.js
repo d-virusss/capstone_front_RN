@@ -7,7 +7,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import DB2 from '../../assets/ddbb2.jpg'
 Icon.loadFont();
 import api from '../shared/server_address'
+import UserAgent from 'react-native-user-agent';
 
+UserAgent.getUserAgent(); //synchronous
 class PostShow extends Component{
 
   params = this.props.route.params;
