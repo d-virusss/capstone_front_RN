@@ -15,7 +15,7 @@ class LikeListScreen extends Component {
                   <Text>품목</Text>
                 </TabHeading>
               }>
-              <LikeList_Item></LikeList_Item>
+              <LikeList_Item navigation={this.props.navigation}></LikeList_Item>
             </Tab>
 
             <Tab
@@ -24,7 +24,7 @@ class LikeListScreen extends Component {
                   <Text>유저</Text>
                 </TabHeading>
               }>
-              <LikeListUserScreen></LikeListUserScreen>
+              <LikeListUserScreen navigation={this.props.navigation}></LikeListUserScreen>
             </Tab>
           </Tabs>
         </Content>

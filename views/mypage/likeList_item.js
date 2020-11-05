@@ -18,14 +18,12 @@ class LikeListItemScreen extends Component {
       console.log(ele.like_info.target_id);
       return (
         <ListItem thumbnail key>
-          <Left>
-            <Thumbnail square source={{uri: ele.like_info.image}} />
-          </Left>
           <Body>
-            <Text>{ele.like_info.nickname}</Text>
+            <Text>{ele.like_info.title}</Text>
           </Body>
           <Right>
-            <Button transparent>
+            <Button transparent 
+            onPress = {() => this.showPostRequset(ele.like_info.target_id)}>
               <Text>보기</Text>
             </Button>
           </Right>
@@ -34,8 +32,21 @@ class LikeListItemScreen extends Component {
     });
   }
 
+  showPostRequset(id){
+    console.log("show request")
+    api
+      .get(`/posts/${id}`, { headers : {
+        'Authorization': this.state.token
+      }})
+      .then(function(response) {
+        console.log('success');
+        console.log(response)
+        this.props.navigation.navigate('PostShow', { post: response.data })
+      }.bind(this))
+      .catch((err) => console.log("err : ", err))
+  }
+
   getToken = async () => {
-    console.log(this);
     let token_value = AsyncStorage.getItem('token');
     let id_value = AsyncStorage.getItem('user_id');
     this.state.token = await token_value;

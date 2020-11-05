@@ -35,6 +35,7 @@ class MypageScreen extends Component {
   }
 
   Logout() {
+    console.log(this.props)
     this.props.navigation.navigate('Logins');
   }
 
