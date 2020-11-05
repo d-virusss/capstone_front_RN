@@ -1,8 +1,10 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {View, Text, TextInput} from 'react-native';
-import React, {Component, Fragment} from 'react';
+import {Alert} from 'react-native';
+import React, {Component, Fragment, useEffect} from 'react';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import {Button, Icon} from 'native-base';
+import messaging from '@react-native-firebase/messaging';
+
 import LoginScreen from './views/login/caller';
 import Register_form from './views/registration/caller';
 import FindId from './views/findid/caller';
@@ -28,6 +30,15 @@ import Booking from './views/booking/booking';
 const Stack = createStackNavigator();
 
 const App = () => {
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Logins">
