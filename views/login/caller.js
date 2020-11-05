@@ -23,7 +23,7 @@ var user_obj = {
   },
 };
 
-let userinfo = {
+var userinfo = {
   user: {
     email: '',
     password: '',
@@ -52,19 +52,23 @@ class LoginScreen extends Component {
 
   senddata(data) {
     console.log('enter senddata');
-    // this.setState({
-    //   token : toString(data)
-    // })
   }
 
+  
   makeRequest() {
     api
-      .post('/users/sign_in', user_obj)
+      .post('/users/sign_in', tempUser)//fordebug
       .then((response) => {
         console.log(response.data.token);
         AsyncStorage.setItem('token', response.data.token);
         AsyncStorage.setItem('user_id', String(response.data.id));
-        this.props.navigation.navigate('postIndex');
+        AsyncStorage.setItem('myLocation', String(response.data.location_auth));
+        
+        if (String(response.data.location_auth) == "true") {// already has location
+          this.props.navigation.navigate('postIndex')
+        } else {
+          this.props.navigation.navigate('MyPage_Location')
+        }
       })
       .catch(function (error) {
         console.log('axios call failed!! : ' + error);
@@ -73,19 +77,6 @@ class LoginScreen extends Component {
 
   redirectKakaoLogin() {
     this.props.navigation.navigate('KakaoLogin');
-  }
-
-  makeKakaoRequest() {
-    console.log('kakao login start!');
-    api
-      .get('/users/auth/kakao')
-      .then((response) => {
-        console.log('get kakao login callback');
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log('kakao auth call failed!!' + error);
-      });
   }
 
   changeUsername = (text, type) => {
