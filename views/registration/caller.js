@@ -1,181 +1,127 @@
-import axios from 'axios';
 import React, {Component} from 'react';
 import { StyleSheet, Platform, View, Alert } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Container, Header, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
-//import getLoginClient from '../../apiAuth/loggedInClient';
-//Import the file if you are logged in
 import api from '../shared/server_address'
-var user = {
+var user_obj = {
   user: {
-    email: 'min06814@ajou.ac.kr',
-    nickname: 'min06814',
-    password: '1234',
-    password_confirmation: '1234',
+    email: '',
+    nickname: '',
+    password: '',
+    password_confirmation: '',
   },
 };
 
+
 export default class RegistrationScreen extends React.Component {
-  state = user;
+ state = {
+  user: {
+    email: '',
+    nickname: '',
+    password: '',
+    password_confirmation: '',
+  },
+ };
 
-  componentDidMount() {
-    api
-      .post('/users/sign_up', user)
-      .then(function (response) {
-        console.log('true : ' + response);
-      })
-      .catch(function (error) {
-        console.log('false: ' + error);
-      });
+ checkInputVaule = async() => {
+    //check pw
+    if(this.state.user.password_confirmation != this.state.user.password)
+      alert("비밀번호가 다릅니다")
 
-    // axios.post('http://52.79.179.211/').then((res) => {
-    //   console.log('!!!!!!!!res : ' + res);
-    //   this.setState({myInfo: res.data.data.children});
-    // });
-  }
+    user_obj.user = this.state.user;
+ 
+   }
 
   onButtonPress = async () => {
-    const {randomMesage} = this.state;
-    const client = await getLoginClient();
-    client
-      .post('contactSupport', {
-        message: randomMessage,
+    this.checkInputVaule().then(()=>{
+
+      api
+      .post('/users/sign_up', user_obj)
+      .then((res) =>  {
+        console.log('send data for registration');
+        alert("회원가입 성공")
+        this.props.navigation.navigate("Logins")
       })
-      .then((response) => {
-        console.log('response is', response);
-      })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) =>  {
+        console.log('fail to register');
+        alert("회원가입 실패")
       });
+    })
   };
 
-  _submit_mail(event) {
-    let temp = this.state.e_mail;
-    console.log('temp : ' + temp);
-  }
-
-  _check_avail_pw(event) {
-    let temp = this.state.pw;
-    console.log('temp : ' + temp);
-  }
-
-  _submit_nickname(event) {
-    let temp = this.state.nickname;
-    console.log('temp : ' + temp);
-  }
-
-  _find_region(event) {
-    let temp = this.state.region;
-    console.log('temp : ' + temp);
-  }
-
-  _submit_phoneNum(event) {
-    let temp = this.state.phone;
-    console.log('temp : ' + temp);
-  }
 
   render() {
-    //console.log(this.state.e_mail);
-    //console.log(this.state.myInfo);
     return (
       <Container>
         <Content>
+          <Form>
           {/* email */}
-          <Item inlineLabel>
-            <Label>E-mail</Label>
-            <Input
+          <Item floatingLabel>
+              <Label>E-mail</Label>
+              <Input
               ref="e_mail"
-              value={this.state.e_mail}
-              placeholder="Enter your e-mail"
-              onChangeText={(e_mail) => this.setState({e_mail})}
+              placeholder="이메일을 입력하세요"
+              onChangeText = {(eMail) => {
+                this.state.user.email = eMail
+                }}
             />
           </Item>
 
-          {/* pw */}
-          <Item inlineLabel>
-            <Label>Password</Label>
+            {/* pw */}
+          <Item floatingLabel>
+            <Label>비밀번호</Label>
             <Input
-              placeholder="Enter your password"
-              onChangeText={(pw1) => this.setState({pw1})}
+              placeholder="비밀번호를 입력하세요"
+              onChangeText = {(pw) => {
+                this.state.user.password = pw
+                }}
             />
           </Item>
 
-          <Item inlineLabel>
-            <Label>Password</Label>
+          <Item floatingLabel>
+            <Label>비밀번호 확인</Label>
             <Input
-              placeholder="Password again"
-              onChangeText={(pw2) => this.setState({pw2})}
+              placeholder="비밀번호를 다시 입력하세요"
+              onChangeText={(pw_confirmation) => {
+                this.state.user.password_confirmation = pw_confirmation
+              }}
+                
             />
-            <Button bordered>
-              <Text>submit</Text>
-            </Button>
           </Item>
 
           {/* nickname */}
-          <Item inlineLabel>
-            <Label>Name</Label>
+          <Item floatingLabel>
+            <Label>이름</Label>
             <Input
-              placeholder="Enter your name"
-              onChangeText={(name) => this.setState({name})}
+              placeholder="이름을 입력하세요"
+              onChangeText = {(name) => {
+                this.state.user.nickname = name
+                }}
             />
-            <Button bordered>
-              <Text>중복확인</Text>
-            </Button>
-          </Item>
-
-          {/* region */}
-          <Item inlineLabel>
-            <Label>Region</Label>
-            <Input
-              placeholder="Search Region"
-              onChangeText={(region) => this.setState({region})}
-            />
-            <Button bordered onPress={this.onButtonPress2}>
-              <Text>검색</Text>
-            </Button>
           </Item>
 
           {/* phone */}
-          <Item inlineLabel>
-            <Label>Contact</Label>
+          <Item floatingLabel>
+            <Label>연락처</Label>
             <Input
-              placeholder="PhoneNumber"
-              onChangeText={(phone) => this.setState({phone})}
+              placeholder="연락처를 입력하세요"
             />
           </Item>
-        </Content>
+        </Form>
+      </Content>
 
-        <Content>
-          <Button bordered onPress={this.onButtonPress}>
-            <Text>검색</Text>
-          </Button>
-        </Content>
-      </Container>
+      <Content>
+        <Button bordered info onPress={this.onButtonPress}>
+            <Text>가입</Text>
+        </Button>
+    
+      </Content>
+    </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  bigBlue: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  backgroundImage: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  textInput: {
-    alignItems: 'stretch',
-    borderTopWidth: 3,
-    borderBottomWidth: 3,
-    borderRightWidth: 3,
-    borderLeftWidth: 3,
-    height: 50,
-    borderColor: 'black',
-  },
+ 
 });
+
