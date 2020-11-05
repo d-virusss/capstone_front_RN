@@ -56,12 +56,10 @@ class LoginScreen extends Component {
 
   
   makeRequest() {
-    console.log('start send request to server');
     api
       .post('/users/sign_in', tempUser)//fordebug
       .then((response) => {
-        console.log('create success!');
-        console.log(response);
+        console.log(response.data.token);
         AsyncStorage.setItem('token', response.data.token);
         AsyncStorage.setItem('user_id', String(response.data.id));
         AsyncStorage.setItem('myLocation', String(response.data.location_auth));

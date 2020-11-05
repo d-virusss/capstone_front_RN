@@ -21,7 +21,6 @@ class PostIndex extends Component {
     this.state = {};
   }
   componentDidMount(){
-    console.log("enter post index")
   }
   render() {
     return (
@@ -31,7 +30,6 @@ class PostIndex extends Component {
         </View>
         <BottomTab navigation={this.props.navigation}></BottomTab>
       </View>
-      
     );
   }
 }

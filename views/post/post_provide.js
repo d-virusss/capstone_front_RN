@@ -73,8 +73,7 @@ class Post_provide extends Component {
         console.log(res)
         this.props.navigation.navigate("postIndex")
       })
-      .catch(function (e) {
-
+      .catch((e) => {
         console.log('send post failed!!!!' + e)
       })
   }
