@@ -53,18 +53,20 @@ export default class FindIdScreen extends React.Component {
     return (
       <Container>
         <Content>
+          <Form>
           {/* phone */}
-          <Item inlineLabel>
-            <Label>Phone Number</Label>
+          <Item floatingLabel>
+            <Label>연락처</Label>
             <Input
-              placeholder="Enter your number"
-              onChangeText={(phone) => this.setState({phone})}
+              placeholder="가입한 핸드폰 번호를 입력하세요"
             />
           </Item>
+       
 
           <Button bordered onPress={this.onButtonPress}>
             <Text>찾기</Text>
           </Button>
+          </Form>
         </Content>
       </Container>
     );

@@ -22,6 +22,7 @@ import Mypage_Like_List from './views/mypage/likeList';
 import ProfileShow from './views/profile/profile_show';
 import ProfileShowList from './views/profile/profile_show_list';
 import ProfilePostShow from './views/profile/profile_post_show';
+import SettingGroup from './views/mypage/setting_group'
 import Booking from './views/booking/booking';
 
 const Stack = createStackNavigator();
@@ -61,6 +62,14 @@ const App = () => {
           component={MyPgae_Location}
           options={{
             headerTitle: '동네 설정',
+            headerTitleStyle: {fontSize: 25},
+          }}
+        />
+        <Stack.Screen
+          name="SettingGroup"
+          component={SettingGroup}
+          options={{
+            headerTitle: '소속 인증',
             headerTitleStyle: {fontSize: 25},
           }}
         />
