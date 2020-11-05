@@ -7,6 +7,8 @@ import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
+import FormData from 'form-data'
+import localimage from '../../assets/ddbb2.jpg'
 
 let post_info = {
   post: {
@@ -24,8 +26,7 @@ const image_info = {
   type: 'image/jpg',
   name: 'dduckbokki.jpg'
 }
-const file_data = new FormData();
-file_data.append('file', image_info);
+const formdata = new FormData();
 
 class Post_provide extends Component {
   state = {
@@ -46,7 +47,8 @@ class Post_provide extends Component {
   componentDidMount() {
     this.getToken()
     console.log("component did mount ---")
-    this.setState({image: file_data}, () => {console.log(this.state.image)})
+    // this.setState({image: formdata}, () => {console.log(this.state.image)})
+    console.log(localimage)
   }
 
   setPostInfo = (data) => {
@@ -54,7 +56,13 @@ class Post_provide extends Component {
     post_info.post.body = data.body
     post_info.post.price = data.price
     post_info.post.category_id = data.category_id
-    post_info.post.image = data.image._parts[0]
+    post_info.post.image = data.image
+    formdata.append('post[title]', this.state.title)
+    formdata.append('post[category_id]', this.state.category_id)
+    formdata.append('post[price]', this.state.price)
+    formdata.append('post[body]', this.state.body)
+    formdata.append('post[image]', image_info)
+    formdata.append('post[post_type]', "provide")
     console.log(post_info)
     console.log(this.state.token)
   }
@@ -62,8 +70,9 @@ class Post_provide extends Component {
   makePostRequest() {
     console.log("Start create Post-provide")
     this.setPostInfo(this.state)
+    console.log(formdata)
     api
-      .post('/posts', (post_info), {
+      .post('/posts', (formdata), {
         headers: {
           'Authorization': this.state.token,
         }
@@ -109,15 +118,19 @@ class Post_provide extends Component {
 
   changeImage = (data) => {
     this.setState({
-      image: file_data
-    }, () => {console.log('image setted');console.log(this.state.image); console.log(image_info); console.log(file_data)})
+      image: data
+    }, () => {console.log(this.state.image); console.log(data.sourceURL)})
+    console.log(data.sourceURL);
+    console.log(data.path)
+    console.log('check----------------')
+    image_info.uri = data.sourceURL;
   }
 
   render() {
     return (
       <ScrollView>
         <View style={{ marginTop: 50, width: '70%', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
-          <ImageSelect></ImageSelect>
+          <ImageSelect onPress={() => {console.log('imagepicker clicked!')}}></ImageSelect>
         </View>
         <Container>
           <Header />
