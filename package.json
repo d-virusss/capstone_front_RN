@@ -37,6 +37,7 @@
         "react-native-screens": "^2.11.0",
         "react-native-search-header": "^0.3.5",
         "react-native-upload-multiple-images": "^1.0.6-rc",
+        "react-native-user-agent": "^2.1.0",
         "react-native-vector-icons": "^7.1.0",
         "react-native-webview": "10.10.0",
         "react-navigation": "^4.4.2"
