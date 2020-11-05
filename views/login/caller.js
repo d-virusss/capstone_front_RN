@@ -54,11 +54,11 @@ class LoginScreen extends Component {
     console.log('enter senddata');
   }
 
-  //fordebug
+  
   makeRequest() {
     console.log('start send request to server');
     api
-      .post('/users/sign_in', userinfo)
+      .post('/users/sign_in', tempUser)//fordebug
       .then((response) => {
         console.log('create success!');
         console.log(response);

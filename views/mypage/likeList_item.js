@@ -77,7 +77,6 @@ class LikeListItemScreen extends Component {
       return null;
     } else {
       console.log('show');
-      console.log(like_item);
       return <View>{this.makeList()}</View>;
     }
   }
