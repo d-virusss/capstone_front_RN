@@ -109,7 +109,7 @@ class PostShow extends Component{
       <View style={{flex : 1}}>
         <ScrollView style={styles.container} >
           <View style = {styles.imageArea}>
-            <Image source={{ uri : this.state.image }} style={styles.imageView} />
+            <Image source={{ uri : this.state.image || "empty" }} style={styles.imageView} />
           </View>
           <View>
             <View>
@@ -140,7 +140,7 @@ class PostShow extends Component{
           <Footer>
             <FooterTab>
               <Button style={{marginLeft:-30}} onPress={ () => this.likeRequest()}>
-                <Icon name={this.state.icon} style={styles.likeIcon} />
+                <Icon name={this.state.icon  || "heart-outline"} style={styles.likeIcon} />
               </Button>
               <Text style={{width: '30%', alignSelf: "center"}}>
                 3,000원 / 1 일
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   },
   imageArea : {
     width: '95%',
-    height : '40%',
+    height : '50%',
     justifyContent : 'center',
     alignItems : 'center',
     alignSelf : 'center'

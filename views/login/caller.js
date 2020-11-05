@@ -16,12 +16,12 @@ import api from '../shared/server_address'
 
 Icon.loadFont();
 
-var tempUser = {
-  user:{
-    email: 'tester1@test.com',
-    password : 'test123'
-  }
-}
+var user_obj = {
+  user: {
+    email: 'tester4@test.com',
+    password: 'test123',
+  },
+};
 
 var userinfo = {
   user: {
