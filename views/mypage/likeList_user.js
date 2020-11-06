@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Text} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { List, ListItem, View, Left, Thumbnail, Body, Right, Button } from 'native-base';
-
 import api from '../shared/server_address'
 
 var like_user = [];
@@ -58,6 +57,7 @@ class LikeListUserScreen extends Component {
   GetRequest = () => {
     this.getToken().then(() => {
       console.log('Sending likeListGetRequest ...');
+      console.log(this.state.user_id)
       api
         .get(`/users/${this.state.user_id}/likes?target_type=user`, {
           headers: {

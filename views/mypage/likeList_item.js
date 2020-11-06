@@ -15,7 +15,6 @@ class LikeListItemScreen extends Component {
 
   makeList() {
     return like_item.map((ele) => {
-      console.log(ele.like_info.target_id);
       return (
         <ListItem thumbnail key>
           <Body>
@@ -40,7 +39,6 @@ class LikeListItemScreen extends Component {
       }})
       .then(function(response) {
         console.log('success');
-        console.log(response)
         this.props.navigation.navigate('PostShow', { post: response.data })
       }.bind(this))
       .catch((err) => console.log("err : ", err))
@@ -51,7 +49,6 @@ class LikeListItemScreen extends Component {
     let id_value = AsyncStorage.getItem('user_id');
     this.state.token = await token_value;
     this.state.user_id = await id_value;
-    console.log(this.state.token);
   };
 
   componentDidMount() {
@@ -73,7 +70,6 @@ class LikeListItemScreen extends Component {
             console.log('request success!!');
             like_item = response.data;
             this.setState({loading: false});
-            console.log(like_item);
           }.bind(this), // for this.setState
         )
         .catch(function (error) {

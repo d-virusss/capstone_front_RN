@@ -1,4 +1,3 @@
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
 import {View, ScrollView, Image, StyleSheet} from 'react-native';
@@ -39,7 +38,7 @@ class PostShow extends Component{
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     console.log('------- enter post_show -------');
     this.getToken();
     this.setParams();
@@ -48,9 +47,10 @@ class PostShow extends Component{
         <Button transparent onPress={ () => console.log("report")}>
         <Icon name="menu" />
         </Button>
+      })
     })
-  },
-
+  }
+  
   setParams = () => {
     console.log(this.params)
     this.setState({ 
@@ -69,15 +69,18 @@ class PostShow extends Component{
       if(this.state.like_check){
         this.state.icon = "heart"
       }
-      else this.state.icon = "heart-outline"
+      else {
+        this.state.icon = "heart-outline"
+      }
     })
   }
 
-  chatCreateRequset(){
+  chatCreateRequset() {
     api
-      .post(`/chats?post_id=${2}`, null,{ headers : {
-        'Authorization': this.token
-      }})
+      .post(`/chats?post_id=${2}`, null,
+      { 
+        headers : {'Authorization': this.token}
+      })
       .then((response) => {
         console.log('success');
         console.log(this.token);
@@ -106,7 +109,6 @@ class PostShow extends Component{
         console.log(e)
       })
   }
-
   makeCallchat_navigate(){
     this.chatCreateRequset();
     this.props.navigation.navigate('ChatRoom', {postId : 2, check : 0,});
@@ -148,7 +150,7 @@ class PostShow extends Component{
           <Footer>
             <FooterTab>
               <Button style={{marginLeft:-30}} onPress={ () => this.likeRequest()}>
-                <Icon name={this.state.icon  || "heart-outline"} style={styles.likeIcon} />
+                <Icon name={this.state.icon  || "heart-outline"} style={styles.likeIcon}/>
               </Button>
               <Text style={{width: '30%', alignSelf: "center"}}>
                 3,000원 / 1 일
