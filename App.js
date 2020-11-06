@@ -24,8 +24,19 @@ import ProfileShowList from './views/profile/profile_show_list';
 import ProfilePostShow from './views/profile/profile_post_show';
 import SettingGroup from './views/mypage/setting_group'
 import Booking from './views/booking/booking';
+import PostReport from './views/post/post_report'
 
 const Stack = createStackNavigator();
+
+// const report = () => {
+//   console.log("report button")
+//   this.props.navigation.navigator("PostReport")
+// }
+// const headerRightOption =  () => (
+//   <Button transparent onPress={ () => report()}>
+//   <Icon name="menu" />
+//   </Button>
+// )
 
 const App = () => {
   return (
@@ -46,7 +57,16 @@ const App = () => {
         <Stack.Screen name="P_W_p" component={Post_provide} options={{ headerTitle: '대여글 쓰기', headerTitleStyle: {fontSize: 25}, }} />
         <Stack.Screen name="P_W_c" component={Post_ask} options={{ headerTitle: '대여요청글 쓰기', headerTitleStyle: {fontSize: 25}, }} />
         <Stack.Screen name="Seach" component={SearchBar} />
-        <Stack.Screen name="PostShow" component={PostShow} />
+        <Stack.Screen 
+        name="PostShow" 
+        component={PostShow}
+          />
+
+        <Stack.Screen 
+        name="PostReport" 
+        component={PostReport} 
+        options={{headerTitle: '',}}
+          />
         <Stack.Screen
           name="ChatRoom"
           component={ChatRoom}

@@ -40,8 +40,14 @@ class PostShow extends Component{
   componentDidMount(){
     console.log('------- enter post_show -------');
     this.getToken();
-    this.setParams()
-  }
+    this.setParams();
+    this.props.navigation.setParams({
+      headerRightOption :  (()=>{
+        <Button transparent onPress={ () => console.log("report")}>
+        <Icon name="menu" />
+        </Button>
+    })
+  },
 
   setParams = () => {
     console.log(this.params)
