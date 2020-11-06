@@ -16,12 +16,12 @@ import api from '../shared/server_address'
 
 Icon.loadFont();
 
-var tempUser = {
-  user:{
-    email: 'tester1@test.com',
-    password : 'test123'
-  }
-}
+var user_obj = {
+  user: {
+    email: 'tester4@test.com',
+    password: 'test123',
+  },
+};
 
 var userinfo = {
   user: {
@@ -57,7 +57,7 @@ class LoginScreen extends Component {
   
   makeRequest() {
     api
-      .post('/users/sign_in', tempUser)//fordebug
+      .post('/users/sign_in', user_obj)//fordebug
       .then((response) => {
         console.log(response.data.token);
         AsyncStorage.setItem('token', response.data.token);

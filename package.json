@@ -18,6 +18,7 @@
         "@react-navigation/stack": "^5.9.1",
         "axios": "^0.20.0",
         "firebase": "^7.24.0",
+        "form-data": "^3.0.0",
         "native-base": "^2.13.14",
         "react": "16.13.1",
         "react-native": "0.63.2",
@@ -36,6 +37,7 @@
         "react-native-screens": "^2.11.0",
         "react-native-search-header": "^0.3.5",
         "react-native-upload-multiple-images": "^1.0.6-rc",
+        "react-native-user-agent": "^2.1.0",
         "react-native-vector-icons": "^7.1.0",
         "react-native-webview": "10.10.0",
         "react-navigation": "^4.4.2"

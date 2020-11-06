@@ -7,7 +7,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import DB2 from '../../assets/ddbb2.jpg'
 Icon.loadFont();
 import api from '../shared/server_address'
+import UserAgent from 'react-native-user-agent';
 
+UserAgent.getUserAgent(); //synchronous
 class PostShow extends Component{
 
   params = this.props.route.params;
@@ -115,7 +117,7 @@ class PostShow extends Component{
       <View style={{flex : 1}}>
         <ScrollView style={styles.container} >
           <View style = {styles.imageArea}>
-            <Image source={{ uri : this.state.image }} style={styles.imageView} />
+            <Image source={{ uri : this.state.image || "empty" }} style={styles.imageView} />
           </View>
           <View>
             <View>
@@ -146,7 +148,7 @@ class PostShow extends Component{
           <Footer>
             <FooterTab>
               <Button style={{marginLeft:-30}} onPress={ () => this.likeRequest()}>
-                <Icon name={this.state.icon} style={styles.likeIcon} />
+                <Icon name={this.state.icon  || "heart-outline"} style={styles.likeIcon} />
               </Button>
               <Text style={{width: '30%', alignSelf: "center"}}>
                 3,000원 / 1 일
@@ -169,7 +171,7 @@ const styles = StyleSheet.create({
   },
   imageArea : {
     width: '95%',
-    height : '40%',
+    height : '50%',
     justifyContent : 'center',
     alignItems : 'center',
     alignSelf : 'center'
