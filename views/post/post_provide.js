@@ -1,38 +1,25 @@
 import React, { Component } from 'react';
 import { Content, Container, Header, Item, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
-import {
-  View, ScrollView, StyleSheet, TextInput
-} from "react-native";
+import { View, ScrollView, StyleSheet, TextInput, Alert } from "react-native";
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
+import FormData from 'form-data'
 
-let post_info = {
-  post: {
-    title: "",
-    body: "",
-    price: "",
-    category_id: "",
-    image: {},
-    post_type: "provide", // ask or provide
-  }
-}
-;
 const image_info = {
   uri: '../../assets/ddbb2.jpg',
   type: 'image/jpg',
   name: 'dduckbokki.jpg'
 }
-const file_data = new FormData();
-file_data.append('file', image_info);
+const formdata = new FormData();
 
 class Post_provide extends Component {
   state = {
     title: "",
-    body: "",
+    category_id: "", // 잡화 의류 뷰티 전자제품 레져용품 생활용품 요리 자동차 유아용품
     price: "",
-    category_id: "", // 잡화 의류 뷰티 전자제품 레져용품 생활용품 요리 자동차
+    body: "",
     image: {},
     token: ""
   }
@@ -46,24 +33,46 @@ class Post_provide extends Component {
   componentDidMount() {
     this.getToken()
     console.log("component did mount ---")
-    this.setState({image: file_data}, () => {console.log(this.state.image)})
+    // this.setState({image: formdata}, () => {console.log(this.state.image)})
   }
 
   setPostInfo = (data) => {
-    post_info.post.title = data.title
-    post_info.post.body = data.body
-    post_info.post.price = data.price
-    post_info.post.category_id = data.category_id
-    post_info.post.image = data.image._parts[0]
-    console.log(post_info)
+    formdata.append('post[title]', this.state.title)
+    formdata.append('post[category_id]', this.state.category_id)
+    formdata.append('post[price]', this.state.price)
+    formdata.append('post[body]', this.state.body)
+    formdata.append('post[image]', image_info)
+    formdata.append('post[post_type]', "provide")
+    console.log(formdata)
     console.log(this.state.token)
   }
 
   makePostRequest() {
     console.log("Start create Post-provide")
     this.setPostInfo(this.state)
+    console.log(formdata)
+    if(this.state.title.length ===  0){
+      Alert.alert("제목을 입력해주세요");
+      return;
+    }
+    if(this.state.category_id.length === 0){
+      Alert.alert("카테고리를 설정해주세요");
+      return;
+    }
+    if(this.state.price.length === 0){
+      Alert.alert("가격을 입력해주세요")
+      return;
+    }
+    if(this.state.body.length === 0){
+      Alert.alert("게시글내용을 입력해주세요")
+      return;
+    }
+    else if(this.state.body.length < 10){
+      Alert.alert("게시글내용이 너무 짧습니다")
+      return;
+    }
     api
-      .post('/posts', (post_info), {
+      .post('/posts', (formdata), {
         headers: {
           'Authorization': this.state.token,
         }
@@ -73,8 +82,7 @@ class Post_provide extends Component {
         console.log(res)
         this.props.navigation.navigate("postIndex")
       })
-      .catch(function (e) {
-
+      .catch((e) => {
         console.log('send post failed!!!!' + e)
       })
   }
@@ -110,15 +118,16 @@ class Post_provide extends Component {
 
   changeImage = (data) => {
     this.setState({
-      image: file_data
-    }, () => {console.log('image setted');console.log(this.state.image); console.log(image_info); console.log(file_data)})
+      image: data
+    }, () => {console.log(this.state.image); console.log(data.sourceURL)})
+    image_info.uri = data.sourceURL;
   }
 
   render() {
     return (
       <ScrollView>
         <View style={{ marginTop: 50, width: '70%', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
-          <ImageSelect></ImageSelect>
+          <ImageSelect stateBus={this.changeImage} ></ImageSelect>
         </View>
         <Container>
           <Header />

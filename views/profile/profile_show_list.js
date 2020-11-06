@@ -8,8 +8,7 @@ import {Container, Content, Header, Left, Right, Body, Icon,
 import IconA from 'react-native-vector-icons/Ionicons';
 import IconFe from 'react-native-vector-icons/Feather';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
-const api = axios.create({ baseURL: 'http://3.35.9.144' });
+import api from '../shared/server_address'
 
 class UserListIndex extends Component{
   state = {

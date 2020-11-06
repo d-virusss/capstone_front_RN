@@ -59,10 +59,6 @@
   return @[];
 }
 
-- (NSArray<SKNamed<NSDictionary*>*>*)extraInfoForNode:(id)node {
-  return @[];
-}
-
 - (NSArray<SKNamed<NSString*>*>*)attributesForNode:(id)node {
   return @[];
 }

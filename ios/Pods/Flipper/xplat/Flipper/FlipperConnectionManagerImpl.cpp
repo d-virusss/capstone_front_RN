@@ -90,16 +90,6 @@ FlipperConnectionManagerImpl::~FlipperConnectionManagerImpl() {
   stop();
 }
 
-void FlipperConnectionManagerImpl::setCertificateProvider(
-    const std::shared_ptr<FlipperCertificateProvider> provider) {
-  certProvider_ = provider;
-};
-
-std::shared_ptr<FlipperCertificateProvider>
-FlipperConnectionManagerImpl::getCertificateProvider() {
-  return certProvider_;
-};
-
 void FlipperConnectionManagerImpl::start() {
   if (isStarted_) {
     log("Already started");
@@ -179,13 +169,10 @@ void FlipperConnectionManagerImpl::startSync() {
 bool FlipperConnectionManagerImpl::doCertificateExchange() {
   rsocket::SetupParameters parameters;
   folly::SocketAddress address;
-  int medium = certProvider_ != nullptr
-      ? certProvider_->getCertificateExchangeMedium()
-      : FlipperCertificateExchangeMedium::FS_ACCESS;
 
   parameters.payload = rsocket::Payload(folly::toJson(folly::dynamic::object(
       "os", deviceData_.os)("device", deviceData_.device)(
-      "app", deviceData_.app)("sdk_version", sdkVersion)("medium", medium)));
+      "app", deviceData_.app)("sdk_version", sdkVersion)));
   address.setFromHostPort(deviceData_.host, insecurePort);
 
   auto connectingInsecurely = flipperState_->start("Connect insecurely");
@@ -211,7 +198,6 @@ bool FlipperConnectionManagerImpl::doCertificateExchange() {
           .get();
 
   if (newClient.get() == nullptr) {
-    connectingInsecurely->fail("Failed to connect");
     return false;
   }
 
@@ -235,15 +221,12 @@ bool FlipperConnectionManagerImpl::connectSecurely() {
   if (deviceId.compare("unknown")) {
     loadingDeviceId->complete();
   }
-  int medium = certProvider_ != nullptr
-      ? certProvider_->getCertificateExchangeMedium()
-      : FlipperCertificateExchangeMedium::FS_ACCESS;
 
   parameters.payload = rsocket::Payload(folly::toJson(folly::dynamic::object(
       "csr", contextStore_->getCertificateSigningRequest().c_str())(
       "csr_path", contextStore_->getCertificateDirectoryPath().c_str())(
       "os", deviceData_.os)("device", deviceData_.device)(
-      "device_id", deviceId)("app", deviceData_.app)("medium", medium)(
+      "device_id", deviceId)("app", deviceData_.app)(
       "sdk_version", sdkVersion)));
   address.setFromHostPort(deviceData_.host, securePort);
 
@@ -274,7 +257,6 @@ bool FlipperConnectionManagerImpl::connectSecurely() {
           })
           .get();
   if (newClient.get() == nullptr) {
-    connectingSecurely->fail("Failed to connect");
     return false;
   }
 
@@ -296,9 +278,6 @@ void FlipperConnectionManagerImpl::reconnect() {
 }
 
 void FlipperConnectionManagerImpl::stop() {
-  if (certProvider_ && certProvider_->shouldResetCertificateFolder()) {
-    contextStore_->resetState();
-  }
   if (!isStarted_) {
     log("Not started");
     return;
@@ -359,13 +338,10 @@ void FlipperConnectionManagerImpl::requestSignedCertFromFlipper() {
   auto generatingCSR = flipperState_->start("Generate CSR");
   std::string csr = contextStore_->getCertificateSigningRequest();
   generatingCSR->complete();
-  int medium = certProvider_ != nullptr
-      ? certProvider_->getCertificateExchangeMedium()
-      : FlipperCertificateExchangeMedium::FS_ACCESS;
+
   folly::dynamic message =
       folly::dynamic::object("method", "signCertificate")("csr", csr.c_str())(
-          "destination", contextStore_->getCertificateDirectoryPath().c_str())(
-          "medium", medium);
+          "destination", contextStore_->getCertificateDirectoryPath().c_str());
   auto gettingCert = flipperState_->start("Getting cert from desktop");
 
   flipperEventBase_->add([this, message, gettingCert]() {
@@ -378,34 +354,8 @@ void FlipperConnectionManagerImpl::requestSignedCertFromFlipper() {
                 folly::dynamic config = folly::parseJson(response);
                 contextStore_->storeConnectionConfig(config);
               }
-              if (certProvider_) {
-                certProvider_->setFlipperState(flipperState_);
-                auto gettingCertFromProvider =
-                    flipperState_->start("Getting cert from Cert Provider");
-
-                try {
-                  // Certificates should be present in app's sandbox after it is
-                  // returned. The reason we can't have a completion block here
-                  // is because if the certs are not present after it returns
-                  // then the flipper tries to reconnect on insecured channel
-                  // and recreates the app.csr. By the time completion block is
-                  // called the DeviceCA cert doesn't match app's csr and it
-                  // throws an SSL error.
-                  certProvider_->getCertificates(
-                      contextStore_->getCertificateDirectoryPath(),
-                      contextStore_->getDeviceId());
-                  gettingCertFromProvider->complete();
-                } catch (std::exception& e) {
-                  gettingCertFromProvider->fail(e.what());
-                  gettingCert->fail(e.what());
-                } catch (...) {
-                  gettingCertFromProvider->fail("Exception from certProvider");
-                  gettingCert->fail("Exception from certProvider");
-                }
-              }
-              log("Certificate exchange complete.");
               gettingCert->complete();
-
+              log("Certificate exchange complete.");
               // Disconnect after message sending is complete.
               // This will trigger a reconnect which should use the secure
               // channel.

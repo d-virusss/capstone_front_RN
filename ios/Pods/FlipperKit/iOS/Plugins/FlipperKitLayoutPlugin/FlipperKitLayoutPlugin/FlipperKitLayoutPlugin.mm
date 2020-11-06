@@ -164,15 +164,10 @@
 }
 
 - (void)didDisconnect {
-  // removeFromSuperlayer (SKHighlightOverlay) needs to be called on main thread
-  FlipperPerformBlockOnMainThread(
-      ^{
-        // Clear the last highlight if there is any
-        [self onCallSetHighlighted:nil withResponder:nil];
-        // Disable search if it is active
-        [self onCallSetSearchActive:NO withConnection:nil];
-      },
-      nil);
+  // Clear the last highlight if there is any
+  [self onCallSetHighlighted:nil withResponder:nil];
+  // Disable search if it is active
+  [self onCallSetSearchActive:NO withConnection:nil];
 }
 
 - (void)onCallGetRoot:(id<FlipperResponder>)responder {
@@ -326,30 +321,17 @@
     __block id<NSObject> rootNode = _rootNode;
 
     [_tapListener listenForTapWithBlock:^(CGPoint touchPoint) {
-      SKTouch* touch =
-          [[SKTouch alloc] initWithTouchPoint:touchPoint
-                                 withRootNode:rootNode
-                         withDescriptorMapper:self->_descriptorMapper
-                              finishWithBlock:^(id<NSObject> node) {
-                                [self updateNodeReference:node];
-                              }];
+      SKTouch* touch = [[SKTouch alloc]
+            initWithTouchPoint:touchPoint
+                  withRootNode:rootNode
+          withDescriptorMapper:self->_descriptorMapper
+               finishWithBlock:^(NSArray<NSString*>* path) {
+                 [connection send:@"select" withParams:@{@"path" : path}];
+               }];
 
       SKNodeDescriptor* descriptor =
           [self->_descriptorMapper descriptorForClass:[rootNode class]];
       [descriptor hitTest:touch forNode:rootNode];
-      [touch retrieveSelectTree:^(NSDictionary* tree) {
-        NSMutableArray* path = [NSMutableArray new];
-        NSDictionary* subtree = tree;
-        NSEnumerator* enumerator = [tree keyEnumerator];
-        id nodeId;
-        while ((nodeId = [enumerator nextObject])) {
-          subtree = subtree[nodeId];
-          [path addObject:nodeId];
-          enumerator = [subtree keyEnumerator];
-        }
-        [connection send:@"select"
-              withParams:@{@"path" : path, @"tree" : tree}];
-      }];
     }];
   } else {
     [_tapListener unmount];
@@ -387,6 +369,10 @@
       ^{
         [self _reportInvalidatedObjects];
       });
+}
+
+- (void)invalidateRootNode {
+  [self invalidateNode:_rootNode];
 }
 
 - (void)_reportInvalidatedObjects {
@@ -484,7 +470,6 @@
 
   NSMutableArray* attributes = [NSMutableArray new];
   NSMutableDictionary* data = [NSMutableDictionary new];
-  NSMutableDictionary* extraInfo = [NSMutableDictionary new];
 
   const auto* nodeAttributes = [nodeDescriptor attributesForNode:node];
   for (const SKNamed<NSString*>* namedPair in nodeAttributes) {
@@ -503,11 +488,6 @@
     data[namedPair.name] = namedPair.value;
   }
 
-  const auto* nodeExtraInfo = [nodeDescriptor extraInfoForNode:node];
-  for (const SKNamed<NSDictionary*>* namedPair in nodeExtraInfo) {
-    extraInfo[namedPair.name] = namedPair.value;
-  }
-
   NSMutableArray* children = [self getChildrenForNode:node
                                        withDescriptor:nodeDescriptor];
 
@@ -520,7 +500,6 @@
     @"attributes" : attributes,
     @"data" : data,
     @"decoration" : [nodeDescriptor decorationForNode:node] ?: @"(unknown)",
-    @"extraInfo" : extraInfo,
   };
 
   return nodeDic;

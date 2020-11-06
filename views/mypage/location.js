@@ -6,8 +6,10 @@ import {Button} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
 import {Text} from 'native-base';
+import api from '../shared/server_address'
 const kakaoApi = axios.create({baseURL: 'https://dapi.kakao.com/v2/local/'});
-const api = axios.create({baseURL: 'http://3.35.9.144'});
+var current_screen = '';
+var myLocation = ''
 var token_value = '';
 var my_coords = '';
 var user_addr = {
@@ -29,6 +31,7 @@ async function requestPermission() {
 
 async function getToken() {
   token_value = await AsyncStorage.getItem('token');
+  myLocation = await AsyncStorage.getItem('myLocation');
 }
 
 async function requestKakao(coords) {
@@ -44,7 +47,8 @@ async function requestKakao(coords) {
     })
     .then(function (response) {
       console.log('kakao request success!!');
-      putRequest(response.data.documents[0].address.region_3depth_name);
+      //console.log(token_value)
+      putRequest();
       user_addr.location.title =
         response.data.documents[0].address.region_3depth_name;
     })
@@ -53,7 +57,7 @@ async function requestKakao(coords) {
     });
 }
 
-async function putRequest(addr) {
+async function putRequest() {
   console.log('call put request');
   getToken().then(() => {
     api
@@ -64,6 +68,14 @@ async function putRequest(addr) {
       })
       .then(() => {
         console.log('put request success');
+        alert("동네 인증에 성공했습니다.")
+        AsyncStorage.setItem('myLocation', "true");
+        if(myLocation == "false"){
+          current_screen.navigation.navigate('postIndex')
+        }else{
+          current_screen.navigation.navigate('MyPage')
+        }
+        
       })
       .catch((err) => {
         console.log('put request fail');
@@ -72,9 +84,9 @@ async function putRequest(addr) {
   });
 }
 
-const MypageScreen = () => {
+const MypageScreen = (props) => {
   const [location, setLocation] = useState();
-
+  current_screen = props;
   useEffect(() => {
     requestPermission().then((res) => {
       if (res === 'granted') {

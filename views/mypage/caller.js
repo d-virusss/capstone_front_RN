@@ -42,6 +42,10 @@ class MypageScreen extends Component {
     this.props.navigation.navigate('Like_List');
   }
 
+  SettingGroup(){
+    this.props.navigation.navigate('SettingGroup')
+  }
+
   render() {
     const uri =
       'https://facebook.github.io/react-native/docs/assets/favicon.png';
@@ -111,7 +115,10 @@ class MypageScreen extends Component {
             </ListItem>
 
             <Separator bordered></Separator>
-            <ListItem>
+
+            <ListItem
+              button
+              onPress={()=>{this.SettingGroup()}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text> 소속 인증</Text>

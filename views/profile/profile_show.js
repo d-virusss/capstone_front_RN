@@ -8,6 +8,7 @@ import IconA from 'react-native-vector-icons/Ionicons';
 import IconFe from 'react-native-vector-icons/Feather';
 import IconMa from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import api from '../shared/server_address'
 
 IconA.loadFont();
 IconFe.loadFont();
@@ -17,7 +18,6 @@ let token;
 
 function profileShow({route, navigation}){
   const {other_id, other_nickname, other_location} = route.params;
-  const api = axios.create({ baseURL: 'http://3.35.9.144'});
   const [likenum, setLikenum] = useState([]);
 
   getToken = async () => {

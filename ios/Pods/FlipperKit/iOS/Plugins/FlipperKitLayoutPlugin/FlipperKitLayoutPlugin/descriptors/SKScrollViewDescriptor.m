@@ -49,7 +49,6 @@
 }
 
 - (void)hitTest:(SKTouch*)touch forNode:(UIScrollView*)node {
-  bool finish = true;
   for (NSInteger index = [self childCountForNode:node] - 1; index >= 0;
        index--) {
     id<NSObject> childNode = [self childForNode:node atIndex:index];
@@ -76,13 +75,11 @@
 
     if ([touch containedIn:frame]) {
       [touch continueWithChildIndex:index withOffset:frame.origin];
-      finish = false;
+      return;
     }
   }
 
-  if (finish) {
-    [touch finish];
-  }
+  [touch finish];
 }
 
 @end

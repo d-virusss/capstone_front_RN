@@ -12,13 +12,12 @@
 
 @implementation SKTouch {
   SKTouchFinishDelegate _onFinish;
+  NSMutableArray<NSString*>* _path;
 
   CGPoint _currentTouchPoint;
+  id<NSObject> _currentNode;
 
   SKDescriptorMapper* _descriptorMapper;
-
-  NSMutableArray<id<NSObject>>* _nodeStack;
-  NSMutableArray<NSMutableDictionary*>* _treeStack;
 }
 
 - (instancetype)initWithTouchPoint:(CGPoint)touchPoint
@@ -28,11 +27,9 @@
   if (self = [super init]) {
     _onFinish = finishBlock;
     _currentTouchPoint = touchPoint;
+    _currentNode = node;
     _descriptorMapper = mapper;
-    _nodeStack = [NSMutableArray new];
-    [_nodeStack addObject:node];
-    _treeStack = [NSMutableArray new];
-    [_treeStack addObject:[[NSMutableDictionary alloc] init]];
+    _path = [NSMutableArray new];
   }
 
   return self;
@@ -43,34 +40,18 @@
   _currentTouchPoint.x -= offset.x;
   _currentTouchPoint.y -= offset.y;
 
-  id<NSObject> currentNode = _nodeStack.lastObject;
   SKNodeDescriptor* descriptor =
-      [_descriptorMapper descriptorForClass:[currentNode class]];
-  id<NSObject> nextNode = [descriptor childForNode:currentNode
-                                           atIndex:childIndex];
-  [_nodeStack addObject:nextNode];
-  [_treeStack addObject:[[NSMutableDictionary alloc] init]];
+      [_descriptorMapper descriptorForClass:[_currentNode class]];
+  _currentNode = [descriptor childForNode:_currentNode atIndex:childIndex];
 
-  descriptor = [_descriptorMapper descriptorForClass:[nextNode class]];
-  NSString* currentId = [descriptor identifierForNode:nextNode];
-  [descriptor hitTest:self forNode:nextNode];
+  descriptor = [_descriptorMapper descriptorForClass:[_currentNode class]];
+  [_path addObject:[descriptor identifierForNode:_currentNode]];
 
-  // After finish this component
-  _currentTouchPoint.x += offset.x;
-  _currentTouchPoint.y += offset.y;
-  [_nodeStack removeLastObject];
-  NSDictionary* currentDict = _treeStack.lastObject;
-  [_treeStack removeLastObject];
-  [_treeStack.lastObject setObject:currentDict forKey:currentId];
+  [descriptor hitTest:self forNode:_currentNode];
 }
 
 - (void)finish {
-  _onFinish(_nodeStack.lastObject);
-}
-
-- (void)retrieveSelectTree:(SKProcessFinishDelegate)callback {
-  callback(_treeStack.lastObject);
-  [_treeStack removeAllObjects];
+  _onFinish(_path);
 }
 
 - (BOOL)containedIn:(CGRect)bounds {
