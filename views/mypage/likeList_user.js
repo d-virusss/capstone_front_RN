@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { List, ListItem, View, Left, Thumbnail, Body, Right, Button } from 'native-base';
 import api from '../shared/server_address'
@@ -15,7 +15,6 @@ class LikeListUserScreen extends Component {
 
   makeList() {
     return like_user.map((ele) => {
-      console.log(ele.like_info.target_id);
       return (
         <ListItem thumbnail key>
           <Left>
@@ -31,9 +30,10 @@ class LikeListUserScreen extends Component {
             </Text>
           </Body>
           <Right>
-            <Button transparent>
+            <TouchableOpacity 
+            onPress = {() => this.props.navigation.navigate("ProfileShow", { other_id: ele.like_info.target_id})}>
               <Text>보기</Text>
-            </Button>
+            </TouchableOpacity>
           </Right>
         </ListItem>
       );
@@ -57,7 +57,6 @@ class LikeListUserScreen extends Component {
   GetRequest = () => {
     this.getToken().then(() => {
       console.log('Sending likeListGetRequest ...');
-      console.log(this.state.user_id)
       api
         .get(`/users/${this.state.user_id}/likes?target_type=user`, {
           headers: {

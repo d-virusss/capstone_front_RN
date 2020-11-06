@@ -1,12 +1,14 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
-import {View, ScrollView, Image, StyleSheet} from 'react-native';
-import {Text, Form, Textarea, Item, Input, Button, Footer, FooterTab, Row,} from 'native-base';
+import {View, ScrollView, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, Content, Form, Left, Item, Right, Button, Footer, FooterTab, Header, Body, Container, Title} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import DB2 from '../../assets/ddbb2.jpg'
-Icon.loadFont();
 import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
+import IconA from 'react-native-vector-icons/Ionicons';
+Icon.loadFont();
+IconA.loadFont();
 
 UserAgent.getUserAgent(); //synchronous
 class PostShow extends Component{
@@ -39,18 +41,12 @@ class PostShow extends Component{
   }
 
   componentDidMount() {
-    console.log('------- enter post_show -------');
+    //console.log('------- enter post_show -------');
     this.getToken();
     this.setParams();
-    this.props.navigation.setParams({
-      headerRightOption :  (()=>{
-        <Button transparent onPress={ () => console.log("report")}>
-        <Icon name="menu" />
-        </Button>
-      })
-    })
   }
-  
+
+
   setParams = () => {
     console.log(this.params)
     this.setState({ 
@@ -116,7 +112,23 @@ class PostShow extends Component{
 
   render(){
     return(
-      <View style={{flex : 1}}>
+      <Container>
+      <Header>
+        <Left>
+          <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+            <Icon name = 'chevron-back' type = 'Ionicons'/>
+          </TouchableOpacity>
+        </Left>
+        <Body><Title>{this.state.title}</Title></Body>
+        <Right>
+        <TouchableOpacity
+              onPress={() => {this.props.navigation.navigate('PostReport')}}>
+            <Icon name="menu" />
+        </TouchableOpacity>
+        </Right>
+      </Header>
+
+      <Content style={{flex : 1}}>
         <ScrollView style={styles.container} >
           <View style = {styles.imageArea}>
             <Image source={{ uri : this.state.image || "empty" }} style={styles.imageView} />
@@ -162,7 +174,8 @@ class PostShow extends Component{
             </FooterTab>
           </Footer>
         </View>
-      </View>
+      </Content>
+      </Container>
     );
   }
 }

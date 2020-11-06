@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { List, ListItem, View, Left, Thumbnail, Body, Right, Button } from 'native-base';
 import api from '../shared/server_address'
@@ -10,7 +10,7 @@ class LikeListItemScreen extends Component {
   state = {
     token: '',
     user_id: '',
-    loading: true,
+    loading_item: true,
   };
 
   makeList() {
@@ -21,10 +21,10 @@ class LikeListItemScreen extends Component {
             <Text>{ele.like_info.title}</Text>
           </Body>
           <Right>
-            <Button transparent 
+            <TouchableOpacity
             onPress = {() => this.showPostRequset(ele.like_info.target_id)}>
               <Text>보기</Text>
-            </Button>
+            </TouchableOpacity>
           </Right>
         </ListItem>
       );
@@ -69,7 +69,7 @@ class LikeListItemScreen extends Component {
           function (response) {
             console.log('request success!!');
             like_item = response.data;
-            this.setState({loading: false});
+            this.setState({loading_item: false});
           }.bind(this), // for this.setState
         )
         .catch(function (error) {
@@ -79,7 +79,7 @@ class LikeListItemScreen extends Component {
   };
 
   render() {
-    if (this.state.loading) {
+    if (this.state.loading_item) {
       console.log('loading...');
       return null;
     } else {
