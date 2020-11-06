@@ -19,6 +19,7 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.reactnativecommunity.geolocation.GeolocationPackage;
+import com.facebook.react.BuildConfig;
 
 import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
 
