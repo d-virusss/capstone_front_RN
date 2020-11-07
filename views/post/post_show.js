@@ -151,6 +151,9 @@ class PostShow extends Component{
                       style={{flexDirection: 'row', width:'40%', marginTop:10}}>
                 <Text>채팅으로 대여하기</Text>
               </Button>
+              <Button onPress = {() => this.props.navigation.navigate('Booking')}>
+                <Text>예약</Text>
+              </Button>
             </FooterTab>
           </Footer>
         </View>

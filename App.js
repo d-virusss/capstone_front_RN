@@ -26,17 +26,43 @@ import ProfileShowList from './views/profile/profile_show_list';
 import ProfilePostShow from './views/profile/profile_post_show';
 import SettingGroup from './views/mypage/setting_group'
 import Booking from './views/booking/booking';
+import{fcmService} from './views/shared/FCMService';
+import {localNotificationService} from './views/shared/localnotification';
 
 const Stack = createStackNavigator();
 
 const App = () => {
 
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
+    fcmService.registerAppWithFCM()
+    fcmService.register(onRegister, onNotification, onOpenNotification)
+    localNotificationService.configure(onOpenNotification)
 
-    return unsubscribe;
+    function onRegister(token){
+      console.log("[App] onRegister : ", token)
+    }
+
+    function onNotification(notify){
+      console.log("[App] onNotification: ", notify)
+      const options = {
+        soundName: 'default',
+        playSound: true
+      }
+      localNotificationService.showNotification(
+        0, notify.title, notify.body, notify, options
+      )
+    }
+
+    function onOpenNotification(notify){
+      console.log("[App] onOpenNotification: ", notify)
+      alert("Open Notification: "+notify.body)
+
+      return () =>{
+        console.log("[App] unregister")
+        fcmService.unRegister()
+        localNotificationService.unregister()
+      }
+    }
   }, []);
 
   return (

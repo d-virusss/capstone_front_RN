@@ -24,6 +24,7 @@ class bookingScreen extends Component{
     endYear : 0,
     endMonth : 0,
     endDay : 0,
+    post_id : 0,
   };
 
   getToken = async () => {
@@ -76,6 +77,7 @@ class bookingScreen extends Component{
 
   render(){
     const { post_id } = this.props.route;
+    this.state.post_id = post_id;
     return(
       <Container>
         <Header style = {{height: 100}}>
@@ -110,7 +112,7 @@ class bookingScreen extends Component{
               margin : '1%',
               backgroundColor : 'white'
             }}
-            onPress = {() => bookingCreateRequest()}
+            onPress = {() => this.bookingCreateRequest()}
           >
             <Text style = {{color : 'black'}}>예약 신청하기</Text>
           </Button>

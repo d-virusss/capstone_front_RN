@@ -1,151 +1,116 @@
-import firebase from '@react-native-firebase/messaging'
-import {Platfrom} from 'react-native'
-import {Notification, NotificationOpen} from 'react-native-firebase';
+import messaging from '@react-native-firebase/messaging'
+import {Platform} from 'react-native';
 
 class FCMService {
-  register = (onRegister, onNotification, onOpenNotification) => {
-    this.checkPermission(onRegister)
-    this.createNotificationListeners(onRegister,onNotification, onOpenNotification)
-  }
 
-  registerAppWithFCM = async() => {
-    if(Platfrom.OS === 'ios'){
-      await messaging().registerDeviceForRemoteMessages();
-      await messaging().setAutoInitEnabled(true);
-    }
-  }
-
-  checkPermission = (onRegister) => {
-    messaging().hasPermission()
-    .then(enabled => {
-      if(enabled) {
-      //인증됨
-      this.getToken(onRegister)
-      }
-      else {
-        this.requestPermission(onRegister)
-      }
-    })
-    .catch(error => {
-      console.log("[FCMService] Permission rejected ", error)
-    })
-  }
-
-  getToken = (onRegister) => {
-    messaging().getToken()
-    .then(fcmToken => {
-      if(fcmToken){
-        onRegister(fcmToken)
-      }
-      else{
-        console.log("no device token")
-      }
-    })
-    .catch(error => {
-      console.log("token rejected", error)
-    })
-  }
-
-  requestPermission = (onRegister) => {
-    messaging().requestPermission()
-    .then(() => {
-      this.getToken(onRegister)
-    })
-    .catch(error => {
-      console.log("request permission rejected", error)
-    })
-  }
-
-  deleteToken = () => {
-    console.log("delete token")
-    messaging().deleteToken()
-    .catch(error => {
-      console.log("delete error ", error)
-    })
-  }
-
-  createNotificationListeners = (onRegister, onNotification, onOpenNotification) => {
-    this.notificationListner = firebase.notifications()
-    .onNotification((notification: Notification) => {
-      onNotification(notification)
-    })
-
-    this.notificationOpenedListner = firebase.notifications()
-    .onNotificationOpened((notificationOpen: NotificationOpen) => {
-      onOpenNotification(notification)
-    })
-
-    firebase.notifications().getInitialNotification()
-    .then(notificationOpen => {
-      const notification: Notification = notificationOpen.notification
-      onOpenNotification(notification)
-    })
-
-    this.messageListner = firebase.messaging().onMessage((message) => {
-      onNotification(message)
-    })
-
-    this.onTokenRefreshListner = firebase.messaging().onTokenRefresh(fcmToken => {
-      console.log('new token ', fcmToken)
-      onRegister(fcmToken)
-    })
-  }
-
-  unRegister = () => {
-    this.notificationListner();
-    this.messageListner();
-    this.messageListner();
-    this.onTokenRefreshListner();
-  }
-
-  buildChannel = (obj) => {
-    return new firebase.notifications.Android.Channel(
-      obj.channelID, obj.channelName,
-      firebase.notifications.Android.Importance.High
-      .setDescirption(obj.channelDes)
-    )
-  }
-
-  buildNotification = (obj) => {
-    firebase.notifications().android.createChannel(obj.channel)
-
-    return new firebase.notifications.Notification()
-    .setSound(obj.sound)
-    .setNotificationId(obj.dataId)
-    .setTitle(obj.title)
-    .setBody(obj.content)
-    .setData(obj.data)
-    //android
-    .android.setChannelId(obj.channel.channelID)
-    .android.setLargeIcon(obj.largeIcon)
-    .android.setSmallIcon(obj.smallIcon)
-    .android.setColr(obj.colorBgIcon)
-    .android.setPriority(firebase.notifications.Android.Priority.High)
-    .android.setVibrate(obj.vibrate)
-  }
-
-  scheduleNotification = (notification, days, minutes) => {
-    const date = new Date()
-    if (days){
-      date.setDate(date.getDate()+days)
-    }
-    if(minutes){
-      date.setMinutes(date.getMinutes() + minutes)
+    register = (onRegister, onNotification, onOpenNotification) => {
+        this.checkPermission(onRegister)
+        this.createNotificationListeners(onRegister, onNotification, onOpenNotification)
     }
 
-    firebase.notifications()
-    .scheduleNotification(notification, {fireDate: date.getTime()})
-  }
+    registerAppWithFCM = async() => {
+        if (Platform.OS === 'ios') {
+            await messaging().registerDeviceForRemoteMessages();
+            await messaging().setAutoInitEnabled(true)
+        } 
+    }
 
-  displayNotification = (notification) => {
-    firebase.notifications().displayNotification(notification)
-    .catch(error => console.log("Display Notification error: ", error))
-  }
+    checkPermission = (onRegister) => {
+        messaging().hasPermission()
+        .then(enabled => {
+            if (enabled) { 
+                // User has permissions
+                this.getToken(onRegister)
+            } else {
+                // User doesn't have permission
+                this.requestPermission(onRegister)
+            }
+        }).catch(error => {
+            console.log("[FCMService] Permission rejected ", error)
+        })
+    }
 
-  removeDeliveredNotification = (notification) => {
-    firebase.notifications()
-    .removeDeliveredNotification(notification.notificationId)
-  }
+    getToken = (onRegister) => {
+        messaging().getToken()
+        .then(fcmToken => {
+            if (fcmToken) {
+                onRegister(fcmToken)
+            }else {
+                console.log("[FCMService] User does not have a device token")
+            }
+        }).catch(error => {
+            console.log("[FCMService] getToken rejected ", error)
+        })
+    }
+
+    requestPermission = (onRegister) => {
+         messaging().requestPermission()
+        .then(() => {
+            this.getToken(onRegister)
+        }).catch(error => {
+            console.log("[FCMService] Request Permission rejected ", error)
+        })
+    }
+
+    deleteToken = () => {
+        console.log("[FCMService] deleteToken ")
+        messaging().deleteToken()
+        .catch(error => {
+            console.log("[FCMService] Delete token error ", error)
+        })
+    }
+
+    createNotificationListeners = (onRegister, onNotification, onOpenNotification) => {
+    
+        // When the application is running, but in the background
+        messaging()
+        .onNotificationOpenedApp(remoteMessage => {
+            console.log('[FCMService] onNotificationOpenedApp Notification caused app to open from background state:',remoteMessage)
+            if (remoteMessage) {
+                const notification = remoteMessage.notification
+                onOpenNotification(notification)
+                // this.removeDeliveredNotification(notification.notificationId)
+            }
+        });
+
+         // When the application is opened from a quit state.
+        messaging()
+        .getInitialNotification()
+        .then(remoteMessage => {
+            console.log('[FCMService] getInitialNotification Notification caused app to open from quit state:',remoteMessage)
+
+            if (remoteMessage) {
+                const notification = remoteMessage.notification
+                onOpenNotification(notification)
+                //  this.removeDeliveredNotification(notification.notificationId)
+            }
+        });
+
+        // Foreground state messages
+        this.messageListener = messaging().onMessage(async remoteMessage => {
+            console.log('[FCMService] A new FCM message arrived!', remoteMessage);
+            if (remoteMessage) {
+                let notification = null
+                if (Platform.OS === 'ios') {
+                    notification = remoteMessage.data.notification
+                } else {
+                    notification = remoteMessage.notification
+                }
+                onNotification(notification)
+            }
+        });
+
+        // Triggered when have new token
+        messaging().onTokenRefresh(fcmToken => {
+            console.log("[FCMService] New token refresh: ", fcmToken)
+            onRegister(fcmToken)
+        })
+
+    }
+
+    unRegister = () => {
+        this.messageListener()
+    }
 }
 
 export const fcmService = new FCMService()
