@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import BottomTab from '../shared/bottom_tab';
 import {
   Container,
@@ -28,7 +28,7 @@ IconA.loadFont();
 IconB.loadFont();
 IconC.loadFont();
 
-class MypageScreen extends Component {
+class PostReportScreen extends Component {
   goToSetLocation() {
     this.props.navigation.navigate('MyPage_Location');
     console.log('Navigation router run...');
@@ -53,66 +53,18 @@ class MypageScreen extends Component {
 
     return (
       <Container>
-        <Header>
-          <Body>
-            <Title>My Page</Title>
-          </Body>
-          <Right>
-            <Button transparent>
-              <Icon name="menu" />
-            </Button>
-          </Right>
-        </Header>
-
         <Content>
           <List>
-            <ListItem
-              thumbnail
-              style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
-              <Thumbnail source={{uri: uri}} />
-              <View>
-                <Body>
-                  <Text>user1</Text>
-                  <Text note numberOfLines={1}>
-                    group
-                  </Text>
-                  <Text note numberOfLines={2}>
-                    location
-                  </Text>
-                </Body>
-              </View>
-              <View></View>
-            </ListItem>
-
-            <ListItem
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-              }}>
-              <Button
-                light
-                style={styles.btn}
-                onPress={() => {
-                  this.goToSetLocation();
-                }}>
-                <Icon type="AntDesign" name="home" />
-                <Text> 동네 설정</Text>
-              </Button>
-
-              <Button light style={styles.btn}>
-                <Icon type="Feather" name="settings" />
-                <Text> 정보 수정</Text>
-              </Button>
-
-              <Button
-                light
-                style={styles.btn}
-                onPress={() => {
-                  this.ShowLikeList();
-                }}>
-                <Icon type="Feather" name="heart" />
-                <Text> 관심 목록</Text>
-              </Button>
+          <ListItem
+              button
+              onPress={()=>{this.SettingGroup()}}>
+              <Left>
+                <Icon type="AntDesign" name="addusergroup" />
+                <Text> 사용자 신고</Text>
+              </Left>
+              <Right>
+                <Icon type="AntDesign" name="right" />
+              </Right>
             </ListItem>
 
             <Separator bordered></Separator>
@@ -122,7 +74,7 @@ class MypageScreen extends Component {
               onPress={()=>{this.SettingGroup()}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
-                <Text> 소속 인증</Text>
+                <Text> 신고 이유1</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -132,7 +84,7 @@ class MypageScreen extends Component {
             <ListItem noIndent style={{backgroundColor: '#cde1f9'}}>
               <Left>
                 <Icon type="Feather" name="bell" />
-                <Text> 키워드 알림</Text>
+                <Text> 이유2</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -142,17 +94,7 @@ class MypageScreen extends Component {
             <ListItem>
               <Left>
                 <Icon type="Feather" name="list" />
-                <Text> 거래 목록</Text>
-              </Left>
-              <Right>
-                <Icon type="AntDesign" name="right" />
-              </Right>
-            </ListItem>
-
-            <ListItem>
-              <Left>
-                <Icon type="EvilIcons" name="comment" />
-                <Text> 받은 리뷰</Text>
+                <Text> 이유3</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -166,7 +108,7 @@ class MypageScreen extends Component {
               }}>
               <Left>
                 <Icon type="AntDesign" name="logout" />
-                <Text> 로그아웃</Text>
+                <Text> 이유4</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -194,4 +136,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
 });
-export default MypageScreen;
+export default PostReportScreen;

@@ -56,6 +56,7 @@ class LoginScreen extends Component {
 
   
   makeRequest() {
+    console.log("user.obj.user.email : " + user_obj.user.email)
     api
       .post('/users/sign_in', user_obj)//fordebug
       .then((response) => {

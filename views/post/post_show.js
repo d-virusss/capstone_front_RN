@@ -1,13 +1,14 @@
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
-import {View, ScrollView, Image, StyleSheet} from 'react-native';
-import {Text, Form, Textarea, Item, Input, Button, Footer, FooterTab, Row,} from 'native-base';
+import {View, ScrollView, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, Content, Form, Left, Item, Right, Button, Footer, FooterTab, Header, Body, Container, Title} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import DB2 from '../../assets/ddbb2.jpg'
-Icon.loadFont();
 import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
+import IconA from 'react-native-vector-icons/Ionicons';
+Icon.loadFont();
+IconA.loadFont();
 
 UserAgent.getUserAgent(); //synchronous
 class PostShow extends Component{
@@ -39,11 +40,12 @@ class PostShow extends Component{
     }
   }
 
-  componentDidMount(){
-    console.log('------- enter post_show -------');
+  componentDidMount() {
+    //console.log('------- enter post_show -------');
     this.getToken();
-    this.setParams()
+    this.setParams();
   }
+
 
   setParams = () => {
     console.log(this.params)
@@ -63,15 +65,18 @@ class PostShow extends Component{
       if(this.state.like_check){
         this.state.icon = "heart"
       }
-      else this.state.icon = "heart-outline"
+      else {
+        this.state.icon = "heart-outline"
+      }
     })
   }
 
-  chatCreateRequset(){
+  chatCreateRequset() {
     api
-      .post(`/chats?post_id=${2}`, null,{ headers : {
-        'Authorization': this.token
-      }})
+      .post(`/chats?post_id=${2}`, null,
+      { 
+        headers : {'Authorization': this.token}
+      })
       .then((response) => {
         console.log('success');
         console.log(this.token);
@@ -100,7 +105,6 @@ class PostShow extends Component{
         console.log(e)
       })
   }
-
   makeCallchat_navigate(){
     this.chatCreateRequset();
     this.props.navigation.navigate('ChatRoom', {postId : 2, check : 0,});
@@ -108,7 +112,23 @@ class PostShow extends Component{
 
   render(){
     return(
-      <View style={{flex : 1}}>
+      <Container>
+      <Header>
+        <Left>
+          <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+            <Icon name = 'chevron-back' type = 'Ionicons'/>
+          </TouchableOpacity>
+        </Left>
+        <Body><Title>{this.state.title}</Title></Body>
+        <Right>
+        <TouchableOpacity
+              onPress={() => {this.props.navigation.navigate('PostReport')}}>
+            <Icon name="menu" />
+        </TouchableOpacity>
+        </Right>
+      </Header>
+
+      <Content style={{flex : 1}}>
         <ScrollView style={styles.container} >
           <View style = {styles.imageArea}>
             <Image source={{ uri : this.state.image || "empty" }} style={styles.imageView} />
@@ -142,7 +162,7 @@ class PostShow extends Component{
           <Footer>
             <FooterTab>
               <Button style={{marginLeft:-30}} onPress={ () => this.likeRequest()}>
-                <Icon name={this.state.icon  || "heart-outline"} style={styles.likeIcon} />
+                <Icon name={this.state.icon  || "heart-outline"} style={styles.likeIcon}/>
               </Button>
               <Text style={{width: '30%', alignSelf: "center"}}>
                 3,000원 / 1 일
@@ -161,7 +181,8 @@ class PostShow extends Component{
             </FooterTab>
           </Footer>
         </View>
-      </View>
+      </Content>
+      </Container>
     );
   }
 }
