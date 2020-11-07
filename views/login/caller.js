@@ -18,7 +18,7 @@ Icon.loadFont();
 
 var user_obj = {
   user: {
-    email: 'tester4@test.com',
+    email: 'tester1@test.com',
     password: 'test123',
   },
 };

@@ -148,8 +148,15 @@ class PostShow extends Component{
                 3,000원 / 1 일
               </Text>
               <Button bordered warning onPress={() => { this.makeCallchat_navigate()}}
-                      style={{flexDirection: 'row', width:'40%', marginTop:10}}>
-                <Text>채팅으로 대여하기</Text>
+                      style={{ marginTop:10}}>
+                <Text>채팅으로</Text>
+                <Text>대여하기</Text>
+              </Button>
+              <Button transparent 
+                onPress = {() => {this.props.navigation.navigate('Booking', {post_id: this.state.post_id,})}}
+                style = {{marginTop : 10}}
+                >
+                <Text>예약</Text>
               </Button>
             </FooterTab>
           </Footer>
