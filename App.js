@@ -24,6 +24,7 @@ import ProfileShowList from './views/profile/profile_show_list';
 import SettingGroup from './views/mypage/setting_group'
 import Booking from './views/booking/booking';
 import PostReport from './views/post/post_report'
+import MyItemList from './views/mypage/myItemList'
 
 const Stack = createStackNavigator();
 
@@ -117,6 +118,10 @@ const App = () => {
         <Stack.Screen
           name="Booking"
           component={Booking}
+        />
+        <Stack.Screen
+          name="MyItemList"
+          component={MyItemList}
         />
       </Stack.Navigator>
     </NavigationContainer>
