@@ -1,14 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
 import {View, ScrollView, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import {Text, Content, Form, Left, Item, Right, Button, Footer, FooterTab, Header, Body, Container, Title} from 'native-base';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, FooterTab, Header, Body, Container, Title} from 'native-base';
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import DB2 from '../../assets/ddbb2.jpg'
 import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
-import IconA from 'react-native-vector-icons/Ionicons';
-Icon.loadFont();
-IconA.loadFont();
+IconM.loadFont();
+
 
 UserAgent.getUserAgent(); //synchronous
 class PostShow extends Component{

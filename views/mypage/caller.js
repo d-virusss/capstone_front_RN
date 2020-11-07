@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import BottomTab from '../shared/bottom_tab';
@@ -18,17 +19,25 @@ import {
   ListItem,
   List,
   Separator,
-  Card,
-  CardItem,
 } from 'native-base';
 import IconA from 'react-native-vector-icons/AntDesign';
 import IconB from 'react-native-vector-icons/Feather';
 import IconC from 'react-native-vector-icons/EvilIcons';
+import api from '../shared/server_address';
 IconA.loadFont();
 IconB.loadFont();
 IconC.loadFont();
 
 class MypageScreen extends Component {
+  state = {
+    token:'',
+    id:'',
+    myName:'',
+    myLocation:'',
+    myGroup:'',
+    loading: false,
+  };
+
   goToSetLocation() {
     this.props.navigation.navigate('MyPage_Location');
     console.log('Navigation router run...');
@@ -47,10 +56,53 @@ class MypageScreen extends Component {
     this.props.navigation.navigate('SettingGroup')
   }
 
+  componentDidMount() {
+    console.log('component did mount ---');
+    this.getMyInfo();
+  }
+
+  showReservation(){
+    this.props.navigation.navigate('Booking')
+  }
+
+  showMyItemList(){
+    this.props.navigation.navigate('MyItemList')
+  }
+
+  getToken = async () => {
+    console.log("gettoken")
+    let value = await AsyncStorage.getItem("token")
+    let myId = await AsyncStorage.getItem("user_id")
+    this.state.token = value
+    this.state.id = myId;
+  }
+
+  getMyInfo = async () => {
+    this.getToken().then(() => {
+      console.log("getmyInfo");
+      api.get(`/users/${this.state.id}`,{
+        headers: {
+          Authorization: this.state.token,
+        },
+      })
+      .then((res) => {
+        this.state.myName = res.data.user_info.nickname;
+        this.state.myLocation = res.data.user_info.location_title;
+        this.state.myGroup = "ajou"
+        this.setState({loading: true})
+        console.log(this.state.myName)
+      })
+      .catch((err) => {
+        console.log("my page err")
+      })
+    })
+  }
+
   render() {
     const uri =
       'https://facebook.github.io/react-native/docs/assets/favicon.png';
-
+    if(!this.state.loading) return null
+    else{
     return (
       <Container>
         <Header>
@@ -58,9 +110,9 @@ class MypageScreen extends Component {
             <Title>My Page</Title>
           </Body>
           <Right>
-            <Button transparent>
+            <TouchableOpacity>
               <Icon name="menu" />
-            </Button>
+            </TouchableOpacity>
           </Right>
         </Header>
 
@@ -72,12 +124,12 @@ class MypageScreen extends Component {
               <Thumbnail source={{uri: uri}} />
               <View>
                 <Body>
-                  <Text>user1</Text>
+                  <Text>{this.state.myName}</Text>
                   <Text note numberOfLines={1}>
-                    group
+                    {this.state.myGroup}
                   </Text>
                   <Text note numberOfLines={2}>
-                    location
+                    {this.state.myLocation}
                   </Text>
                 </Body>
               </View>
@@ -85,16 +137,9 @@ class MypageScreen extends Component {
             </ListItem>
 
             <ListItem
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-              }}>
-              <Button
-                light
-                style={styles.btn}
-                onPress={() => {
-                  this.goToSetLocation();
-                }}>
+              style={{flexDirection: 'row', justifyContent: 'center'}}>
+              <Button light style={styles.btn}
+                onPress={() => {this.goToSetLocation();}}>
                 <Icon type="AntDesign" name="home" />
                 <Text> 동네 설정</Text>
               </Button>
@@ -104,12 +149,7 @@ class MypageScreen extends Component {
                 <Text> 정보 수정</Text>
               </Button>
 
-              <Button
-                light
-                style={styles.btn}
-                onPress={() => {
-                  this.ShowLikeList();
-                }}>
+              <Button light style={styles.btn} onPress={() => {this.ShowLikeList();}}>
                 <Icon type="Feather" name="heart" />
                 <Text> 관심 목록</Text>
               </Button>
@@ -117,9 +157,7 @@ class MypageScreen extends Component {
 
             <Separator bordered></Separator>
 
-            <ListItem
-              button
-              onPress={()=>{this.SettingGroup()}}>
+            <ListItem button onPress={()=>{this.SettingGroup()}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text> 소속 인증</Text>
@@ -149,6 +187,16 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
+            <ListItem button onPress={() => {this.showMyItemList();}}>
+              <Left>
+                <Icon type="Ionicons" name="file-tray-stacked-outline" />
+                <Text> 글 관리</Text>
+              </Left>
+              <Right>
+                <Icon type="AntDesign" name="right" />
+              </Right>
+            </ListItem>
+
             <ListItem>
               <Left>
                 <Icon type="EvilIcons" name="comment" />
@@ -159,11 +207,17 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem
-              button
-              onPress={() => {
-                this.Logout();
-              }}>
+            <ListItem button onPress={() => {this.showReservation();}}>
+              <Left>
+                <Icon type="AntDesign" name="calendar" />
+                <Text> 예약 관리</Text>
+              </Left>
+              <Right>
+                <Icon type="AntDesign" name="right" />
+              </Right>
+            </ListItem>
+
+            <ListItem button onPress={() => {this.Logout();}}>
               <Left>
                 <Icon type="AntDesign" name="logout" />
                 <Text> 로그아웃</Text>
@@ -183,7 +237,7 @@ class MypageScreen extends Component {
           </FooterTab>
         </Footer>
       </Container>
-    );
+    );}
   }
 }
 
