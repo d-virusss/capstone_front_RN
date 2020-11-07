@@ -1,4 +1,3 @@
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { useEffect, useState } from 'react';
 import {Container, Content, Header, Left, Right, Body, Icon,
