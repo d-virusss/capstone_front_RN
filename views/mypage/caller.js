@@ -31,10 +31,10 @@ IconC.loadFont();
 class MypageScreen extends Component {
   state = {
     token:'',
-    id:'',
     myName:'',
     myLocation:'',
     myGroup:'',
+    myImage:'',
     loading: false,
   };
 
@@ -62,7 +62,7 @@ class MypageScreen extends Component {
   }
 
   showReservation(){
-    this.props.navigation.navigate('Booking')
+    this.props.navigation.navigate('Reservation')
   }
 
   showMyItemList(){
@@ -72,15 +72,13 @@ class MypageScreen extends Component {
   getToken = async () => {
     console.log("gettoken")
     let value = await AsyncStorage.getItem("token")
-    let myId = await AsyncStorage.getItem("user_id")
     this.state.token = value
-    this.state.id = myId;
   }
 
   getMyInfo = async () => {
     this.getToken().then(() => {
       console.log("getmyInfo");
-      api.get(`/users/${this.state.id}`,{
+      api.get(`/users/mypage`,{
         headers: {
           Authorization: this.state.token,
         },
@@ -88,6 +86,7 @@ class MypageScreen extends Component {
       .then((res) => {
         this.state.myName = res.data.user_info.nickname;
         this.state.myLocation = res.data.user_info.location_title;
+        this.state.myImage = res.data.user_info.image;
         this.state.myGroup = "ajou"
         this.setState({loading: true})
         console.log(this.state.myName)
@@ -99,8 +98,6 @@ class MypageScreen extends Component {
   }
 
   render() {
-    const uri =
-      'https://facebook.github.io/react-native/docs/assets/favicon.png';
     if(!this.state.loading) return null
     else{
     return (
@@ -121,7 +118,7 @@ class MypageScreen extends Component {
             <ListItem
               thumbnail
               style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
-              <Thumbnail source={{uri: uri}} />
+              <Thumbnail source={{uri: this.state.myImage}} />
               <View>
                 <Body>
                   <Text>{this.state.myName}</Text>
@@ -139,7 +136,7 @@ class MypageScreen extends Component {
             <ListItem
               style={{flexDirection: 'row', justifyContent: 'center'}}>
               <Button light style={styles.btn}
-                onPress={() => {this.goToSetLocation();}}>
+                onPress={() => {this.goToSetLocation()}}>
                 <Icon type="AntDesign" name="home" />
                 <Text> 동네 설정</Text>
               </Button>
@@ -167,7 +164,7 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem noIndent style={{backgroundColor: '#cde1f9'}}>
+            <ListItem button>
               <Left>
                 <Icon type="Feather" name="bell" />
                 <Text> 키워드 알림</Text>

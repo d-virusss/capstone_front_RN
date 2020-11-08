@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { StyleSheet, Platform, View, Alert } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
-import { Container, Header, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
+import { StyleSheet, View} from 'react-native';
+import CustomButton from '../login/custom_button';
+import { Container, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
 import api from '../shared/server_address'
 var user_obj = {
   user: {
@@ -24,6 +24,13 @@ export default class RegistrationScreen extends React.Component {
  };
 
  checkInputVaule = async() => {
+    if(this.state.user.email == '')
+      alert("이메일을 입력해주세요")
+    if(this.state.user.password == '')
+      alert("비밀번호를 입력해주세요")
+    if(this.state.user.nickname == '')
+      alert("이름을 입력해주세요")
+    
     //check pw
     if(this.state.user.password_confirmation != this.state.user.password)
       alert("비밀번호가 다릅니다")
@@ -44,7 +51,8 @@ export default class RegistrationScreen extends React.Component {
       })
       .catch((err) =>  {
         console.log('fail to register');
-        alert("회원가입 실패")
+        if(err.response.status == 422)
+          alert("중복된 이메일 입니다") 
       });
     })
   };
@@ -59,62 +67,45 @@ export default class RegistrationScreen extends React.Component {
           <Item floatingLabel>
               <Label>E-mail</Label>
               <Input
-              ref="e_mail"
-              placeholder="이메일을 입력하세요"
-              onChangeText = {(eMail) => {
-                this.state.user.email = eMail
-                }}
-            />
+              onChangeText = {(eMail) => { this.state.user.email = eMail}}
+              autoCapitalize="none"/>
           </Item>
 
             {/* pw */}
           <Item floatingLabel>
             <Label>비밀번호</Label>
-            <Input
-              placeholder="비밀번호를 입력하세요"
-              onChangeText = {(pw) => {
-                this.state.user.password = pw
-                }}
-            />
+            <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
+              onChangeText = {(pw) => {this.state.user.password = pw}}/>
           </Item>
 
           <Item floatingLabel>
             <Label>비밀번호 확인</Label>
-            <Input
-              placeholder="비밀번호를 다시 입력하세요"
-              onChangeText={(pw_confirmation) => {
-                this.state.user.password_confirmation = pw_confirmation
-              }}
-                
-            />
+            <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
+              onChangeText={(pw_confirmation) => {this.state.user.password_confirmation = pw_confirmation}}/>
           </Item>
 
           {/* nickname */}
           <Item floatingLabel>
             <Label>이름</Label>
-            <Input
-              placeholder="이름을 입력하세요"
-              onChangeText = {(name) => {
-                this.state.user.nickname = name
-                }}
+            <Input autoCapitalize="none"
+              onChangeText = {(name) => {this.state.user.nickname = name }}
             />
           </Item>
 
-          {/* phone */}
-          <Item floatingLabel>
-            <Label>연락처</Label>
-            <Input
-              placeholder="연락처를 입력하세요"
-            />
-          </Item>
+          <View style={{marginTop: '10%',height: '13%', alignItems: 'center',}}>
+          <CustomButton
+            title="가입"
+            titleColor="white"
+            buttonColor="skyblue"
+            borderWidth={5}
+            borderRadius={5}
+            width="30%"
+            height="100%"
+            justify='center'
+            onPress={() => this.onButtonPress()}
+          />
+        </View>
         </Form>
-      </Content>
-
-      <Content>
-        <Button bordered info onPress={this.onButtonPress}>
-            <Text>가입</Text>
-        </Button>
-    
       </Content>
     </Container>
     );

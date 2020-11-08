@@ -15,6 +15,7 @@ class LikeListUserScreen extends Component {
 
   makeList() {
     return like_user.map((ele) => {
+
       return (
         <ListItem thumbnail key>
           <Left>
@@ -22,9 +23,6 @@ class LikeListUserScreen extends Component {
           </Left>
           <Body>
             <Text>{ele.like_info.name}</Text>
-            <Text note numberOfLines={1}>
-              {ele.like_info.location}
-            </Text>
             <Text note numberOfLines={1}>
               {ele.like_info.group}
             </Text>
