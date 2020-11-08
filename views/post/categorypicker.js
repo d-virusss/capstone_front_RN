@@ -26,7 +26,7 @@ export default class CategoryPicker extends Component {
           <Picker
             mode="dropdown"
             iosIcon={<Icon type="AntDesign" name="down" />}
-            placeholder="전자제품"
+            placeholder="선택"
             placeholderStyle={{ color: "gray", }}
             placeholderIconColor="#007aff"
             selectedValue={this.state.selected}

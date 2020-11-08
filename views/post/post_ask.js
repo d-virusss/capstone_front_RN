@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Content, Container, Header, Item, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
-import { View, ScrollView, StyleSheet, TextInput, Alert } from "react-native";
+import { Content, Container, Header, Left, Right, Title, Body, Item, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
+import { View, ScrollView, StyleSheet, TextInput, Alert, TouchableOpacity } from "react-native";
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -40,7 +40,7 @@ class Post_ask extends Component {
     formdata.append('post[price]', this.state.price)
     formdata.append('post[body]', this.state.body)
     formdata.append('post[image]', image_info)
-    formdata.append('post[post_type]', "provide")
+    formdata.append('post[post_type]', "ask")
     console.log(formdata)
     console.log(this.state.token)
   }
@@ -124,6 +124,16 @@ class Post_ask extends Component {
   render() {
     return (
       <ScrollView>
+        <Header>
+          <Left>
+            <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
+              <Icon name='chevron-back' type='Ionicons' />
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>대여요청</Title>
+          </Body>
+          <Right></Right>
+        </Header>
         <View style={{ marginTop: 50, width: '70%', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
           <ImageSelect stateBus={this.changeImage}></ImageSelect>
         </View>
