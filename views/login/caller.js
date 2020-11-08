@@ -1,10 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-<<<<<<< HEAD
-import { StyleSheet, Text, View,} from 'react-native';
-=======
 import { StyleSheet, Text, View, Alert } from 'react-native';
->>>>>>> aa65f368c79982287f7f95417b02aad4e2e4122d
 import CustomButton from './custom_button';
 import { Item, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
