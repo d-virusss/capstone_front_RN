@@ -118,6 +118,7 @@ class PostShow extends Component{
               <Form>
                 <Item regular style={styles.providerBar}>
                   <View style={styles.providerProfile}>
+                    <Image></Image>
                     <Text style={styles.providerName}>{this.state.user_name}</Text>
                     <Text style={styles.providerLocation}>{this.state.user_location}</Text>
                   </View>
@@ -173,6 +174,9 @@ const styles = StyleSheet.create({
   providerBar : {
     flexDirection : "row",
     borderBottomWidth : 0
+  },
+  providerProfileiimage :{
+    
   },
   providerProfile : {
     width: '30%',
