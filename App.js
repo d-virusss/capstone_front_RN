@@ -25,6 +25,7 @@ import SettingGroup from './views/mypage/setting_group'
 import Booking from './views/booking/booking';
 import PostReport from './views/post/post_report'
 import MyItemList from './views/mypage/myItemList'
+import ManageReservation from './views/mypage/manageReservation'
 
 const Stack = createStackNavigator();
 
@@ -36,9 +37,11 @@ const App = () => {
         <Stack.Screen
           name="Logins"
           component={LoginScreen}
-          options={{headerShown: false}}
+          options={{headerShown: false, gestureEnabled : false}}
         />
-        <Stack.Screen name="KakaoLogin" component={KakaoLogin} />
+        <Stack.Screen name="KakaoLogin" component={KakaoLogin} 
+        options={{gestureEnabled : false}}
+        />
         <Stack.Screen name="Register" component={Register_form} />
         <Stack.Screen name="Find_id" component={FindId} />
         <Stack.Screen name="Find_pw" component={FindPw} />
@@ -123,6 +126,11 @@ const App = () => {
           name="MyItemList"
           component={MyItemList}
         />
+
+        <Stack.Screen
+          name="Reservation"
+          component={ManageReservation}
+        />    
       </Stack.Navigator>
     </NavigationContainer>
   );

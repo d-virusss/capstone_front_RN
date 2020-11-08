@@ -4,8 +4,6 @@ import {Container, Content, Header, Left, Right, Body, Icon,
   Button, Text, View, List, ListItem, Tabs, Tab, TabHeading,
   Thumbnail
 } from 'native-base';
-import IconA from 'react-native-vector-icons/Ionicons';
-import IconFe from 'react-native-vector-icons/Feather';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
 
@@ -30,9 +28,12 @@ class myItemListScreen extends Component{
             <Text note numberOfLines={1}>{post.body}</Text>
           </Body>
           <Right>
-            <Button transparent onPress={() => this.showPostRequset(post.id)}>
-              <Text>보기</Text>
-            </Button>
+            <TouchableOpacity onPress={() => this.showPostRequset(post.id)}>
+              <Text>수정</Text>
+            </TouchableOpacity>
+            <TouchableOpacity transparent onPress={() => this.showPostRequset(post.id)}>
+              <Text>삭제</Text>
+            </TouchableOpacity>
           </Right>
         </ListItem>
       )
