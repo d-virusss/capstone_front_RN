@@ -4,34 +4,36 @@ import {Container, Content, Header, Left, Right, Body, Icon,
   Button, Text, View, List, ListItem, Tabs, Tab, TabHeading,
   Thumbnail
 } from 'native-base';
-import IconA from 'react-native-vector-icons/Ionicons';
-import IconFe from 'react-native-vector-icons/Feather';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
 
-class UserListIndex extends Component{
+class myItemListScreen extends Component{
   state = {
     token : '',
+    myId:'',
     posts1 : [], //user's providing list
     posts2 : [], //user's asking list
   }
 
   makeIndexList(posts){
     return posts.map((post) => {
-      
+      console.log(post.title)
       return(
-        <ListItem thumbnail key={post.id}>
+        <ListItem thumbnail key={post.post_info.id}>
           <Left>
-            <Thumbnail square source={{ uri: post.image.url }} />
+            <Thumbnail square source={{ uri: post.post_info.image }} />
           </Left>
           <Body>
-            <Text>{post.title}</Text>
-            <Text note numberOfLines={1}>{post.body}</Text>
+            <Text>{post.post_info.title}</Text>
+            <Text note numberOfLines={1}>{post.post_info.body}</Text>
           </Body>
           <Right>
-            <Button transparent onPress={() => this.showPostRequset(post.id)}>
-              <Text>보기</Text>
-            </Button>
+            <TouchableOpacity onPress={() => this.showPostRequset(post.post_info.id)}>
+              <Text>수정</Text>
+            </TouchableOpacity>
+            <TouchableOpacity transparent onPress={() => this.showPostRequset(post.post_info.id)}>
+              <Text>삭제</Text>
+            </TouchableOpacity>
           </Right>
         </ListItem>
       )
@@ -53,14 +55,15 @@ class UserListIndex extends Component{
 
   sendProvideIndexRequest() {
     api
-      .get(`/users/${this.props.other_id}/list?post_type=provide`, {
+      .get(`/users/${this.state.myId}/list?post_type=provide`, {
         headers: {
           'Authorization': this.state.token
         }
       })
       .then((res) => {
         console.log("index send success!")
-        this.setState({posts1:res.data.posts}, ()=> { })
+        console.log()
+        this.setState({posts1:res.data}, ()=> { })
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
@@ -69,14 +72,14 @@ class UserListIndex extends Component{
 
   sendAskIndexRequest() {
     api
-      .get(`/users/${this.props.other_id}/list?post_type=ask`, {
+      .get(`/users/${this.state.myId}/list?post_type=ask`, {
         headers: {
           'Authorization': this.state.token
         }
       })
       .then((res) => {
         console.log("index send success!")
-        this.setState({posts2:res.data.posts}, ()=> { })
+        this.setState({posts2:res.data}, ()=> { })
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
@@ -85,7 +88,9 @@ class UserListIndex extends Component{
 
   getToken = async () => {
     const value = await AsyncStorage.getItem("token")
+    const id =  await AsyncStorage.getItem("user_id")
     this.state.token = value
+    this.state.myId = id
     this.sendProvideIndexRequest();
     this.sendAskIndexRequest();
   }
@@ -114,25 +119,4 @@ class UserListIndex extends Component{
   }
 }
 
-function profileShowList({route, navigation}){
-  const {other_id, other_nickname} = route.params;
-  return(
-    <Container>
-      <Header style = {{height : 40}}>
-        <Left>
-          <Button transparent onPress = {() => navigation.goBack()}>
-            <Icon name = 'chevron-back' type = 'Ionicons'/>
-          </Button>
-        </Left>
-        <Body>
-          <Text style = {{fontSize : 17}}>글 목록</Text>
-        </Body>
-        <Right>
-        </Right>
-      </Header>
-      <UserListIndex other_id = {other_id} other_nickname = {other_nickname}  navigation = {navigation}/>
-    </Container>
-  );
-}
-
-export default profileShowList;
+export default myItemListScreen;
