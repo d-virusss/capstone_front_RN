@@ -34,6 +34,7 @@ class MypageScreen extends Component {
     myName:'',
     myLocation:'',
     myGroup:'',
+    myImage:'',
     loading: false,
   };
 
@@ -85,6 +86,7 @@ class MypageScreen extends Component {
       .then((res) => {
         this.state.myName = res.data.user_info.nickname;
         this.state.myLocation = res.data.user_info.location_title;
+        this.state.myImage = res.data.user_info.image;
         this.state.myGroup = "ajou"
         this.setState({loading: true})
         console.log(this.state.myName)
@@ -96,8 +98,6 @@ class MypageScreen extends Component {
   }
 
   render() {
-    const uri =
-      'https://facebook.github.io/react-native/docs/assets/favicon.png';
     if(!this.state.loading) return null
     else{
     return (
@@ -118,7 +118,7 @@ class MypageScreen extends Component {
             <ListItem
               thumbnail
               style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
-              <Thumbnail source={{uri: uri}} />
+              <Thumbnail source={{uri: this.state.myImage}} />
               <View>
                 <Body>
                   <Text>{this.state.myName}</Text>
