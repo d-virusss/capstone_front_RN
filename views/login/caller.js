@@ -181,7 +181,7 @@ class LoginScreen extends Component {
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>
               <CustomButton
-                title="카카오계정 로그인"
+                title="카카오 로그인"
                 icon_name="chatbubble-sharp"
                 titleColor="black"
                 buttonColor="#fae100"
