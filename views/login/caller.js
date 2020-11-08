@@ -1,6 +1,10 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
+<<<<<<< HEAD
 import { StyleSheet, Text, View,} from 'react-native';
+=======
+import { StyleSheet, Text, View, Alert } from 'react-native';
+>>>>>>> aa65f368c79982287f7f95417b02aad4e2e4122d
 import CustomButton from './custom_button';
 import { Item, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -38,11 +42,11 @@ class LoginScreen extends Component {
 
   
   makeRequest() {
-    if(userinfo.user.email == '')
-      alert("이메일을 입력해주세요")
-    if(userinfo.user.password == '')
-      alert("비밀번호를 입력해주세요")
-    if(!(userinfo.user.email == '') && !(userinfo.user.password == '')){
+    if (userinfo.user.email == '')
+      Alert.alert("이메일을 입력해주세요")
+    if (userinfo.user.password == '')
+      Alert.alert("비밀번호를 입력해주세요")
+    if (!(userinfo.user.email == '') && !(userinfo.user.password == '')) {
       api
         .post('/users/sign_in', userinfo)
         .then((response) => {
