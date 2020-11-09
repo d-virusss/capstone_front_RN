@@ -1,6 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {TouchableOpacity} from 'react-native';
-import React, {Component, Fragment} from 'react';
+import React, {Component, Fragment, useEffect} from 'react';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import {Icon, Button} from 'native-base';
 import LoginScreen from './views/login/caller';
@@ -23,15 +23,49 @@ import ProfileShow from './views/profile/profile_show';
 import ProfileShowList from './views/profile/profile_show_list';
 import SettingGroup from './views/mypage/setting_group'
 import Booking from './views/booking/booking';
+import{fcmService} from './views/shared/FCMService';
+import {localNotificationService} from './views/shared/localnotification';
 import PostReport from './views/post/post_report'
 import MyItemList from './views/mypage/myItemList'
 import ManageReservation from './views/mypage/manageReservation'
-import PostUpdate from './views/post/post_update'
+//import PostUpdate from './views/post/post_update'
 
 const Stack = createStackNavigator();
 
 const App = () => {
-  
+
+  useEffect(() => {
+    fcmService.registerAppWithFCM()
+    fcmService.register(onRegister, onNotification, onOpenNotification)
+    localNotificationService.configure(onOpenNotification)
+
+    function onRegister(token){
+      console.log("[App] onRegister : ", token)
+    }
+
+    function onNotification(notify){
+      console.log("[App] onNotification: ", notify)
+      const options = {
+        soundName: 'default',
+        playSound: true
+      }
+      localNotificationService.showNotification(
+        0, notify.title, notify.body, notify, options
+      )
+    }
+
+    function onOpenNotification(notify){
+      console.log("[App] onOpenNotification: ", notify)
+      alert("Open Notification: "+notify.body)
+
+      return () =>{
+        console.log("[App] unregister")
+        fcmService.unRegister()
+        localNotificationService.unregister()
+      }
+    }
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Logins">
@@ -50,7 +84,7 @@ const App = () => {
         <Stack.Screen name="PostShow" component={PostShow}options={{ headerShown: false }}/>
         <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
-        <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
+        
 
         <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false}} />
         <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{ headerTitle: '동네 설정', headerTitleStyle: {fontSize: 25}, }} />
