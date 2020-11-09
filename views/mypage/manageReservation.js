@@ -1,9 +1,11 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {TouchableOpacity, View, StyleSheet} from 'react-native';
-import {Text, Left, Thumbnail,Body,Right,Container, Content, ListItem,} from 'native-base';
+import {TouchableOpacity, View, StyleSheet, TouchableHighlight} from 'react-native';
+import {Text, Header, Thumbnail,Body,Right,Container, Content, ListItem, Spinner, Button, Toast} from 'native-base';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
 import api from '../shared/server_address'
+import moment from 'moment';
+import _ from 'lodash';
 
 var reservation_list = [];
 var nextDay =[];
@@ -14,39 +16,33 @@ class reservationScreen extends Component{
     marked: null,
     token: 0,
     loading: true,
+    showToast: false,
   };
-
   makeList() {
     return reservation_list.map((ele) => {
       console.log(ele)
       return (
-        <ListItem>
-          <Left>
-            <Thumbnail source={{uri: ele.booking_info.image}} />
-          </Left>
+        <ListItem button onPress = {() => this.showBookingDate(ele.booking_info.id, ele.booking_info.start_at, ele.booking_info.end_at)}>
+           <Thumbnail source={{uri: ele.booking_info.image}} />
           <Body>
             <Text>{ele.booking_info.title}</Text>
             <Text note numberOfLines={1}>
               {ele.booking_info.acceptance}
             </Text>
           </Body>
-          <Right>
-            <TouchableOpacity 
-            onPress = {() => this.showBookingDate(ele.booking_info.start_at, ele.booking_info.end_at)}>
-              <Text>보기</Text>
-            </TouchableOpacity>
-          </Right>
         </ListItem>
       );
     });
   }
 
-  showBookingDate(start, end) {
+  showBookingDate(id, startDate, endDate) {
     nextDay = [];
-    console.log("show button press")
-    console.log(start)
-    nextDay.push(start.substring(0,10))
-    nextDay.push(end.substring(0,10))
+    const start = moment(startDate);
+    const end = moment(endDate);
+    for (let m = moment(start); m.diff(end, 'days') <= 0; m.add(1, 'days')) {
+      nextDay.push(m.format('YYYY-MM-DD'));
+    }
+    this.item_id = id;
     this.markingDate();
   }
 
@@ -78,18 +74,52 @@ class reservationScreen extends Component{
     //this.markingDate();
   }
 
+  showReservationContent = async(id) => {
+    api.get(`/bookings/${id}`, {
+      headers: {Authorization: this.state.token},
+    }).then((res) => {
+      console.log(res)
+    }).catch((err) => {
+      console.log("reservation item show err")
+      console.log(err)
+    })
+  }
+
+  showOptionButton(){
+    if(this.item_id){
+      console.log("show option button")
+      return(
+        <View style={styles.footer}>
+          <Button transparent style={styles.bottomButtons}
+          >
+            <Text style = {styles.footerText}>승인</Text>
+          </Button>
+          <Button transparent style={styles.bottomButtons}>
+            <Text style = {styles.footerText}>거절</Text>
+          </Button>
+        </View>
+      )
+    }else{
+      return null
+    }
+  }
+
   render(){
-    if(this.state.loading) return null
+    if(this.state.loading) {
+      return (
+        <Container>
+        <Header />
+        <Content>
+          <Spinner color='green' />
+        </Content>
+      </Container>
+      )
+    }
     else{
     return(
       <Container>
         <Content>
         <Calendar
-        //  markedDates={{
-        //   '2020-11-22': {selected: true, startingDay: true, color: '#50cebb'},
-        //   '2020-11-23': {selected: true, endingDay: true, color: '#50cebb'},
-        //   '2020-11-24': {selected: true, startingDay: true, color: '#50cebb', endingDay: true}
-        // }}
         markedDates={this.state.marked}
         markingType={'period'}
         />
@@ -97,6 +127,7 @@ class reservationScreen extends Component{
         <Content>
             {this.makeList()}
         </Content>
+        {this.showOptionButton()}
       </Container>
     )
     } 
@@ -105,7 +136,28 @@ class reservationScreen extends Component{
 
 
 const styles = StyleSheet.create({
-
+  footer: {
+    position: 'absolute',
+    flex:0.1,
+    left: 0,
+    right: 0,
+    bottom: -5,
+    backgroundColor:'#50cebb',
+    flexDirection:'row',
+    height:80,
+    alignItems:'center',
+  },
+  bottomButtons: {
+    alignItems:'center',
+    justifyContent: 'center',
+    flex:1,
+  },
+  footerText: {
+    color:'white',
+    fontWeight:'bold',
+    alignItems:'center',
+    fontSize:18,
+  },
  });
 
 export default reservationScreen;

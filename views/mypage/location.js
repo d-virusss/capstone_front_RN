@@ -69,8 +69,8 @@ async function putRequest() {
       .then(() => {
         console.log('put request success');
         alert("동네 인증에 성공했습니다.")
-        AsyncStorage.setItem('myLocation', "true");
-        if(myLocation == "false"){
+        AsyncStorage.setItem('myLocation', user_addr.location.title);
+        if(myLocation == null){
           current_screen.navigation.navigate('postIndex')
         }else{
           current_screen.navigation.navigate('MyPage')

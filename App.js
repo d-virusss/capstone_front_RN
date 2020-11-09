@@ -28,7 +28,7 @@ import {localNotificationService} from './views/shared/localnotification';
 import PostReport from './views/post/post_report'
 import MyItemList from './views/mypage/myItemList'
 import ManageReservation from './views/mypage/manageReservation'
-import PostUpdate from './views/post/post_update'
+//import PostUpdate from './views/post/post_update'
 
 const Stack = createStackNavigator();
 
