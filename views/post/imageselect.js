@@ -10,18 +10,26 @@ class ImageSelect extends Component{
   constructor(props){
     super(props)
     this.state={
-      image : ""
+      image : this.props.existing_image===undefined ? "" : this.props.existing_image,
     }
   }
+
+  componentDidMount(){
+    console.log(this.state)
+    console.log('in imageselect')
+  }
+
   doPickImage = () => {
     ImagePicker.openPicker({
       width: 300,
       height: 400,
       cropping: true
     }).then(image => {
+      this.setState({ image: image.sourceURL })
       this.props.stateBus(image)
     });
   }
+
   render(){
     return(
       <View style ={{flex : 1, justifyContent : 'center'}} >
@@ -32,7 +40,7 @@ class ImageSelect extends Component{
               <IconM name = 'image-multiple' size = {100}/>
             )}
             {this.state.image != ''&& (
-            <Image source={{ uri: this.state.image}} style = {{width : 200, height: 200}}/>
+            <Image source={{ uri: this.state.image}} style = {{width : 250, height: 250}}/>
             )}
           </TouchableOpacity>
       </View>
