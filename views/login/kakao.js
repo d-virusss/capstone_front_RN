@@ -21,7 +21,7 @@ class KakaoLoginScreen extends Component {
     return (
       <WebView
         ref={(webview) => (this.webview = webview)}
-        source={{ uri: 'http://3.34.44.23/users/auth/kakao'}}
+        source={{ uri: 'http://54.180.25.175/users/auth/kakao'}}
         // source={{html}}
         onMessage={this.onWebViewMessage}
         javaScriptEnabled={true}
