@@ -53,7 +53,7 @@ class LoginScreen extends Component {
           AsyncStorage.setItem('user_id', String(response.data.id));
           AsyncStorage.setItem('myLocation', String(response.data.location_auth));
 
-          if (String(response.data.location_auth) == "true") {// already has location
+          if (String(response.data.location_auth) != null) {// already has location
             this.props.navigation.navigate('postIndex')
           } else {
             this.props.navigation.navigate('MyPage_Location')

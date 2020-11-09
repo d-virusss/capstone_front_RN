@@ -12,7 +12,7 @@ const image_info = {
   type: '',
   name: ''
 }
-const formdata = new FormData();
+var formdata = new FormData();
 
 class Post_provide extends Component {
   state = {
@@ -37,6 +37,7 @@ class Post_provide extends Component {
   }
 
   setPostInfo = (data) => {
+    formdata = new FormData();
     formdata.append('post[title]', this.state.title)
     formdata.append('post[category_id]', this.state.category_id)
     formdata.append('post[price]', this.state.price)

@@ -61,7 +61,6 @@ class Search_Bar extends React.Component {
   }
 
   render() {
-    console.log("render")
     return (
       <View style = {{flex : 1}}>
         <StatusBar barStyle="light-content" />
