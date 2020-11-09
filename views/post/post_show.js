@@ -17,7 +17,7 @@ class PostShow extends Component{
   state = {
     login_user_id : "",
     token: "",
-    post_id: "",
+    post_id: 0,
     like_check: false,
     icon : "",
     title : "",
@@ -31,6 +31,7 @@ class PostShow extends Component{
     provider_profile_image: "",
     show_popover : false,
     is_your_post : false,
+    chat_id: 0,
   };
 
   getToken = async () => {
@@ -80,14 +81,15 @@ class PostShow extends Component{
 
   chatCreateRequset() {
     api
-      .post(`/chats?post_id=${2}`, null,
+      .post(`/chats?post_id=${this.state.post_id}`, null,
       { 
-        headers : {'Authorization': this.token}
+        headers : {'Authorization': this.state.token}
       })
       .then((response) => {
         console.log('success');
-        console.log(this.token);
         console.log(response);
+        this.state.chat_id = response.data.chat_info.id;
+        console.log(this.state.chat_id)
       })
       .catch((err) => console.log("err : ", err))
   }
@@ -114,7 +116,7 @@ class PostShow extends Component{
   }
   makeCallchat_navigate(){
     this.chatCreateRequset();
-    this.props.navigation.navigate('ChatRoom', {postId : 2, check : 0,});
+    this.props.navigation.navigate('ChatRoom', {chat_id: this.state.chat_id, post_id: this.state.post_id});
   }
 
   gochangeRequest(){
