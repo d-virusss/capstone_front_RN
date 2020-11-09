@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Content, Container, Header, Item, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
-import { View, ScrollView, StyleSheet, TextInput, Alert } from "react-native";
+import { Content, Container, Item, Header, Left, Right, Title, Body, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
+import { View, ScrollView, StyleSheet, TextInput, Alert, TouchableOpacity } from "react-native";
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -8,9 +8,9 @@ import api from '../shared/server_address'
 import FormData from 'form-data'
 
 const image_info = {
-  uri: '../../assets/ddbb2.jpg',
-  type: 'image/jpg',
-  name: 'dduckbokki.jpg'
+  uri: '',
+  type: '',
+  name: ''
 }
 const formdata = new FormData();
 
@@ -119,18 +119,43 @@ class Post_provide extends Component {
   changeImage = (data) => {
     this.setState({
       image: data
-    }, () => {console.log(this.state.image); console.log(data.sourceURL)})
+    }, () => {console.log(this.state.image);})
     image_info.uri = data.sourceURL;
+    image_info.type = data.mime;
+    image_info.name = data.filename;
+  }
+
+  shownowstate(){
+    console.log(this.state)
+    console.log(image_info)
   }
 
   render() {
     return (
       <ScrollView>
-        <View style={{ marginTop: 50, width: '70%', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
+        <Header>
+          <Left>
+            <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
+              <Icon name='chevron-back' type='Ionicons' />
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>물품 등록</Title>
+          </Body>
+          <Right>
+            <TouchableOpacity 
+              style={{ marginRight: '4%' }}
+              onPress={() => this.makePostRequest()}>
+              <Text>완료</Text>
+            </TouchableOpacity>
+          </Right>
+        </Header>
+        <View style={styles.imageArea}>
           <ImageSelect stateBus={this.changeImage} ></ImageSelect>
         </View>
         <Container>
-          <Header />
+          <TouchableOpacity onPress={this.shownowstate()} style={{ padding: 10 }}>
+            <Text>지금 어떄</Text>
+          </TouchableOpacity>
           <Content>
             <Form>
               <Item inlinelabel>
@@ -164,6 +189,14 @@ const styles = StyleSheet.create({
     marginHorizontal: '2%',
     marginTop: '5%'
   },
+  imageArea : {
+    marginVertical: 50, 
+    width: '70%',
+    height : 200,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    alignSelf: 'center'
+  }
 })
 
 export default Post_provide;

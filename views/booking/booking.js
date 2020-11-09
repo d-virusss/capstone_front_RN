@@ -10,11 +10,11 @@ import { Calendar } from 'react-native-calendario';
 import api from '../shared/server_address'
 import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 
-let token;
+//let token;
 let dateNumber = 0;
 
 class bookingScreen extends Component{
-
+  params = this.props.route.params;
   state = {
     totalPrice : 0,
     dateNumber : 0,
@@ -25,6 +25,10 @@ class bookingScreen extends Component{
     endMonth : 0,
     endDay : 0,
     post_id : 0,
+    flag : 0,
+    startDate: "",
+    endDate: "",
+    token: 0
   };
 
   getToken = async () => {
@@ -37,18 +41,18 @@ class bookingScreen extends Component{
     api
       .post(`/bookings`, {
         booking : {
-          post_id: post_id,
-          start_at : this.state.dateRange.startDate,
-          end_at : this.state.dateRange.endDate
+          post_id: this.state.post_id,
+          start_at : this.state.startDate,
+          end_at : this.state.endDate
         }
       },{ headers : {
-        'Authorization': token
+        'Authorization': this.state.token
       }})
       .then((response) => {
         console.log('success');
-        console.log(token);
+        console.log(this.state.token);
         console.log(response);
-        navigation.goBack();
+        this.props.navigation.goBack();
       })
       .catch((err) => console.log("err : ", err))
   }
@@ -60,6 +64,8 @@ class bookingScreen extends Component{
     this.state.endYear = data.endDate.getFullYear();
     this.state.endMonth = data.endDate.getMonth();
     this.state.endDay = data.endDate.getDate();
+    this.state.startDate = data.startDate;
+    this.state.endDate = data.endDate;
     this.state.dateNumber = ((data.endDate - data.startDate) / (1000 * 3600 * 24) + 1)
   }
 
@@ -73,11 +79,15 @@ class bookingScreen extends Component{
   componentDidMount(){
     console.log('screen load!');
     this.getToken();
+    const {post_id} = this.props.route.params;
+    if(this.state.flag === 0) {
+      this.state.post_id = post_id;
+      this.state.flag = 1;
+      console.log("post_id: "+ post_id);
+    }
   }
 
   render(){
-    const { post_id } = this.props.route;
-    this.state.post_id = post_id;
     return(
       <Container>
         <Header style = {{height: 100}}>

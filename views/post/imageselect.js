@@ -19,8 +19,6 @@ class ImageSelect extends Component{
       height: 400,
       cropping: true
     }).then(image => {
-      console.log(image);
-      this.setState({image : image.path})
       this.props.stateBus(image)
     });
   }
