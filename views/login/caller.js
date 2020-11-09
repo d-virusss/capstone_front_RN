@@ -1,10 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import CustomButton from './custom_button';
 import { Item, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -14,7 +10,7 @@ Icon.loadFont();
 
 var user_obj = {
   user: {
-    email: 'tester1@test.com',
+    email: 'tester4@test.com',
     password: 'test123',
   },
 };
@@ -42,28 +38,30 @@ class LoginScreen extends Component {
 
   
   makeRequest() {
-    if(userinfo.user.email == '')
-      alert("이메일을 입력해주세요")
-    if(userinfo.user.password == '')
-      alert("비밀번호를 입력해주세요")
-    api
-      .post('/users/sign_in', userinfo)
-      .then((response) => {
-        console.log(response.data.token);
-        AsyncStorage.setItem('token', response.data.token);
-        AsyncStorage.setItem('user_id', String(response.data.id));
-        AsyncStorage.setItem('myLocation', String(response.data.location_auth));
-        
-        if (String(response.data.location_auth) == "true") {// already has location
-          this.props.navigation.navigate('postIndex')
-        } else {
-          this.props.navigation.navigate('MyPage_Location')
-        }
-      })
-      .catch(function (error) {
-        console.log("login fail")
-        alert("가입하신 정보를 다시 확인해주세요")
-      });
+    if (userinfo.user.email == '')
+      Alert.alert("이메일을 입력해주세요")
+    if (userinfo.user.password == '')
+      Alert.alert("비밀번호를 입력해주세요")
+    if (!(userinfo.user.email == '') && !(userinfo.user.password == '')) {
+      api
+        .post('/users/sign_in', userinfo)
+        .then((response) => {
+          console.log(response.data.token);
+          AsyncStorage.setItem('token', response.data.token);
+          AsyncStorage.setItem('user_id', String(response.data.id));
+          AsyncStorage.setItem('myLocation', String(response.data.location_auth));
+
+          if (String(response.data.location_auth) == "true") {// already has location
+            this.props.navigation.navigate('postIndex')
+          } else {
+            this.props.navigation.navigate('MyPage_Location')
+          }
+        })
+        .catch(function (error) {
+          console.log("login fail")
+          alert("가입하신 정보를 다시 확인해주세요")
+        });
+    }
   }
 
   testLoginRequest(){
@@ -181,7 +179,7 @@ class LoginScreen extends Component {
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>
               <CustomButton
-                title="카카오계정 로그인"
+                title="카카오 로그인"
                 icon_name="chatbubble-sharp"
                 titleColor="black"
                 buttonColor="#fae100"
