@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
 import {Container, Content, Header, Left, Right, Body, Icon,
-  Button, Text, View, List, ListItem, Tabs, Tab, TabHeading,
+  Button, Text, List, ListItem, Tabs, Tab, TabHeading,
   Thumbnail
 } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -114,9 +115,44 @@ class myItemListScreen extends Component{
             {this.makeIndexList(this.state.posts2)}
           </List>
         </Tab>
+        {/* <View style={styles.footer}>
+          <Button transparent style={styles.bottomButtons}
+          >
+            <Text style = {styles.footerText}>승인</Text>
+          </Button>
+          <Button transparent style={styles.bottomButtons}>
+            <Text style = {styles.footerText}>거절</Text>
+          </Button>
+        </View> */}
         </Tabs>
+        
     );
   }
 }
+
+const styles = StyleSheet.create({
+  footer: {
+    position: 'absolute',
+    flex:0.1,
+    left: 0,
+    right: 0,
+    bottom: -5,
+    backgroundColor:'#50cebb',
+    flexDirection:'row',
+    height:80,
+    alignItems:'center',
+  },
+  bottomButtons: {
+    alignItems:'center',
+    justifyContent: 'center',
+    flex:1,
+  },
+  footerText: {
+    color:'white',
+    fontWeight:'bold',
+    alignItems:'center',
+    fontSize:18,
+  },
+ });
 
 export default myItemListScreen;

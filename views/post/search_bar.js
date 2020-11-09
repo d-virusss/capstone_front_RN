@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import {
@@ -12,39 +13,6 @@ IconM.loadFont();
 //https://www.npmjs.com/package/react-native-search-header
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#f5fcff',
-  },
-  status: {
-    zIndex: 10,
-    elevation: 2,
-    width: DEVICE_WIDTH,
-    height: 30,
-    backgroundColor: '#00bcd4',
-  },
-  header: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: DEVICE_WIDTH,
-    height: 56,
-    backgroundColor: '#00bcd4',
-    flexDirection : 'row'
-  },
-  button: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 130,
-    height: 40,
-    marginTop: 40,
-    borderRadius: 2,
-    backgroundColor: `#ff5722`,
-  },
-});
-
 class Search_Bar extends React.Component {
   constructor(props) {
     super(props);
@@ -56,6 +24,7 @@ class Search_Bar extends React.Component {
         `react-native`,
         `javascript`,
       ],
+      location:'',
     };
     this.handlerLongClick = () => {
       //handler for Long Click
@@ -81,8 +50,18 @@ class Search_Bar extends React.Component {
     });
   }
 
-  render() {
+  getMyInfo = async() => {
+    let location = await AsyncStorage.getItem("myLocation")
+    this.setState({location : location})
+  }
+
+  componentDidMount(){
     this.myFunction();
+    this.getMyInfo();
+  }
+
+  render() {
+    console.log("render")
     return (
       <View style = {{flex : 1}}>
         <StatusBar barStyle="light-content" />
@@ -95,7 +74,7 @@ class Search_Bar extends React.Component {
             transparent
             style = {{alignSelf : 'center'}}
           >
-            <Text style = {{fontSize : 25}}>우만동</Text>
+            <Text style = {{fontSize : 25}}>{this.state.location}</Text>
           </Button>
           <Button
             transparent
@@ -148,4 +127,38 @@ class Search_Bar extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#f5fcff',
+  },
+  status: {
+    zIndex: 10,
+    elevation: 2,
+    width: DEVICE_WIDTH,
+    height: 30,
+    backgroundColor: '#00bcd4',
+  },
+  header: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: DEVICE_WIDTH,
+    height: 56,
+    backgroundColor: '#00bcd4',
+    flexDirection : 'row'
+  },
+  button: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 130,
+    height: 40,
+    marginTop: 40,
+    borderRadius: 2,
+    backgroundColor: `#ff5722`,
+  },
+});
+
 export default Search_Bar;

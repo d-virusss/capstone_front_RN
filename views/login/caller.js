@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View, Alert} from 'react-native';
 import CustomButton from './custom_button';
-import { Item, Input} from 'native-base';
+import { Item, Input, Toast} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../shared/server_address'
 
@@ -10,7 +10,7 @@ Icon.loadFont();
 
 var user_obj = {
   user: {
-    email: 'tester4@test.com',
+    email: 'tester1@test.com',
     password: 'test123',
   },
 };
@@ -23,6 +23,7 @@ var userinfo = {
 };
 
 class LoginScreen extends Component {
+
 
   setToken = async () => {
     try {
@@ -38,15 +39,16 @@ class LoginScreen extends Component {
 
   
   makeRequest() {
-    if (userinfo.user.email == '')
+    if (userinfo.user.email == ''){
       Alert.alert("이메일을 입력해주세요")
+    }
     if (userinfo.user.password == '')
       Alert.alert("비밀번호를 입력해주세요")
     if (!(userinfo.user.email == '') && !(userinfo.user.password == '')) {
       api
         .post('/users/sign_in', userinfo)
         .then((response) => {
-          console.log(response.data.token);
+          console.log(response.data);
           AsyncStorage.setItem('token', response.data.token);
           AsyncStorage.setItem('user_id', String(response.data.id));
           AsyncStorage.setItem('myLocation', String(response.data.location_auth));
@@ -68,12 +70,12 @@ class LoginScreen extends Component {
     api
       .post('/users/sign_in', user_obj)
       .then((response) => {
-        console.log(response.data.token);
+        console.log(response.data);
         AsyncStorage.setItem('token', response.data.token);
         AsyncStorage.setItem('user_id', String(response.data.id));
-        AsyncStorage.setItem('myLocation', String(response.data.location_auth));
+        AsyncStorage.setItem('myLocation', response.data.location_auth);
         
-        if (String(response.data.location_auth) == "true") {// already has location
+        if (response.data.location_auth != null) {// already has location
           this.props.navigation.navigate('postIndex')
         } else {
           this.props.navigation.navigate('MyPage_Location')
