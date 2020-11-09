@@ -12,18 +12,19 @@ const image_info = {
   type: '',
   name: ''
 }
-const formdata = new FormData();
+var formdata = new FormData();
 
-class Post_provide extends Component {
+class PostUpdate extends Component {
 
   params = this.props.route.params
+
   state = {
-    post_id : "",
-    title: "",
-    category_id: "", // 잡화 의류 뷰티 전자제품 레져용품 생활용품 요리 자동차 유아용품
-    price: "",
-    body: "",
-    image: {},
+    post_id: this.params.my_post.id,
+    title: this.params.my_post.title,
+    category_id: String(this.params.my_post.category_id), // 잡화 의류 뷰티 전자제품 레져용품 생활용품 요리 자동차 유아용품
+    price: String(this.params.my_post.price),
+    body: this.params.my_post.body,
+    image: this.params.my_post.image,
     token: "",
   }
 
@@ -32,32 +33,22 @@ class Post_provide extends Component {
     this.state.token = value
     console.log(this.state.token)
   }
-  setOriginPost = () => {
-    console.log("set origin post data!")
-    console.log(this.params)
-    this.setState({
-      post_id: this.params.my_post.id,
-      title: this.params.my_post.title,
-      price: this.params.my_post.price,
-      body: this.params.my_post.body,
-      category: this.params.my_post.category,
-    })
-  }
-
 
   componentDidMount() {
     this.getToken()
-    this.setOriginPost()
     console.log("component did mount ---")
     // this.setState({image: formdata}, () => {console.log(this.state.image)})
   }
 
   setPostInfo = (data) => {
+    formdata = new FormData();
     formdata.append('post[title]', this.state.title)
     formdata.append('post[category_id]', this.state.category_id)
     formdata.append('post[price]', this.state.price)
     formdata.append('post[body]', this.state.body)
-    formdata.append('post[image]', image_info)
+    if(image_info.uri != ''){
+      formdata.append('post[image]', image_info)
+    }
     formdata.append('post[post_type]', "provide")
     console.log(formdata)
   }
@@ -145,28 +136,31 @@ class Post_provide extends Component {
           </Right>
         </Header>
         <View style={styles.imageArea}>
-          <ImageSelect stateBus={this.changeImage} ></ImageSelect>
+          <ImageSelect stateBus={this.changeImage} existing_image={this.state.image} ></ImageSelect>
         </View>
         <Container>
           <TouchableOpacity onPress={this.shownowstate()} style={{ padding: 10 }}>
-            <Text>지금 어떄</Text>
+            <Text>state값 확인</Text>
           </TouchableOpacity>
           <Content>
             <Form>
               <Item inlinelabel>
                 <Label>제목</Label>
                 <Input autoCapitalize='none'
-                  onChangeText={(text) => this.changedata(text, "title")} />
+                  onChangeText={(text) => this.changedata(text, "title")}
+                  value={this.state.title} />
               </Item>
-              <CategoryPicker setParent={this.setSelect}></CategoryPicker>
+              <CategoryPicker setParent={this.setSelect} existing_category={this.state.category_id} ></CategoryPicker>
               <Item inlinelabel last>
                 <Label>가격</Label>
                 <Input keyboardType="numeric"
-                  onChangeText={(text) => this.changedata(text, "price")} />
+                  onChangeText={(text) => this.changedata(text, "price")}
+                  value={this.state.price} />
               </Item>
               <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
                 onChangeText={(text) => this.changedata(text, "body")}
-                style={styles.textAreaContainer} />
+                style={styles.textAreaContainer}
+                value={this.state.body} />
               <Button style={{ alignSelf: 'center', marginTop: '3%' }}
                 onPress={() => this.makeUpdateRequest()} >
                 <Icon name='person'></Icon>
@@ -194,4 +188,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Post_provide;
+export default PostUpdate;

@@ -145,7 +145,8 @@ class PostShow extends Component{
     return(
       <View>
         <TouchableOpacity
-          onPress={() => this.setState({ show_popover : false }, () => {Alert.alert("수정해볼게요")}) }>
+          onPress={() => this.setState({ show_popover : false }, 
+          () => { this.props.navigation.navigate("PostUpdate", { my_post : this.params.post.post_info } ) }) }>
           <Text style={styles.popoverel}>수정</Text>
         </TouchableOpacity>
         <TouchableOpacity

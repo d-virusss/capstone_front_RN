@@ -28,7 +28,7 @@ import {localNotificationService} from './views/shared/localnotification';
 import PostReport from './views/post/post_report'
 import MyItemList from './views/mypage/myItemList'
 import ManageReservation from './views/mypage/manageReservation'
-//import PostUpdate from './views/post/post_update'
+import PostUpdate from './views/post/post_update'
 
 const Stack = createStackNavigator();
 
@@ -84,6 +84,7 @@ const App = () => {
         <Stack.Screen name="PostShow" component={PostShow}options={{ headerShown: false }}/>
         <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
+        <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
         
 
         <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false}} />

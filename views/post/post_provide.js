@@ -12,8 +12,7 @@ const image_info = {
   type: '',
   name: ''
 }
-const formdata = new FormData();
-
+var formdata = new FormData()
 class Post_provide extends Component {
   state = {
     title: "",
@@ -37,11 +36,14 @@ class Post_provide extends Component {
   }
 
   setPostInfo = (data) => {
+    formdata = new FormData()
     formdata.append('post[title]', this.state.title)
     formdata.append('post[category_id]', this.state.category_id)
     formdata.append('post[price]', this.state.price)
     formdata.append('post[body]', this.state.body)
-    formdata.append('post[image]', image_info)
+    if(image_info.uri != ''){
+      formdata.append('post[image]', image_info)
+    }
     formdata.append('post[post_type]', "provide")
     console.log(formdata)
     console.log(this.state.token)
@@ -49,7 +51,7 @@ class Post_provide extends Component {
 
   makePostRequest() {
     console.log("Start create Post-provide")
-    this.setPostInfo(this.state)
+    this.setPostInfo()
     console.log(formdata)
     if(this.state.title.length ===  0){
       Alert.alert("제목을 입력해주세요");
@@ -126,8 +128,8 @@ class Post_provide extends Component {
   }
 
   shownowstate(){
-    console.log(this.state)
-    console.log(image_info)
+    // console.log(this.state)
+    // console.log(image_info)
   }
 
   render() {
