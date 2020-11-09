@@ -4,6 +4,8 @@ import {TouchableOpacity, View, StyleSheet} from 'react-native';
 import {Text, Left, Thumbnail,Body,Right,Container, Content, ListItem,} from 'native-base';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
 import api from '../shared/server_address'
+import moment from 'moment';
+import _ from 'lodash';
 
 var reservation_list = [];
 var nextDay =[];
@@ -18,7 +20,7 @@ class reservationScreen extends Component{
 
   makeList() {
     return reservation_list.map((ele) => {
-      console.log(ele)
+      //console.log(ele)
       return (
         <ListItem>
           <Left>
@@ -41,12 +43,14 @@ class reservationScreen extends Component{
     });
   }
 
-  showBookingDate(start, end) {
+  showBookingDate(startDate, endDate) {
     nextDay = [];
     console.log("show button press")
-    console.log(start)
-    nextDay.push(start.substring(0,10))
-    nextDay.push(end.substring(0,10))
+    const start = moment(startDate);
+    const end = moment(endDate);
+    for (let m = moment(start); m.diff(end, 'days') <= 0; m.add(1, 'days')) {
+      nextDay.push(m.format('YYYY-MM-DD'));
+    }
     this.markingDate();
   }
 
@@ -77,6 +81,7 @@ class reservationScreen extends Component{
     this.getToken();
     //this.markingDate();
   }
+
 
   render(){
     if(this.state.loading) return null
