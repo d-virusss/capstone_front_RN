@@ -249,9 +249,6 @@ class PostShow extends Component{
               >
                 <Text>예약</Text>
               </Button>
-              <Button onPress = {() => this.props.navigation.navigate('Booking')}>
-                <Text>예약</Text>
-              </Button>
             </FooterTab>
           </Footer>
         </View>

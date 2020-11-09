@@ -77,7 +77,7 @@ function ChatList ({navigation}){
 
   useEffect(() => {
     getToken(), 
-    setTimeout(chatGetRequest,1000), 
+    setTimeout(chatGetRequest,10000), 
     console.log("--------------------")
   })
   return(
