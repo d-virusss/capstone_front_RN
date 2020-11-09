@@ -19,20 +19,15 @@ class ImageSelect extends Component{
       height: 400,
       cropping: true
     }).then(image => {
-      console.log(image);
-      this.setState({image : image.path})
+      this.props.stateBus(image)
     });
   }
   render(){
     return(
-      <View style ={{flex : 1, justifyContent : 'center'}}>
+      <View style ={{flex : 1, justifyContent : 'center'}} >
           <TouchableOpacity 
           style = {{flex : 1, justifyContent : 'center'}}
-          onPress = {
-            () => this.doPickImage()
-          }
-          >
-            
+          onPress = { () => this.doPickImage() } >
             {this.state.image == ''&& (
               <IconM name = 'image-multiple' size = {100}/>
             )}

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, useState, useEffect } from 'react';
 import { 
@@ -7,8 +6,8 @@ import {
 } from 'native-base';
 import BottomTab from '../shared/bottom_tab';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import api from '../shared/server_address'
 
-const api = axios.create({baseURL: 'http://3.35.9.144'});
 let token;
 
 class ListProfile extends Component {  
@@ -78,7 +77,7 @@ function ChatList ({navigation}){
 
   useEffect(() => {
     getToken(), 
-    setTimeout(chatGetRequest,1000), 
+    setTimeout(chatGetRequest,10000), 
     console.log("--------------------")
   })
   return(

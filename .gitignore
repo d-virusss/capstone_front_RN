@@ -21,6 +21,7 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 ios/Pods/Pods.xcodeproj/project.pbxproj
+*.pbxproj
 
 # Gradle
 /build/

@@ -57,7 +57,7 @@ class BottomTab extends Component {
           </Button>
           <Button vertical onPress={() => this.props.navigation.navigate('MyPage')}>
             <Icon name="person" />
-            <Text>Mypage</Text>
+            <Text>마이페이지</Text>
           </Button>
         </FooterTab>
       </Footer>

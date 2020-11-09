@@ -1,4 +1,3 @@
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import {Container, Content, Header, Left, Right, Body, Icon,
@@ -8,8 +7,7 @@ import {Container, Content, Header, Left, Right, Body, Icon,
 import IconA from 'react-native-vector-icons/Ionicons';
 import IconFe from 'react-native-vector-icons/Feather';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
-const api = axios.create({ baseURL: 'http://3.35.9.144' });
+import api from '../shared/server_address'
 
 class UserListIndex extends Component{
   state = {
@@ -20,6 +18,7 @@ class UserListIndex extends Component{
 
   makeIndexList(posts){
     return posts.map((post) => {
+      
       return(
         <ListItem thumbnail key={post.id}>
           <Left>
@@ -30,13 +29,26 @@ class UserListIndex extends Component{
             <Text note numberOfLines={1}>{post.body}</Text>
           </Body>
           <Right>
-            <Button transparent onPress={() => this.props.navigation.navigate('ProfilePostShow')}>
+            <Button transparent onPress={() => this.showPostRequset(post.id)}>
               <Text>보기</Text>
             </Button>
           </Right>
         </ListItem>
       )
     })
+  }
+
+  showPostRequset(id){
+    console.log("show request")
+    api
+      .get(`/posts/${id}`, { headers : {
+        'Authorization': this.state.token
+      }})
+      .then(function(response) {
+        console.log('success');
+        this.props.navigation.navigate('PostShow', { post: response.data })
+      }.bind(this))
+      .catch((err) => console.log("err : ", err))
   }
 
   sendProvideIndexRequest() {
@@ -113,7 +125,7 @@ function profileShowList({route, navigation}){
           </Button>
         </Left>
         <Body>
-          <Text style = {{fontSize : 17}}>상대방 프로필</Text>
+          <Text style = {{fontSize : 17}}>글 목록</Text>
         </Body>
         <Right>
         </Right>
