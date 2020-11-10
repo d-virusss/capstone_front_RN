@@ -1,12 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Container, Content, Header, Left, Right, Body, Icon,
-  Button, Text, List, ListItem, Tabs, Tab, TabHeading,
-  Thumbnail
+  Title, Text, List, ListItem, Tabs, Tab, TabHeading,
+  Thumbnail,
 } from 'native-base';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
+import IconM from 'react-native-vector-icons/Ionicons'
+IconM.loadFont()
 
 class myItemListScreen extends Component{
   state = {
@@ -102,29 +103,33 @@ class myItemListScreen extends Component{
 
   render(){
     return(
-      <Tabs>
-        <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
-          <Content>
+      <Container>
+         <Header>
+          <Left>
+            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+              <Icon name = 'chevron-back' type = 'Ionicons'/>
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>글 관리</Title></Body>
+          <Right></Right>
+        </Header>
+        <Content>
+        <Tabs>
+          <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
+            <Content>
+              <List>
+                {this.makeIndexList(this.state.posts1)}
+              </List>
+            </Content>
+          </Tab>
+          <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
             <List>
-              {this.makeIndexList(this.state.posts1)}
+              {this.makeIndexList(this.state.posts2)}
             </List>
-          </Content>
-        </Tab>
-        <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
-          <List>
-            {this.makeIndexList(this.state.posts2)}
-          </List>
-        </Tab>
-        {/* <View style={styles.footer}>
-          <Button transparent style={styles.bottomButtons}
-          >
-            <Text style = {styles.footerText}>승인</Text>
-          </Button>
-          <Button transparent style={styles.bottomButtons}>
-            <Text style = {styles.footerText}>거절</Text>
-          </Button>
-        </View> */}
-        </Tabs>
+          </Tab>
+          </Tabs>
+        </Content>
+        </Container>
         
     );
   }

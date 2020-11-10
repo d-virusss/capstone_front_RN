@@ -84,18 +84,18 @@ const App = () => {
         <Stack.Screen name="PostShow" component={PostShow}options={{ headerShown: false }}/>
         <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
-        <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
+    
         
 
         <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false}} />
-        <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{ headerTitle: '동네 설정', headerTitleStyle: {fontSize: 25}, }} />
-        <Stack.Screen name="SettingGroup" component={SettingGroup} options={{ headerTitle: '소속 인증', headerTitleStyle: {fontSize: 25}, }} />
-        <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{ headerTitle: '관심 목록', headerTitleStyle: {fontSize: 25}, }} />
+        <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{headerShown: false}}  />
+        <Stack.Screen name="SettingGroup" component={SettingGroup} options={{ headerShown : false}} />
+        <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{headerShown: false}}  />
         <Stack.Screen name="ProfileShow" component={ProfileShow} options={{ headerShown : false, }} />
         <Stack.Screen name="ProfileShowList" component={ProfileShowList} options={{ headerShown : false, }} />
         <Stack.Screen name="Booking" component={Booking} />
-        <Stack.Screen name="MyItemList" component={MyItemList} />
-        <Stack.Screen name="Reservation" component={ManageReservation} />
+        <Stack.Screen name="MyItemList" component={MyItemList} options={{headerShown: false}} />
+        <Stack.Screen name="Reservation" component={ManageReservation} options={{headerShown: false}} />
         
       </Stack.Navigator>
     </NavigationContainer>
