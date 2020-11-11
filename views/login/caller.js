@@ -10,7 +10,7 @@ Icon.loadFont();
 
 var user_obj = {
   user: {
-    email: 'tester4@test.com',
+    email: 'tester1@test.com',
     password: 'test123',
   },
 };
@@ -46,12 +46,12 @@ class LoginScreen extends Component {
       api
         .post('/users/sign_in', userinfo)
         .then((response) => {
-          console.log(response.data.token);
+          console.log(response);
           AsyncStorage.setItem('token', response.data.token);
           AsyncStorage.setItem('user_id', String(response.data.id));
           AsyncStorage.setItem('myLocation', String(response.data.location_auth));
 
-          if (String(response.data.location_auth) == "true") {// already has location
+          if ((response.data.location_auth) != null) {// already has location
             this.props.navigation.navigate('postIndex')
           } else {
             this.props.navigation.navigate('MyPage_Location')
@@ -68,12 +68,12 @@ class LoginScreen extends Component {
     api
       .post('/users/sign_in', user_obj)
       .then((response) => {
-        console.log(response.data.token);
+        console.log(response);
         AsyncStorage.setItem('token', response.data.token);
         AsyncStorage.setItem('user_id', String(response.data.id));
         AsyncStorage.setItem('myLocation', String(response.data.location_auth));
         
-        if (String(response.data.location_auth) == "true") {// already has location
+        if ((response.data.location_auth) != null) {// already has location
           this.props.navigation.navigate('postIndex')
         } else {
           this.props.navigation.navigate('MyPage_Location')
