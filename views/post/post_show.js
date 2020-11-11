@@ -1,17 +1,16 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
-import {View, ScrollView, Image, StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import {View, ScrollView, Image, StyleSheet, TouchableOpacity, Alert,} from 'react-native';
 import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, FooterTab, Header, Body, Container, Title} from 'native-base';
 import Popover from 'react-native-popover-view';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
+
 IconM.loadFont();
-
-
 UserAgent.getUserAgent(); //synchronous
-class PostShow extends Component{
 
+class PostShow extends Component{
   params = this.props.route.params;
 
   state = {
@@ -39,8 +38,6 @@ class PostShow extends Component{
       this.state.token = value
       const user_id = await AsyncStorage.getItem('user_id')
       this.state.is_your_post = this.params.post.user.user_info.id == parseInt(user_id) ? true : false
-      console.log(this.state.token)
-      console.log(this.state.login_user_id)
     } catch (error){
       console.log("error : ", error);
     }
@@ -54,7 +51,6 @@ class PostShow extends Component{
 
 
   setParams = () => {
-    console.log(this.params)
     this.setState({ 
       title: this.params.post.post_info.title,
       price: this.params.post.post_info.price,
@@ -145,7 +141,8 @@ class PostShow extends Component{
     return(
       <View>
         <TouchableOpacity
-          onPress={() => this.setState({ show_popover : false }, () => {Alert.alert("수정해볼게요")}) }>
+          onPress={() => this.setState({ show_popover : false }, 
+          () => { this.props.navigation.navigate("PostUpdate", { my_post : this.params.post.post_info } ) }) }>
           <Text style={styles.popoverel}>수정</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -197,7 +194,7 @@ class PostShow extends Component{
         </Header>
 
         <Content style={{flex : 1}}>
-          <ScrollView style={styles.container} >
+          <ScrollView style={styles.container}>
             <View style = {styles.imageArea}>
               <Image source={{ uri : this.state.image || "empty" }} style={styles.imageView} />
             </View>

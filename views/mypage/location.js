@@ -1,12 +1,15 @@
-import axios from 'axios';
+import axios from 'axios'
 import React, {useState, useEffect} from 'react';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
-import {StyleSheet, Dimensions, View, Platform} from 'react-native';
-import {Button} from 'native-base';
+import {StyleSheet, Dimensions, View, Platform, TouchableOpacity} from 'react-native';
+import {Button, Container, Content, Left, Right, Header, Body, Title, Icon, Spinner} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
 import {Text} from 'native-base';
 import api from '../shared/server_address'
+import IconM from 'react-native-vector-icons/Ionicons'
+IconM.loadFont()
+
 const kakaoApi = axios.create({baseURL: 'https://dapi.kakao.com/v2/local/'});
 var current_screen = '';
 var myLocation = ''
@@ -69,8 +72,8 @@ async function putRequest() {
       .then(() => {
         console.log('put request success');
         alert("동네 인증에 성공했습니다.")
-        AsyncStorage.setItem('myLocation', "true");
-        if(myLocation == "false"){
+        AsyncStorage.setItem('myLocation', user_addr.location.title);
+        if(myLocation == null){
           current_screen.navigation.navigate('postIndex')
         }else{
           current_screen.navigation.navigate('MyPage')
@@ -117,13 +120,26 @@ const MypageScreen = (props) => {
 
   if (!location) {
     return (
-      <View>
-        <Text>read Location...</Text>
-      </View>
+      <Container>
+        <Header />
+        <Content>
+          <Spinner color='green' />
+        </Content>
+      </Container>
     );
   } //else
   return (
-    <View>
+    <Container>
+      <Header>
+          <Left>
+            <TouchableOpacity transparent onPress = {() => current_screen.navigation.goBack()}>
+              <Icon name = 'chevron-back' type = 'Ionicons'/>
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>동네 설정</Title></Body>
+          <Right></Right>
+        </Header>
+      <Content>
       <Button
         block
         info
@@ -154,7 +170,8 @@ const MypageScreen = (props) => {
           />
         </MapView>
       </View>
-    </View>
+      </Content>
+    </Container>
   );
 };
 

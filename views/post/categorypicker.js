@@ -7,7 +7,8 @@ export default class CategoryPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: undefined
+      selected: this.props.existing_category != undefined ? this.props.existing_category : undefined,
+      
     };
   }
   seleçtedValue(value) {
