@@ -31,6 +31,7 @@ class PostShow extends Component{
     show_popover : false,
     is_your_post : false,
     chat_id: 0,
+    val: -1,
   };
 
   getToken = async () => {
@@ -75,9 +76,8 @@ class PostShow extends Component{
     })
   }
 
-  chatCreateRequset() {
-    let val = -1;
-    api
+  chatCreateRequset = async()=> {
+    await api
       .post(`/chats?post_id=${this.state.post_id}`, null,
       { 
         headers : {'Authorization': this.state.token}
@@ -87,13 +87,12 @@ class PostShow extends Component{
         console.log(response);
         this.state.chat_id = response.data.chat_info.id;
         console.log(this.state.chat_id)
-        val = 0;
+        this.setState({val:0})
       })
       .catch((err) => {
-        val = 1;
+        this.setState({val:1})
         console.log("err : ", err)
       })
-    return val;
   }
 
   likeRequest = () => {
@@ -117,9 +116,14 @@ class PostShow extends Component{
       })
   }
   makeCallchat_navigate(){
-    let val = -1;
-    val = this.chatCreateRequset();
-    if(val === 0)
+    this.chatCreateRequset().then(()=>{
+      console.log(this.state.val);
+      this.checkNavigate();
+    })
+  }
+  
+  checkNavigate(){
+    if(this.state.val === 0)
       this.props.navigation.navigate('ChatRoom', {chat_id: this.state.chat_id, post_id: this.state.post_id});
   }
 
