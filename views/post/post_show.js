@@ -80,6 +80,7 @@ class PostShow extends Component{
   }
 
   chatCreateRequset() {
+    let val = -1;
     api
       .post(`/chats?post_id=${this.state.post_id}`, null,
       { 
@@ -90,8 +91,13 @@ class PostShow extends Component{
         console.log(response);
         this.state.chat_id = response.data.chat_info.id;
         console.log(this.state.chat_id)
+        val = 0;
       })
-      .catch((err) => console.log("err : ", err))
+      .catch((err) => {
+        val = 1;
+        console.log("err : ", err)
+      })
+    return val;
   }
 
   likeRequest = () => {
@@ -115,8 +121,10 @@ class PostShow extends Component{
       })
   }
   makeCallchat_navigate(){
-    this.chatCreateRequset();
-    this.props.navigation.navigate('ChatRoom', {chat_id: this.state.chat_id, post_id: this.state.post_id});
+    let val = -1;
+    val = this.chatCreateRequset();
+    if(val === 0)
+      this.props.navigation.navigate('ChatRoom', {chat_id: this.state.chat_id, post_id: this.state.post_id});
   }
 
   gochangeRequest(){
