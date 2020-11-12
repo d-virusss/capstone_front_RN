@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "&#x1106;&#x1169;&#x1103;&#x116e;&#x1102;&#x1161;&#x1102;&#x116e;&#x11b7;.app"
+               BuildableName = "capstone_frontend.app"
                BlueprintName = "capstone_frontend"
                ReferencedContainer = "container:capstone_frontend.xcodeproj">
             </BuildableReference>
@@ -55,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "&#x1106;&#x1169;&#x1103;&#x116e;&#x1102;&#x1161;&#x1102;&#x116e;&#x11b7;.app"
+            BuildableName = "capstone_frontend.app"
             BlueprintName = "capstone_frontend"
             ReferencedContainer = "container:capstone_frontend.xcodeproj">
          </BuildableReference>
@@ -72,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "&#x1106;&#x1169;&#x1103;&#x116e;&#x1102;&#x1161;&#x1102;&#x116e;&#x11b7;.app"
+            BuildableName = "capstone_frontend.app"
             BlueprintName = "capstone_frontend"
             ReferencedContainer = "container:capstone_frontend.xcodeproj">
          </BuildableReference>
