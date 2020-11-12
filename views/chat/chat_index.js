@@ -1,12 +1,20 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, useState, useEffect } from 'react';
+import {ActionSheetIOS} from 'react-native';
 import { 
   Container, Header, Content, List, ListItem, 
   Left, Body, Right, Thumbnail, Text,
+  Footer, FooterTab, Root, Button, Icon,
+  Badge
 } from 'native-base';
 import BottomTab from '../shared/bottom_tab';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
+IconM.loadFont();
+
+let BUTTONS = ["물품 등록", "대여요청하기", "취소"];
+let CANCEL_INDEX = 2;
 
 let token;
 let refreshFlag = true;
@@ -14,26 +22,8 @@ let refreshFlag = true;
 class ListProfile extends Component {  
   state = {
     nick: "",
-    flag: 0,
-  }
-  getUserInfo = async () =>{
-    await api
-            .get(`/posts/${this.props.title}`,{
-              headers : {
-                'Authorization' : token,
-              }
-            })
-            .then((response)=>{
-              console.log(response)
-              this.state.nick = response.data.user.user_info.nickname;
-              if(this.state.flag === 0){
-                this.setState({flag: 1});
-              }
-            })
-            .catch((error)=>{console.log(error)})
   }
   render(){
-    //this.getUserInfo();
     return(
       <ListItem avatar>
         <Left>
@@ -54,8 +44,7 @@ class ListProfile extends Component {
     );
   }
 }
-function ChatList ({navigation}){
-  
+function ChatList ({ navigation}){
   const [chats, setChats] = useState([]);
 
   const getToken = async () => {
@@ -114,7 +103,54 @@ function ChatList ({navigation}){
             {makeIndexList()}
           </List>
         </Content>
-        <BottomTab navigation = {navigation}></BottomTab>
+        <Footer>
+        <FooterTab>
+          <Button vertical onPress={() => {navigation.navigate('postIndex'); refreshFlag = true;}}>
+            <Icon name="home" />
+            <Text>홈</Text>
+          </Button>
+          <Root vertical transparent>
+            <Button
+              transparent
+              vertical
+              style={{ alignSelf: 'center' }}
+              onPress={() =>
+                ActionSheetIOS.showActionSheetWithOptions(
+                  {
+                    options: BUTTONS,
+                    cancelButtonIndex: CANCEL_INDEX,
+                    title: "글쓰기"
+                  },
+                  buttonIndex => {
+                    if (buttonIndex === 0) {
+                      refreshFlag = true;
+                      navigation.navigate('P_W_p');
+                    }
+                    if (buttonIndex === 1) {
+                      refreshFlag = true;
+                      navigation.navigate('P_W_c');
+                    }
+                  },
+                )}
+            >
+              <Icon name="pencil" style={{ color: '#6b6b6b' }} />
+              <Text style={{ fontSize: 14, color: '#6b6b6b' }}>글쓰기</Text>
+            </Button>
+          </Root>
+          <Button badge vertical onPress={() => {
+            this.props.navigation.navigate('Chats')
+          }
+          }>
+            <Badge ><Text>51</Text></Badge>
+            <Icon name="chatbubble" />
+            <Text>채팅</Text>
+          </Button>
+          <Button vertical onPress={() => {navigation.navigate('MyPage'); refreshFlag = true;}}>
+            <Icon name="person" />
+            <Text>마이페이지</Text>
+          </Button>
+        </FooterTab>
+      </Footer>
       </Container>
   );
 }
