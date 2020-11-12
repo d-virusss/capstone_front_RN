@@ -34,6 +34,7 @@ class FCMService {
         messaging().getToken()
         .then(fcmToken => {
             if (fcmToken) {
+                console.log("this is token : " + fcmToken);
                 onRegister(fcmToken)
             }else {
                 console.log("[FCMService] User does not have a device token")

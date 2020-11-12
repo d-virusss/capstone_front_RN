@@ -1,5 +1,5 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {TouchableOpacity} from 'react-native';
+import {Alert} from 'react-native';
 import React, {Component, Fragment, useEffect} from 'react';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import {Icon, Button} from 'native-base';
@@ -56,7 +56,7 @@ const App = () => {
 
     function onOpenNotification(notify){
       console.log("[App] onOpenNotification: ", notify)
-      alert("Open Notification: "+notify.body)
+      Alert.alert(notify.title, notify.body,[{text:'확인', style:'cancel'}])
 
       return () =>{
         console.log("[App] unregister")
