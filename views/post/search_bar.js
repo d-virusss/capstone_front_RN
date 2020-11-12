@@ -7,7 +7,7 @@ import ProvideIndex from './provide_index';
 import AskIndex from './ask_index';
 import {Button, Container, Tabs, Tab, TabHeading} from 'native-base'
 import SearchHeader from 'react-native-search-header';
-import Example from './categorymodal';
+import Category from './categorymodal';
 
 IconM.loadFont();
 //https://www.npmjs.com/package/react-native-search-header
@@ -111,7 +111,7 @@ class Search_Bar extends React.Component {
             // }
           }}
         />
-        <Example></Example>
+        <Category style={{ marginLeft: '40%' }}></Category>
         <Container>
           <Tabs style={{marginTop : '0%',}}>
             <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
