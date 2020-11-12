@@ -9,6 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
 
 let token;
+let refreshFlag = true;
 
 class ListProfile extends Component {  
   state = {
@@ -32,17 +33,17 @@ class ListProfile extends Component {
             .catch((error)=>{console.log(error)})
   }
   render(){
-    this.getUserInfo();
+    //this.getUserInfo();
     return(
       <ListItem avatar>
         <Left>
-          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom'), {chat_id : this.props.chatID, post_id: this.props.title}}>
+          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom'), {chat_id : this.props.chatID, post_id: this.props.postID}}>
             <Thumbnail source={{ uri: this.props.imageURI}} style={{ marginTop: -14 }} />
           </TouchableOpacity>
         </Left>
         <Body style={{paddingVertical: 30}} >
-          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.title})}>
-            <Text> {this.state.nick} </Text>
+          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID})}>
+            <Text> {this.props.nickname} </Text>
             <Text note> {this.props.body} </Text>
           </TouchableOpacity>
         </Body>
@@ -67,8 +68,8 @@ function ChatList ({navigation}){
       console.log(token);
     }
   
-  const chatGetRequest = () => {
-    api
+  const chatGetRequest = async() => {
+    await api
       .get(`/chats`, 
       { 
         headers : {
@@ -91,13 +92,18 @@ function ChatList ({navigation}){
     console.log(JSON.stringify(chats));
     return chats.map((chat) => {
       return(
-        <ListProfile navigation = {navigation} imageURI="https://picsum.photos/id/3/150/150" title = {chat.chat_info.post_id} body = {chat.chat_info.message} time = "" chatID = {chat.chat_info.id}/> 
+        <ListProfile navigation = {navigation} imageURI="https://picsum.photos/id/3/150/150" nickname = {chat.chat_info.nickname} postID = {chat.chat_info.post_id} body = {chat.chat_info.message} time = "" chatID = {chat.chat_info.id}/> 
       )
     })
   }
 
   useEffect(() => {
     getToken()
+    if(refreshFlag){
+      console.log(refreshFlag);
+      refreshFlag = false;
+      setTimeout(chatGetRequest, 200);
+    }
     setTimeout(chatGetRequest,10000)
     console.log("--------------------")
   })
