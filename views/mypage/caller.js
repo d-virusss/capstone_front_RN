@@ -225,7 +225,29 @@ class MypageScreen extends Component {
             </ListItem>
           </List>
         </Content>
-
+        <Button onPress = {()=>{
+          getFCMToken = async() =>{
+            let fcmToken = await AsyncStorage.getItem('fcmToken')
+            await api
+              .post('/users/add_device',
+                {
+                  user:{
+                    device_token: fcmToken
+                  }
+                },
+                {
+                  headers:{
+                    'Authorization': this.state.token
+                  }
+                }
+              )
+              .then((response)=>console.log(response))
+              .then((error)=>console.log(error))
+          }
+          getFCMToken();
+        }}>
+          <Text>디버그(fcmtoken)</Text>
+        </Button>
         <Footer>
           <FooterTab>
             <View style={{flex: 1, backgroundColor: 'white'}}>
