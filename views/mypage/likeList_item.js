@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { List, ListItem, View, Left, Thumbnail, Body, Right, Button } from 'native-base';
+import { Header, ListItem, View, Container, Content, Body, Right, Spinner, Thumbnail, Left } from 'native-base';
 import api from '../shared/server_address'
 
 var like_item = [];
@@ -15,8 +15,9 @@ class LikeListItemScreen extends Component {
 
   makeList() {
     return like_item.map((ele) => {
+      console.log(ele)
       return (
-        <ListItem thumbnail key>
+        <ListItem thumbnail key = {ele.like_info.id}>
           <Body>
             <Text>{ele.like_info.title}</Text>
           </Body>
@@ -80,8 +81,14 @@ class LikeListItemScreen extends Component {
 
   render() {
     if (this.state.loading_item) {
-      console.log('loading...');
-      return null;
+      return (
+        <Container>
+        <Header />
+        <Content>
+          <Spinner color='green' />
+        </Content>
+      </Container>
+      );
     } else {
       console.log('show');
       return <View>{this.makeList()}</View>;

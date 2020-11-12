@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import { StyleSheet, Platform, View, Alert } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { TouchableOpacity, View, Alert} from 'react-native';
+import CustomButton from '../login/custom_button';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Container, Header, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Label, Left, Right, Icon, Body, Title } from 'native-base';
 import api from '../shared/server_address'
+import IconM from 'react-native-vector-icons/Ionicons'
+IconM.loadFont()
 
 class SettingGroupScreen extends Component {
 state = {
@@ -17,33 +19,63 @@ state = {
 
 getToken = async() => {
     let token = await AsyncStorage.getItem('token')
-    this.setState({token: token})
+    this.state.token = token
 }
 
 getAuthCodeRequest = async() => {
-    this.getToken().then(() => {
     api
-        .post('/users/email_auth', this.state, {
-            headers: {
-            'Authorization': this.state.token
-            }
-        })
-        .then((res) =>  {
-            console.log('success getAuthCodeRequest');
-            alert("인증번호를 보냈습니다.")
-            this.setState({auth: true});
-        })
-        .catch((err) =>  {
-            console.log('fail getAuthCodeRequest');
-            alert("이메일을 다시 확인해주세요.")
-        });
+    .post('/users/email_auth', this.state, {
+        headers: {
+        'Authorization': this.state.token
+        }
     })
+    .then((res) =>  {
+        console.log('success getAuthCodeRequest');
+        alert("코드를 발송했습니다.")
+        this.setState({auth: true});
+    })
+    .catch((err) =>  {
+        console.log('fail getAuthCodeRequest');
+        console.log(err)
+        alert("이메일을 다시 확인해주세요.")
+    });
+}
+
+showAuthFrom () {
+    if(this.state.auth == true){
+        return(
+        <View>
+            <Item floatingLabel>
+            <Label>인증번호</Label>
+            <Input
+            onChangeText = {(code) => {
+                this.state.user.code = code
+                }}
+            />
+            </Item>
+            <View style={{marginTop: '10%',height: '23%', alignItems: 'center',}}>
+                <CustomButton
+                    title="소속 인증하기"
+                    titleColor="white"
+                    buttonColor="skyblue"
+                    borderWidth={5}
+                    borderRadius={5}
+                    width="50%"
+                    height="100%"
+                    justify='center'
+                    onPress={() => this.sendAuthCodeRequest()}
+                />
+            </View>
+        </View>
+        )
+    }else{
+        return null;
+    }
 
 }
 
 sendAuthCodeRequest = async() => {
-    
-api
+    api
     .post('/users/email_auth', this.state, {
         headers: {
         'Authorization': this.state.token
@@ -52,7 +84,6 @@ api
     .then((res) =>  {
         console.log('success sendAuthCodeRequest ');
         alert("인증에 성공했습니다.")
-        this.setState({auth: true});
     })
     .catch((err) =>  {
         console.log('fail sendAuthCodeRequest ');
@@ -62,38 +93,46 @@ api
 }
 
 render() {
-return (
+    this.getToken();
+    return (
     <Container>
+        <Header>
+          <Left>
+            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+              <Icon name = 'chevron-back' type = 'Ionicons'/>
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>소속 인증</Title></Body>
+          <Right></Right>
+        </Header>
+
         <Content>
             <Form>
             {/* email */}
+            <View>
             <Item floatingLabel>
             <Label>인증할 이메일을 입력하세요</Label>
-            <Input
+            <Input autoCapitalize="none"
             onChangeText = {(eMail) => {
                 this.state.user.email = eMail
                 }}
             />
             </Item>
-            <Button
-            info
-            onPress={() => {this.getAuthCodeRequest();}}>
-            <Text>소속 인증하기</Text>
-            </Button>
-
-            <Item floatingLabel>
-            <Label>인증번호</Label>
-            <Input
-            onChangeText = {(code) => {
-                this.state.user.code = code
-                }}
-            />
-            </Item>
-            <Button
-            info
-            onPress={() => {this.sendAuthCodeRequest();}}>
-            <Text>확인</Text>
-            </Button>
+            <View style={{marginTop: '10%',height: '23%', alignItems: 'center',}}>
+                <CustomButton
+                    title="인증 코드 발급"
+                    titleColor="white"
+                    buttonColor="skyblue"
+                    borderWidth={5}
+                    borderRadius={5}
+                    width="50%"
+                    height="100%"
+                    justify='center'
+                    onPress={() => this.getAuthCodeRequest()}
+                />
+            </View>
+            </View>
+                {this.showAuthFrom()}
             </Form>
         </Content>
     </Container>

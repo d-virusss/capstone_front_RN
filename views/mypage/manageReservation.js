@@ -1,52 +1,69 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {TouchableOpacity, View, StyleSheet} from 'react-native';
-import {Text, Left, Thumbnail,Body,Right,Container, Content, ListItem,} from 'native-base';
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
+import {TouchableOpacity, View, StyleSheet, } from 'react-native';
+import {Text, Header, Thumbnail, Icon, Body, Container, Content, ListItem, Spinner, Button, Left, Right, Title} from 'native-base';
+import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
+import moment from 'moment';
+import _ from 'lodash';
+import IconM from 'react-native-vector-icons/Ionicons'
+IconM.loadFont()
 
 var reservation_list = [];
 var nextDay =[];
+var reservation_info = {
+  item_id : '',
+  booking: {
+    post_id: '',
+    acceptance: '',
+  },
+};
 
 class reservationScreen extends Component{
-  //params = this.props.route.params;
   state = {
     marked: null,
     token: 0,
     loading: true,
+    showToast: false,
+    refreshing: '',
   };
+
+  onRefresh = () => {
+   
+    console.log("refresh")
+    
+    this.setState({refreshing: true});
+    this.getReservationList();
+    this.setState({refreshing: false});
+  }
 
   makeList() {
     return reservation_list.map((ele) => {
       console.log(ele)
       return (
-        <ListItem>
-          <Left>
-            <Thumbnail source={{uri: ele.booking_info.image}} />
-          </Left>
+        <ListItem key={ele.booking_info.id}
+        button onPress = {() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id, ele.booking_info.start_at, ele.booking_info.end_at)}>
+           <Thumbnail source={{uri: ele.booking_info.image}} />
           <Body>
             <Text>{ele.booking_info.title}</Text>
             <Text note numberOfLines={1}>
               {ele.booking_info.acceptance}
             </Text>
           </Body>
-          <Right>
-            <TouchableOpacity 
-            onPress = {() => this.showBookingDate(ele.booking_info.start_at, ele.booking_info.end_at)}>
-              <Text>보기</Text>
-            </TouchableOpacity>
-          </Right>
         </ListItem>
       );
     });
   }
 
-  showBookingDate(start, end) {
+  showBookingDate(id, post_id, startDate, endDate) {
     nextDay = [];
-    console.log("show button press")
-    console.log(start)
-    nextDay.push(start.substring(0,10))
-    nextDay.push(end.substring(0,10))
+    const start = moment(startDate);
+    const end = moment(endDate);
+    for (let m = moment(start); m.diff(end, 'days') <= 0; m.add(1, 'days')) {
+      nextDay.push(m.format('YYYY-MM-DD'));
+    }
+    reservation_info.item_id = id;
+    reservation_info.booking.post_id = post_id;
     this.markingDate();
   }
 
@@ -56,7 +73,7 @@ class reservationScreen extends Component{
     this.getReservationList()
   }
 
-  getReservationList = async() => {
+  getReservationList () {
     api.get('/bookings?received=true', {
         headers: {Authorization: this.state.token},
     }).then((res) => {
@@ -75,21 +92,83 @@ class reservationScreen extends Component{
 
   componentDidMount(){
     this.getToken();
-    //this.markingDate();
+  }
+
+  accept (){
+    reservation_info.booking.acceptance='accepted'
+    api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
+      headers: {
+        Authorization: this.state.token,
+      },
+    }).then((res) => {
+      alert("승인이 완료되었습니다.")
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
+  reject() {
+    reservation_info.booking.acceptance='rejected'
+    api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
+      headers: {
+        Authorization: this.state.token,
+      },
+    }).then((res) => {
+      alert("거절되었습니다.")
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
+  showOptionButton(){
+    if(reservation_info.item_id){
+      return(
+        <View style={styles.footer}>
+          <Button transparent style={styles.bottomButtons}
+           onPress={() => {this.accept()}}>
+            <Text style = {styles.footerText}>승인</Text>
+          </Button>
+          <Button transparent style={styles.bottomButtons}
+          onPress= {() => {this.reject()}}>
+            <Text style = {styles.footerText}>거절</Text>
+          </Button>
+        </View>
+      )
+    }else{
+      return null
+    }
   }
 
   render(){
-    if(this.state.loading) return null
+    if(this.state.loading) {
+      return (
+        <Container>
+        <Header />
+        <Content>
+          <Spinner color='green' />
+        </Content>
+      </Container>
+      )
+    }
     else{
     return(
       <Container>
+         <Header>
+          <Left>
+            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+              <Icon name = 'chevron-back' type = 'Ionicons'/>
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>예약 관리</Title></Body>
+          <Right>
+          <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
+              <Icon name = 'refresh' type = 'Ionicons'/>
+            </TouchableOpacity>
+          </Right>
+        </Header>
+
         <Content>
         <Calendar
-        //  markedDates={{
-        //   '2020-11-22': {selected: true, startingDay: true, color: '#50cebb'},
-        //   '2020-11-23': {selected: true, endingDay: true, color: '#50cebb'},
-        //   '2020-11-24': {selected: true, startingDay: true, color: '#50cebb', endingDay: true}
-        // }}
         markedDates={this.state.marked}
         markingType={'period'}
         />
@@ -97,6 +176,7 @@ class reservationScreen extends Component{
         <Content>
             {this.makeList()}
         </Content>
+        {this.showOptionButton()}
       </Container>
     )
     } 
@@ -105,7 +185,28 @@ class reservationScreen extends Component{
 
 
 const styles = StyleSheet.create({
-
+  footer: {
+    position: 'absolute',
+    flex:0.1,
+    left: 0,
+    right: 0,
+    bottom: -5,
+    backgroundColor:'#50cebb',
+    flexDirection:'row',
+    height:80,
+    alignItems:'center',
+  },
+  bottomButtons: {
+    alignItems:'center',
+    justifyContent: 'center',
+    flex:1,
+  },
+  footerText: {
+    color:'white',
+    fontWeight:'bold',
+    alignItems:'center',
+    fontSize:18,
+  },
  });
 
 export default reservationScreen;

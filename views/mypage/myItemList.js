@@ -1,11 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Container, Content, Header, Left, Right, Body, Icon,
-  Button, Text, View, List, ListItem, Tabs, Tab, TabHeading,
-  Thumbnail
+  Title, Text, List, ListItem, Tabs, Tab, TabHeading,
+  Thumbnail,
 } from 'native-base';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
+import IconM from 'react-native-vector-icons/Ionicons'
+IconM.loadFont()
 
 class myItemListScreen extends Component{
   state = {
@@ -101,22 +103,61 @@ class myItemListScreen extends Component{
 
   render(){
     return(
-      <Tabs>
-        <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
-          <Content>
+      <Container>
+         <Header>
+          <Left>
+            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+              <Icon name = 'chevron-back' type = 'Ionicons'/>
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>글 관리</Title></Body>
+          <Right></Right>
+        </Header>
+        <Content>
+        <Tabs>
+          <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
+            <Content>
+              <List>
+                {this.makeIndexList(this.state.posts1)}
+              </List>
+            </Content>
+          </Tab>
+          <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
             <List>
-              {this.makeIndexList(this.state.posts1)}
+              {this.makeIndexList(this.state.posts2)}
             </List>
-          </Content>
-        </Tab>
-        <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
-          <List>
-            {this.makeIndexList(this.state.posts2)}
-          </List>
-        </Tab>
-        </Tabs>
+          </Tab>
+          </Tabs>
+        </Content>
+        </Container>
+        
     );
   }
 }
+
+const styles = StyleSheet.create({
+  footer: {
+    position: 'absolute',
+    flex:0.1,
+    left: 0,
+    right: 0,
+    bottom: -5,
+    backgroundColor:'#50cebb',
+    flexDirection:'row',
+    height:80,
+    alignItems:'center',
+  },
+  bottomButtons: {
+    alignItems:'center',
+    justifyContent: 'center',
+    flex:1,
+  },
+  footerText: {
+    color:'white',
+    fontWeight:'bold',
+    alignItems:'center',
+    fontSize:18,
+  },
+ });
 
 export default myItemListScreen;
