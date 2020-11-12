@@ -11,6 +11,7 @@ import BottomTab from '../shared/bottom_tab';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View } from 'react-native-animatable';
 IconM.loadFont();
 
 let BUTTONS = ["물품 등록", "대여요청하기", "취소"];
@@ -18,6 +19,7 @@ let CANCEL_INDEX = 2;
 
 let token;
 let refreshFlag = true;
+let noChat = false;
 
 class ListProfile extends Component {  
   state = {
@@ -67,7 +69,13 @@ function ChatList ({ navigation}){
       })
       .then((response) => {
         console.log('success');
-        console.log(response);
+        console.log(JSON.stringify(response.data)+ " response data");
+        if(JSON.stringify(response.data) === '[]') {
+          console.log("111111111111111");
+          noChat = true;
+        }
+        else noChat = false;
+        console.log(noChat+" nochat")
         setChats(response.data, [])
       })
       .catch((err) => console.log("err : ", err))
@@ -100,7 +108,12 @@ function ChatList ({ navigation}){
     <Container>
         <Content>
           <List>
-            {makeIndexList()}
+            {noChat == true && 
+              <View style = {{justifyContent : "center", alignItems: 'center', height : 500}}>
+                <Text>채팅이 없습니다</Text>
+              </View>
+            }
+            {noChat == false && makeIndexList()}
           </List>
         </Content>
         <Footer>
@@ -141,7 +154,7 @@ function ChatList ({ navigation}){
             this.props.navigation.navigate('Chats')
           }
           }>
-            <Badge ><Text>51</Text></Badge>
+            <Badge><Text>51</Text></Badge>
             <Icon name="chatbubble" />
             <Text>채팅</Text>
           </Button>
