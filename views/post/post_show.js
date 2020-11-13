@@ -126,6 +126,12 @@ class PostShow extends Component{
   checkNavigate(){
     if(this.state.val === 0)
       this.props.navigation.navigate('ChatRoom', {chat_id: this.state.chat_id, post_id: this.state.post_id});
+    if(this.state.val === 1) {
+      Alert.alert(
+        "오류",
+        "옳바르지 않은 대상입니다.",
+      );
+    }
   }
 
   gochangeRequest(){

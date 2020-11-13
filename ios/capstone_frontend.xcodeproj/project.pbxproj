@@ -47,7 +47,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* capstone_frontendTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = capstone_frontendTests.m; sourceTree = "<group>"; };
 		0BB51FC9B538354A66B74AC1 /* libPods-capstone_frontend.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-capstone_frontend.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07F961A680F5B00A75B9A /* 모두나눔.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "모두나눔.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* capstone_frontend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = capstone_frontend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = capstone_frontend/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = capstone_frontend/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = capstone_frontend/Images.xcassets; sourceTree = "<group>"; };
@@ -186,7 +186,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* 모두나눔.app */,
+				13B07F961A680F5B00A75B9A /* capstone_frontend.app */,
 				00E356EE1AD99517003FC87E /* capstone_frontendTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* capstone_frontend-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* capstone_frontend-tvOSTests.xctest */,
@@ -251,7 +251,7 @@
 			);
 			name = capstone_frontend;
 			productName = capstone_frontend;
-			productReference = 13B07F961A680F5B00A75B9A /* 모두나눔.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* capstone_frontend.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2D02E47A1E0B4A5D006451C7 /* capstone_frontend-tvOS */ = {
@@ -776,7 +776,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.applePink.modunanum;
-				PRODUCT_NAME = "모두나눔";
+				PRODUCT_NAME = capstone_frontend;
 				SWIFT_OBJC_BRIDGING_HEADER = "capstone_frontend-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -802,7 +802,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.applePink.modunanum;
-				PRODUCT_NAME = "모두나눔";
+				PRODUCT_NAME = capstone_frontend;
 				SWIFT_OBJC_BRIDGING_HEADER = "capstone_frontend-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -981,6 +981,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = capstone_frontend;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1033,6 +1034,7 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = capstone_frontend;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
