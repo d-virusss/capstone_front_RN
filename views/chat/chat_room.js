@@ -148,7 +148,7 @@ function ChatRoom ({route , navigation}) {
     <Container>
       <Header style = {{height : 45}}>
         <Left>
-          <Button transparent onPress = {() => navigation.goBack()}>
+          <Button transparent onPress = {() => {updateFlag = 0; navigation.goBack()}}>
             <Icon name = 'chevron-back'/>
           </Button>
         </Left>
@@ -165,7 +165,7 @@ function ChatRoom ({route , navigation}) {
                 </TouchableOpacity>
               )}>
               <TouchableOpacity
-                  onPress={() => {setShowPopover(false); navigation.navigate('PostReport')}}>
+                  onPress={() => {setShowPopover(false); updateFlag = 0; navigation.navigate('PostReport')}}>
                 <Text style={styles.popoverel}>신고하기</Text>
               </TouchableOpacity>
               <TouchableOpacity
