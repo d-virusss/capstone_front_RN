@@ -101,7 +101,7 @@ class MypageScreen extends Component {
           <List>
             <ListItem
               thumbnail
-              style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+              style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop:'3%'}}>
               <Thumbnail source={{uri: this.state.myImage}} />
               <View>
                 <Body>
@@ -118,21 +118,21 @@ class MypageScreen extends Component {
             </ListItem>
 
             <ListItem
-              style={{flexDirection: 'row', justifyContent: 'center'}}>
+              style={{flexDirection: 'row', justifyContent: 'center', height: 100}}>
               <Button light style={styles.btn}
                 onPress={() => {this.goToSetLocation()}}>
                 <Icon type="AntDesign" name="home" />
-                <Text> 동네 설정</Text>
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 동네 설정</Text>
               </Button>
 
               <Button light style={styles.btn}>
                 <Icon type="Feather" name="settings" />
-                <Text> 정보 수정</Text>
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 정보 수정</Text>
               </Button>
 
               <Button light style={styles.btn} onPress={() => {this.ShowLikeList();}}>
                 <Icon type="Feather" name="heart" />
-                <Text> 관심 목록</Text>
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 관심 목록</Text>
               </Button>
             </ListItem>
 
@@ -141,7 +141,7 @@ class MypageScreen extends Component {
             <ListItem button onPress={()=>{this.SettingGroup()}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
-                <Text> 소속 인증</Text>
+                <Text style={ styles.listText }> 소속 인증</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -151,7 +151,7 @@ class MypageScreen extends Component {
             <ListItem button>
               <Left>
                 <Icon type="Feather" name="bell" />
-                <Text> 키워드 알림</Text>
+                <Text style={ styles.listText }> 키워드 알림</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -161,7 +161,7 @@ class MypageScreen extends Component {
             <ListItem>
               <Left>
                 <Icon type="Feather" name="list" />
-                <Text> 거래 목록</Text>
+                <Text style={ styles.listText }> 거래 목록</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -171,7 +171,7 @@ class MypageScreen extends Component {
             <ListItem button onPress={() => {this.showMyItemList();}}>
               <Left>
                 <Icon type="Ionicons" name="file-tray-stacked-outline" />
-                <Text> 글 관리</Text>
+                <Text style={ styles.listText }> 내 글 관리</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -181,7 +181,7 @@ class MypageScreen extends Component {
             <ListItem>
               <Left>
                 <Icon type="EvilIcons" name="comment" />
-                <Text> 받은 리뷰</Text>
+                <Text style={ styles.listText }> 받은 리뷰</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -191,7 +191,7 @@ class MypageScreen extends Component {
             <ListItem button onPress={() => {this.showReservation();}}>
               <Left>
                 <Icon type="AntDesign" name="calendar" />
-                <Text> 예약 관리</Text>
+                <Text style={ styles.listText }> 예약 관리</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -201,7 +201,7 @@ class MypageScreen extends Component {
             <ListItem button onPress={() => {this.Logout();}}>
               <Left>
                 <Icon type="AntDesign" name="logout" />
-                <Text> 로그아웃</Text>
+                <Text style={ styles.listText }> 로그아웃</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -228,5 +228,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'transparent',
   },
+  listText : {
+    marginLeft: '3%',
+  }
 });
 export default MypageScreen;

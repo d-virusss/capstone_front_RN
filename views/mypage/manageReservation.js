@@ -37,22 +37,14 @@ class reservationScreen extends Component{
     this.setState({refreshing: false});
   }
 
-  makeList() {
-    return reservation_list.map((ele) => {
-      console.log(ele)
-      return (
-        <ListItem key={ele.booking_info.id}
-        button onPress = {() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id, ele.booking_info.start_at, ele.booking_info.end_at)}>
-           <Thumbnail source={{uri: ele.booking_info.image}} />
-          <Body>
-            <Text>{ele.booking_info.title}</Text>
-            <Text note numberOfLines={1}>
-              {ele.booking_info.acceptance}
-            </Text>
-          </Body>
-        </ListItem>
-      );
-    });
+  componentDidMount() {
+    this.getToken();
+  }
+
+  getToken = async () => {
+    let value = await AsyncStorage.getItem("token")
+    this.state.token = value
+    this.getReservationList()
   }
 
   showBookingDate(id, post_id, startDate, endDate) {
@@ -65,12 +57,6 @@ class reservationScreen extends Component{
     reservation_info.item_id = id;
     reservation_info.booking.post_id = post_id;
     this.markingDate();
-  }
-
-  getToken = async () => {
-    let value = await AsyncStorage.getItem("token")
-    this.state.token = value
-    this.getReservationList()
   }
 
   getReservationList () {
@@ -90,10 +76,6 @@ class reservationScreen extends Component{
     this.setState({ marked : obj});
   }
 
-  componentDidMount(){
-    this.getToken();
-  }
-
   accept (){
     reservation_info.booking.acceptance='accepted'
     api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
@@ -101,7 +83,8 @@ class reservationScreen extends Component{
         Authorization: this.state.token,
       },
     }).then((res) => {
-      alert("승인이 완료되었습니다.")
+      console.log(res)
+      this.props.navigation.navigate("Contract");
     }).catch((err) => {
       console.log(err)
     })
@@ -114,6 +97,7 @@ class reservationScreen extends Component{
         Authorization: this.state.token,
       },
     }).then((res) => {
+      console.log(res)
       alert("거절되었습니다.")
     }).catch((err) => {
       console.log(err)
@@ -137,6 +121,24 @@ class reservationScreen extends Component{
     }else{
       return null
     }
+  }
+
+  makeList() {
+    return reservation_list.map((ele) => {
+      console.log(ele)
+      return (
+        <ListItem key={ele.booking_info.id}
+          button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id, ele.booking_info.start_at, ele.booking_info.end_at)}>
+          <Thumbnail source={{ uri: ele.booking_info.image }} />
+          <Body>
+            <Text>{ele.booking_info.title}</Text>
+            <Text note numberOfLines={1}>
+              {ele.booking_info.acceptance}
+            </Text>
+          </Body>
+        </ListItem>
+      );
+    });
   }
 
   render(){

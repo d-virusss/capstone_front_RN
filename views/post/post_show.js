@@ -6,6 +6,7 @@ import Popover from 'react-native-popover-view';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
+import number_delimiter from '../shared/number_delimiter'
 
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
@@ -167,6 +168,52 @@ class PostShow extends Component{
     )
   }
 
+  renderFooter(){
+    if(this.state.is_your_post){
+      return(
+
+        <FooterTab>
+          <Button style={{ marginLeft: -30 }} onPress={() => this.likeRequest()}>
+            <Icon name={this.state.icon || "heart-outline"} style={styles.likeIcon} />
+          </Button>
+          <Text style={{ width: '30%', alignSelf: "center" }}>
+            {this.state.price}원 / 1 일
+                </Text>
+          <Button bordered warning onPress={() => { this.makeCallchat_navigate() }}
+            style={{ marginTop: '1%' }}>
+            <Text>채팅으로</Text>
+            <Text>대여하기</Text>
+          </Button>
+          <Button transparent
+            onPress={() => { this.props.navigation.navigate('Booking', { post_id: this.state.post_id, }) }}
+            style={{ marginTop: 10 }}
+          >
+            <Text>예약</Text>
+          </Button>
+        </FooterTab>
+      )
+    }
+    else{
+      return(
+        <FooterTab>
+          <Button style={{ marginLeft: -30 }} onPress={() => this.likeRequest()}>
+            <Icon name={this.state.icon || "heart-outline"} style={styles.likeIcon} />
+          </Button>
+          <Text style={{ width: '30%', alignSelf: "center" }}>
+            {number_delimiter(this.state.price)}원 / 1 일
+                </Text>
+          <Button transparent onPress={() => { this.makeCallchat_navigate() }}>
+            <Text style={{color: 'orange', fontWeight : 'bold', fontSize:17}}>채팅하기</Text>
+          </Button>
+          <Button transparent
+            onPress={() => { this.props.navigation.navigate('Booking', { post_id: this.state.post_id, }) }} >
+            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>예약하기</Text>
+          </Button>
+        </FooterTab>
+      )
+    }
+  }
+
   render(){
     return(
       <Container>
@@ -242,25 +289,7 @@ class PostShow extends Component{
 
         <View>
           <Footer style={{}}>
-            <FooterTab>
-              <Button style={{ marginLeft: -30 }} onPress={() => this.likeRequest()}>
-                <Icon name={this.state.icon || "heart-outline"} style={styles.likeIcon} />
-              </Button>
-              <Text style={{ width: '30%', alignSelf: "center" }}>
-                {this.state.price}원 / 1 일
-                </Text>
-              <Button bordered warning onPress={() => { this.makeCallchat_navigate() }}
-                style={{ marginTop: '1%' }}>
-                <Text>채팅으로</Text>
-                <Text>대여하기</Text>
-              </Button>
-              <Button transparent
-                onPress={() => { this.props.navigation.navigate('Booking', { post_id: this.state.post_id, }) }}
-                style={{ marginTop: 10 }}
-              >
-                <Text>예약</Text>
-              </Button>
-            </FooterTab>
+            {this.renderFooter()}
           </Footer>
         </View>
       </Container>

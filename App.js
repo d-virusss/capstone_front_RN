@@ -85,6 +85,7 @@ const App = () => {
         <Stack.Screen name="PostShow" component={PostShow}options={{ headerShown: false }}/>
         <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
+        <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
     
         
 
@@ -95,8 +96,8 @@ const App = () => {
         <Stack.Screen name="ProfileShow" component={ProfileShow} options={{ headerShown : false, }} />
         <Stack.Screen name="ProfileShowList" component={ProfileShowList} options={{ headerShown : false, }} />
         <Stack.Screen name="Booking" component={Booking} />
-        <Stack.Screen name="MyItemList" component={MyItemList} />
-        <Stack.Screen name="Reservation" component={ManageReservation} />
+        <Stack.Screen name="MyItemList" component={MyItemList} options={{ headerShown : false }} />
+        <Stack.Screen name="Reservation" component={ManageReservation} options={{ headerShown: false }} />
         <Stack.Screen name="Contract" component={Contract} options={{ headerShown : false }} />
         
       </Stack.Navigator>

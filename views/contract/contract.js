@@ -1,108 +1,95 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, TextInput } from 'react-native';
 import CustomButton from '../login/custom_button';
-import { Container, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
+import { Container, Content, Form, Item, Input, Label, Button, Text, 
+  Header, Card, CardItem, Body, Left, Right, Icon, Title, Textarea } from 'native-base';
 import api from '../shared/server_address'
+import FormData from 'form-data'
 
-var user_obj = {
-  user: {
-    email: '',
-    nickname: '',
-    password: '',
-    password_confirmation: '',
-  },
-};
-
-
+const contract = {
+  title : "",
+  body : "",
+}
+var formdata = new FormData();
 export default class Contract extends React.Component {
   state = {
+    token : "",
     title : "",
-    body : "",
+    post_id : "",
+    body : "제 1 조 본 계약에서 대여물건이라 함은 명세서에 기재된 것을 말한다.",
   };
 
-  checkInputVaule = async () => {
-    if (this.state.user.email == '')
-      alert("이메일을 입력해주세요")
-    if (this.state.user.password == '')
-      alert("비밀번호를 입력해주세요")
-    if (this.state.user.nickname == '')
-      alert("이름을 입력해주세요")
-
-    //check pw
-    if (this.state.user.password_confirmation != this.state.user.password)
-      alert("비밀번호가 다릅니다")
-
-    user_obj.user = this.state.user;
-
+  componentDidMount() {
+    this.getToken();
   }
 
-  onButtonPress = async () => {
-    this.checkInputVaule().then(() => {
+  getToken = async () => {
+    let value = await AsyncStorage.getItem("token")
+    this.state.token = value
+  }
 
-      api
-        .post('/users/sign_up', user_obj)
-        .then((res) => {
-          console.log('send data for registration');
-          alert("회원가입 성공")
-          this.props.navigation.navigate("Logins")
-        })
-        .catch((err) => {
-          console.log('fail to register');
-          if (err.response.status == 422)
-            alert("중복된 이메일 입니다")
-        });
-    })
-  };
-
+  makeContractRequest() {
+    console.log("start update post data ---- add contract ")
+    api
+      .put(`/posts/${this.state.post_id}`, (formdata), {
+        headers: {
+          'Authorization': this.state.token,
+        }
+      })
+      .then((res) => {
+        console.log("send success!")
+        console.log(res)
+        // this.props.navigation.navigate("postIndex")
+      })
+      .catch((e) => {
+        console.log('send post failed!!!!' + e)
+      })
+  }
 
   render() {
     return (
       <Container>
-        <Content>
-          <Form>
-            {/* email */}
-            <Item floatingLabel>
-              <Label>E-mail</Label>
-              <Input
-                onChangeText={(eMail) => { this.state.user.email = eMail }}
-                autoCapitalize="none" />
-            </Item>
+        <Header>
+          <Left>
+            <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
+              <Icon name='chevron-back' type='Ionicons' />
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>계약서 작성</Title>
+          </Body>
+          <Right>
+            <TouchableOpacity
+              style={{ marginRight: '4%' }}
+              onPress={() => this.makeContractRequest()}>
+              <Text>완료</Text>
+            </TouchableOpacity>
+          </Right>
+        </Header>
+        <Content style={{padding : 20}}>
+          <Card style={ styles.card }>
+            <CardItem header>
+              <Text>물품임대 계약서</Text>
+            </CardItem>
+            <CardItem>
+              <Body>
+                <Text>--(이하 “갑”이라 칭함.)와 --(이하 “을”이라 칭함.)와의 사이에 물품
+               의 대여(이하 “대여물건”이라 칭함.)에 관하여 다음과 같이 계약을 체결한다.</Text>
+              </Body>
+            </CardItem>
+            <CardItem>
+              <Body>
+                <View style={styles.textareaContainer}>
+                  <TextInput multiline={true} numberOfLines={10}
+                    placeholder="textinput의 기본텍스트입니다"
+                    style={styles.textarea}
+                    onChangeText={(text) => this.setState({ body : text })}
+                    value={this.state.body}
 
-            {/* pw */}
-            <Item floatingLabel>
-              <Label>비밀번호</Label>
-              <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
-                onChangeText={(pw) => { this.state.user.password = pw }} />
-            </Item>
-
-            <Item floatingLabel>
-              <Label>비밀번호 확인</Label>
-              <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
-                onChangeText={(pw_confirmation) => { this.state.user.password_confirmation = pw_confirmation }} />
-            </Item>
-
-            {/* nickname */}
-            <Item floatingLabel>
-              <Label>이름</Label>
-              <Input autoCapitalize="none"
-                onChangeText={(name) => { this.state.user.nickname = name }}
-              />
-            </Item>
-
-            <View style={{ marginTop: '10%', height: '13%', alignItems: 'center', }}>
-              <CustomButton
-                title="가입"
-                titleColor="white"
-                buttonColor="skyblue"
-                borderWidth={5}
-                borderRadius={5}
-                width="30%"
-                height="100%"
-                justify='center'
-                onPress={() => this.onButtonPress()}
-              />
-            </View>
-          </Form>
+                  ></TextInput>
+                </View>
+              </Body>
+            </CardItem>
+          </Card>
         </Content>
       </Container>
     );
@@ -110,6 +97,22 @@ export default class Contract extends React.Component {
 }
 
 const styles = StyleSheet.create({
-
+  card : {
+    padding : 10,
+    margin : 10,
+    alignItems : 'center',
+    height : 700
+  },
+  textareaContainer : {
+    borderColor: '#dddddd',
+    borderRadius : 3,
+    borderWidth: 1,
+    padding: 10,
+    width : '100%',
+  },
+  textarea : {
+    height: 500,
+    
+  },
 });
 
