@@ -155,9 +155,6 @@ class Post_provide extends Component {
           <ImageSelect stateBus={this.changeImage} ></ImageSelect>
         </View>
         <Container>
-          <TouchableOpacity onPress={this.shownowstate()} style={{ padding: 10 }}>
-            <Text>지금 어떄</Text>
-          </TouchableOpacity>
           <Content>
             <Form>
               <Item inlinelabel>
@@ -174,11 +171,6 @@ class Post_provide extends Component {
               <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
                 onChangeText={(text) => this.changedata(text, "body")}
                 style={styles.textAreaContainer} />
-              <Button style={{ alignSelf: 'center', marginTop: '3%' }}
-                onPress={() => this.makePostRequest()} >
-                <Icon name='person'></Icon>
-                <Text>완료</Text>
-              </Button>
             </Form>
           </Content>
         </Container>

@@ -73,14 +73,14 @@ class Search_Bar extends React.Component {
             transparent
             style = {{alignSelf : 'center'}}
           >
-            <Text style = {{fontSize : 25}}>{this.state.location}</Text>
+            <Text style = {{fontSize : 25,}}>{this.state.location}</Text>
           </Button>
           <Button
             transparent
             style = {{alignSelf : 'center'}}
             onPress={() => this.searchHeaderRef.current.show()}
           >
-            <IconM name = 'search' size = {25} style = {{margin : '1%'}}/>
+            <IconM name = 'search' size = {30} style = {{margin : '1%'}}/>
           </Button>
         </View>
         <SearchHeader
@@ -101,7 +101,7 @@ class Search_Bar extends React.Component {
             //   const response = await fetch(
             //     `http://suggestqueries.google.com/complete/search?client=firefox&q=${text}`,
             //     {
-            //       method: `get`,
+            //       metho원: `get`,
             //     },
             //   );
             //   const data = await response.json();
@@ -139,14 +139,14 @@ const styles = StyleSheet.create({
     elevation: 2,
     width: DEVICE_WIDTH,
     height: 30,
-    backgroundColor: '#00bcd4',
+    backgroundColor: '#ff3377',
   },
   header: {
     justifyContent: 'space-between',
     alignItems: 'center',
     width: DEVICE_WIDTH,
     height: 56,
-    backgroundColor: '#00bcd4',
+    backgroundColor: '#ff3377',
     flexDirection : 'row'
   },
   button: {
