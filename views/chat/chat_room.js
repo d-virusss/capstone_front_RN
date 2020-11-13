@@ -142,7 +142,7 @@ function ChatRoom ({route , navigation}) {
   }
   else {
     updateFlag = 1;
-    update();
+    setTimeout(update, 100);
   }
   return (
     <Container>
