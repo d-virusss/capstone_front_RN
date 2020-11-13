@@ -19,14 +19,15 @@ class categoryScreen extends Component {
 
   render() {
     return (
-      <View style = {{backgroundColor : '#fffff'}}>
+      <View style = { styles.container }>
         <Popover
           isVisible = {this.state.show_popover}
           onRequestClose = {() => this.setState({ show_popover: false })}
           from={(
-            <TouchableOpacity onPress={() => this.showOption()}>
+            <TouchableOpacity onPress={() => this.showOption()}
+              style={{ flexDirection: 'row' }} >
               <Icon name="menu" />
-              <Text>카테고리</Text>
+              <Text style={ styles.fontconfing }>카테고리</Text>
             </TouchableOpacity>
           )}>
           <View style = {{flexDirection: 'row'}}>
@@ -86,6 +87,15 @@ const styles = StyleSheet.create({
     paddingHorizontal : 15,
     margin : 5,
   },
+  container : {
+    paddingVertical : 10,
+    backgroundColor : '#ffffff',
+    alignItems : 'center',
+  },
+  fontconfing : {
+    fontSize : 15,
+    alignSelf : 'center',
+  }
 })
 
 export default categoryScreen;
