@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, {useState, useEffect} from 'react';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
-import {StyleSheet, Dimensions, View, Platform, TouchableOpacity} from 'react-native';
+import {StyleSheet, Dimensions, View, Platform, TouchableOpacity,} from 'react-native';
 import {Button, Container, Content, Left, Right, Header, Body, Title, Icon, Spinner} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
@@ -71,7 +71,7 @@ async function putRequest() {
       })
       .then(() => {
         console.log('put request success');
-        alert("동네 인증에 성공했습니다.")
+        alert("현재 내 위치는 '" + user_addr.location.title + "'입니다.")
         AsyncStorage.setItem('myLocation', user_addr.location.title);
         if(myLocation == null){
           current_screen.navigation.navigate('postIndex')

@@ -1,8 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {Alert} from 'react-native';
-import React, {Component, Fragment, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
-import {Icon, Button} from 'native-base';
 import LoginScreen from './views/login/caller';
 import Register_form from './views/registration/caller';
 import FindId from './views/findid/caller';
@@ -86,7 +85,6 @@ const App = () => {
         <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
         <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
-    
         
 
         <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false}} />
