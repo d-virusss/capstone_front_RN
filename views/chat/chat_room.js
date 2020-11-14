@@ -138,17 +138,17 @@ function ChatRoom ({route , navigation}) {
   const update = forceUpdate();
   if(updateFlag === 1){
     console.log(updateFlag)
-    setTimeout(update, 10000);
+    //setTimeout(update, 100000);
   }
   else {
     updateFlag = 1;
-    update();
+    setTimeout(update, 100);
   }
   return (
     <Container>
       <Header style = {{height : 45}}>
         <Left>
-          <Button transparent onPress = {() => navigation.goBack()}>
+          <Button transparent onPress = {() => {updateFlag = 0; navigation.goBack()}}>
             <Icon name = 'chevron-back'/>
           </Button>
         </Left>
@@ -165,7 +165,7 @@ function ChatRoom ({route , navigation}) {
                 </TouchableOpacity>
               )}>
               <TouchableOpacity
-                  onPress={() => {setShowPopover(false); navigation.navigate('PostReport')}}>
+                  onPress={() => {setShowPopover(false); updateFlag = 0; navigation.navigate('PostReport')}}>
                 <Text style={styles.popoverel}>신고하기</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -191,6 +191,9 @@ function ChatRoom ({route , navigation}) {
           _id: 1,
         }}
       />
+      <Button onPress= {()=>{update()}}>
+        <Text>수동 업데이트</Text>
+      </Button>
     </Container>
   );
   
