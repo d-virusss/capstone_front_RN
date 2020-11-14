@@ -101,7 +101,7 @@ function ChatList ({ navigation}){
       refreshFlag = false;
       setTimeout(chatGetRequest, 200);
     }
-    setTimeout(chatGetRequest,10000)
+    //setTimeout(chatGetRequest,100000);
     console.log("--------------------")
   })
   return(
@@ -116,6 +116,9 @@ function ChatList ({ navigation}){
             {noChat == false && makeIndexList()}
           </List>
         </Content>
+        <Button onPress = {()=>setTimeout(chatGetRequest, 200)}>
+          <Text>수동 새로고침</Text>
+        </Button>
         <Footer>
         <FooterTab>
           <Button vertical onPress={() => {navigation.navigate('postIndex'); refreshFlag = true;}}>
