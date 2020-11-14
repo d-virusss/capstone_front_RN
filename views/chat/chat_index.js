@@ -1,48 +1,41 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, useState, useEffect } from 'react';
+import {ActionSheetIOS} from 'react-native';
 import { 
   Container, Header, Content, List, ListItem, 
   Left, Body, Right, Thumbnail, Text,
+  Footer, FooterTab, Root, Button, Icon,
+  Badge
 } from 'native-base';
 import BottomTab from '../shared/bottom_tab';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View } from 'react-native-animatable';
+IconM.loadFont();
+
+let BUTTONS = ["물품 등록", "대여요청하기", "취소"];
+let CANCEL_INDEX = 2;
 
 let token;
+let refreshFlag = true;
+let noChat = false;
 
 class ListProfile extends Component {  
   state = {
     nick: "",
-    flag: 0,
-  }
-  getUserInfo = async () =>{
-    await api
-            .get(`/posts/${this.props.title}`,{
-              headers : {
-                'Authorization' : token,
-              }
-            })
-            .then((response)=>{
-              console.log(response)
-              this.state.nick = response.data.user.user_info.nickname;
-              if(this.state.flag === 0){
-                this.setState({flag: 1});
-              }
-            })
-            .catch((error)=>{console.log(error)})
   }
   render(){
-    this.getUserInfo();
     return(
       <ListItem avatar>
         <Left>
-          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom'), {chat_id : this.props.chatID, post_id: this.props.title}}>
+          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom'), {chat_id : this.props.chatID, post_id: this.props.postID}}>
             <Thumbnail source={{ uri: this.props.imageURI}} style={{ marginTop: -14 }} />
           </TouchableOpacity>
         </Left>
         <Body style={{paddingVertical: 30}} >
-          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.title})}>
-            <Text> {this.state.nick} </Text>
+          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID})}>
+            <Text> {this.props.nickname} </Text>
             <Text note> {this.props.body} </Text>
           </TouchableOpacity>
         </Body>
@@ -53,8 +46,7 @@ class ListProfile extends Component {
     );
   }
 }
-function ChatList ({navigation}){
-  
+function ChatList ({ navigation}){
   const [chats, setChats] = useState([]);
 
   const getToken = async () => {
@@ -67,8 +59,8 @@ function ChatList ({navigation}){
       console.log(token);
     }
   
-  const chatGetRequest = () => {
-    api
+  const chatGetRequest = async() => {
+    await api
       .get(`/chats`, 
       { 
         headers : {
@@ -77,7 +69,13 @@ function ChatList ({navigation}){
       })
       .then((response) => {
         console.log('success');
-        console.log(response);
+        console.log(JSON.stringify(response.data)+ " response data");
+        if(JSON.stringify(response.data) === '[]') {
+          console.log("111111111111111");
+          noChat = true;
+        }
+        else noChat = false;
+        console.log(noChat+" nochat")
         setChats(response.data, [])
       })
       .catch((err) => console.log("err : ", err))
@@ -91,24 +89,84 @@ function ChatList ({navigation}){
     console.log(JSON.stringify(chats));
     return chats.map((chat) => {
       return(
-        <ListProfile navigation = {navigation} imageURI="https://picsum.photos/id/3/150/150" title = {chat.chat_info.post_id} body = {chat.chat_info.message} time = "" chatID = {chat.chat_info.id}/> 
+        <ListProfile navigation = {navigation} imageURI="https://picsum.photos/id/3/150/150" nickname = {chat.chat_info.nickname} postID = {chat.chat_info.post_id} body = {chat.chat_info.message} time = "" chatID = {chat.chat_info.id}/> 
       )
     })
   }
 
   useEffect(() => {
     getToken()
-    setTimeout(chatGetRequest,10000)
+    if(refreshFlag){
+      console.log(refreshFlag);
+      refreshFlag = false;
+      setTimeout(chatGetRequest, 200);
+    }
+    //setTimeout(chatGetRequest,100000);
     console.log("--------------------")
   })
   return(
     <Container>
         <Content>
           <List>
-            {makeIndexList()}
+            {noChat == true && 
+              <View style = {{justifyContent : "center", alignItems: 'center', height : 500}}>
+                <Text>채팅이 없습니다</Text>
+              </View>
+            }
+            {noChat == false && makeIndexList()}
           </List>
         </Content>
-        <BottomTab navigation = {navigation}></BottomTab>
+        <Button onPress = {()=>setTimeout(chatGetRequest, 200)}>
+          <Text>수동 새로고침</Text>
+        </Button>
+        <Footer>
+        <FooterTab>
+          <Button vertical onPress={() => {navigation.navigate('postIndex'); refreshFlag = true;}}>
+            <Icon name="home" />
+            <Text>홈</Text>
+          </Button>
+          <Root vertical transparent>
+            <Button
+              transparent
+              vertical
+              style={{ alignSelf: 'center' }}
+              onPress={() =>
+                ActionSheetIOS.showActionSheetWithOptions(
+                  {
+                    options: BUTTONS,
+                    cancelButtonIndex: CANCEL_INDEX,
+                    title: "글쓰기"
+                  },
+                  buttonIndex => {
+                    if (buttonIndex === 0) {
+                      refreshFlag = true;
+                      navigation.navigate('P_W_p');
+                    }
+                    if (buttonIndex === 1) {
+                      refreshFlag = true;
+                      navigation.navigate('P_W_c');
+                    }
+                  },
+                )}
+            >
+              <Icon name="pencil" style={{ color: '#6b6b6b' }} />
+              <Text style={{ fontSize: 14, color: '#6b6b6b' }}>글쓰기</Text>
+            </Button>
+          </Root>
+          <Button badge vertical onPress={() => {
+            this.props.navigation.navigate('Chats')
+          }
+          }>
+            <Badge><Text>51</Text></Badge>
+            <Icon name="chatbubble" />
+            <Text>채팅</Text>
+          </Button>
+          <Button vertical onPress={() => {navigation.navigate('MyPage'); refreshFlag = true;}}>
+            <Icon name="person" />
+            <Text>마이페이지</Text>
+          </Button>
+        </FooterTab>
+      </Footer>
       </Container>
   );
 }

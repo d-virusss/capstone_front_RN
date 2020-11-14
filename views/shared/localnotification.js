@@ -15,7 +15,8 @@ class LocalNotificationService {
           return
         }
           notification.userInteraction = true;
-          onOpenNotification(Platform.OS === 'ios' ? notification.data.item : notification.data);
+          console.log("error here --------->")
+          //onOpenNotification(Platform.OS === 'ios' ? notification.data.item : notification.data);
 
         if (Platform.OS === 'ios') {
           // (required) Called when a remote is received or opened, or local notification is opened

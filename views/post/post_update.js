@@ -161,11 +161,6 @@ class PostUpdate extends Component {
                 onChangeText={(text) => this.changedata(text, "body")}
                 style={styles.textAreaContainer}
                 value={this.state.body} />
-              <Button style={{ alignSelf: 'center', marginTop: '3%' }}
-                onPress={() => this.makeUpdateRequest()} >
-                <Icon name='person'></Icon>
-                <Text>완료</Text>
-              </Button>
             </Form>
           </Content>
         </Container>
