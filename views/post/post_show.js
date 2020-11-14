@@ -209,11 +209,11 @@ class PostShow extends Component{
             {number_delimiter(this.state.price)}원 / 1 일
                 </Text>
           <Button transparent onPress={() => { this.makeCallchat_navigate() }}>
-            <Text style={{color: 'orange', fontWeight : 'bold', fontSize:17}}>채팅하기</Text>
+            <Text style={{color: 'orange', fontWeight : 'bold', fontSize:17}}>채팅</Text>
           </Button>
           <Button transparent
             onPress={() => { this.props.navigation.navigate('Booking', { post_id: this.state.post_id, }) }} >
-            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>예약하기</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>예약</Text>
           </Button>
         </FooterTab>
       )

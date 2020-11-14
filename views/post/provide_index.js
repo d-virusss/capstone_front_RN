@@ -1,24 +1,27 @@
 import React, {Component} from 'react';
 import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Icon } from 'native-base';
-import { ScrollView, RefreshControl, } from "react-native";
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, RefreshControl,TouchableOpacity} from "react-native";
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address';
 import number_delimiter from '../shared/number_delimiter'
+import { DeviceEventEmitter } from 'react-native';
 
 class ProvideIndex extends Component {
-  state = {
-    token: '',
-    posts: [],
-    refreshing: '',
-  };
+  constructor(props){
+    super(props)
+    this.state={
+      token: '',
+      posts: [],
+      refreshing: '',
+      id :0,
+    }
+  }
 
   _onRefresh = () => {
    
     console.log("refresh")
-    
     this.setState({refreshing: true});
-    this.sendIndexRequest();
+    this.sendIndexRequest(this.state.id);
     this.setState({refreshing: false});
   }
 
@@ -47,33 +50,63 @@ class ProvideIndex extends Component {
     })
   }
 
-  sendIndexRequest() {
-    api
+  sendIndexRequest(id) {
+    if(id == 0){ //for all
+      api
       .get('/posts?post_type=provide', {
         headers: {
           Authorization: this.state.token,
         },
       })
       .then((res) => {
-        console.log('index send success!');
         console.log(res);
-        this.setState({posts: res.data}, () => {});
+        this.setState({posts: res.data});
         return true;
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e);
         return false;
       });
+    }else{
+      api
+      .get('/posts?post_type=provide', {
+        headers: {
+          Authorization: this.state.token,
+        },
+        params: {
+          "q[category_id_eq]" : id,
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        this.setState({posts: res.data});
+      })
+      .catch(function (e) {
+        console.log('category request failed!!!!' + e);
+      });
+    }
+   
   }
 
   getToken = async () => {
     let value = await AsyncStorage.getItem('token');
     this.state.token = value;
-    this.sendIndexRequest();
+    this.sendIndexRequest(this.state.id);
   };
 
   componentDidMount(){
     this.getToken()
+    this.eventListener = DeviceEventEmitter.addListener('categoryId', this.handleEvent);
+  }
+
+  componentWillUnmount(){
+    //remove listener
+    this.eventListener.remove();
+}
+
+  handleEvent = (e) => {
+    this.state.id = e.id;
+    this.sendIndexRequest(this.state.id);
   }
 
   render() {
@@ -92,8 +125,5 @@ class ProvideIndex extends Component {
   }
 }
 
-function ProvideIndexScreen({navigation}) {
-  return <ProvideIndex navigation={navigation} />;
-}
 
-export default ProvideIndexScreen;
+export default ProvideIndex;

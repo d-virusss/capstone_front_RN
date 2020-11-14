@@ -1,104 +1,111 @@
-import axios from 'axios'
-import React, {useState, useEffect} from 'react';
+import axios from 'axios' // for kakao
+import React, {Component} from 'react';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
-import {StyleSheet, Dimensions, View, Platform, TouchableOpacity} from 'react-native';
+import {StyleSheet, Dimensions, View, Platform, TouchableOpacity,} from 'react-native';
 import {Button, Container, Content, Left, Right, Header, Body, Title, Icon, Spinner} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
 import {Text} from 'native-base';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/Ionicons'
+import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
 IconM.loadFont()
 
 const kakaoApi = axios.create({baseURL: 'https://dapi.kakao.com/v2/local/'});
-var current_screen = '';
+
 var myLocation = ''
 var token_value = '';
-var my_coords = '';
 var user_addr = {
   location: {
     title: '',
   },
 };
 
-async function requestPermission() {
-  try {
-    if (Platform.OS === 'ios') {
-      return await Geolocation.requestAuthorization('always');
-    }
-  } catch (e) {
-    console.log('request Permission error');
-    console.log(e);
+class MypageScreen extends Component{
+  constructor() {
+    super();
+    this.state = {
+      location:'',
+      title:'',
+      loading: true,
+    };
   }
-}
 
-async function getToken() {
-  token_value = await AsyncStorage.getItem('token');
-  myLocation = await AsyncStorage.getItem('myLocation');
-}
-
-async function requestKakao(coords) {
-  kakaoApi
-    .get('geo/coord2address.json', {
-      params: {
-        x: coords.longitude,
-        y: coords.latitude,
-      },
-      headers: {
-        Authorization: 'KakaoAK ecce46f96915fbabc5b95a19f9a64ea7',
-      },
-    })
-    .then(function (response) {
-      console.log('kakao request success!!');
-      //console.log(token_value)
-      putRequest();
-      user_addr.location.title =
-        response.data.documents[0].address.region_3depth_name;
-    })
-    .catch(function (error) {
-      console.log('failed: ' + error);
-    });
-}
-
-async function putRequest() {
-  console.log('call put request');
-  getToken().then(() => {
-    api
-      .put('/locations/certificate', user_addr, {
+  requestPermission = async() => {
+    try {
+      if (Platform.OS === 'ios') {
+        return await Geolocation.requestAuthorization('always');
+      }
+    } catch (e) {
+      console.log('request Permission error');
+      console.log(e);
+    }
+  }
+  
+ getToken = async() =>  {
+    token_value = await AsyncStorage.getItem('token');
+    myLocation = await AsyncStorage.getItem('myLocation');
+  }
+  
+  requestKakao = async(coords) => {
+    kakaoApi
+      .get('geo/coord2address.json', {
+        params: {
+          x: coords.longitude,
+          y: coords.latitude,
+        },
         headers: {
-          Authorization: token_value,
+          Authorization: 'KakaoAK ecce46f96915fbabc5b95a19f9a64ea7',
         },
       })
-      .then(() => {
-        console.log('put request success');
-        alert("동네 인증에 성공했습니다.")
-        AsyncStorage.setItem('myLocation', user_addr.location.title);
-        if(myLocation == null){
-          current_screen.navigation.navigate('postIndex')
-        }else{
-          current_screen.navigation.navigate('MyPage')
-        }
-        
-      })
-      .catch((err) => {
-        console.log('put request fail');
-        console.log(err);
+      .then(function (response) {
+        console.log('kakao request success!!');
+        user_addr.location.title =
+          response.data.documents[0].address.region_3depth_name;
+        console.log(user_addr.location.title)
+        this.setState({title : user_addr.location.title});
+        this.setState({loading: false})
+      }.bind(this))
+      .catch(function (error) {
+        console.log('failed: ' + error);
       });
-  });
-}
+  }
+  
+  putRequest = async() =>  {
+    console.log('call put request');
+    
+    this.getToken().then(() => {
+      api
+        .put('/locations/certificate', user_addr, {
+          headers: {
+            Authorization: token_value,
+          },
+        })
+        .then(() => {
+          console.log('put request success');
+          alert("현재 내 위치는 '" + user_addr.location.title + "'입니다.")
+          AsyncStorage.setItem('myLocation', user_addr.location.title);
+          if(myLocation == null){
+            this.props.navigation.navigate('postIndex')
+          }else{
+            this.props.navigation.navigate('MyPage')
+          }
+        })
+        .catch((err) => {
+          console.log('put request fail');
+          console.log(err);
+        });
+    });
+  }
 
-const MypageScreen = (props) => {
-  const [location, setLocation] = useState();
-  current_screen = props;
-  useEffect(() => {
-    requestPermission().then((res) => {
+  componentDidMount () {
+    this.requestPermission().then((res) => {
       if (res === 'granted') {
         Geolocation.getCurrentPosition(
           (pos) => {
             console.log('move current pos');
-            setLocation(pos.coords);
-            console.log(pos);
-            my_coords = pos.coords;
+            this.setState({location : pos.coords});
+            this.requestKakao(pos.coords);
           },
           (err) => {
             console.log('fail to move current pos');
@@ -112,79 +119,96 @@ const MypageScreen = (props) => {
         );
         Geolocation.watchPosition((pos) => {
           console.log('watching current pos');
-          setLocation(pos.coords);
+          this.setState({location:pos.coords});
         });
       }
     });
-  }, []);
+  }
 
-  if (!location) {
+  render(){
+    if (this.state.loading == true) {
+      return (
+        <Container>
+          <Header />
+          <Content>
+            <Spinner color='#ff3377' />
+          </Content>
+        </Container>
+      );
+    } //else
     return (
       <Container>
-        <Header />
+        <Header>
+            <Left>
+              <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+                <Icon name = 'chevron-back' type = 'Ionicons'/>
+              </TouchableOpacity>
+            </Left>
+            <Body><Title>동네 설정</Title></Body>
+            <Right></Right>
+          </Header>
         <Content>
-          <Spinner color='green' />
+        <View style={{alignItems:'center', flexDirection:'row'}}>
+        <Button transparent style={styles.bottomButtons}>
+          <Text>현재 위치는 "{user_addr.location.title}" 입니다.</Text>
+        </Button>
+        </View>
+        <View style={styles.container}>
+          <MapView
+            ref={(map) => {this.map = map}}
+            provider={PROVIDER_GOOGLE}
+            style={styles.map}
+            showsUserLocation={true}
+            followsUserLocation={true}
+            initialRegion={{
+              latitude: this.state.location.latitude,
+              longitude: this.state.location.longitude,
+              latitudeDelta: 0.005,
+              longitudeDelta: 0.005,
+            }}>
+            <Marker
+              coordinate={{
+                latitude: this.state.location.latitude,
+                longitude: this.state.location.longitude,
+              }}
+              title="this is a marker"
+            />
+          </MapView>
+        </View>
+        <Button style={styles.footer} onPress={() => {this.putRequest();}}>
+          <Text style={{textAlign:'center'}}>현재 위치에서 동네 인증하기</Text>
+        </Button>
         </Content>
       </Container>
-    );
-  } //else
-  return (
-    <Container>
-      <Header>
-          <Left>
-            <TouchableOpacity transparent onPress = {() => current_screen.navigation.goBack()}>
-              <Icon name = 'chevron-back' type = 'Ionicons'/>
-            </TouchableOpacity>
-          </Left>
-          <Body><Title>동네 설정</Title></Body>
-          <Right></Right>
-        </Header>
-      <Content>
-      <Button
-        block
-        info
-        onPress={() => {
-          requestKakao(my_coords);
-        }}>
-        <Text>현재 위치에서 동네 인증하기</Text>
-      </Button>
-      <View style={styles.container}>
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={styles.map}
-          showsUserLocation={true}
-          followsUserLocation={true}
-          initialRegion={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
-          }}>
-          <Marker
-            coordinate={{
-              latitude: location.latitude,
-              longitude: location.longitude,
-            }}
-            title="this is a marker"
-            description="this is a marker example"
-          />
-        </MapView>
-      </View>
-      </Content>
-    </Container>
-  );
-};
+    )
+  }
+}
 
 let {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     zIndex: 0,
     top: 2,
-    height: height,
+    height: height*0.7,
     width: width,
+  },
+  footer: {
+    flex:1,
+    zIndex: 3,
+    backgroundColor:'#ff3377',
+    height:50,
+    width: width,
+    alignItems:'center',
+    justifyContent: 'center',
   },
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  bottomButtons: {
+    alignItems:'center',
+    justifyContent: 'center',
+    flex:1,
+  },
 });
+
 export default MypageScreen;
