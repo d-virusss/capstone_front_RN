@@ -14,8 +14,8 @@ IconM.loadFont();
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
 class Search_Bar extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.searchHeaderRef = React.createRef();
     this.state = {
       search: '',

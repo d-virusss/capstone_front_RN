@@ -7,6 +7,7 @@ import api from '../shared/server_address';
 import number_delimiter from '../shared/number_delimiter'
 
 class ProvideIndex extends Component {
+  
   state = {
     token: '',
     posts: [],
