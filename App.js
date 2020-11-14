@@ -7,7 +7,6 @@ import Register_form from './views/registration/caller';
 import FindId from './views/findid/caller';
 import FindPw from './views/findpw/caller';
 import PostIndex from './views/post/index';
-import C_I from './views/post/category_index';
 import Post_provide from './views/post/post_provide';
 import Post_ask from './views/post/post_ask';
 import SearchBar from './views/post/search_bar';
@@ -75,7 +74,6 @@ const App = () => {
         <Stack.Screen name="Find_id" component={FindId} />
         <Stack.Screen name="Find_pw" component={FindPw} />
 
-        <Stack.Screen name="C_index" component={C_I} />
         <Stack.Screen name="Chats" component={chatIndex} options={{ title: '채팅', headerLeft: null, }} />
         <Stack.Screen name="P_W_p" component={Post_provide} options={{ headerShown : false }} />
         <Stack.Screen name="P_W_c" component={Post_ask} options={{ headerShown : false }} />

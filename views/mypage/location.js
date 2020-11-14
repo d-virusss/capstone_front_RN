@@ -12,7 +12,7 @@ import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolic
 IconM.loadFont()
 
 const kakaoApi = axios.create({baseURL: 'https://dapi.kakao.com/v2/local/'});
-var current_screen = '';
+
 var myLocation = ''
 var token_value = '';
 var user_addr = {
@@ -131,7 +131,7 @@ class MypageScreen extends Component{
         <Container>
           <Header />
           <Content>
-            <Spinner color='green' />
+            <Spinner color='#ff3377' />
           </Content>
         </Container>
       );
@@ -150,11 +150,7 @@ class MypageScreen extends Component{
         <Content>
         <View style={{alignItems:'center', flexDirection:'row'}}>
         <Button transparent style={styles.bottomButtons}>
-          <Text>{user_addr.location.title}</Text>
-        </Button>
-        <Button info style={styles.bottomButtons}
-          onPress={() => {this.putRequest();}}>
-          <Text>현재 위치에서 동네 인증하기</Text>
+          <Text>현재 위치는 "{user_addr.location.title}" 입니다.</Text>
         </Button>
         </View>
         <View style={styles.container}>
@@ -179,6 +175,9 @@ class MypageScreen extends Component{
             />
           </MapView>
         </View>
+        <Button style={styles.footer} onPress={() => {this.putRequest();}}>
+          <Text style={{textAlign:'center'}}>현재 위치에서 동네 인증하기</Text>
+        </Button>
         </Content>
       </Container>
     )
@@ -190,8 +189,17 @@ const styles = StyleSheet.create({
   container: {
     zIndex: 0,
     top: 2,
-    height: height,
+    height: height*0.7,
     width: width,
+  },
+  footer: {
+    flex:1,
+    zIndex: 3,
+    backgroundColor:'#ff3377',
+    height:50,
+    width: width,
+    alignItems:'center',
+    justifyContent: 'center',
   },
   map: {
     ...StyleSheet.absoluteFillObject,

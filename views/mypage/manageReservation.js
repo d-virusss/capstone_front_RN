@@ -72,7 +72,7 @@ class reservationScreen extends Component{
   }
 
   markingDate() {
-    var obj = nextDay.reduce((c, v) => Object.assign(c, {[v]: {selected: true, color: '#50cebb', startingDay: true, endingDay: true}}), {});
+    var obj = nextDay.reduce((c, v) => Object.assign(c, {[v]: {selected: true, color: '#ff3377', startingDay: true, endingDay: true}}), {});
     this.setState({ marked : obj});
   }
 
@@ -147,7 +147,7 @@ class reservationScreen extends Component{
         <Container>
         <Header />
         <Content>
-          <Spinner color='green' />
+          <Spinner color='#ff3377' />
         </Content>
       </Container>
       )
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: -5,
-    backgroundColor:'#50cebb',
+    backgroundColor:'#ff3377',
     flexDirection:'row',
     height:80,
     alignItems:'center',
