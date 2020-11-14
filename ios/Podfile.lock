@@ -349,6 +349,8 @@ PODS:
     - React
   - react-native-safe-area-context (3.1.8):
     - React-Core
+  - react-native-sqlite-storage (5.0.0):
+    - React
   - react-native-user-agent (2.1.0):
     - React
   - react-native-webview (10.10.0):
@@ -494,6 +496,7 @@ DEPENDENCIES:
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-sqlite-storage (from `../node_modules/react-native-sqlite-storage`)
   - react-native-user-agent (from `../node_modules/react-native-user-agent`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -590,6 +593,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-sqlite-storage:
+    :path: "../node_modules/react-native-sqlite-storage"
   react-native-user-agent:
     :path: "../node_modules/react-native-user-agent"
   react-native-webview:
@@ -684,6 +689,7 @@ SPEC CHECKSUMS:
   react-native-google-maps: 0a989abda71059db2caa98b9dacca7a8f38a47d0
   react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
   react-native-safe-area-context: 01158a92c300895d79dee447e980672dc3fb85a6
+  react-native-sqlite-storage: ce71689c5a73b79390a1ab213555ae80979a5dc7
   react-native-user-agent: 6ca9356042c87659876db9307109ebd653fd4429
   react-native-webview: 2e330b109bfd610e9818bf7865d1979f898960a7
   React-RCTActionSheet: 910163b6b09685a35c4ebbc52b66d1bfbbe39fc5
@@ -710,6 +716,6 @@ SPEC CHECKSUMS:
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 28a32994ae0c5b7cb67493fe997d183df86c92f9
+PODFILE CHECKSUM: d71670da1b34b4f1085b4d078236107ae45d86b8
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

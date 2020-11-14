@@ -138,7 +138,7 @@ function ChatRoom ({route , navigation}) {
   const update = forceUpdate();
   if(updateFlag === 1){
     console.log(updateFlag)
-    setTimeout(update, 10000);
+    //setTimeout(update, 100000);
   }
   else {
     updateFlag = 1;
@@ -191,6 +191,9 @@ function ChatRoom ({route , navigation}) {
           _id: 1,
         }}
       />
+      <Button onPress= {()=>{update()}}>
+        <Text>수동 업데이트</Text>
+      </Button>
     </Container>
   );
   
