@@ -5,7 +5,6 @@ import CustomButton from './custom_button';
 import { Item, Input, Toast} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../shared/server_address';
-import db from '../shared/chat_db';
 
 Icon.loadFont();
 
@@ -62,24 +61,13 @@ class LoginScreen extends Component {
           } else {
             this.props.navigation.navigate('MyPage_Location')
           }
-          this.addUserIDtoDB(response.data.id);
+          //this.addUserIDtoDB(response.data.id);
         })
         .catch(function (error) {
           console.log("login fail")
           alert("가입하신 정보를 다시 확인해주세요")
         });
     }
-  }
-  addUserIDtoDB = async(user_id)=>{
-    (await db).transaction((tx)=>{
-      tx.executeSql('SELECT * FROM user WHERE user_id=?',[user_id],(tx, results)=>{
-        let len = results.rows.length;
-        if (len>0) return;
-      })
-    })
-    (await db).transaction((tx)=>{
-      tx.executeSql('INSERT INTO user (user_id) VALUES(?)',[user_id])
-    })
   }
 
   testLoginRequest(){
