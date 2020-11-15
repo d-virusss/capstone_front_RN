@@ -83,8 +83,6 @@ class LikeListUserScreen extends Component {
       </Container>
       );
     } else {
-      console.log('show');
-      console.log(like_user);
       return <View>{this.makeList()}</View>;
     }
   }

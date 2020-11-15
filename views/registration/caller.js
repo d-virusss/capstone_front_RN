@@ -20,6 +20,7 @@ export default class RegistrationScreen extends React.Component {
     nickname: '',
     password: '',
     password_confirmation: '',
+    number:'',
   },
  };
 
@@ -57,6 +58,7 @@ export default class RegistrationScreen extends React.Component {
       })
       .catch((err) =>  {
         console.log('fail to register');
+        console.log(err)
         if(err.response.status == 422){
           Alert.alert("이메일 중복 입니다", "",[{text:'확인', style:'cancel'}])
         }
@@ -114,7 +116,7 @@ export default class RegistrationScreen extends React.Component {
             <Label>연락처</Label>
             <Input autoCapitalize="none"
               keyboardType="numeric"
-              onChangeText = {(name) => {this.state.user.nickname = name }}
+              onChangeText = {(name) => {this.state.user.number = name }}
             />
           </Item>
 

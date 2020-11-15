@@ -14,11 +14,13 @@ IconM.loadFont()
 
 const kakaoApi = axios.create({baseURL: 'https://dapi.kakao.com/v2/local/'});
 
+var locationList = []
 var myLocation = ''
 var token_value = '';
 var user_addr = {
   location: {
     title: '',
+    range: '',
   },
 };
 
@@ -29,6 +31,7 @@ class MypageScreen extends Component{
       location:'',
       title:'',
       loading: true,
+      value:0,
     };
   }
 
@@ -63,38 +66,58 @@ class MypageScreen extends Component{
         user_addr.location.title =
           response.data.documents[0].address.region_3depth_name;
         console.log(user_addr.location.title)
-        this.setState({title : user_addr.location.title});
-        this.setState({loading: false})
+        this.getNearLocation();
+        this.state.title = user_addr.location.title;
       }.bind(this))
       .catch(function (error) {
         console.log('failed: ' + error);
       });
   }
   
-  putRequest = async() =>  {
-    console.log('call put request');
-    
+  getNearLocation() {
     this.getToken().then(() => {
-      api
-        .put('/locations/certificate', user_addr, {
-          headers: {
-            Authorization: token_value,
-          },
-        })
-        .then(() => {
-          Alert.alert("지역 설정 완료", "",[{text:'확인', style:'cancel'}])
-          AsyncStorage.setItem('myLocation', user_addr.location.title);
-          if(myLocation == null){
-            this.props.navigation.navigate('postIndex')
-          }else{
-            this.props.navigation.navigate('MyPage')
-          }
-        })
-        .catch((err) => {
-          console.log('put request fail');
-          console.log(err);
-        });
-    });
+      api.get('/locations/display', {
+        params: {
+          title: user_addr.location.title
+        },
+        headers: {
+          Authorization: token_value,
+        }
+      }).then((res) => {
+        console.log(res);
+        locationList = res.data.location_info.range;
+        this.state.value = res.data.location_info.user_range;
+        this.setState({loading: false})
+      }).catch((err) => {
+        console.log(err)
+      })
+    })
+  }
+
+  putRequest = async() =>  {  
+    user_addr.location.range = this.state.value;
+    console.log("puterquest")
+    console.log(user_addr.location.range)
+    api
+      .put('/locations/certificate', user_addr, {
+        headers: {
+          Authorization: token_value,
+        },
+      })
+      .then(() => {
+        Alert.alert("지역 설정 완료", "",[{text:'확인', style:'cancel'}])
+        AsyncStorage.setItem('myLocation', user_addr.location.title);
+        if(myLocation == null){
+          this.props.navigation.navigate('postIndex')
+        }else{
+          this.props.navigation.navigate('MyPage')
+        }
+      })
+      .catch((err) => {
+        console.log('put request fail');
+        console.log(err);
+      });
+
   }
 
   componentDidMount () {
@@ -124,6 +147,15 @@ class MypageScreen extends Component{
     });
   }
 
+  showNearLocation(value) {
+    this.setState({value : value})
+  }
+
+  showNearLocationList(){
+    this.props.navigation.navigate('LocationDetail', 
+    { list: locationList[this.state.value].title, num : locationList[this.state.value].count })
+  }
+
   render(){
     if (this.state.loading == true) {
       return (
@@ -147,18 +179,20 @@ class MypageScreen extends Component{
             <Right></Right>
           </Header>
         <Content>
-        <View style={{alignItems:'center'}}>
-        <Button transparent style={styles.title}>
-          <Text>현재 위치는 "{user_addr.location.title}" 입니다.</Text>
-        </Button>
-        <Text>"{user_addr.location.title}"</Text>
+        <View style={{alignItems:'center', textAlign:'center'}}>
+        <Text/>
+        <Title>현재 위치는 "{user_addr.location.title}" 입니다.</Title>
+        <Text/>
+        <Text onPress={() => this.showNearLocationList()}>근처 동네 {locationList[this.state.value].count}개</Text>
         <Slider
           style={styles.slider}
-          inverted = "true"
-          minimumValue={0} //0 near, 1 normal, 2 far
+          onValueChange={(value)=>{this.showNearLocation(value)}}
+          minimumValue={0} //0:alone, 1: near, 2: normal, 3: far
           maximumValue={3}
-          minimumTrackTintColor="#ffffff"
-          maximumTrackTintColor="#ff3377"
+          minimumTrackTintColor="#ff3377"
+          maximumTrackTintColor="#f4c2c2"
+          step={1}
+          value = {this.state.value}
         />
         </View>
         <View style={styles.container}>
@@ -197,7 +231,7 @@ const styles = StyleSheet.create({
   container: {
     zIndex: 0,
     top: 2,
-    height: height*0.6,
+    height: height*0.65,
     width: width,
   },
   footer: {
