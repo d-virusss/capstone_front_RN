@@ -1,5 +1,6 @@
 import messaging from '@react-native-firebase/messaging'
 import {Platform} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class FCMService {
 
@@ -30,10 +31,15 @@ class FCMService {
         })
     }
 
+    saveFCMToken = async(fcmToken) => {
+        await AsyncStorage.setItem('fcmToken', fcmToken);
+    }
+
     getToken = (onRegister) => {
         messaging().getToken()
         .then(fcmToken => {
             if (fcmToken) {
+                this.saveFCMToken(fcmToken);
                 console.log("this is token : " + fcmToken);
                 onRegister(fcmToken)
             }else {

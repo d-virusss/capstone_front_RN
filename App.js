@@ -28,6 +28,8 @@ import MyItemList from './views/mypage/myItemList'
 import ManageReservation from './views/mypage/manageReservation'
 import PostUpdate from './views/post/post_update'
 import Contract from './views/contract/contract'
+import Sign from './views/sign/sign'
+import SignState from './views/sign/check_sign_state'
 
 const Stack = createStackNavigator();
 
@@ -83,7 +85,6 @@ const App = () => {
         <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
         <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
-        
 
         <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false}} />
         <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{headerShown: false}}  />
@@ -95,6 +96,8 @@ const App = () => {
         <Stack.Screen name="MyItemList" component={MyItemList} options={{ headerShown : false }} />
         <Stack.Screen name="Reservation" component={ManageReservation} options={{ headerShown: false }} />
         <Stack.Screen name="Contract" component={Contract} options={{ headerShown : false }} />
+        <Stack.Screen name="Sign" component={Sign} options={{ headerShown : false }} />
+        <Stack.Screen name="SignState" component={SignState} options={{ headerShown : false }} />
         
       </Stack.Navigator>
     </NavigationContainer>

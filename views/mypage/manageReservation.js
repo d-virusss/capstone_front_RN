@@ -83,6 +83,7 @@ class reservationScreen extends Component{
         Authorization: this.state.token,
       },
     }).then((res) => {
+      console.log("승인되었습니다.")
       console.log(res)
       Alert.alert("승인되었습니다", "",[{text:'확인', style:'cancel'}])
       this.props.navigation.navigate("Contract");
@@ -154,37 +155,37 @@ class reservationScreen extends Component{
       )
     }
     else{
-    return(
-      <Container>
-         <Header>
-          <Left>
-            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
-              <Icon name = 'chevron-back' type = 'Ionicons'/>
-            </TouchableOpacity>
-          </Left>
-          <Body><Title>예약 관리</Title></Body>
-          <Right>
-          <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
-              <Icon name = 'refresh' type = 'Ionicons'/>
-            </TouchableOpacity>
-          </Right>
-        </Header>
+      return(
+        <Container>
+          <Header>
+            <Left>
+              <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+                <Icon name = 'chevron-back' type = 'Ionicons'/>
+              </TouchableOpacity>
+            </Left>
+            <Body><Title>예약 관리</Title></Body>
+            <Right>
+            <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
+                <Icon name = 'refresh' type = 'Ionicons'/>
+              </TouchableOpacity>
+            </Right>
+          </Header>
 
-        <Content>
-        <Calendar
-        markedDates={this.state.marked}
-        markingType={'period'}
-        />
-        </Content>
-        <Content>
-            {this.makeList()}
-        </Content>
-        {this.showOptionButton()}
-      </Container>
-    )
+          <Content>
+          <Calendar
+          markedDates={this.state.marked}
+          markingType={'period'}
+          />
+          </Content>
+          <Content>
+              {this.makeList()}
+          </Content>
+          {this.showOptionButton()}
+        </Container>
+      )
     } 
-    };
   };
+};
 
 
 const styles = StyleSheet.create({

@@ -5,7 +5,7 @@ import { Footer, FooterTab, Badge, Button, Text, Icon, Root } from 'native-base'
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 IconM.loadFont();
 
-let BUTTONS = ["물품 등록", "대여요청하기", "취소"];
+let BUTTONS = ["물품 등록", "대여 요청", "취소"];
 let CANCEL_INDEX = 2;
 
 class BottomTab extends Component {
