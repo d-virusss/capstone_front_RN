@@ -125,7 +125,7 @@ class Search_Bar extends React.Component {
               <ProvideIndex navigation = {this.props.navigation}/>
             </Tab>
             <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
-              <AskIndex></AskIndex>
+              <AskIndex navigation={this.props.navigation}></AskIndex>
             </Tab>
           </Tabs>
         </Container>

@@ -19,7 +19,8 @@ class ProvideIndex extends Component {
 
   _onRefresh = () => {
    
-    console.log("refresh")
+    console.log("제공 게시물 refresh")
+    
     this.setState({refreshing: true});
     this.sendIndexRequest(this.state.id);
     this.setState({refreshing: false});
@@ -112,11 +113,11 @@ class ProvideIndex extends Component {
   render() {
     return (
       <ScrollView style={{flex: 1}}
-      refreshControl={
-        <RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this._onRefresh}/>
-      }>
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}/>}
+      >
         <Content>
           <List>{this.makeIndexList()}</List>
         </Content>
