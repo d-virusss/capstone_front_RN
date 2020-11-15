@@ -90,6 +90,7 @@ function ChatRoom ({route , navigation}) {
       )
       .then((response) => {
         console.log('success');
+        console.log("chat id : "+ chatID)
         console.log(response);
         if(response != null){
           let chatDataList= [];
