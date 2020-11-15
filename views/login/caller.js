@@ -61,7 +61,7 @@ class LoginScreen extends Component {
         })
         .catch(function (error) {
           console.log("login fail")
-          alert("가입하신 정보를 다시 확인해주세요")
+          Alert.alert("로그인 실패", "입력한 정보가 잘못되었습니다.",[{text:'확인', style:'cancel'}])
         });
     }
   }

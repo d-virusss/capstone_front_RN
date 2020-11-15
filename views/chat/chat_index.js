@@ -12,6 +12,8 @@ import {TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import { View } from 'react-native-animatable';
+import _ from 'lodash';
+
 IconM.loadFont();
 
 let BUTTONS = ["물품 등록", "대여요청하기", "취소"];
@@ -30,7 +32,7 @@ class ListProfile extends Component {
       <ListItem avatar>
         <Left>
           <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom'), {chat_id : this.props.chatID, post_id: this.props.postID}}>
-            <Thumbnail source={{ uri: this.props.imageURI}} style={{ marginTop: -14 }} />
+            <Thumbnail source={{ uri: this.props.imageURI}} style={{ marginTop: -8, width : 45, height: 45 }} />
           </TouchableOpacity>
         </Left>
         <Body style={{paddingVertical: 30}} >
@@ -39,16 +41,23 @@ class ListProfile extends Component {
             <Text note> {this.props.body} </Text>
           </TouchableOpacity>
         </Body>
-        <Right>
-          <Text note> {this.props.time} </Text>
+        <Right style={{paddingVertical : 0}}>
+          <Text note> {this.props.time}</Text>
+          {this.props.exist_unchecked ? 
+          <Button disabled small badge transparent style={{paddingVertical:0}}>
+            <Badge style={{paddingVertical : 0}}><Text>{this.props.unchecked}</Text></Badge>
+          </Button>
+          : <Text></Text> }
         </Right>
       </ListItem>
     );
   }
 }
-function ChatList ({ navigation}){
+
+function ChatList ({ navigation }){
   const [chats, setChats] = useState([]);
   const [refreshing, setRefresh] = useState();
+  const [unchecked, setUnchecked] = useState();
 
   const _onRefresh = () => {
    
@@ -63,28 +72,35 @@ function ChatList ({ navigation}){
     try{
         const value = await AsyncStorage.getItem('token');
         if (value !== null) token = value;
-      } catch (error){
-        console.log("error : ", error);
-      }
-      console.log(token);
+    } catch (error){
+      console.log("error : ", error);
     }
+    console.log(token);
+  }
   
   const chatGetRequest = () => {
     api
       .get(`/chats`, 
       { 
         headers : {
-          'Authorization': token
+          'Authorization': token,
         }
       })
       .then((response) => {
-        console.log('success');
+        console.log(response)
+        let total_unchecked = 0;
+        _.each(response.data, (chat) => {
+          total_unchecked += chat.chat_info.num_unchecked;
+        })
+        setUnchecked(total_unchecked)
         console.log(JSON.stringify(response.data)+ " response data");
         if(JSON.stringify(response.data) === '[]') {
           console.log("111111111111111");
           noChat = true;
         }
-        else noChat = false;
+        else{
+          noChat = false
+        }
         console.log(noChat+" nochat")
         setChats(response.data, [])
       })
@@ -99,7 +115,15 @@ function ChatList ({ navigation}){
     console.log(JSON.stringify(chats));
     return chats.map((chat) => {
       return(
-        <ListProfile navigation = {navigation} imageURI="https://picsum.photos/id/3/150/150" nickname = {chat.chat_info.nickname} postID = {chat.chat_info.post_id} body = {chat.chat_info.message} time = "" chatID = {chat.chat_info.id}/> 
+        <ListProfile navigation = {navigation} imageURI="https://picsum.photos/id/3/150/150" 
+          nickname = {chat.chat_info.nickname} 
+          postID = {chat.chat_info.post_id} 
+          body = {chat.chat_info.message} 
+          time = {chat.chat_info.created_time} 
+          chatID = {chat.chat_info.id}
+          unchecked = { chat.chat_info.num_unchecked }
+          exist_unchecked = {chat.chat_info.num_unchecked > 0 && true}
+        /> 
       )
     })
   }
@@ -163,11 +187,10 @@ function ChatList ({ navigation}){
               <Text style={{ fontSize: 14, color: '#6b6b6b' }}>글쓰기</Text>
             </Button>
           </Root>
-          <Button badge vertical onPress={() => {
-            this.props.navigation.navigate('Chats')
-          }
-          }>
-            <Badge><Text>51</Text></Badge>
+          <Button badge vertical >
+            { unchecked > 0 ? 
+            <Badge><Text>{unchecked}</Text></Badge>
+            : <Text></Text> }
             <Icon name="chatbubble" />
             <Text>채팅</Text>
           </Button>
