@@ -1,8 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import IconM from 'react-native-vector-icons/MaterialIcons';
-import {
-  Dimensions,  AppRegistry,  StyleSheet,  View,  Text,  StatusBar,  TouchableOpacity,} from 'react-native';
+import {Dimensions,  DeviceEventEmitter,  StyleSheet,  View,  Text,  StatusBar,  TouchableOpacity,} from 'react-native';
 import ProvideIndex from './provide_index';
 import AskIndex from './ask_index';
 import {Button, Container, Tabs, Tab, TabHeading} from 'native-base'
@@ -25,6 +24,7 @@ class Search_Bar extends React.Component {
         `javascript`,
       ],
       location:'',
+      category_id: 0,
     };
     this.handlerLongClick = () => {
       //handler for Long Click
@@ -58,6 +58,11 @@ class Search_Bar extends React.Component {
   componentDidMount(){
     this.myFunction();
     this.getMyInfo();
+  }
+
+  makeCategoryRequest(id){
+    this.setState({category_id : id});
+    DeviceEventEmitter.emit('categoryId', {id : id});
   }
 
   render() {
@@ -111,11 +116,13 @@ class Search_Bar extends React.Component {
             // }
           }}
         />
-        <Category style={{ marginLeft: '40%' }}></Category>
+
+        <Category style={{ marginLeft: '40%' }} parentReference = {this.makeCategoryRequest.bind(this)}/>
+
         <Container>
           <Tabs style={{marginTop : '0%',}}>
             <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
-              <ProvideIndex navigation = {this.props.navigation}></ProvideIndex>
+              <ProvideIndex navigation = {this.props.navigation}/>
             </Tab>
             <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
               <AskIndex navigation={this.props.navigation}></AskIndex>

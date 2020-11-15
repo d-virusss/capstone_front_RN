@@ -22,6 +22,8 @@ class AskIndex extends Component{
     this.setState({ refreshing: false });
   }
 
+  //category_id = this.props.
+
   makeIndexList() {
     return this.state.posts.map((post) => {
       return (

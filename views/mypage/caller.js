@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView} from 'react-native';
 import BottomTab from '../shared/bottom_tab';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbnail,
        Footer, FooterTab, Content, ListItem, List, Separator } from 'native-base';
@@ -20,15 +20,22 @@ class MypageScreen extends Component {
     myGroup:'',
     myImage:'',
     loading: false,
+    refreshing : '',
   };
+
+  _onRefresh = () => {
+   
+    console.log("refresh")
+    this.setState({refreshing: true});
+    this.getMyInfo();
+    this.setState({refreshing: false});
+  }
 
   goToSetLocation() {
     this.props.navigation.navigate('MyPage_Location');
-    console.log('Navigation router run...');
   }
 
   Logout() {
-    console.log(this.props)
     this.props.navigation.navigate('Logins');
   }
 
@@ -41,7 +48,6 @@ class MypageScreen extends Component {
   }
 
   componentDidMount() {
-    console.log('component did mount ---');
     this.getMyInfo();
   }
 
@@ -54,14 +60,13 @@ class MypageScreen extends Component {
   }
 
   getToken = async () => {
-    console.log("gettoken")
     let value = await AsyncStorage.getItem("token")
     this.state.token = value
   }
 
-  getMyInfo = async () => {
+  getMyInfo = () => {
     this.getToken().then(() => {
-      console.log("getmyInfo");
+
       api.get(`/users/mypage`,{
         headers: {
           Authorization: this.state.token,
@@ -73,7 +78,7 @@ class MypageScreen extends Component {
         this.state.myImage = res.data.user_info.image;
         this.state.myGroup = "ajou"
         this.setState({loading: true})
-        console.log(this.state.myName)
+
       })
       .catch((err) => {
         console.log("my page err")
@@ -88,7 +93,7 @@ class MypageScreen extends Component {
       <Container>
         <Header>
           <Body>
-            <Title>My Page</Title>
+            <Title>마이 페이지</Title>
           </Body>
           <Right>
             <TouchableOpacity>
@@ -97,6 +102,7 @@ class MypageScreen extends Component {
           </Right>
         </Header>
 
+        <ScrollView refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh}/>}>
         <Content>
           <List>
             <ListItem
@@ -209,6 +215,7 @@ class MypageScreen extends Component {
             </ListItem>
           </List>
         </Content>
+        </ScrollView>
 
         <Footer>
           <FooterTab>

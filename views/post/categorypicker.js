@@ -4,6 +4,7 @@ Vector_Icon.loadFont()
 import { Header, Content, Form, Item, Picker, Icon, Text } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 export default class CategoryPicker extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -11,6 +12,7 @@ export default class CategoryPicker extends Component {
       
     };
   }
+
   seleçtedValue(value) {
     this.setState({
       selected: value

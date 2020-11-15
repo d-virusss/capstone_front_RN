@@ -25,6 +25,8 @@ function forceUpdate(){
 }
 
 function ChatRoom ({route , navigation}) {
+  const [refreshing, setRefreshing] = useState();
+
   getToken = async () => {
     try{
       const value = await AsyncStorage.getItem('token');
@@ -73,6 +75,7 @@ function ChatRoom ({route , navigation}) {
   const onGet = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
   },[])
+  
 
   const messageGetRequest = () => {
     console.log(token);

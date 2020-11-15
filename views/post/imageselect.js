@@ -14,11 +14,6 @@ class ImageSelect extends Component{
     }
   }
 
-  componentDidMount(){
-    console.log(this.state)
-    console.log('in imageselect')
-  }
-
   doPickImage = () => {
     ImagePicker.openPicker({
       width: 300,
