@@ -236,7 +236,6 @@ class MypageScreen extends Component {
             </ListItem>
           </List>
         </Content>
-<<<<<<< HEAD
         <Button onPress = {()=>{
           getFCMToken = async() =>{
             let fcmToken = await AsyncStorage.getItem('fcmToken')
@@ -283,10 +282,8 @@ class MypageScreen extends Component {
         }}>
           <Text>해제</Text>
         </Button>
-=======
         </ScrollView>
 
->>>>>>> 5b657b882f36a78a7a3d643cc2c270f9fc5703d4
         <Footer>
           <FooterTab>
             <View style={{flex: 1, backgroundColor: 'white'}}>
