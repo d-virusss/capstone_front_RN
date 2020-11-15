@@ -9,8 +9,9 @@ class KakaoLoginScreen extends Component {
     AsyncStorage.setItem('token', res.token);
     AsyncStorage.setItem('user_id', String(res.id));
     AsyncStorage.setItem('myLocation', res.location_auth);
-  
-    if (res.location_auth != null) {// already has location
+    console.log(`location information: ${res.location_auth}`);
+
+    if (res.location_auth != "") {// already has location
       this.props.navigation.navigate('postIndex')
     } else {
       this.props.navigation.navigate('MyPage_Location')
