@@ -2,6 +2,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Alert} from 'react-native';
 import React, {Component, Fragment, useEffect} from 'react';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
+import SQLite from 'react-native-sqlite-storage';
 import {Icon, Button} from 'native-base';
 import LoginScreen from './views/login/caller';
 import Register_form from './views/registration/caller';
@@ -30,6 +31,7 @@ import MyItemList from './views/mypage/myItemList'
 import ManageReservation from './views/mypage/manageReservation'
 import PostUpdate from './views/post/post_update'
 import Contract from './views/contract/contract'
+import db from './views/shared/chat_db'
 
 const Stack = createStackNavigator();
 
@@ -65,6 +67,16 @@ const App = () => {
         localNotificationService.unregister()
       }
     }
+    db.transaction((tx)=>{
+      tx.executeSql('create table if not exists message (message_id integer primary key, chat_id integer, sender_id integer, message_text text, message_created text, image_url text)',[],
+      (tx,results)=>console.log(results),
+      (error)=>console.log(error));
+    })
+    db.transaction((tx)=>{
+      tx.executeSql('select * from message where chat_id=?',[5],(tx,results)=>{
+        console.log(results)
+      },(err)=>console.log(err))
+    })
   }, []);
 
   return (

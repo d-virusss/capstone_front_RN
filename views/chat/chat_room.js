@@ -10,6 +10,7 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
+import db from '../shared/chat_db';
 
 IconM.loadFont();
 
@@ -18,6 +19,11 @@ let chatID = 0;
 let postID = 0;
 let userName = "";
 let token = 0;
+let myID = -1;
+
+function forTimeout(){
+  return 1;
+}
 
 function forceUpdate(){
   const [value, setValue] = useState(0);
@@ -28,6 +34,7 @@ function ChatRoom ({route , navigation}) {
   getToken = async () => {
     try{
       const value = await AsyncStorage.getItem('token');
+      myID = await AsyncStorage.getItem('user_id');
       if (value !== null) {
         token = value;
         syncflag = 1;
@@ -45,10 +52,9 @@ function ChatRoom ({route , navigation}) {
   }
   const [messages, setMessages] = useState([]);
   const [show_popover, setShowPopover] = useState(false);
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+  const onSend = useCallback(async(messages = []) => {
     console.log(messages[0].text);
-    api
+    await api
       .post(`/chats/${chatID}/messages`, 
         {
           message : {
@@ -64,17 +70,30 @@ function ChatRoom ({route , navigation}) {
       )
       .then((response) => {
         console.log("create success!")
-        console.log(response)
+        console.log(response.status)
+        db.transaction((tx)=>{
+          console.log('in insert ')
+          tx.executeSql('INSERT INTO message (message_id, chat_id, sender_id, message_text, message_created, image_url) VALUES(?,?,?,?,?,?)',
+          [response.data.message_info.id,chatID,myID,messages[0].text, messages[0].createdAt,messages[0].image],(tx, results)=>{
+            console.log('Results onsend '+ results.rowsAffected)
+          }),(error)=>{
+            console.log('onsend dbdbdb error '+ error)
+          }
+        })
+        console.log('going out')
       })
       .catch(function (error) {
         console.log('axios call failed!! : ' + error);
       });
+    console.log('end of post')
+    setTimeout(forTimeout,1000)
+    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
   }, [])
   const onGet = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
   },[])
 
-  const messageGetRequest = () => {
+  const messageGetRequest = async () => {
     console.log(token);
     console.log(chatID);
     api
@@ -86,8 +105,8 @@ function ChatRoom ({route , navigation}) {
       }
       )
       .then((response) => {
-        console.log('success');
-        console.log(response);
+        console.log('get success');
+        console.log(response.status);
         if(response != null){
           let chatDataList= [];
           if(response.data.length>0) updateFlag = 1;
@@ -97,6 +116,7 @@ function ChatRoom ({route , navigation}) {
               _id: null,
               createdAt: null,
               text: null,
+              image:'',
               user:{
                 _id: 2,
                 name: userName,
@@ -106,10 +126,20 @@ function ChatRoom ({route , navigation}) {
             gotChatData._id = loadMessage.message_info.id;
             gotChatData.createdAt = loadMessage.message_info.created_time;
             gotChatData.text = loadMessage.message_info.body;
+            gotChatData.image = loadMessage.message_info.image;
             console.log("----------------------");
             console.log(gotChatData.text);
             chatDataList[chatDataList.length] = gotChatData;
             console.log(JSON.stringify(chatDataList));
+            (await db).transaction((tx)=>{
+              console.log('in get transaction')
+              tx.executeSql('INSERT INTO message (message_id, chat_id, sender_id, message_text, message_created, image_url) VALUES(?,?,?,?,?,?)',
+              [gotChatData._id,chatID,-1,gotChatData.text,gotChatData.createdAt,gotChatData.image],(tx, results)=>{
+                console.log('Results : ', results.rowsAffected)
+              }),(error)=>{
+                console.log("dbdbdb error ", error)
+              }
+            })
           })
           console.log(JSON.stringify(chatDataList));
           if(response.data.length > 0) onGet(chatDataList);
@@ -118,26 +148,52 @@ function ChatRoom ({route , navigation}) {
       .catch((err) => console.log("err : ", err))
   }
 
-  getUserInfo = async () => {
-    await api 
-            .get(`/posts/${postID}`,{
-              headers : {
-                'Authorization' : token
+  getOldChat = async() => {
+    console.log('in old chat')
+    (await db).transaction((tx)=>{
+      tx.executeSql('SELECT * FROM message WHERE chat_id=?',[chatID],(tx, results)=>{
+        let len = results.rows.length;
+        if(len>0){
+          let chatDataList = [];
+          for(let i = 0; i<len; i++){
+            let loadMessage = results.rows.item(i)
+            let sender = 0;
+            if(loadMessage.sender_id === myID) sender = 1;
+            else sender = 2;
+            let gotChatData = 
+            {
+              _id: null,
+              createdAt: null,
+              text: null,
+              user:{
+                _id: sender,
+                name: userName,
+                avatar: 'https://placeimg.com/140/140/any',
               }
-            })
-            .then((response)=>{
-              userName = response.data.user.user_info.nickname;
-              console.log(response.data)
-            })
-            .catch((error)=>console.log(error))
+            }
+            gotChatData._id = loadMessage.id;
+            gotChatData.createdAt = loadMessage.message_created;
+            gotChatData.text = loadMessage.text;
+            console.log("----------------------");
+            console.log(gotChatData.text);
+            chatDataList[chatDataList.length] = gotChatData;
+            console.log(JSON.stringify(chatDataList));
+          }
+          onGet(chatDataList);
+        }
+      })
+    })
   }
-
+  db.transaction((tx)=>{
+    tx.executeSql('create table if not exists message (message_id integer primary key, chat_id integer, sender_id integer, message_text text, message_created text, image_url text)',[],
+    (tx,results)=>console.log(results),
+    (error)=>console.log(error));
+  })
   getToken();
-  getUserInfo();
   messageGetRequest();
+  getOldChat();
   const update = forceUpdate();
   if(updateFlag === 1){
-    console.log(updateFlag)
     //setTimeout(update, 100000);
   }
   else {
@@ -200,54 +256,6 @@ function ChatRoom ({route , navigation}) {
 }
 
 const styles = StyleSheet.create({
-  container : {
-    paddingBottom : 50,
-  },
-  imageArea : {
-    width: '95%',
-    height : '50%',
-    justifyContent : 'center',
-    alignItems : 'center',
-    alignSelf : 'center'
-  },
-  providerBar : {
-    flexDirection : "row",
-    borderBottomWidth : 0,
-    paddingVertical: '3%'
-  },
-  providerProfileiimage :{
-    width : 50,
-    height : 50,
-    borderRadius : 10,
-    marginLeft: '3%',
-  },
-  providerProfile : {
-    width: '30%',
-    marginLeft : '3%'
-  },
-  providerName : {
-    fontSize : 20,
-    fontWeight : "bold",
-    padding : '5%'
-  },
-  providerLocation : {
-    fontSize : 13,
-    color : 'grey',
-    padding : '5%'
-  },
-  fontView : {
-    fontSize : 17,
-    margin : '5%'
-  },
-  imageView : {
-    width: '90%',
-    height: 300,
-    marginVertical: '10%',
-  },
-  likeIcon : {
-    color : 'red',
-    fontSize : 25
-  },
   popoverel : {
     paddingVertical : 10,
     paddingHorizontal : 15,
