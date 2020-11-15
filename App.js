@@ -1,5 +1,5 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {Alert} from 'react-native';
+import {Alert, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import LoginScreen from './views/login/caller';
@@ -30,6 +30,7 @@ import PostUpdate from './views/post/post_update'
 import Contract from './views/contract/contract'
 import Sign from './views/sign/sign'
 import SignState from './views/sign/check_sign_state'
+import LocationDetail from './views/mypage/location_detail'
 
 const Stack = createStackNavigator();
 
@@ -85,6 +86,7 @@ const App = () => {
         <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
         <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
+        <Stack.Screen name="Booking" component={Booking} />
 
         <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false}} />
         <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{headerShown: false}}  />
@@ -92,9 +94,10 @@ const App = () => {
         <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{headerShown: false}}  />
         <Stack.Screen name="ProfileShow" component={ProfileShow} options={{ headerShown : false, }} />
         <Stack.Screen name="ProfileShowList" component={ProfileShowList} options={{ headerShown : false, }} />
-        <Stack.Screen name="Booking" component={Booking} />
         <Stack.Screen name="MyItemList" component={MyItemList} options={{ headerShown : false }} />
         <Stack.Screen name="Reservation" component={ManageReservation} options={{ headerShown: false }} />
+        <Stack.Screen name="LocationDetail" component={LocationDetail} options={{headerShown : false}}/>
+
         <Stack.Screen name="Contract" component={Contract} options={{ headerShown : false }} />
         <Stack.Screen name="Sign" component={Sign} options={{ headerShown : false }} />
         <Stack.Screen name="SignState" component={SignState} options={{ headerShown : false }} />

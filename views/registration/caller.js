@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet, View, Alert, TouchableOpacity, } from 'react-native';
 import CustomButton from '../login/custom_button';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, Left, Right, Body, Title, Icon} from 'native-base';
 import api from '../shared/server_address'
 var user_obj = {
@@ -9,6 +10,8 @@ var user_obj = {
     nickname: '',
     password: '',
     password_confirmation: '',
+    number:'',
+    device_token:'',
   },
 };
 
@@ -20,6 +23,8 @@ export default class RegistrationScreen extends React.Component {
     nickname: '',
     password: '',
     password_confirmation: '',
+    number:'',
+    device_token:'',
   },
  };
 
@@ -48,6 +53,9 @@ export default class RegistrationScreen extends React.Component {
 
   onButtonPress = async () => {
     if(this.checkInputVaule()){
+      user_obj.user.device_token = await AsyncStorage.getItem('fcmToken');
+      console.log("token")
+      console.log(user_obj.user.device_token)
       api
       .post('/users/sign_up', user_obj)
       .then((res) =>  {
@@ -57,6 +65,7 @@ export default class RegistrationScreen extends React.Component {
       })
       .catch((err) =>  {
         console.log('fail to register');
+        console.log(err)
         if(err.response.status == 422){
           Alert.alert("이메일 중복 입니다", "",[{text:'확인', style:'cancel'}])
         }
@@ -114,7 +123,7 @@ export default class RegistrationScreen extends React.Component {
             <Label>연락처</Label>
             <Input autoCapitalize="none"
               keyboardType="numeric"
-              onChangeText = {(name) => {this.state.user.nickname = name }}
+              onChangeText = {(name) => {this.state.user.number = name }}
             />
           </Item>
 
