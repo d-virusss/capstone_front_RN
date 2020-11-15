@@ -20,6 +20,8 @@ target 'capstone_frontend' do
   # add pods for any other desired Firebase products
   # https://firebase.google.com/docs/ios/setup#available-pods
 
+  pod 'react-native-sqlite-storage', :path => '../node_modules/react-native-sqlite-storage'
+
   use_react_native!(:path => config["reactNativePath"])
 
 

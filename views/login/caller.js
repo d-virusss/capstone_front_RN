@@ -48,7 +48,7 @@ class LoginScreen extends Component {
       api
         .post('/users/sign_in', userinfo)
         .then((response) => {
-          console.log(response.data);
+          console.log(response);
           AsyncStorage.setItem('token', response.data.token);
           AsyncStorage.setItem('user_id', String(response.data.id));
           AsyncStorage.setItem('myLocation', String(response.data.location_auth));
@@ -130,7 +130,7 @@ class LoginScreen extends Component {
               <Item style={{flex: 4}}>
                 <Input
                   style={{fontSize: 25}}
-                  placeholder="E-mail"
+                  placeholder="이메일"
                   autoCapitalize="none"
                   onChangeText={(text) => this.changeUsername(text, 'email')}
                 />
@@ -147,7 +147,7 @@ class LoginScreen extends Component {
                 <Input
                   type="password"
                   style={{fontSize: 25}}
-                  placeholder="Password"
+                  placeholder="비밀번호"
                   autoCapitalize="none"
                   secureTextEntry={true}
                   onChangeText={(text) => this.changeUsername(text, 'password')}

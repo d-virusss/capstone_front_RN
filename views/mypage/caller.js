@@ -1,25 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView} from 'react-native';
 import BottomTab from '../shared/bottom_tab';
-import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Right,
-  Button,
-  Icon,
-  Title,
-  Text,
-  Thumbnail,
-  Footer,
-  FooterTab,
-  Content,
-  ListItem,
-  List,
-  Separator,
-} from 'native-base';
+import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbnail,
+       Footer, FooterTab, Content, ListItem, List, Separator } from 'native-base';
 import IconA from 'react-native-vector-icons/AntDesign';
 import IconB from 'react-native-vector-icons/Feather';
 import IconC from 'react-native-vector-icons/EvilIcons';
@@ -36,15 +20,22 @@ class MypageScreen extends Component {
     myGroup:'',
     myImage:'',
     loading: false,
+    refreshing : '',
   };
+
+  _onRefresh = () => {
+   
+    console.log("refresh")
+    this.setState({refreshing: true});
+    this.getMyInfo();
+    this.setState({refreshing: false});
+  }
 
   goToSetLocation() {
     this.props.navigation.navigate('MyPage_Location');
-    console.log('Navigation router run...');
   }
 
   Logout() {
-    console.log(this.props)
     this.props.navigation.navigate('Logins');
   }
 
@@ -57,7 +48,6 @@ class MypageScreen extends Component {
   }
 
   componentDidMount() {
-    console.log('component did mount ---');
     this.getMyInfo();
   }
 
@@ -70,14 +60,13 @@ class MypageScreen extends Component {
   }
 
   getToken = async () => {
-    console.log("gettoken")
     let value = await AsyncStorage.getItem("token")
     this.state.token = value
   }
 
-  getMyInfo = async () => {
+  getMyInfo = () => {
     this.getToken().then(() => {
-      console.log("getmyInfo");
+
       api.get(`/users/mypage`,{
         headers: {
           Authorization: this.state.token,
@@ -89,7 +78,7 @@ class MypageScreen extends Component {
         this.state.myImage = res.data.user_info.image;
         this.state.myGroup = "ajou"
         this.setState({loading: true})
-        console.log(this.state.myName)
+
       })
       .catch((err) => {
         console.log("my page err")
@@ -104,7 +93,7 @@ class MypageScreen extends Component {
       <Container>
         <Header>
           <Body>
-            <Title>My Page</Title>
+            <Title>마이 페이지</Title>
           </Body>
           <Right>
             <TouchableOpacity>
@@ -113,11 +102,12 @@ class MypageScreen extends Component {
           </Right>
         </Header>
 
+        <ScrollView refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh}/>}>
         <Content>
           <List>
             <ListItem
               thumbnail
-              style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+              style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop:'3%'}}>
               <Thumbnail source={{uri: this.state.myImage}} />
               <View>
                 <Body>
@@ -134,21 +124,21 @@ class MypageScreen extends Component {
             </ListItem>
 
             <ListItem
-              style={{flexDirection: 'row', justifyContent: 'center'}}>
+              style={{flexDirection: 'row', justifyContent: 'center', height: 100}}>
               <Button light style={styles.btn}
                 onPress={() => {this.goToSetLocation()}}>
                 <Icon type="AntDesign" name="home" />
-                <Text> 동네 설정</Text>
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 동네 설정</Text>
               </Button>
 
               <Button light style={styles.btn}>
                 <Icon type="Feather" name="settings" />
-                <Text> 정보 수정</Text>
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 정보 수정</Text>
               </Button>
 
               <Button light style={styles.btn} onPress={() => {this.ShowLikeList();}}>
                 <Icon type="Feather" name="heart" />
-                <Text> 관심 목록</Text>
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 관심 목록</Text>
               </Button>
             </ListItem>
 
@@ -157,7 +147,7 @@ class MypageScreen extends Component {
             <ListItem button onPress={()=>{this.SettingGroup()}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
-                <Text> 소속 인증</Text>
+                <Text style={ styles.listText }> 소속 인증</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -167,7 +157,7 @@ class MypageScreen extends Component {
             <ListItem button>
               <Left>
                 <Icon type="Feather" name="bell" />
-                <Text> 키워드 알림</Text>
+                <Text style={ styles.listText }> 키워드 알림</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -177,7 +167,7 @@ class MypageScreen extends Component {
             <ListItem>
               <Left>
                 <Icon type="Feather" name="list" />
-                <Text> 거래 목록</Text>
+                <Text style={ styles.listText }> 거래 목록</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -187,7 +177,7 @@ class MypageScreen extends Component {
             <ListItem button onPress={() => {this.showMyItemList();}}>
               <Left>
                 <Icon type="Ionicons" name="file-tray-stacked-outline" />
-                <Text> 글 관리</Text>
+                <Text style={ styles.listText }> 내 글 관리</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -197,7 +187,7 @@ class MypageScreen extends Component {
             <ListItem>
               <Left>
                 <Icon type="EvilIcons" name="comment" />
-                <Text> 받은 리뷰</Text>
+                <Text style={ styles.listText }> 받은 리뷰</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -207,7 +197,7 @@ class MypageScreen extends Component {
             <ListItem button onPress={() => {this.showReservation();}}>
               <Left>
                 <Icon type="AntDesign" name="calendar" />
-                <Text> 예약 관리</Text>
+                <Text style={ styles.listText }> 예약 관리</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -238,7 +228,7 @@ class MypageScreen extends Component {
             }}>
               <Left>
                 <Icon type="AntDesign" name="logout" />
-                <Text> 로그아웃</Text>
+                <Text style={ styles.listText }> 로그아웃</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -246,6 +236,7 @@ class MypageScreen extends Component {
             </ListItem>
           </List>
         </Content>
+<<<<<<< HEAD
         <Button onPress = {()=>{
           getFCMToken = async() =>{
             let fcmToken = await AsyncStorage.getItem('fcmToken')
@@ -292,6 +283,10 @@ class MypageScreen extends Component {
         }}>
           <Text>해제</Text>
         </Button>
+=======
+        </ScrollView>
+
+>>>>>>> 5b657b882f36a78a7a3d643cc2c270f9fc5703d4
         <Footer>
           <FooterTab>
             <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -310,5 +305,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'transparent',
   },
+  listText : {
+    marginLeft: '3%',
+  }
 });
 export default MypageScreen;

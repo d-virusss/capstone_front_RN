@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, useState, useEffect } from 'react';
-import {ActionSheetIOS} from 'react-native';
+import {ActionSheetIOS, RefreshControl, ScrollView,} from 'react-native';
 import { 
   Container, Header, Content, List, ListItem, 
   Left, Body, Right, Thumbnail, Text,
@@ -8,7 +8,7 @@ import {
   Badge
 } from 'native-base';
 import BottomTab from '../shared/bottom_tab';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import { View } from 'react-native-animatable';
@@ -48,7 +48,17 @@ class ListProfile extends Component {
 }
 function ChatList ({ navigation}){
   const [chats, setChats] = useState([]);
+  const [refreshing, setRefresh] = useState();
 
+  const _onRefresh = () => {
+   
+    console.log("refresh")
+    
+    setRefresh(true);
+    chatGetRequest();
+    setRefresh(false);
+  }
+  
   const getToken = async () => {
     try{
         const value = await AsyncStorage.getItem('token');
@@ -59,8 +69,8 @@ function ChatList ({ navigation}){
       console.log(token);
     }
   
-  const chatGetRequest = async() => {
-    await api
+  const chatGetRequest = () => {
+    api
       .get(`/chats`, 
       { 
         headers : {
@@ -101,12 +111,15 @@ function ChatList ({ navigation}){
       refreshFlag = false;
       setTimeout(chatGetRequest, 200);
     }
-    setTimeout(chatGetRequest,10000)
+    //setTimeout(chatGetRequest,100000);
     console.log("--------------------")
   })
   return(
     <Container>
-        <Content>
+        <ScrollView  
+        refreshControl={
+        <RefreshControl refreshing={refreshing}
+        onRefresh={_onRefresh}/>}>
           <List>
             {noChat == true && 
               <View style = {{justifyContent : "center", alignItems: 'center', height : 500}}>
@@ -115,7 +128,7 @@ function ChatList ({ navigation}){
             }
             {noChat == false && makeIndexList()}
           </List>
-        </Content>
+        </ScrollView>
         <Footer>
         <FooterTab>
           <Button vertical onPress={() => {navigation.navigate('postIndex'); refreshFlag = true;}}>

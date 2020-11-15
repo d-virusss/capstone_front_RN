@@ -67,6 +67,7 @@ export default class RegistrationScreen extends React.Component {
           <Item floatingLabel>
               <Label>E-mail</Label>
               <Input
+              keyboardType="email-address"
               onChangeText = {(eMail) => { this.state.user.email = eMail}}
               autoCapitalize="none"/>
           </Item>
@@ -86,8 +87,17 @@ export default class RegistrationScreen extends React.Component {
 
           {/* nickname */}
           <Item floatingLabel>
-            <Label>이름</Label>
+            <Label>닉네임</Label>
             <Input autoCapitalize="none"
+              onChangeText = {(name) => {this.state.user.nickname = name }}
+            />
+          </Item>
+
+          {/* phone */}
+          <Item floatingLabel>
+            <Label>연락처</Label>
+            <Input autoCapitalize="none"
+              keyboardType="numeric"
               onChangeText = {(name) => {this.state.user.nickname = name }}
             />
           </Item>

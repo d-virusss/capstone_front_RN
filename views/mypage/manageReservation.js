@@ -37,22 +37,14 @@ class reservationScreen extends Component{
     this.setState({refreshing: false});
   }
 
-  makeList() {
-    return reservation_list.map((ele) => {
-      console.log(ele)
-      return (
-        <ListItem key={ele.booking_info.id}
-        button onPress = {() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id, ele.booking_info.start_at, ele.booking_info.end_at)}>
-           <Thumbnail source={{uri: ele.booking_info.image}} />
-          <Body>
-            <Text>{ele.booking_info.title}</Text>
-            <Text note numberOfLines={1}>
-              {ele.booking_info.acceptance}
-            </Text>
-          </Body>
-        </ListItem>
-      );
-    });
+  componentDidMount() {
+    this.getToken();
+  }
+
+  getToken = async () => {
+    let value = await AsyncStorage.getItem("token")
+    this.state.token = value
+    this.getReservationList()
   }
 
   showBookingDate(id, post_id, startDate, endDate) {
@@ -65,12 +57,6 @@ class reservationScreen extends Component{
     reservation_info.item_id = id;
     reservation_info.booking.post_id = post_id;
     this.markingDate();
-  }
-
-  getToken = async () => {
-    let value = await AsyncStorage.getItem("token")
-    this.state.token = value
-    this.getReservationList()
   }
 
   getReservationList () {
@@ -86,12 +72,8 @@ class reservationScreen extends Component{
   }
 
   markingDate() {
-    var obj = nextDay.reduce((c, v) => Object.assign(c, {[v]: {selected: true, color: '#50cebb', startingDay: true, endingDay: true}}), {});
+    var obj = nextDay.reduce((c, v) => Object.assign(c, {[v]: {selected: true, color: '#ff3377', startingDay: true, endingDay: true}}), {});
     this.setState({ marked : obj});
-  }
-
-  componentDidMount(){
-    this.getToken();
   }
 
   accept (){
@@ -101,7 +83,8 @@ class reservationScreen extends Component{
         Authorization: this.state.token,
       },
     }).then((res) => {
-      alert("승인이 완료되었습니다.")
+      console.log(res)
+      this.props.navigation.navigate("Contract");
     }).catch((err) => {
       console.log(err)
     })
@@ -114,6 +97,7 @@ class reservationScreen extends Component{
         Authorization: this.state.token,
       },
     }).then((res) => {
+      console.log(res)
       alert("거절되었습니다.")
     }).catch((err) => {
       console.log(err)
@@ -139,13 +123,31 @@ class reservationScreen extends Component{
     }
   }
 
+  makeList() {
+    return reservation_list.map((ele) => {
+      console.log(ele)
+      return (
+        <ListItem key={ele.booking_info.id}
+          button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id, ele.booking_info.start_at, ele.booking_info.end_at)}>
+          <Thumbnail source={{ uri: ele.booking_info.image }} />
+          <Body>
+            <Text>{ele.booking_info.title}</Text>
+            <Text note numberOfLines={1}>
+              {ele.booking_info.acceptance}
+            </Text>
+          </Body>
+        </ListItem>
+      );
+    });
+  }
+
   render(){
     if(this.state.loading) {
       return (
         <Container>
         <Header />
         <Content>
-          <Spinner color='green' />
+          <Spinner color='#ff3377' />
         </Content>
       </Container>
       )
@@ -191,7 +193,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: -5,
-    backgroundColor:'#50cebb',
+    backgroundColor:'#ff3377',
     flexDirection:'row',
     height:80,
     alignItems:'center',

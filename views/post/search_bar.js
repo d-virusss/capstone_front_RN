@@ -1,8 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import IconM from 'react-native-vector-icons/MaterialIcons';
-import {
-  Dimensions,  AppRegistry,  StyleSheet,  View,  Text,  StatusBar,  TouchableOpacity,} from 'react-native';
+import {Dimensions,  DeviceEventEmitter,  StyleSheet,  View,  Text,  StatusBar,  TouchableOpacity,} from 'react-native';
 import ProvideIndex from './provide_index';
 import AskIndex from './ask_index';
 import {Button, Container, Tabs, Tab, TabHeading} from 'native-base'
@@ -25,6 +24,7 @@ class Search_Bar extends React.Component {
         `javascript`,
       ],
       location:'',
+      category_id: 0,
     };
     this.handlerLongClick = () => {
       //handler for Long Click
@@ -60,6 +60,11 @@ class Search_Bar extends React.Component {
     this.getMyInfo();
   }
 
+  makeCategoryRequest(id){
+    this.setState({category_id : id});
+    DeviceEventEmitter.emit('categoryId', {id : id});
+  }
+
   render() {
     return (
       <View style = {{flex : 1}}>
@@ -73,14 +78,14 @@ class Search_Bar extends React.Component {
             transparent
             style = {{alignSelf : 'center'}}
           >
-            <Text style = {{fontSize : 25}}>{this.state.location}</Text>
+            <Text style = {{fontSize : 25,}}>{this.state.location}</Text>
           </Button>
           <Button
             transparent
             style = {{alignSelf : 'center'}}
             onPress={() => this.searchHeaderRef.current.show()}
           >
-            <IconM name = 'search' size = {25} style = {{margin : '1%'}}/>
+            <IconM name = 'search' size = {30} style = {{margin : '1%'}}/>
           </Button>
         </View>
         <SearchHeader
@@ -101,7 +106,7 @@ class Search_Bar extends React.Component {
             //   const response = await fetch(
             //     `http://suggestqueries.google.com/complete/search?client=firefox&q=${text}`,
             //     {
-            //       method: `get`,
+            //       metho원: `get`,
             //     },
             //   );
             //   const data = await response.json();
@@ -111,11 +116,13 @@ class Search_Bar extends React.Component {
             // }
           }}
         />
-        <Category style={{ marginLeft: '40%' }}></Category>
+
+        <Category style={{ marginLeft: '40%' }} parentReference = {this.makeCategoryRequest.bind(this)}/>
+
         <Container>
           <Tabs style={{marginTop : '0%',}}>
             <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
-              <ProvideIndex navigation = {this.props.navigation}></ProvideIndex>
+              <ProvideIndex navigation = {this.props.navigation}/>
             </Tab>
             <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
               <AskIndex></AskIndex>
@@ -139,14 +146,14 @@ const styles = StyleSheet.create({
     elevation: 2,
     width: DEVICE_WIDTH,
     height: 30,
-    backgroundColor: '#00bcd4',
+    backgroundColor: '#ff3377',
   },
   header: {
     justifyContent: 'space-between',
     alignItems: 'center',
     width: DEVICE_WIDTH,
     height: 56,
-    backgroundColor: '#00bcd4',
+    backgroundColor: '#ff3377',
     flexDirection : 'row'
   },
   button: {
