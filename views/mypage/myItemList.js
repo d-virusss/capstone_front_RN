@@ -21,7 +21,8 @@ class myItemListScreen extends Component{
     return posts.map((post) => {
       console.log(post.title)
       return(
-        <ListItem thumbnail key={post.post_info.id}>
+        <ListItem thumbnail key={post.post_info.id} button
+        onPress={() => this.showPostRequset(post.post_info.id)}>
           <Left>
             <Thumbnail square source={{ uri: post.post_info.image }} />
           </Left>
@@ -29,14 +30,6 @@ class myItemListScreen extends Component{
             <Text>{post.post_info.title}</Text>
             <Text note numberOfLines={1}>{post.post_info.body}</Text>
           </Body>
-          <Right>
-            <TouchableOpacity onPress={() => this.showPostRequset(post.post_info.id)}>
-              <Text>수정</Text>
-            </TouchableOpacity>
-            <TouchableOpacity transparent onPress={() => this.showPostRequset(post.post_info.id)}>
-              <Text>삭제</Text>
-            </TouchableOpacity>
-          </Right>
         </ListItem>
       )
     })
@@ -49,7 +42,6 @@ class myItemListScreen extends Component{
         'Authorization': this.state.token
       }})
       .then(function(response) {
-        console.log('success');
         this.props.navigation.navigate('PostShow', { post: response.data })
       }.bind(this))
       .catch((err) => console.log("err : ", err))
@@ -63,8 +55,6 @@ class myItemListScreen extends Component{
         }
       })
       .then((res) => {
-        console.log("index send success!")
-        console.log()
         this.setState({posts1:res.data}, ()=> { })
       })
       .catch(function (e) {
@@ -80,7 +70,6 @@ class myItemListScreen extends Component{
         }
       })
       .then((res) => {
-        console.log("index send success!")
         this.setState({posts2:res.data}, ()=> { })
       })
       .catch(function (e) {

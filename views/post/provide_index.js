@@ -26,10 +26,11 @@ class ProvideIndex extends Component {
   }
 
   makeIndexList() {
+    console.log("make index list")
     return this.state.posts.map((post) => {
       return(
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('PostShow', { post: post }) } key={post.post_info.id}>
-          <ListItem thumbnail>
+          <ListItem thumbnail key = {post.post_info.id} 
+          button onPress={() =>{this.props.navigation.navigate('PostShow', { post: post }) }}>
             <Left>
               <Thumbnail square source={{ uri: post.post_info.image }} />
             </Left>
@@ -45,7 +46,6 @@ class ProvideIndex extends Component {
               </Text>
             </Right>
           </ListItem>
-        </TouchableOpacity>
       )
     })
   }
@@ -61,11 +61,9 @@ class ProvideIndex extends Component {
       .then((res) => {
         console.log(res);
         this.setState({posts: res.data});
-        return true;
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e);
-        return false;
       });
     }else{
       api
@@ -105,11 +103,14 @@ class ProvideIndex extends Component {
 }
 
   handleEvent = (e) => {
+    console.log("event handler")
     this.state.id = e.id;
     this.sendIndexRequest(this.state.id);
   }
 
   render() {
+    console.log("render")
+    console.log(this.props)
     return (
       <ScrollView style={{flex: 1}}
       refreshControl={

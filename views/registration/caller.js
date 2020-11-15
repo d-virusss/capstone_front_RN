@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { StyleSheet, View} from 'react-native';
+import { StyleSheet, View, Alert, TouchableOpacity, } from 'react-native';
 import CustomButton from '../login/custom_button';
-import { Container, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
+import { Container, Content, Form, Item, Input, Label, Header, Left, Right, Body, Title, Icon} from 'native-base';
 import api from '../shared/server_address'
 var user_obj = {
   user: {
@@ -23,44 +23,60 @@ export default class RegistrationScreen extends React.Component {
   },
  };
 
- checkInputVaule = async() => {
-    if(this.state.user.email == '')
-      alert("이메일을 입력해주세요")
-    if(this.state.user.password == '')
-      alert("비밀번호를 입력해주세요")
-    if(this.state.user.nickname == '')
-      alert("이름을 입력해주세요")
-    
+ checkInputVaule = () => {
+    if(this.state.user.email == ''){
+      Alert.alert("이메일을 입력해주세요", "",[{text:'확인', style:'cancel'}])
+      return false;
+    }
+    if(this.state.user.password == ''){
+      Alert.alert("비밀번호를 입력해주세요", "",[{text:'확인', style:'cancel'}])
+      return false;
+    }
+    if(this.state.user.nickname == ''){
+      Alert.alert("이름을 입력해주세요", "",[{text:'확인', style:'cancel'}])
+      return false;
+    }
     //check pw
-    if(this.state.user.password_confirmation != this.state.user.password)
-      alert("비밀번호가 다릅니다")
+    if(this.state.user.password_confirmation != this.state.user.password){
+      Alert.alert("비밀번호가 다릅니다", "",[{text:'확인', style:'cancel'}])
+      return false;
+    }
 
     user_obj.user = this.state.user;
- 
+    return true;
    }
 
   onButtonPress = async () => {
-    this.checkInputVaule().then(()=>{
-
+    if(this.checkInputVaule()){
       api
       .post('/users/sign_up', user_obj)
       .then((res) =>  {
         console.log('send data for registration');
-        alert("회원가입 성공")
+        Alert.alert("가입 완료", "",[{text:'확인', style:'cancel'}])
         this.props.navigation.navigate("Logins")
       })
       .catch((err) =>  {
         console.log('fail to register');
-        if(err.response.status == 422)
-          alert("중복된 이메일 입니다") 
+        if(err.response.status == 422){
+          Alert.alert("이메일 중복 입니다", "",[{text:'확인', style:'cancel'}])
+        }
       });
-    })
+    }
   };
 
 
   render() {
     return (
       <Container>
+        <Header>
+            <Left>
+              <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+                <Icon name = 'chevron-back' type = 'Ionicons'/>
+              </TouchableOpacity>
+            </Left>
+            <Body><Title>회원 가입</Title></Body>
+            <Right></Right>
+          </Header>
         <Content>
           <Form>
           {/* email */}

@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {TouchableOpacity, View, StyleSheet, } from 'react-native';
+import {TouchableOpacity, View, StyleSheet, Alert} from 'react-native';
 import {Text, Header, Thumbnail, Icon, Body, Container, Content, ListItem, Spinner, Button, Left, Right, Title} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
@@ -84,6 +84,7 @@ class reservationScreen extends Component{
       },
     }).then((res) => {
       console.log(res)
+      Alert.alert("승인되었습니다", "",[{text:'확인', style:'cancel'}])
       this.props.navigation.navigate("Contract");
     }).catch((err) => {
       console.log(err)
@@ -98,7 +99,7 @@ class reservationScreen extends Component{
       },
     }).then((res) => {
       console.log(res)
-      alert("거절되었습니다.")
+      Alert.alert("거절되었습니다", "",[{text:'확인', style:'cancel'}])
     }).catch((err) => {
       console.log(err)
     })

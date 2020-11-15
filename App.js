@@ -70,7 +70,7 @@ const App = () => {
       <Stack.Navigator initialRouteName="Logins">
         <Stack.Screen name="Logins" component={LoginScreen} options={{headerShown: false, gestureEnabled : false}} />
         <Stack.Screen name="KakaoLogin" component={KakaoLogin} options={{gestureEnabled : false}} />
-        <Stack.Screen name="Register" component={Register_form} />
+        <Stack.Screen name="Register" component={Register_form} options={{headerShown: false}} />
         <Stack.Screen name="Find_id" component={FindId} />
         <Stack.Screen name="Find_pw" component={FindPw} />
 

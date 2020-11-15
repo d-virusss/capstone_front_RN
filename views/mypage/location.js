@@ -1,13 +1,14 @@
 import axios from 'axios' // for kakao
 import React, {Component} from 'react';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
-import {StyleSheet, Dimensions, View, Platform, TouchableOpacity,} from 'react-native';
+import {StyleSheet, Dimensions, View, Platform, TouchableOpacity, Alert} from 'react-native';
 import {Button, Container, Content, Left, Right, Header, Body, Title, Icon, Spinner} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
 import {Text} from 'native-base';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/Ionicons'
+import Slider from '@react-native-community/slider'
 import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
 IconM.loadFont()
 
@@ -59,7 +60,6 @@ class MypageScreen extends Component{
         },
       })
       .then(function (response) {
-        console.log('kakao request success!!');
         user_addr.location.title =
           response.data.documents[0].address.region_3depth_name;
         console.log(user_addr.location.title)
@@ -82,8 +82,7 @@ class MypageScreen extends Component{
           },
         })
         .then(() => {
-          console.log('put request success');
-          alert("현재 내 위치는 '" + user_addr.location.title + "'입니다.")
+          Alert.alert("지역 설정 완료", "",[{text:'확인', style:'cancel'}])
           AsyncStorage.setItem('myLocation', user_addr.location.title);
           if(myLocation == null){
             this.props.navigation.navigate('postIndex')
@@ -148,10 +147,19 @@ class MypageScreen extends Component{
             <Right></Right>
           </Header>
         <Content>
-        <View style={{alignItems:'center', flexDirection:'row'}}>
-        <Button transparent style={styles.bottomButtons}>
+        <View style={{alignItems:'center'}}>
+        <Button transparent style={styles.title}>
           <Text>현재 위치는 "{user_addr.location.title}" 입니다.</Text>
         </Button>
+        <Text>"{user_addr.location.title}"</Text>
+        <Slider
+          style={styles.slider}
+          inverted = "true"
+          minimumValue={0} //0 near, 1 normal, 2 far
+          maximumValue={3}
+          minimumTrackTintColor="#ffffff"
+          maximumTrackTintColor="#ff3377"
+        />
         </View>
         <View style={styles.container}>
           <MapView
@@ -189,7 +197,7 @@ const styles = StyleSheet.create({
   container: {
     zIndex: 0,
     top: 2,
-    height: height*0.7,
+    height: height*0.6,
     width: width,
   },
   footer: {
@@ -204,11 +212,18 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
-  bottomButtons: {
+  title: {
     alignItems:'center',
     justifyContent: 'center',
     flex:1,
   },
+  slider: {
+    alignItems:'center',
+    justifyContent: 'center',
+    flex:1,
+    width: 200, 
+    height: 40,
+  }
 });
 
 export default MypageScreen;

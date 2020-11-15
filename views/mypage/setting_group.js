@@ -31,13 +31,13 @@ getAuthCodeRequest = async() => {
     })
     .then((res) =>  {
         console.log('success getAuthCodeRequest');
-        alert("코드를 발송했습니다.")
+        Alert.alert("코드를 발송했습니다", "",[{text:'확인', style:'cancel'}])
         this.setState({auth: true});
     })
     .catch((err) =>  {
         console.log('fail getAuthCodeRequest');
         console.log(err)
-        alert("이메일을 다시 확인해주세요.")
+        Alert.alert("이메일을 다시 확인해주세요", "",[{text:'확인', style:'cancel'}])
     });
 }
 
@@ -83,11 +83,11 @@ sendAuthCodeRequest = async() => {
     })
     .then((res) =>  {
         console.log('success sendAuthCodeRequest ');
-        alert("인증에 성공했습니다.")
+        Alert.alert("인증되었습니다", "",[{text:'확인', style:'cancel'}])
     })
     .catch((err) =>  {
         console.log('fail sendAuthCodeRequest ');
-        alert("인증번호를 다시 확인해주세요.")
+        Alert.alert("인증 번호를 다시 확인해주세요", "",[{text:'확인', style:'cancel'}])
     });
 
 }

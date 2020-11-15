@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {Text} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Header, ListItem, View, Container, Content, Body, Right, Spinner, Thumbnail, Left } from 'native-base';
 import api from '../shared/server_address'
@@ -17,15 +17,13 @@ class LikeListItemScreen extends Component {
     return like_item.map((ele) => {
       console.log(ele)
       return (
-        <ListItem thumbnail key = {ele.like_info.id}>
+        <ListItem thumbnail key = {ele.like_info.id} button
+        onPress = {() => this.showPostRequset(ele.like_info.target_id)}>
           <Body>
             <Text>{ele.like_info.title}</Text>
           </Body>
           <Right>
-            <TouchableOpacity
-            onPress = {() => this.showPostRequset(ele.like_info.target_id)}>
-              <Text>보기</Text>
-            </TouchableOpacity>
+            <Text>보기</Text>
           </Right>
         </ListItem>
       );
