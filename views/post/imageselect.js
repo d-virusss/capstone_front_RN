@@ -35,7 +35,7 @@ class ImageSelect extends Component{
               <IconM name = 'image-multiple' size = {100}/>
             )}
             {this.state.image != ''&& (
-            <Image source={{ uri: this.state.image}} style = {{width : '100%', height: '100%'}}/>
+            <Image source={{ uri: this.state.image}} style = {{width : 350, height: 300}}/>
             )}
           </TouchableOpacity>
       </View>

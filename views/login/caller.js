@@ -122,14 +122,10 @@ class LoginScreen extends Component {
                 height: '50%',
                 alignItems: 'center',
               }}>
-              <Icon
-                name="ios-person-outline"
-                size={30}
-                color="black"
-                style={{flex: 1}}></Icon>
-              <Item style={{flex: 4}}>
+              <Icon name="ios-person-outline" size={30} color="black" style={{flex: 1}}></Icon>
+              <Item style={{flex: 4, marginLeft: -10}}>
                 <Input
-                  style={{fontSize: 25}}
+                  style={{fontSize: 20, marginRight:100}}
                   placeholder="이메일"
                   autoCapitalize="none"
                   onChangeText={(text) => this.changeUsername(text, 'email')}
@@ -143,10 +139,10 @@ class LoginScreen extends Component {
                 alignItems: 'center',
               }}>
               <Icon name="key" size={30} color="black" style={{flex: 1}}></Icon>
-              <Item style={{flex: 4}}>
+              <Item style={{flex: 4, marginLeft: -10}}>
                 <Input
                   type="password"
-                  style={{fontSize: 25}}
+                  style={{fontSize: 20}}
                   placeholder="비밀번호"
                   autoCapitalize="none"
                   secureTextEntry={true}
@@ -197,7 +193,7 @@ class LoginScreen extends Component {
               <CustomButton
                 title="회원가입"
                 titleColor="#fff"
-                buttonColor="#64b5f6"
+                buttonColor="#ff3377"
                 width="100%"
                 height="100%"
                 onPress={() => this.props.navigation.navigate('Register')}
