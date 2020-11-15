@@ -183,7 +183,7 @@ class MypageScreen extends Component{
         <Text/>
         <Title>현재 위치는 "{user_addr.location.title}" 입니다.</Title>
         <Text/>
-        <Text onPress={() => this.showNearLocationList()}>근처 동네 {locationList[this.state.value].count}개</Text>
+        <Text onPress={() => this.showNearLocationList()} style={{textDecorationLine: 'underline'}}>근처 동네 {locationList[this.state.value].count}개</Text>
         <Slider
           style={styles.slider}
           onValueChange={(value)=>{this.showNearLocation(value)}}
@@ -245,11 +245,6 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-  },
-  title: {
-    alignItems:'center',
-    justifyContent: 'center',
-    flex:1,
   },
   slider: {
     alignItems:'center',
