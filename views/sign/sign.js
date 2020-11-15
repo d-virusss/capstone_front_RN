@@ -7,11 +7,13 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import FormData from 'form-data'
+import number_delimeter from '../shared/number_delimiter'
 
 var formdata = new FormData();
 
 export default class Sign extends React.Component {
   booking_info = this.props.route.params.booking_info
+
   state = {
     token: "",
     post_id: this.booking_info.post_id,
@@ -37,7 +39,7 @@ export default class Sign extends React.Component {
     console.log(formdata)
   }
 
-  makeContractRequest() {
+  certRequest() {
     console.log("start sign--------------")
     console.log(this.state);
     this.setCertForm()
@@ -90,8 +92,13 @@ export default class Sign extends React.Component {
               </CardItem>
               <CardItem>
                 <Body>
-                  <Text>--(이하 “갑”이라 칭함.)와 --(이하 “을”이라 칭함.)와의 사이에 물품
-                --의 대여(이하 “대여물건”이라 칭함.)에 관하여 다음과 같이 계약을 체결한다.</Text>
+                  <Text>{this.booking_info.provider.name}(이하 “갑”이라 칭함.)와(과)
+                   {this.booking_info.consumer.name}(이하 “을”이라 칭함.)와(과)의 사이에 물품
+                   {this.booking_info.product}의 대여(이하 “대여물건”이라 칭함.)에 관하여 다음과 같이 계약을 체결한다.
+                  </Text>
+                  <Text>
+                    대여물건의 대여료는 금 {number_delimeter(this.booking_info.price)}원으로 정한다.
+                  </Text>
                 </Body>
               </CardItem>
               <CardItem>
@@ -105,11 +112,11 @@ export default class Sign extends React.Component {
                 </Body>
               </CardItem>
               <CardItem footer>
-                <Text>202*년 * 월 * 일
+                <Text>{new Date().getFullYear()}년 {new Date().getMonth()+1}월 {new Date().getDate()}일
                 </Text>
               </CardItem>
             </Card>
-            <Button block style={ styles.signbutton } onPress={this.makeContractRequest()}>
+            <Button block style={ styles.signbutton } onPress={this.certRequest()}>
               <Text>서명하기</Text>
             </Button>
           </Content>
@@ -124,6 +131,9 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     alignItems: 'center',
+    borderColor : '#262626',
+    borderWidth : 3,
+    borderRadius : 5
   },
   textareaContainer: {
     borderColor: '#dddddd',
@@ -134,6 +144,7 @@ const styles = StyleSheet.create({
   },
   signbutton : {
     marginTop: '3%',
+    backgroundColor : "#ff3377",
   },
 });
 

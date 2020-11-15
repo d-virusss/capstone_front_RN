@@ -106,7 +106,7 @@ class MypageScreen extends Component{
         },
       })
       .then(() => {
-        Alert.alert("지역 설정 완료", "",[{text:'확인', style:'cancel'}])
+        Alert.alert("동네 인증 완료", "동네 인증이 완료되었습니다.",[{text:'확인', style:'cancel'}])
         AsyncStorage.setItem('myLocation', user_addr.location.title);
         if(myLocation == null){
           this.props.navigation.navigate('postIndex')

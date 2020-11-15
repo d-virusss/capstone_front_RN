@@ -88,7 +88,7 @@ export default class RegistrationScreen extends React.Component {
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>회원 가입</Title></Body>
+          <Body><Title>회원가입</Title></Body>
           <Right></Right>
         </Header>
         <Content>
@@ -137,7 +137,7 @@ export default class RegistrationScreen extends React.Component {
               <Input autoCapitalize="none"
                 keyboardType="numeric"
                 onChangeText = {(text) => {this.state.user.number = text }}
-                placeholder = "하이픈(-) 없이 입력해주세요 ex) 01012345678"
+                placeholder = "하이픈(-) 없이 입력해주세요. ex) 01012345678"
               />
             </Item>
 
@@ -146,7 +146,7 @@ export default class RegistrationScreen extends React.Component {
               <Label>생일</Label>
               <Input autoCapitalize="none"
                 onChangeText = {(birthday) => {this.state.user.birthday = birthday }}
-                placeholder = "하이픈(-) 없이 입력해주세요 ex) 19960827"
+                placeholder = "하이픈(-) 없이 입력해주세요. ex) 19960827"
               />
             </Item>
 

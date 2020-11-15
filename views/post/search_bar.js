@@ -78,7 +78,7 @@ class Search_Bar extends React.Component {
             transparent
             style = {{alignSelf : 'center'}}
           >
-            <Text style = {{fontSize : 25,}}>{this.state.location}</Text>
+            <Text style = {{fontSize : 25, color: 'white', fontWeight:'500'}}>{this.state.location}</Text>
           </Button>
           <Button
             transparent
@@ -154,7 +154,8 @@ const styles = StyleSheet.create({
     width: DEVICE_WIDTH,
     height: 56,
     backgroundColor: '#ff3377',
-    flexDirection : 'row'
+    flexDirection : 'row',
+    paddingVertical: '8.5%'
   },
   button: {
     justifyContent: 'center',
