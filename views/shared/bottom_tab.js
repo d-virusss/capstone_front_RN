@@ -51,7 +51,7 @@ class BottomTab extends Component {
             this.props.navigation.navigate('Chats')
           }
           }>
-            <Badge ><Text>51</Text></Badge>
+            <Badge ><Text>3</Text></Badge>
             <Icon name="chatbubble" />
             <Text>채팅</Text>
           </Button>

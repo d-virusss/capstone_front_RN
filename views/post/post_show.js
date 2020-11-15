@@ -283,11 +283,8 @@ const styles = StyleSheet.create({
     paddingBottom : 50,
   },
   imageArea : {
-    width: '95%',
-    height : '50%',
-    justifyContent : 'center',
-    alignItems : 'center',
-    alignSelf : 'center'
+    width: '100%',
+    height : '60%',
   },
   providerBar : {
     flexDirection : "row",
@@ -319,9 +316,8 @@ const styles = StyleSheet.create({
     margin : '5%'
   },
   imageView : {
-    width: '90%',
-    height: 300,
-    marginVertical: '10%',
+    width: '100%',
+    height: 350,
   },
   likeIcon : {
     color : 'red',

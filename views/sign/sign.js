@@ -40,7 +40,7 @@ export default class Sign extends React.Component {
   makeContractRequest() {
     console.log("start sign--------------")
     console.log(this.state);
-    setCertForm()
+    this.setCertForm()
     api
       .post(`/kakaocert/requestESign`, (formdata), {
         headers: {
@@ -53,7 +53,8 @@ export default class Sign extends React.Component {
         this.props.navigation.navigate("SignState")
       })
       .catch((e) => {
-        console.log('send post failed!!!!' + e)
+        console.log('send post failed!!!!')
+        console.log(e)
       })
   }
 

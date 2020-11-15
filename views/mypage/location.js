@@ -63,6 +63,7 @@ class MypageScreen extends Component{
         },
       })
       .then(function (response) {
+        console.log(response)
         user_addr.location.title =
           response.data.documents[0].address.region_3depth_name;
         console.log(user_addr.location.title)

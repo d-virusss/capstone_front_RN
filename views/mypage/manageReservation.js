@@ -85,8 +85,8 @@ class reservationScreen extends Component{
     }).then((res) => {
       console.log("승인되었습니다.")
       console.log(res)
-      Alert.alert("승인되었습니다", "",[{text:'확인', style:'cancel'}])
-      this.props.navigation.navigate("Contract");
+      // Alert.alert("승인되었습니다", "",[{text:'확인', style:'cancel'}])
+      this.props.navigation.navigate("Sign", { booking_info : res.data.booking_info });
     }).catch((err) => {
       console.log(err)
     })
@@ -135,7 +135,7 @@ class reservationScreen extends Component{
           <Body>
             <Text>{ele.booking_info.title}</Text>
             <Text note numberOfLines={1}>
-              {ele.booking_info.acceptance}
+              {ele.booking_info.result}
             </Text>
           </Body>
         </ListItem>
