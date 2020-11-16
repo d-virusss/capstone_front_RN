@@ -48,7 +48,9 @@ class MypageScreen extends Component{
   
  getToken = async() =>  {
     token_value = await AsyncStorage.getItem('token');
-    myLocation = await AsyncStorage.getItem('myLocation');
+    myLocation = await AsyncStorage.getItem('my_location');
+    console.log("gettoken")
+    console.log(myLocation)
   }
   
   requestKakao = async(coords) => {
@@ -66,7 +68,6 @@ class MypageScreen extends Component{
         console.log(response)
         user_addr.location.title =
           response.data.documents[0].address.region_3depth_name;
-        console.log(user_addr.location.title)
         this.getNearLocation();
         this.state.title = user_addr.location.title;
       }.bind(this))
@@ -85,7 +86,6 @@ class MypageScreen extends Component{
           Authorization: token_value,
         }
       }).then((res) => {
-        console.log(res);
         locationList = res.data.location_info.range;
         this.state.value = res.data.location_info.user_range;
         this.setState({loading: false})
@@ -98,7 +98,6 @@ class MypageScreen extends Component{
   putRequest = async() =>  {  
     user_addr.location.range = this.state.value;
     console.log("puterquest")
-    console.log(user_addr.location.range)
     api
       .put('/locations/certificate', user_addr, {
         headers: {
@@ -108,10 +107,11 @@ class MypageScreen extends Component{
       .then(() => {
         Alert.alert("동네 인증 완료", "동네 인증이 완료되었습니다.",[{text:'확인', style:'cancel'}])
         AsyncStorage.setItem('myLocation', user_addr.location.title);
-        if(myLocation == null){
+        if(myLocation == "null"){
           this.props.navigation.navigate('postIndex')
         }else{
           this.props.navigation.navigate('MyPage')
+         
         }
       })
       .catch((err) => {
@@ -184,7 +184,7 @@ class MypageScreen extends Component{
         <Text/>
         <Title>현재 위치는 "{user_addr.location.title}" 입니다.</Title>
         <Text/>
-        <Text onPress={() => this.showNearLocationList()}>근처 동네 {locationList[this.state.value].count}개</Text>
+        <Text onPress={() => this.showNearLocationList()} style={{textDecorationLine: 'underline'}}>근처 동네 {locationList[this.state.value].count}개</Text>
         <Slider
           style={styles.slider}
           onValueChange={(value)=>{this.showNearLocation(value)}}
@@ -246,11 +246,6 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-  },
-  title: {
-    alignItems:'center',
-    justifyContent: 'center',
-    flex:1,
   },
   slider: {
     alignItems:'center',

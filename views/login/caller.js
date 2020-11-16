@@ -37,8 +37,11 @@ class LoginScreen extends Component {
     console.log('enter senddata');
   }
 
-  
-  makeRequest() {
+  getToken = async() =>{
+    myL = await AsyncStorage.getItem('my_location');
+    console.log(myL)
+  }
+  makeRequest (){
     if (userinfo.user.email == ''){
       Alert.alert("이메일을 입력해주세요")
     }
@@ -51,8 +54,11 @@ class LoginScreen extends Component {
           console.log(response);
           AsyncStorage.setItem('token', response.data.token);
           AsyncStorage.setItem('user_id', String(response.data.id));
-          AsyncStorage.setItem('myLocation', response.data.location_auth);
-          console.log(response.data.location_auth)
+          AsyncStorage.setItem('my_location',String(response.data.location_auth));
+          console.log(response.data.location_auth == null);
+          console.log("call gettioen-----------------")
+          
+          this.getToken();
           if (response.data.location_auth != null) {// already has location
             this.props.navigation.navigate('postIndex')
           } else {
@@ -61,7 +67,11 @@ class LoginScreen extends Component {
         })
         .catch(function (error) {
           console.log("login fail")
+<<<<<<< HEAD
+          Alert.alert("가입한 정보를 다시 확인해 주세요", "",[{text:'확인', style:'cancel'}])
+=======
           Alert.alert("로그인 실패", "입력한 정보가 잘못되었습니다.",[{text:'확인', style:'cancel'}])
+>>>>>>> master
         });
     }
   }
@@ -74,7 +84,7 @@ class LoginScreen extends Component {
         console.log(response.data.location_auth)
         AsyncStorage.setItem('token', response.data.token);
         AsyncStorage.setItem('user_id', String(response.data.id));
-        AsyncStorage.setItem('myLocation', response.data.location_auth);
+        AsyncStorage.setItem('my_location', String(response.data.location_auth));
         
         if ((response.data.location_auth) != null) {// already has location
           this.props.navigation.navigate('postIndex')
