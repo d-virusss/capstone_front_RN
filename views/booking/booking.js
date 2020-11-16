@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component, useState} from 'react';
-import {View, Image, Alert} from 'react-native';
+import {View, Image, Alert, Left} from 'react-native';
 import {
   Text, Form, Icon, Textarea, Item, Input, Button, 
   Container, Content, Header
@@ -60,7 +60,7 @@ class bookingScreen extends Component{
         console.log('success');
         console.log(this.state.token);
         console.log(response);
-        Alert.alert("예약", "예약 신청하셨습니다!",[{text:"확인", style:'cancel'}])
+        Alert.alert("예약 신청 완료", "예약 신청이 완료되었습니다.",[{text:"확인", style:'cancel'}])
         this.props.navigation.goBack();
       })
       .catch((err) => {
@@ -137,7 +137,7 @@ class bookingScreen extends Component{
       })
       .then(()=>{
         console.log(this.state.token)
-        Alert.alert("예약", "예약 취소하셨습니다!",[{text:"확인", style:'cancel'}])
+        Alert.alert("예약 취소", "예약을 취소하였습니다.",[{text:"확인", style:'cancel'}])
       })
       .catch((error) => console.log(error))
       console.log(this.state.booked);
@@ -185,7 +185,7 @@ class bookingScreen extends Component{
           theme={ theme }
         />
         <View style = {{
-          backgroundColor : '#50cebb',
+          backgroundColor : '#ff3377',
           justifyContent : 'center',
           alignItems:'center',
           width : '100%',
@@ -195,11 +195,12 @@ class bookingScreen extends Component{
             <Button transparent style = {{
                 alignSelf : 'center',
                 padding : 4,
-                margin : '1%',
+                marginBottom : '3%',
+                height: 80,
               }}
               onPress = {() => this.bookingCreateRequest()}
             >
-              <Text style = {{color : 'white', fontSize:20}}>예약 신청하기</Text>
+              <Text style = {{color : 'white', fontSize:20, fontWeight: 'bold'}}>예약 신청하기</Text>
             </Button>
           )}
           {this.state.booked == true && (
@@ -210,7 +211,7 @@ class bookingScreen extends Component{
               }}
               onPress = {() => this.removeBooking()}
             >
-              <Text style = {{color : 'white', fontSize: 20}}>예약 취소하기</Text>
+              <Text style = {{color : 'white', fontSize: 20, fontWeight: 'bold'}}>예약 취소하기</Text>
             </Button>
           )}
         </View>
@@ -222,7 +223,7 @@ class bookingScreen extends Component{
 let theme = {
   activeDayColor: {},
   monthTitleTextStyle: {
-    color: '#3264ff',
+    color: '#ff3377',
     fontWeight: '300',
     fontSize: 16,
   },
@@ -252,10 +253,10 @@ let theme = {
   dayOutOfRangeTextStyle: {},
   todayContainerStyle: {},
   todayTextStyle: {
-    color: '#6d95da',
+    color: '#ff3377',
   },
   activeDayContainerStyle: {
-    backgroundColor: '#6d95da',
+    backgroundColor: '#ff3377',
   },
   activeDayTextStyle: {
     color: 'white',

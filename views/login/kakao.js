@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {WebView} from 'react-native-webview';
+import { Container, View, Header, Left, Right, Body, Title, TouchableOpacity, Icon } from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 var user={
