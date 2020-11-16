@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {Dimensions, View, StyleSheet, Alert} from 'react-native';
+import {Dimensions, View, StyleSheet, Alert, DeviceEventEmitter} from 'react-native';
 import {Text, Header, Thumbnail, Icon, Body, Container, Content, ListItem, Spinner, Button, Left, 
   Right, Title,} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
@@ -29,6 +29,19 @@ class sendScreen extends Component{
 
   componentDidMount() {
     this.getToken();
+    this.eventListener = DeviceEventEmitter.addListener('refreshList', this.handleEvent);
+  }
+
+  componentWillUnmount(){
+    //remove listener
+    this.eventListener.remove();
+}
+
+  handleEvent = (e) => {
+    console.log("event handler")
+    this.setState({refreshing : true})
+    this.getSendReservationList();
+    this.setState({refreshing : false})
   }
 
   getToken = async () => {

@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {TouchableOpacity, View, StyleSheet, Alert} from 'react-native';
+import {View, StyleSheet, Alert, DeviceEventEmitter} from 'react-native';
 import {Text, Header, Thumbnail, Icon, Body, Container, Content, ListItem, Spinner, Button, Left, 
   Right, Title,} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
@@ -29,6 +29,19 @@ class receiveScreen extends Component{
 
   componentDidMount() {
     this.getToken();
+    this.eventListener = DeviceEventEmitter.addListener('refreshList', this.handleEvent);
+  }
+
+  componentWillUnmount(){
+    //remove listener
+    this.eventListener.remove();
+}
+
+  handleEvent = (e) => {
+    console.log("event handler")
+    this.setState({refreshing : true})
+    this.getReservationList();
+    this.setState({refreshing : false})
   }
 
   getToken = async () => {
@@ -39,8 +52,10 @@ class receiveScreen extends Component{
 
   showBookingDate(id, post_id, startDate, endDate) {
     nextDay = [];
+    
     const start = moment(startDate);
     const end = moment(endDate);
+    
     for (let m = moment(start); m.diff(end, 'days') <= 0; m.add(1, 'days')) {
       nextDay.push(m.format('YYYY-MM-DD'));
     }
@@ -156,7 +171,9 @@ class receiveScreen extends Component{
           <Content>
               {this.makeList()}
           </Content>
+          <Content>
           {this.showOptionButton()}
+          </Content>
         </Container>
       )
     } 
@@ -175,6 +192,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     height:80,
     alignItems:'center',
+    paddingTop: 7
   },
   bottomButtons: {
     alignItems:'center',

@@ -2,7 +2,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Alert, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
-import {Icon, Button} from 'native-base';
 import LoginScreen from './views/login/caller';
 import Register_form from './views/registration/caller';
 import FindId from './views/findid/caller';
@@ -84,7 +83,7 @@ const App = () => {
         <Stack.Screen name="Find_id" component={FindId} />
         <Stack.Screen name="Find_pw" component={FindPw} />
 
-        <Stack.Screen name="Chats" component={chatIndex} options={{ title: '채팅', headerLeft: null, }} />
+        <Stack.Screen name="Chats" component={chatIndex} options={{ title: '채팅', headerLeft: null, gestureEnabled: false}} />
         <Stack.Screen name="P_W_p" component={Post_provide} options={{ headerShown : false }} />
         <Stack.Screen name="P_W_c" component={Post_ask} options={{ headerShown : false }} />
         <Stack.Screen name="Seach" component={SearchBar} />
@@ -96,7 +95,7 @@ const App = () => {
         <Stack.Screen name="Booking" component={Booking} options={{ headerTitle: "예약날짜 선택하기",
           headerBackTitle: '뒤로' }} />
 
-        <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false}} />
+        <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false, gestureEnabled: false}} />
         <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{headerShown: false}}  />
         <Stack.Screen name="SettingGroup" component={SettingGroup} options={{ headerShown : false}} />
         <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{headerShown: false}}  />
