@@ -20,6 +20,7 @@ let postID = 0;
 let userName = "";
 let token = 0;
 let myID = -1;
+let dbData = [];
 
 function forTimeout(){
   return 1;
@@ -70,24 +71,26 @@ function ChatRoom ({route , navigation}) {
       )
       .then((response) => {
         console.log("create success!")
-        console.log(response.status)
-        db.transaction((tx)=>{
-          console.log('in insert ')
-          tx.executeSql('INSERT INTO message (message_id, chat_id, sender_id, message_text, message_created, image_url) VALUES(?,?,?,?,?,?)',
-          [response.data.message_info.id,chatID,myID,messages[0].text, messages[0].createdAt,messages[0].image],(tx, results)=>{
-            console.log('Results onsend '+ results.rowsAffected)
-          }),(error)=>{
-            console.log('onsend dbdbdb error '+ error)
-          }
-        })
+        console.log(response)
+        dbData = response.data
         console.log('going out')
       })
       .catch(function (error) {
         console.log('axios call failed!! : ' + error);
       });
-    console.log('end of post')
-    setTimeout(forTimeout,1000)
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    console.log('end of post');
+    await db.transaction((tx)=>{
+      tx.executeSql('insert into message (message_id, chat_id, sender_id, message_text, message_created, image_url) values(?,?,?,?,?,?)',
+      [dbData.message_info.id,chatID,myID,messages[0].text, messages[0].createdAt,messages[0].image],(tx, results)=>{
+        console.log('Results onsend '+ results.rowsAffected)
+      }),(error)=>{
+        console.log('onsend dbdbdb error '+ error)
+      }
+    })
+    function mSetting(){
+      setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    }
+    setTimeout(mSetting, 300)
   }, [])
   const onGet = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
@@ -120,7 +123,7 @@ function ChatRoom ({route , navigation}) {
               user:{
                 _id: 2,
                 name: userName,
-                avatar: 'https://placeimg.com/140/140/any',
+                avatar: '',
               }
             }
             gotChatData._id = loadMessage.message_info.id;
@@ -131,7 +134,7 @@ function ChatRoom ({route , navigation}) {
             console.log(gotChatData.text);
             chatDataList[chatDataList.length] = gotChatData;
             console.log(JSON.stringify(chatDataList));
-            (await db).transaction((tx)=>{
+            await db.transaction((tx)=>{
               console.log('in get transaction')
               tx.executeSql('INSERT INTO message (message_id, chat_id, sender_id, message_text, message_created, image_url) VALUES(?,?,?,?,?,?)',
               [gotChatData._id,chatID,-1,gotChatData.text,gotChatData.createdAt,gotChatData.image],(tx, results)=>{
@@ -142,7 +145,10 @@ function ChatRoom ({route , navigation}) {
             })
           })
           console.log(JSON.stringify(chatDataList));
-          if(response.data.length > 0) onGet(chatDataList);
+          if(response.data.length > 0) {
+            dbData = chatDataList;
+            onGet(chatDataList);
+          }
         }
       })
       .catch((err) => console.log("err : ", err))
@@ -150,12 +156,14 @@ function ChatRoom ({route , navigation}) {
 
   getOldChat = async() => {
     console.log('in old chat')
-    (await db).transaction((tx)=>{
+    db.transaction((tx)=>{
       tx.executeSql('SELECT * FROM message WHERE chat_id=?',[chatID],(tx, results)=>{
         let len = results.rows.length;
+        console.log('length'+len)
+        console.log(results.rows.item(0))
         if(len>0){
           let chatDataList = [];
-          for(let i = 0; i<len; i++){
+          for(let i = len-1; i>=0; i--){
             let loadMessage = results.rows.item(i)
             let sender = 0;
             if(loadMessage.sender_id === myID) sender = 1;
@@ -168,12 +176,13 @@ function ChatRoom ({route , navigation}) {
               user:{
                 _id: sender,
                 name: userName,
-                avatar: 'https://placeimg.com/140/140/any',
+                avatar: '',
               }
             }
-            gotChatData._id = loadMessage.id;
+            console.log(loadMessage.message_id)
+            gotChatData._id = loadMessage.message_id;
             gotChatData.createdAt = loadMessage.message_created;
-            gotChatData.text = loadMessage.text;
+            gotChatData.text = loadMessage.message_text;
             console.log("----------------------");
             console.log(gotChatData.text);
             chatDataList[chatDataList.length] = gotChatData;
@@ -186,18 +195,28 @@ function ChatRoom ({route , navigation}) {
   }
   db.transaction((tx)=>{
     tx.executeSql('create table if not exists message (message_id integer primary key, chat_id integer, sender_id integer, message_text text, message_created text, image_url text)',[],
-    (tx,results)=>console.log(results),
+    (tx,results)=>console.log('create execute'),
     (error)=>console.log(error));
+  })
+  console.log(dbData)
+  if(dbData != []){}
+  db.transaction((tx)=>{ //for test if chat works properly, need to drop table and remake it
+    tx.executeSql('insert into message (message_id, chat_id, sender_id, message_text, message_created, image_url) values(?,?,?,?,?,?)',
+    [100,5,-1,'work plz','',''],(tx, results)=>{
+      console.log('Results onsend '+ results.rowsAffected)
+    }),(error)=>{
+      console.log('onsend dbdbdb error '+ error)
+    }
   })
   getToken();
   messageGetRequest();
-  getOldChat();
   const update = forceUpdate();
   if(updateFlag === 1){
     //setTimeout(update, 100000);
   }
   else {
     updateFlag = 1;
+    setTimeout(getOldChat, 50);
     setTimeout(update, 100);
   }
   return (
@@ -242,7 +261,7 @@ function ChatRoom ({route , navigation}) {
       <GiftedChat
         messages={messages}
         onSend={messages => onSend(messages)}
-        onPressAvatar={()=> navigation.navigate('ProfileShow')}
+        onPressAvatar={()=> navigation.navigate('ProfileShow',{other_id : 1})}
         user={{
           _id: 1,
         }}
