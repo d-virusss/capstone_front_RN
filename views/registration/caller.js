@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import { StyleSheet, View} from 'react-native';
+import { StyleSheet, View, Alert, TouchableOpacity, } from 'react-native';
 import CustomButton from '../login/custom_button';
-import { Container, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
+import AsyncStorage from '@react-native-community/async-storage';
+import { Container, Content, Form, Item, Input, Label, Header, 
+  Left, Right, Body, Title, Icon, Footer, Button, Text} from 'native-base';
 import api from '../shared/server_address'
 var user_obj = {
   user: {
@@ -9,6 +11,10 @@ var user_obj = {
     nickname: '',
     password: '',
     password_confirmation: '',
+    number:'',
+    device_token:'',
+    name: '',
+    birthday: '',
   },
 };
 
@@ -20,99 +26,166 @@ export default class RegistrationScreen extends React.Component {
     nickname: '',
     password: '',
     password_confirmation: '',
+    number:'',
+    device_token:'',
+    name : "",
+    birthday : "",
   },
  };
 
- checkInputVaule = async() => {
-    if(this.state.user.email == '')
-      alert("이메일을 입력해주세요")
-    if(this.state.user.password == '')
-      alert("비밀번호를 입력해주세요")
-    if(this.state.user.nickname == '')
-      alert("이름을 입력해주세요")
-    
+ checkInputVaule = () => {
+    if(this.state.user.email == ''){
+      Alert.alert("이메일을 입력해주세요", "",[{text:'확인', style:'cancel'}])
+      return false;
+    }
+    if(this.state.user.password == ''){
+      Alert.alert("비밀번호를 입력해주세요", "",[{text:'확인', style:'cancel'}])
+      return false;
+    }
+    if(this.state.user.nickname == ''){
+      Alert.alert("이름을 입력해주세요", "",[{text:'확인', style:'cancel'}])
+      return false;
+    }
     //check pw
-    if(this.state.user.password_confirmation != this.state.user.password)
-      alert("비밀번호가 다릅니다")
+    if(this.state.user.password_confirmation != this.state.user.password){
+      Alert.alert("비밀번호가 다릅니다", "",[{text:'확인', style:'cancel'}])
+      return false;
+    }
 
     user_obj.user = this.state.user;
- 
+    return true;
    }
 
-  onButtonPress = async () => {
-    this.checkInputVaule().then(()=>{
-
+  registrationRequest = async () => {
+    if(this.checkInputVaule()){
+      user_obj.user.device_token = await AsyncStorage.getItem('fcmToken');
+      console.log("token")
+      console.log(user_obj.user.device_token)
       api
       .post('/users/sign_up', user_obj)
       .then((res) =>  {
         console.log('send data for registration');
-        alert("회원가입 성공")
+        Alert.alert("모두나눔 가입 완료", "회원가입이 완료되었습니다.",[{text:'확인', style:'cancel'}])
         this.props.navigation.navigate("Logins")
       })
       .catch((err) =>  {
         console.log('fail to register');
-        if(err.response.status == 422)
-          alert("중복된 이메일 입니다") 
+        console.log(err)
+        if(err.response.status == 422){
+          Alert.alert("회원가입 실패", "이메일 중복 입니다.",[{text:'확인', style:'cancel'}])
+        }
       });
-    })
+    }
   };
 
 
   render() {
     return (
       <Container>
+        <Header>
+          <Left>
+            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+              <Icon name = 'chevron-back' type = 'Ionicons'/>
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>회원가입</Title></Body>
+          <Right></Right>
+        </Header>
         <Content>
           <Form>
           {/* email */}
-          <Item floatingLabel>
-              <Label>E-mail</Label>
-              <Input
-              onChangeText = {(eMail) => { this.state.user.email = eMail}}
-              autoCapitalize="none"/>
-          </Item>
+            <Item floatingLabel>
+                <Label>E-mail</Label>
+                <Input
+                keyboardType="email-address"
+                onChangeText = {(eMail) => { this.state.user.email = eMail}}
+                autoCapitalize="none"/>
+            </Item>
 
-            {/* pw */}
-          <Item floatingLabel>
-            <Label>비밀번호</Label>
-            <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
-              onChangeText = {(pw) => {this.state.user.password = pw}}/>
-          </Item>
+              {/* pw */}
+            <Item floatingLabel>
+              <Label>비밀번호</Label>
+              <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
+                onChangeText = {(pw) => {this.state.user.password = pw}}/>
+            </Item>
 
-          <Item floatingLabel>
-            <Label>비밀번호 확인</Label>
-            <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
-              onChangeText={(pw_confirmation) => {this.state.user.password_confirmation = pw_confirmation}}/>
-          </Item>
+            <Item floatingLabel>
+              <Label>비밀번호 확인</Label>
+              <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
+                onChangeText={(pw_confirmation) => {this.state.user.password_confirmation = pw_confirmation}}/>
+            </Item>
 
-          {/* nickname */}
-          <Item floatingLabel>
-            <Label>이름</Label>
-            <Input autoCapitalize="none"
-              onChangeText = {(name) => {this.state.user.nickname = name }}
-            />
-          </Item>
 
-          <View style={{marginTop: '10%',height: '13%', alignItems: 'center',}}>
-          <CustomButton
-            title="가입"
-            titleColor="white"
-            buttonColor="skyblue"
-            borderWidth={5}
-            borderRadius={5}
-            width="30%"
-            height="100%"
-            justify='center'
-            onPress={() => this.onButtonPress()}
-          />
+            <Item floatingLabel>
+              <Label>이름(실명)</Label>
+              <Input autoCapitalize="none"
+                onChangeText = {(text) => {this.state.user.name = text }}
+              />
+            </Item>
+
+            {/* nickname */}
+            <Item floatingLabel>
+              <Label>닉네임</Label>
+              <Input autoCapitalize="none"
+                onChangeText = {(name) => {this.state.user.nickname = name }}
+              />
+            </Item>
+
+            {/* phone */}
+            <Item stackedLabel>
+              <Label>연락처</Label>
+              <Input autoCapitalize="none"
+                keyboardType="numeric"
+                onChangeText = {(text) => {this.state.user.number = text }}
+                placeholder = "하이픈(-) 없이 입력해주세요. ex) 01012345678"
+              />
+            </Item>
+
+
+            <Item stackedLabel>
+              <Label>생일</Label>
+              <Input autoCapitalize="none"
+                onChangeText = {(birthday) => {this.state.user.birthday = birthday }}
+                placeholder = "하이픈(-) 없이 입력해주세요. ex) 19960827"
+              />
+            </Item>
+
+          </Form>
+        </Content>
+        <View style={styles.footer}>
+          <Button transparent style={ styles.footerbutton }
+            onPress={() => this.registrationRequest()}>
+            <Text style={styles.footerText}>회원가입</Text>
+          </Button>
         </View>
-        </Form>
-      </Content>
-    </Container>
+      </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
- 
+  footer: {
+    position: 'absolute',
+    flex:0.1,
+    left: 0,
+    right: 0,
+    bottom: -5,
+    backgroundColor:'#ff3377',
+    flexDirection:'row',
+    height:80,
+    alignItems:'center',
+    paddingTop: 7
+  },
+  footerbutton: {
+    alignItems:'center',
+    justifyContent: 'center',
+    flex:1,
+  },
+  footerText: {
+    color:'white',
+    fontWeight:'bold',
+    alignItems:'center',
+    fontSize: 20,
+  },
 });
 

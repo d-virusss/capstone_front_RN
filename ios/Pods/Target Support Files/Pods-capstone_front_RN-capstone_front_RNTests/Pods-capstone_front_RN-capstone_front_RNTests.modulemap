@@ -1,6 +1,0 @@
-module Pods_capstone_front_RN_capstone_front_RNTests {
-  umbrella header "Pods-capstone_front_RN-capstone_front_RNTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

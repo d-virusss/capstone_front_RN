@@ -13,6 +13,7 @@ let myID;
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
+var user_id;
 class PostShow extends Component{
   constructor(props){
     super(props);
@@ -40,25 +41,22 @@ class PostShow extends Component{
     chat_id: 0,
     val: -1,
   };
-
   getToken = async () => {
     try{
       const value = await AsyncStorage.getItem('token');
       myID = await AsyncStorage.getItem('user_id');
       this.state.token = value
-      const user_id = await AsyncStorage.getItem('user_id')
-      this.state.is_your_post = this.params.post.user.user_info.id == parseInt(user_id) ? true : false
+      user_id = await AsyncStorage.getItem('user_id')
     } catch (error){
       console.log("error : ", error);
     }
   }
 
   componentDidMount() {
-    //console.log('------- enter post_show -------');
+    console.log('------- enter post_show -------');
     this.getToken();
     this.setParams();
   }
-
 
   setParams = () => {
     this.setState({ 
@@ -74,14 +72,11 @@ class PostShow extends Component{
       provider_location : this.params.post.user.user_info.location_title,
       provider_id : this.params.post.user.user_info.id,
       provider_profile_image : this.params.post.user.user_info.image,
+      is_your_post: this.params.post.user.user_info.id == parseInt(user_id) ? true : false,
      }, () => {
-      if(this.state.like_check){
-        this.state.icon = "heart"
-      }
-      else {
-        this.state.icon = "heart-outline"
-      }
-    })
+      this.setState({ icon : this.state.like_check ? "heart" : "heart-outline" })
+    }, () => {console.log(this.state)})
+    console.log(this.state)
   }
 
   chatCreateRequset = async()=> {
@@ -183,25 +178,14 @@ class PostShow extends Component{
 
   renderFooter(){
     if(this.state.is_your_post){
-      return(
-
+      return (
         <FooterTab>
-          <Button style={{ marginLeft: -30 }} onPress={() => this.likeRequest()}>
-            <Icon name={this.state.icon || "heart-outline"} style={styles.likeIcon} />
-          </Button>
-          <Text style={{ width: '30%', alignSelf: "center" }}>
-            {this.state.price}원 / 1 일
-                </Text>
-          <Button bordered warning onPress={() => { this.makeCallchat_navigate() }}
-            style={{ marginTop: '1%' }}>
-            <Text>채팅으로</Text>
-            <Text>대여하기</Text>
+          <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.params.post.post_info }) }}>
+            <Text style={{ color: '#ff0055', fontWeight: 'bold', fontSize: 17, paddingVertical: 5}}>계약서 수정</Text>
           </Button>
           <Button transparent
-            onPress={() => { this.props.navigation.navigate('Booking', { post_id: this.state.post_id, }) }}
-            style={{ marginTop: 10 }}
-          >
-            <Text>예약</Text>
+            onPress={() => { this.props.navigation.navigate('Reservation') }} >
+            <Text style={{ fontWeight: 'bold', fontSize: 17, paddingVertical: 5 }}>예약 목록 확인</Text>
           </Button>
         </FooterTab>
       )
@@ -209,18 +193,15 @@ class PostShow extends Component{
     else{
       return(
         <FooterTab>
-          <Button style={{ marginLeft: -30 }} onPress={() => this.likeRequest()}>
+          <Button style={{ marginLeft: -30, width : '20%' }} onPress={() => this.likeRequest()}>
             <Icon name={this.state.icon || "heart-outline"} style={styles.likeIcon} />
           </Button>
-          <Text style={{ width: '30%', alignSelf: "center" }}>
-            {number_delimiter(this.state.price)}원 / 1 일
-                </Text>
           <Button transparent onPress={() => { this.makeCallchat_navigate() }}>
-            <Text style={{color: 'orange', fontWeight : 'bold', fontSize:17}}>채팅하기</Text>
+            <Text style={{color: 'orange', fontWeight : 'bold', fontSize:17}}>채팅</Text>
           </Button>
           <Button transparent
             onPress={() => { this.props.navigation.navigate('Booking', { post_id: this.state.post_id, }) }} >
-            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>예약하기</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>예약</Text>
           </Button>
         </FooterTab>
       )
@@ -276,22 +257,16 @@ class PostShow extends Component{
               <View>
                 <Form>
                   <Item regular style={styles.providerBar}>
-                  <Image source={{ uri: this.state.provider_profile_image || "empty " }} style={styles.providerProfileiimage}></Image>
+                    <Image source={{ uri: this.state.provider_profile_image || "empty " }} style={styles.providerProfileiimage}></Image>
                     <View style={styles.providerProfile}>
                       <Text style={styles.providerName}>{this.state.provider_name}</Text>
                       <Text style={styles.providerLocation}>{this.state.provider_location}</Text>
                     </View>
-
-                    <TouchableOpacity
-                      onPress={() => this.showstate()}
-                      style={{ margin: 30 }}
-                    >
-                      <Text>보여줘</Text>
-                    </TouchableOpacity>
                   </Item>
                   <Item regular style={styles.postbody}>
-                      <Text style={styles.post_title}>{this.state.title}</Text>
                       <Text style={styles.post_category}>{this.state.category}</Text>
+                      <Text style={styles.post_title}>{this.state.title}</Text>
+                      <Text style={styles.post_price}>{number_delimiter(this.state.price)}원 / 1일</Text>
                       <Text style={styles.post_body}>{this.state.body}</Text>
                   </Item>
                 </Form>
@@ -315,11 +290,8 @@ const styles = StyleSheet.create({
     paddingBottom : 50,
   },
   imageArea : {
-    width: '95%',
-    height : '50%',
-    justifyContent : 'center',
-    alignItems : 'center',
-    alignSelf : 'center'
+    width: '100%',
+    height : '60%',
   },
   providerBar : {
     flexDirection : "row",
@@ -351,9 +323,8 @@ const styles = StyleSheet.create({
     margin : '5%'
   },
   imageView : {
-    width: '90%',
-    height: 300,
-    marginVertical: '10%',
+    width: '100%',
+    height: 350,
   },
   likeIcon : {
     color : 'red',
@@ -365,7 +336,7 @@ const styles = StyleSheet.create({
     margin : 5,
   },
   postbody: {
-    paddingVertical : '7%',
+    paddingVertical : '5%',
     paddingHorizontal : '5%',
     flexDirection: 'column',
     alignItems : 'flex-start'
@@ -378,6 +349,10 @@ const styles = StyleSheet.create({
   post_category :{
     fontSize: 15,
     color: 'grey',
+  },
+  post_price : {
+    fontSize : 20,
+    fontWeight : "500",
   },
   post_body : {
     marginTop : '10%'

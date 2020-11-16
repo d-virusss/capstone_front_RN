@@ -10,7 +10,3 @@
 #endif
 #endif
 
-
-FOUNDATION_EXPORT double Pods_capstone_front_RN_capstone_front_RNTestsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_capstone_front_RN_capstone_front_RNTestsVersionString[];
-

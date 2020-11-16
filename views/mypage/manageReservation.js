@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {TouchableOpacity, View, StyleSheet, } from 'react-native';
+import {TouchableOpacity, View, StyleSheet, Alert} from 'react-native';
 import {Text, Header, Thumbnail, Icon, Body, Container, Content, ListItem, Spinner, Button, Left, Right, Title} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
@@ -72,7 +72,7 @@ class reservationScreen extends Component{
   }
 
   markingDate() {
-    var obj = nextDay.reduce((c, v) => Object.assign(c, {[v]: {selected: true, color: '#50cebb', startingDay: true, endingDay: true}}), {});
+    var obj = nextDay.reduce((c, v) => Object.assign(c, {[v]: {selected: true, color: '#ff3377', startingDay: true, endingDay: true}}), {});
     this.setState({ marked : obj});
   }
 
@@ -83,8 +83,10 @@ class reservationScreen extends Component{
         Authorization: this.state.token,
       },
     }).then((res) => {
+      console.log("승인되었습니다.")
       console.log(res)
-      this.props.navigation.navigate("Contract");
+      // Alert.alert("승인되었습니다", "",[{text:'확인', style:'cancel'}])
+      this.props.navigation.navigate("Sign", { booking_info : res.data.booking_info });
     }).catch((err) => {
       console.log(err)
     })
@@ -98,7 +100,7 @@ class reservationScreen extends Component{
       },
     }).then((res) => {
       console.log(res)
-      alert("거절되었습니다.")
+      Alert.alert("거절되었습니다", "",[{text:'확인', style:'cancel'}])
     }).catch((err) => {
       console.log(err)
     })
@@ -133,7 +135,7 @@ class reservationScreen extends Component{
           <Body>
             <Text>{ele.booking_info.title}</Text>
             <Text note numberOfLines={1}>
-              {ele.booking_info.acceptance}
+              {ele.booking_info.result}
             </Text>
           </Body>
         </ListItem>
@@ -147,43 +149,43 @@ class reservationScreen extends Component{
         <Container>
         <Header />
         <Content>
-          <Spinner color='green' />
+          <Spinner color='#ff3377' />
         </Content>
       </Container>
       )
     }
     else{
-    return(
-      <Container>
-         <Header>
-          <Left>
-            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
-              <Icon name = 'chevron-back' type = 'Ionicons'/>
-            </TouchableOpacity>
-          </Left>
-          <Body><Title>예약 관리</Title></Body>
-          <Right>
-          <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
-              <Icon name = 'refresh' type = 'Ionicons'/>
-            </TouchableOpacity>
-          </Right>
-        </Header>
+      return(
+        <Container>
+          <Header>
+            <Left>
+              <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+                <Icon name = 'chevron-back' type = 'Ionicons'/>
+              </TouchableOpacity>
+            </Left>
+            <Body><Title>예약 관리</Title></Body>
+            <Right>
+            <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
+                <Icon name = 'refresh' type = 'Ionicons'/>
+              </TouchableOpacity>
+            </Right>
+          </Header>
 
-        <Content>
-        <Calendar
-        markedDates={this.state.marked}
-        markingType={'period'}
-        />
-        </Content>
-        <Content>
-            {this.makeList()}
-        </Content>
-        {this.showOptionButton()}
-      </Container>
-    )
+          <Content>
+          <Calendar
+          markedDates={this.state.marked}
+          markingType={'period'}
+          />
+          </Content>
+          <Content>
+              {this.makeList()}
+          </Content>
+          {this.showOptionButton()}
+        </Container>
+      )
     } 
-    };
   };
+};
 
 
 const styles = StyleSheet.create({
@@ -193,7 +195,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: -5,
-    backgroundColor:'#50cebb',
+    backgroundColor:'#ff3377',
     flexDirection:'row',
     height:80,
     alignItems:'center',

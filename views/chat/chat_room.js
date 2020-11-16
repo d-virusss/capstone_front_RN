@@ -32,7 +32,9 @@ function forceUpdate(){
 }
 
 function ChatRoom ({route , navigation}) {
-  getToken = async () => {
+  const [refreshing, setRefreshing] = useState();
+
+  const getToken = async () => {
     try{
       const value = await AsyncStorage.getItem('token');
       myID = await AsyncStorage.getItem('user_id');
@@ -78,26 +80,25 @@ function ChatRoom ({route , navigation}) {
       .catch(function (error) {
         console.log('axios call failed!! : ' + error);
       });
-    console.log('end of post');
-    await db.transaction((tx)=>{
-      tx.executeSql('insert into message (message_id, chat_id, sender_id, message_text, message_created, image_url) values(?,?,?,?,?,?)',
-      [dbData.message_info.id,chatID,myID,messages[0].text, messages[0].createdAt,messages[0].image],(tx, results)=>{
-        console.log('Results onsend '+ results.rowsAffected)
-      }),(error)=>{
-        console.log('onsend dbdbdb error '+ error)
-      }
+    console.log(messages[0]);
+    (await db).transaction((tx)=>{
+      tx.executeSql('insert into message (message_id, chat_id, sender_id, message_text, message_created, image_url) VALUES(?,?,?,?,?,?)',
+      [dbData.message_info.id, chatID, myID,dbData.message_info.body,dbData.message_info.created_time,dbData.message_info.image],
+      (tx,results)=>{console.log(results.rowsAffected)},(err)=>{console.log(err)})
     })
     function mSetting(){
       setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
     }
-    setTimeout(mSetting, 300)
+    setTimeout(mSetting, 100)
   }, [])
   const onGet = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
   },[])
+  
 
   const messageGetRequest = async () => {
     console.log(token);
+    console.log(myID);
     console.log(chatID);
     api
       .get(`/chats/${chatID}/messages`, 
@@ -137,11 +138,11 @@ function ChatRoom ({route , navigation}) {
             await db.transaction((tx)=>{
               console.log('in get transaction')
               tx.executeSql('INSERT INTO message (message_id, chat_id, sender_id, message_text, message_created, image_url) VALUES(?,?,?,?,?,?)',
-              [gotChatData._id,chatID,-1,gotChatData.text,gotChatData.createdAt,gotChatData.image],(tx, results)=>{
+              [gotChatData._id,chatID,loadMessage.message_info.sender,gotChatData.text,gotChatData.createdAt,gotChatData.image],(tx, results)=>{
                 console.log('Results : ', results.rowsAffected)
-              }),(error)=>{
+              },(error)=>{
                 console.log("dbdbdb error ", error)
-              }
+              })
             })
           })
           console.log(JSON.stringify(chatDataList));
@@ -154,7 +155,7 @@ function ChatRoom ({route , navigation}) {
       .catch((err) => console.log("err : ", err))
   }
 
-  getOldChat = async() => {
+  const getOldChat = async() => {
     console.log('in old chat')
     db.transaction((tx)=>{
       tx.executeSql('SELECT * FROM message WHERE chat_id=?',[chatID],(tx, results)=>{
@@ -166,7 +167,10 @@ function ChatRoom ({route , navigation}) {
           for(let i = len-1; i>=0; i--){
             let loadMessage = results.rows.item(i)
             let sender = 0;
-            if(loadMessage.sender_id === myID) sender = 1;
+            console.log(loadMessage.sender_id)
+            if(loadMessage.sender_id == myID) {
+              sender = 1;
+            }
             else sender = 2;
             let gotChatData = 
             {
@@ -179,7 +183,7 @@ function ChatRoom ({route , navigation}) {
                 avatar: '',
               }
             }
-            console.log(loadMessage.message_id)
+            console.log(gotChatData)
             gotChatData._id = loadMessage.message_id;
             gotChatData.createdAt = loadMessage.message_created;
             gotChatData.text = loadMessage.message_text;
@@ -200,14 +204,6 @@ function ChatRoom ({route , navigation}) {
   })
   console.log(dbData)
   if(dbData != []){}
-  db.transaction((tx)=>{ //for test if chat works properly, need to drop table and remake it
-    tx.executeSql('insert into message (message_id, chat_id, sender_id, message_text, message_created, image_url) values(?,?,?,?,?,?)',
-    [100,5,-1,'work plz','',''],(tx, results)=>{
-      console.log('Results onsend '+ results.rowsAffected)
-    }),(error)=>{
-      console.log('onsend dbdbdb error '+ error)
-    }
-  })
   getToken();
   messageGetRequest();
   const update = forceUpdate();

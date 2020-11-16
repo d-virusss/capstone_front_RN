@@ -10,7 +10,7 @@ Icon.loadFont();
 
 var user_obj = {
   user: {
-    email: 'tester4@test.com',
+    email: 'tester1@test.com',
     password: 'test123',
   },
 };
@@ -54,9 +54,9 @@ class LoginScreen extends Component {
           console.log(response);
           AsyncStorage.setItem('token', response.data.token);
           AsyncStorage.setItem('user_id', String(response.data.id));
-          AsyncStorage.setItem('myLocation', String(response.data.location_auth));
-
-          if ((response.data.location_auth) != null) {// already has location
+          AsyncStorage.setItem('myLocation', response.data.location_auth);
+          console.log(response.data.location_auth)
+          if (response.data.location_auth != null) {// already has location
             this.props.navigation.navigate('postIndex')
           } else {
             this.props.navigation.navigate('MyPage_Location')
@@ -65,7 +65,7 @@ class LoginScreen extends Component {
         })
         .catch(function (error) {
           console.log("login fail")
-          alert("가입하신 정보를 다시 확인해주세요")
+          Alert.alert("로그인 실패", "입력한 정보가 잘못되었습니다.",[{text:'확인', style:'cancel'}])
         });
     }
   }
@@ -126,15 +126,11 @@ class LoginScreen extends Component {
                 height: '50%',
                 alignItems: 'center',
               }}>
-              <Icon
-                name="ios-person-outline"
-                size={30}
-                color="black"
-                style={{flex: 1}}></Icon>
-              <Item style={{flex: 4}}>
+              <Icon name="ios-person-outline" size={30} color="black" style={{flex: 1}}></Icon>
+              <Item style={{flex: 4, marginLeft: -10}}>
                 <Input
-                  style={{fontSize: 25}}
-                  placeholder="E-mail"
+                  style={{fontSize: 20, marginRight:100}}
+                  placeholder="이메일"
                   autoCapitalize="none"
                   onChangeText={(text) => this.changeUsername(text, 'email')}
                 />
@@ -147,11 +143,11 @@ class LoginScreen extends Component {
                 alignItems: 'center',
               }}>
               <Icon name="key" size={30} color="black" style={{flex: 1}}></Icon>
-              <Item style={{flex: 4}}>
+              <Item style={{flex: 4, marginLeft: -10}}>
                 <Input
                   type="password"
-                  style={{fontSize: 25}}
-                  placeholder="Password"
+                  style={{fontSize: 20}}
+                  placeholder="비밀번호"
                   autoCapitalize="none"
                   secureTextEntry={true}
                   onChangeText={(text) => this.changeUsername(text, 'password')}
@@ -201,7 +197,7 @@ class LoginScreen extends Component {
               <CustomButton
                 title="회원가입"
                 titleColor="#fff"
-                buttonColor="#64b5f6"
+                buttonColor="#ff3377"
                 width="100%"
                 height="100%"
                 onPress={() => this.props.navigation.navigate('Register')}
