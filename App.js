@@ -1,8 +1,8 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {Alert, StyleSheet} from 'react-native';
-import { TouchableOpacity, Icon } from 'native-base';
 import React, {useEffect} from 'react';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
+import {Icon, Button} from 'native-base';
 import LoginScreen from './views/login/caller';
 import Register_form from './views/registration/caller';
 import FindId from './views/findid/caller';
@@ -29,6 +29,7 @@ import MyItemList from './views/mypage/myItemList'
 import ManageReservation from './views/mypage/manageReservation'
 import PostUpdate from './views/post/post_update'
 import Contract from './views/contract/contract'
+import db from './views/shared/chat_db'
 import Sign from './views/sign/sign'
 import SignState from './views/sign/check_sign_state'
 import LocationDetail from './views/mypage/location_detail'
@@ -67,6 +68,11 @@ const App = () => {
         localNotificationService.unregister()
       }
     }
+    db.transaction((tx)=>{
+      tx.executeSql('create table if not exists message (message_id integer primary key, chat_id integer, sender_id integer, message_text text, message_created text, image_url text)',[],
+      (tx,results)=>console.log(results),
+      (error)=>console.log(error));
+    })
   }, []);
 
   return (

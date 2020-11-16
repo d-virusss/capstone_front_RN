@@ -20,6 +20,7 @@
 		857CCD055AC51C95C275F36E /* libPods-capstone_frontend-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF94731A6E426334CC33FF9A /* libPods-capstone_frontend-tvOS.a */; };
 		A55447AAADD3E3C5C5741685 /* libPods-capstone_frontend.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BB51FC9B538354A66B74AC1 /* libPods-capstone_frontend.a */; };
 		AA481F5FE0FFE237508048ED /* libPods-capstone_frontend-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1C6A4FC244BBE383C703E70 /* libPods-capstone_frontend-tvOSTests.a */; };
+		B91DBE77255FC51C00387D10 /* local.db in Resources */ = {isa = PBXBuildFile; fileRef = B91DBE76255FC51C00387D10 /* local.db */; };
 		B96963B42552EB12003C8180 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B96963B32552EB12003C8180 /* GoogleService-Info.plist */; };
 		FD73AA261E69C116D6E9A6CB /* libPods-capstone_frontend-capstone_frontendTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF56269F1BD8C947564605D /* libPods-capstone_frontend-capstone_frontendTests.a */; };
 /* End PBXBuildFile section */
@@ -66,6 +67,7 @@
 		847B63811A0B517FEE8FF903 /* Pods-capstone_frontend-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-capstone_frontend-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-capstone_frontend-tvOSTests/Pods-capstone_frontend-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AF6B487C79443CC078B43F47 /* Pods-capstone_frontend-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-capstone_frontend-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-capstone_frontend-tvOSTests/Pods-capstone_frontend-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		B904D10A255658D3003EDEA0 /* capstone_frontend-tvOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "capstone_frontend-tvOS.entitlements"; path = "capstone_frontend-tvOS/capstone_frontend-tvOS.entitlements"; sourceTree = "<group>"; };
+		B91DBE76255FC51C00387D10 /* local.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = local.db; path = capstone_frontend/www/local.db; sourceTree = "<group>"; };
 		B96963B32552EB12003C8180 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B969644F2552EFA1003C8180 /* capstone_frontend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = capstone_frontend.entitlements; path = capstone_frontend/capstone_frontend.entitlements; sourceTree = "<group>"; };
 		DCAA9867106E45F1A1B05858 /* Pods-capstone_frontend-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-capstone_frontend-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-capstone_frontend-tvOS/Pods-capstone_frontend-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 		13B07FAE1A68108700A75B9A /* capstone_frontend */ = {
 			isa = PBXGroup;
 			children = (
+				B91DBE76255FC51C00387D10 /* local.db */,
 				B969644F2552EFA1003C8180 /* capstone_frontend.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -359,6 +362,7 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				B96963B42552EB12003C8180 /* GoogleService-Info.plist in Resources */,
+				B91DBE77255FC51C00387D10 /* local.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

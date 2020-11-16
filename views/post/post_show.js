@@ -8,11 +8,17 @@ import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
 import number_delimiter from '../shared/number_delimiter'
 
+let myID;
+
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
 var user_id;
 class PostShow extends Component{
+  constructor(props){
+    super(props);
+    //db = AsyncStorage.getItem('db');
+  }
   params = this.props.route.params;
 
   state = {
@@ -38,6 +44,7 @@ class PostShow extends Component{
   getToken = async () => {
     try{
       const value = await AsyncStorage.getItem('token');
+      myID = await AsyncStorage.getItem('user_id');
       this.state.token = value
       user_id = await AsyncStorage.getItem('user_id')
     } catch (error){
