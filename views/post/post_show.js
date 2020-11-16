@@ -72,7 +72,7 @@ class PostShow extends Component{
       provider_location : this.params.post.user.user_info.location_title,
       provider_id : this.params.post.user.user_info.id,
       provider_profile_image : this.params.post.user.user_info.image,
-      rent_count : this.params.post.user.user_info.rent_count,
+      rent_count : this.params.post.post_info.rent_count,
      }, () => {
       this.setState({ icon : this.state.like_check ? "heart" : "heart-outline" })
     }, () => {console.log("aa8304872394724028" + this.state)})
@@ -276,7 +276,7 @@ class PostShow extends Component{
                     </View>
                   
                     <Right style={styles.rentCountArea}>
-                        <Text style={styles.providerLocation}>최근 대여 수 : {this.state.rent_count}</Text>
+                        <Text style={styles.providerLocation}>지난 대여 수  {this.state.rent_count}</Text>
                     </Right>
                   </Item>
                   <Item regular style={styles.postbody}>
