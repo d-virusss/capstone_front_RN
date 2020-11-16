@@ -57,7 +57,7 @@ showAuthFrom () {
                 <CustomButton
                     title="소속 인증하기"
                     titleColor="white"
-                    buttonColor="skyblue"
+                    buttonColor="#ff3377"
                     borderWidth={5}
                     borderRadius={5}
                     width="50%"
@@ -122,7 +122,7 @@ render() {
                 <CustomButton
                     title="인증 코드 발급"
                     titleColor="white"
-                    buttonColor="skyblue"
+                    buttonColor="#ff3377"
                     borderWidth={5}
                     borderRadius={5}
                     width="50%"
