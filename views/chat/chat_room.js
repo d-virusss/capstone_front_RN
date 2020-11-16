@@ -18,7 +18,7 @@ let updateFlag = 0;
 let chatID = 0;
 let postID = 0;
 let userName = "";
-let token = 0;
+let token = AsyncStorage.getItem('token');
 let myID = -1;
 let dbData = [];
 
