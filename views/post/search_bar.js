@@ -20,7 +20,7 @@ class Search_Bar extends React.Component {
 
 
   getMyInfo = async() => {
-    let location = await AsyncStorage.getItem("myLocation")
+    let location = await AsyncStorage.getItem("my_location")
     this.setState({location : location})
   }
 

@@ -78,7 +78,7 @@ class LikeListUserScreen extends Component {
         <Container>
         <Header />
         <Content>
-          <Spinner color='green' />
+          <Spinner color='#ff3377' />
         </Content>
       </Container>
       );

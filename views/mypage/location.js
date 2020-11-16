@@ -48,7 +48,9 @@ class MypageScreen extends Component{
   
  getToken = async() =>  {
     token_value = await AsyncStorage.getItem('token');
-    myLocation = await AsyncStorage.getItem('myLocation');
+    myLocation = await AsyncStorage.getItem('my_location');
+    console.log("gettoken")
+    console.log(myLocation)
   }
   
   requestKakao = async(coords) => {
@@ -65,7 +67,6 @@ class MypageScreen extends Component{
       .then(function (response) {
         user_addr.location.title =
           response.data.documents[0].address.region_3depth_name;
-        console.log(user_addr.location.title)
         this.getNearLocation();
         this.state.title = user_addr.location.title;
       }.bind(this))
@@ -84,7 +85,6 @@ class MypageScreen extends Component{
           Authorization: token_value,
         }
       }).then((res) => {
-        console.log(res);
         locationList = res.data.location_info.range;
         this.state.value = res.data.location_info.user_range;
         this.setState({loading: false})
@@ -97,7 +97,6 @@ class MypageScreen extends Component{
   putRequest = async() =>  {  
     user_addr.location.range = this.state.value;
     console.log("puterquest")
-    console.log(user_addr.location.range)
     api
       .put('/locations/certificate', user_addr, {
         headers: {
@@ -106,11 +105,13 @@ class MypageScreen extends Component{
       })
       .then(() => {
         Alert.alert("지역 설정 완료", "",[{text:'확인', style:'cancel'}])
-        AsyncStorage.setItem('myLocation', user_addr.location.title);
-        if(myLocation == null){
-          this.props.navigation.navigate('postIndex')
-        }else{
+        AsyncStorage.setItem('my_location', user_addr.location.title);
+        if(myLocation != "null"){
           this.props.navigation.navigate('MyPage')
+         
+        }else{
+          console.log("go post")
+          this.props.navigation.navigate('postIndex')
         }
       })
       .catch((err) => {
