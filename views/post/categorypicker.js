@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Vector_Icon from 'react-native-vector-icons/AntDesign'
 Vector_Icon.loadFont()
-import { Header, Content, Form, Item, Picker, Icon, Text } from 'native-base';
+import { Header, Content, Form, Item, Picker, Icon, Text, Label } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 export default class CategoryPicker extends Component {
   
@@ -25,7 +25,7 @@ export default class CategoryPicker extends Component {
   render() {
     return (
         <Item picker style={{ justifyContent: "space-between" }}>
-          <Text style={{ fontSize: 17, paddingHorizontal: '3%' }}>카테고리</Text>
+          <Label style={{ fontSize: 17, paddingHorizontal: '3%', marginLeft: '1%' }}>카테고리</Label>
           <Picker
             mode="dropdown"
             iosIcon={<Icon type="AntDesign" name="down" />}

@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     alignSelf : 'center',
   },
   item : {
-    margin: 7,
+    marginVertical : 7,
     fontSize: 17,
   }
 })
