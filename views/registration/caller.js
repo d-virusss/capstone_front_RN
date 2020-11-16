@@ -132,21 +132,18 @@ export default class RegistrationScreen extends React.Component {
             </Item>
 
             {/* phone */}
-            <Item stackedLabel>
-              <Label>연락처</Label>
+            <Item floatingLabel>
+              <Label>연락처 ex) 01012345678</Label>
               <Input autoCapitalize="none"
                 keyboardType="numeric"
                 onChangeText = {(text) => {this.state.user.number = text }}
-                placeholder = "하이픈(-) 없이 입력해주세요. ex) 01012345678"
               />
             </Item>
 
-
-            <Item stackedLabel>
-              <Label>생일</Label>
+            <Item floatingLabel>
+              <Label>생일 ex) 19960827</Label>
               <Input autoCapitalize="none"
                 onChangeText = {(birthday) => {this.state.user.birthday = birthday }}
-                placeholder = "하이픈(-) 없이 입력해주세요. ex) 19960827"
               />
             </Item>
 

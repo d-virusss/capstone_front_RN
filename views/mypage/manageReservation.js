@@ -21,9 +21,9 @@ class reservationScreen extends Component{
             </Left>
             <Body><Title>예약 관리</Title></Body>
             <Right>
-            <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
+            {/* <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
                 <Icon name = 'refresh' type = 'Ionicons'/>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </Right>
           </Header>
 
