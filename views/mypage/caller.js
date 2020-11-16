@@ -95,6 +95,25 @@ class MypageScreen extends Component {
     })
   }
 
+  getFCMToken = async() =>{
+    let fcmToken = await AsyncStorage.getItem('fcmToken')
+    await api
+      .post('/users/add_device',
+        {
+          user:{
+            device_token: fcmToken
+          }
+        },
+        {
+          headers:{
+            'Authorization': this.state.token
+          }
+        }
+      )
+      .then((response)=>console.log(response))
+      .then((error)=>console.log(error))
+  }
+  
   render() {
     if(!this.state.loading) return null
     else{
@@ -153,26 +172,7 @@ class MypageScreen extends Component {
 
             <Separator bordered></Separator>
 
-            <ListItem button onPress = {()=>{
-              getFCMToken = async() =>{
-                let fcmToken = await AsyncStorage.getItem('fcmToken')
-                await api
-                  .post('/users/add_device',
-                    {
-                      user:{
-                        device_token: fcmToken
-                      }
-                    },
-                    {
-                      headers:{
-                        'Authorization': this.state.token
-                      }
-                    }
-                  )
-                  .then((response)=>console.log(response))
-                  .then((error)=>console.log(error))
-              }
-              getFCMToken();}}>
+            <ListItem button onPress = {()=>{this.getFCMToken();}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text style={ styles.listText }> 기기 인증</Text>
