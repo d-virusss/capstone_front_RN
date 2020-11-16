@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Alert} from 'react-native';
 import CustomButton from './custom_button';
 import { Item, Input, Toast} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import api from '../shared/server_address'
+import api from '../shared/server_address';
 
 Icon.loadFont();
 
@@ -23,6 +23,9 @@ var userinfo = {
 };
 
 class LoginScreen extends Component {
+  constructor(props){
+    super(props);
+  }
 
 
   setToken = async () => {
@@ -37,13 +40,16 @@ class LoginScreen extends Component {
     console.log('enter senddata');
   }
 
-  
-  makeRequest() {
+  getToken = async() =>{
+    myL = await AsyncStorage.getItem('my_location');
+    console.log(myL)
+  }
+  makeRequest (){
     if (userinfo.user.email == ''){
-      Alert.alert("이메일을 입력해주세요")
+      Alert.alert('로그인',"이메일을 입력해주세요",[{text: '확인', style:'cancel'}])
     }
     if (userinfo.user.password == '')
-      Alert.alert("비밀번호를 입력해주세요")
+      Alert.alert("로그인", "비밀번호를 입력해주세요",[{text: '확인', style:'cancel'}])
     if (!(userinfo.user.email == '') && !(userinfo.user.password == '')) {
       api
         .post('/users/sign_in', userinfo)
@@ -51,13 +57,17 @@ class LoginScreen extends Component {
           console.log(response);
           AsyncStorage.setItem('token', response.data.token);
           AsyncStorage.setItem('user_id', String(response.data.id));
-          AsyncStorage.setItem('myLocation', response.data.location_auth);
-          console.log(response.data.location_auth)
+          AsyncStorage.setItem('my_location',String(response.data.location_auth));
+          console.log(response.data.location_auth == null);
+          console.log("call gettioen-----------------")
+          
+          this.getToken();
           if (response.data.location_auth != null) {// already has location
             this.props.navigation.navigate('postIndex')
           } else {
             this.props.navigation.navigate('MyPage_Location')
           }
+          //this.addUserIDtoDB(response.data.id);
         })
         .catch(function (error) {
           console.log("login fail")
@@ -74,7 +84,7 @@ class LoginScreen extends Component {
         console.log(response.data.location_auth)
         AsyncStorage.setItem('token', response.data.token);
         AsyncStorage.setItem('user_id', String(response.data.id));
-        AsyncStorage.setItem('myLocation', response.data.location_auth);
+        AsyncStorage.setItem('my_location', String(response.data.location_auth));
         
         if ((response.data.location_auth) != null) {// already has location
           this.props.navigation.navigate('postIndex')

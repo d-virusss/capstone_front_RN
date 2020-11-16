@@ -10,6 +10,7 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
+import db from '../shared/chat_db';
 
 IconM.loadFont();
 
@@ -17,7 +18,13 @@ let updateFlag = 0;
 let chatID = 0;
 let postID = 0;
 let userName = "";
-let token = 0;
+let token = AsyncStorage.getItem('token');
+let myID = -1;
+let dbData = [];
+
+function forTimeout(){
+  return 1;
+}
 
 function forceUpdate(){
   const [value, setValue] = useState(0);
@@ -27,9 +34,10 @@ function forceUpdate(){
 function ChatRoom ({route , navigation}) {
   const [refreshing, setRefreshing] = useState();
 
-  getToken = async () => {
+  const getToken = async () => {
     try{
       const value = await AsyncStorage.getItem('token');
+      myID = await AsyncStorage.getItem('user_id');
       if (value !== null) {
         token = value;
         syncflag = 1;
@@ -47,10 +55,9 @@ function ChatRoom ({route , navigation}) {
   }
   const [messages, setMessages] = useState([]);
   const [show_popover, setShowPopover] = useState(false);
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+  const onSend = useCallback(async(messages = []) => {
     console.log(messages[0].text);
-    api
+    await api
       .post(`/chats/${chatID}/messages`, 
         {
           message : {
@@ -67,18 +74,31 @@ function ChatRoom ({route , navigation}) {
       .then((response) => {
         console.log("create success!")
         console.log(response)
+        dbData = response.data
+        console.log('going out')
       })
       .catch(function (error) {
         console.log('axios call failed!! : ' + error);
       });
+    console.log(messages[0]);
+    (await db).transaction((tx)=>{
+      tx.executeSql('insert into message (message_id, chat_id, sender_id, message_text, message_created, image_url) VALUES(?,?,?,?,?,?)',
+      [dbData.message_info.id, chatID, myID,dbData.message_info.body,dbData.message_info.created_time,dbData.message_info.image],
+      (tx,results)=>{console.log(results.rowsAffected)},(err)=>{console.log(err)})
+    })
+    function mSetting(){
+      setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    }
+    setTimeout(mSetting, 100)
   }, [])
   const onGet = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
   },[])
   
 
-  const messageGetRequest = () => {
+  const messageGetRequest = async () => {
     console.log(token);
+    console.log(myID);
     console.log(chatID);
     api
       .get(`/chats/${chatID}/messages`, 
@@ -89,9 +109,8 @@ function ChatRoom ({route , navigation}) {
       }
       )
       .then((response) => {
-        console.log('success');
-        console.log("chat id : "+ chatID)
-        console.log(response);
+        console.log('get success');
+        console.log(response.status);
         if(response != null){
           let chatDataList= [];
           if(response.data.length>0) updateFlag = 1;
@@ -101,51 +120,99 @@ function ChatRoom ({route , navigation}) {
               _id: null,
               createdAt: null,
               text: null,
+              image:'',
               user:{
                 _id: 2,
                 name: userName,
-                avatar: 'https://placeimg.com/140/140/any',
+                avatar: '',
               }
             }
             gotChatData._id = loadMessage.message_info.id;
             gotChatData.createdAt = loadMessage.message_info.created_time;
             gotChatData.text = loadMessage.message_info.body;
+            gotChatData.image = loadMessage.message_info.image;
             console.log("----------------------");
             console.log(gotChatData.text);
             chatDataList[chatDataList.length] = gotChatData;
             console.log(JSON.stringify(chatDataList));
+            await db.transaction((tx)=>{
+              console.log('in get transaction')
+              tx.executeSql('INSERT INTO message (message_id, chat_id, sender_id, message_text, message_created, image_url) VALUES(?,?,?,?,?,?)',
+              [gotChatData._id,chatID,loadMessage.message_info.sender,gotChatData.text,gotChatData.createdAt,gotChatData.image],(tx, results)=>{
+                console.log('Results : ', results.rowsAffected)
+              },(error)=>{
+                console.log("dbdbdb error ", error)
+              })
+            })
           })
           console.log(JSON.stringify(chatDataList));
-          if(response.data.length > 0) onGet(chatDataList);
+          if(response.data.length > 0) {
+            dbData = chatDataList;
+            onGet(chatDataList);
+          }
         }
       })
       .catch((err) => console.log("err : ", err))
   }
 
-  getUserInfo = async () => {
-    await api 
-            .get(`/posts/${postID}`,{
-              headers : {
-                'Authorization' : token
+  const getOldChat = async() => {
+    console.log('in old chat')
+    db.transaction((tx)=>{
+      tx.executeSql('SELECT * FROM message WHERE chat_id=?',[chatID],(tx, results)=>{
+        let len = results.rows.length;
+        console.log('length'+len)
+        console.log(results.rows.item(0))
+        if(len>0){
+          let chatDataList = [];
+          for(let i = len-1; i>=0; i--){
+            let loadMessage = results.rows.item(i)
+            let sender = 0;
+            console.log(loadMessage.sender_id)
+            if(loadMessage.sender_id == myID) {
+              sender = 1;
+            }
+            else sender = 2;
+            let gotChatData = 
+            {
+              _id: null,
+              createdAt: null,
+              text: null,
+              user:{
+                _id: sender,
+                name: userName,
+                avatar: '',
               }
-            })
-            .then((response)=>{
-              userName = response.data.user.user_info.nickname;
-              console.log(response.data)
-            })
-            .catch((error)=>console.log(error))
+            }
+            console.log(gotChatData)
+            gotChatData._id = loadMessage.message_id;
+            gotChatData.createdAt = loadMessage.message_created;
+            gotChatData.text = loadMessage.message_text;
+            console.log("----------------------");
+            console.log(gotChatData.text);
+            chatDataList[chatDataList.length] = gotChatData;
+            console.log(JSON.stringify(chatDataList));
+          }
+          onGet(chatDataList);
+        }
+      })
+    })
   }
-
+  db.transaction((tx)=>{
+    tx.executeSql('create table if not exists message (message_id integer primary key, chat_id integer, sender_id integer, message_text text, message_created text, image_url text)',[],
+    (tx,results)=>console.log('create execute'),
+    (error)=>console.log(error));
+  })
+  console.log(dbData)
+  if(dbData != []){}
   getToken();
-  getUserInfo();
   messageGetRequest();
   const update = forceUpdate();
   if(updateFlag === 1){
-    console.log(updateFlag)
     //setTimeout(update, 100000);
   }
   else {
     updateFlag = 1;
+    setTimeout(getOldChat, 50);
     setTimeout(update, 100);
   }
   return (
@@ -190,7 +257,7 @@ function ChatRoom ({route , navigation}) {
       <GiftedChat
         messages={messages}
         onSend={messages => onSend(messages)}
-        onPressAvatar={()=> navigation.navigate('ProfileShow')}
+        onPressAvatar={()=> navigation.navigate('ProfileShow',{other_id : 1})}
         user={{
           _id: 1,
         }}
@@ -204,54 +271,6 @@ function ChatRoom ({route , navigation}) {
 }
 
 const styles = StyleSheet.create({
-  container : {
-    paddingBottom : 50,
-  },
-  imageArea : {
-    width: '95%',
-    height : '50%',
-    justifyContent : 'center',
-    alignItems : 'center',
-    alignSelf : 'center'
-  },
-  providerBar : {
-    flexDirection : "row",
-    borderBottomWidth : 0,
-    paddingVertical: '3%'
-  },
-  providerProfileiimage :{
-    width : 50,
-    height : 50,
-    borderRadius : 10,
-    marginLeft: '3%',
-  },
-  providerProfile : {
-    width: '30%',
-    marginLeft : '3%'
-  },
-  providerName : {
-    fontSize : 20,
-    fontWeight : "bold",
-    padding : '5%'
-  },
-  providerLocation : {
-    fontSize : 13,
-    color : 'grey',
-    padding : '5%'
-  },
-  fontView : {
-    fontSize : 17,
-    margin : '5%'
-  },
-  imageView : {
-    width: '90%',
-    height: 300,
-    marginVertical: '10%',
-  },
-  likeIcon : {
-    color : 'red',
-    fontSize : 25
-  },
   popoverel : {
     paddingVertical : 10,
     paddingHorizontal : 15,

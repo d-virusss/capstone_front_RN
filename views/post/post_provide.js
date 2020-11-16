@@ -86,6 +86,9 @@ class Post_provide extends Component {
       Alert.alert("게시글내용이 너무 짧습니다")
       return;
     }
+    //change loading status
+    this.setState({loading : true});
+
     api
       .post('/posts', (formdata), {
         headers: {
@@ -96,6 +99,7 @@ class Post_provide extends Component {
         console.log("send success!")
         console.log(res)
         this.props.navigation.goBack()
+        Alert.alert("물품 등록", "물품 등록글이 작성되었습니다.",[{text:'확인', style:'cancel'}])
       })
       .catch((e) => {
         console.log('send post failed!!!!' + e)
@@ -146,60 +150,72 @@ class Post_provide extends Component {
   }
 
   render() {
-    return (
-      <Container>
-        <Header>
-          <Left>
-            <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name='chevron-back' type='Ionicons' />
-            </TouchableOpacity>
-          </Left>
-          <Body><Title>물품 등록</Title>
-          </Body>
-          <Right>
-            <TouchableOpacity 
-              style={{ marginRight: '4%' }}
-              onPress={() => this.makePostRequest()}>
-              <Text>완료</Text>
-            </TouchableOpacity>
-          </Right>
-        </Header>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <KeyboardAvoidingView>
-            <ScrollView>
-              <ImageSelect stateBus={this.changeImage} ></ImageSelect>
-              <Container>
-                <Content>
-                  <Form>
-                    <Item inlinelabel>
-                      <Label>제목</Label>
-                      <Input autoCapitalize='none'
-                        onChangeText={(text) => this.changedata(text, "title")} />
-                    </Item>
-                    <Item inlinelabel>
-                      <Label>물품명</Label>
-                      <Input autoCapitalize='none'
-                        onChangeText={(text) => this.changedata(text, "product")} />
-                    </Item>
-                    <CategoryPicker setParent={this.setSelect}></CategoryPicker>
-                    <Item inlinelabel last>
-                      <Label>가격</Label>
-                      <Input keyboardType="numeric"
-                        onChangeText={(text) => this.changedata(text, "price")} />
-                    </Item>
-                    <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
-                      onChangeText={(text) => this.changedata(text, "body")}
-                      style={styles.textAreaContainer} />
-                  </Form>
-                </Content>
-              </Container>
-            </ScrollView>
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+    if(this.state.loading){
+      return (
+        <Container>
+        <Header />
+        <Content>
+          <Spinner color='#ff3377' />
+        </Content>
       </Container>
-    );
+      )
+    }else{
+      return (
+        <Container>
+          <Header>
+            <Left>
+              <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
+                <Icon name='chevron-back' type='Ionicons' />
+              </TouchableOpacity>
+            </Left>
+            <Body><Title>물품 등록</Title>
+            </Body>
+            <Right>
+              <TouchableOpacity 
+                style={{ marginRight: '4%' }}
+                onPress={() => this.makePostRequest()}>
+                <Text>완료</Text>
+              </TouchableOpacity>
+            </Right>
+          </Header>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <KeyboardAvoidingView>
+              <ScrollView>
+                <ImageSelect stateBus={this.changeImage} ></ImageSelect>
+                <Container>
+                  <Content>
+                    <Form>
+                      <Item inlinelabel>
+                        <Label>제목</Label>
+                        <Input autoCapitalize='none'
+                          onChangeText={(text) => this.changedata(text, "title")} />
+                      </Item>
+                      <Item inlinelabel>
+                        <Label>물품명</Label>
+                        <Input autoCapitalize='none'
+                          onChangeText={(text) => this.changedata(text, "product")} />
+                      </Item>
+                      <CategoryPicker setParent={this.setSelect}></CategoryPicker>
+                      <Item inlinelabel last>
+                        <Label>가격</Label>
+                        <Input keyboardType="numeric"
+                          onChangeText={(text) => this.changedata(text, "price")} />
+                      </Item>
+                      <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
+                        onChangeText={(text) => this.changedata(text, "body")}
+                        style={styles.textAreaContainer} />
+                    </Form>
+                  </Content>
+                </Container>
+              </ScrollView>
+            </KeyboardAvoidingView>
+          </TouchableWithoutFeedback>
+        </Container>
+      );
+    }
   }
 }
+
 const styles = StyleSheet.create({
   textAreaContainer: {
     marginHorizontal: '2%',

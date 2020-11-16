@@ -8,12 +8,14 @@ import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
 import number_delimiter from '../shared/number_delimiter'
 
+let myID;
+
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
 var user_id;
 class PostShow extends Component{
-  params = this.props.route.params.post.post_info;
+  params = this.props.route.params.post;
 
   state = {
     login_user_id : "",
@@ -38,6 +40,7 @@ class PostShow extends Component{
   getToken = async () => {
     try{
       const value = await AsyncStorage.getItem('token');
+      myID = await AsyncStorage.getItem('user_id');
       this.state.token = value
       user_id = await AsyncStorage.getItem('user_id')
     } catch (error){
@@ -54,19 +57,19 @@ class PostShow extends Component{
 
   setParams = () => {
     this.setState({ 
-      title: this.params.title,
-      price: this.params.price,
-      body: this.params.body,
-      category: this.params.category,
-      post_id : this.params.id,
-      like_check : this.params.like_check,
-      image: this.params.image,
-      icon: this.params.like_check ? "heart" : "heart-outline",
-      provider_name : this.params.user_info.nickname,
-      provider_location : this.params.user_info.location_title,
-      provider_id : this.params.user_info.id,
-      provider_profile_image : this.params.user_info.image,
-      is_your_post: this.params.user_info.id == parseInt(user_id) ? true : false,
+      title: this.params.post_info.title,
+      price: this.params.post_info.price,
+      body: this.params.post_info.body,
+      category: this.params.post_info.category,
+      post_id : this.params.post_info.id,
+      like_check : this.params.post_info.like_check,
+      image: this.params.post_info.image,
+      icon: this.params.post_info.like_check ? "heart" : "heart-outline",
+      provider_name : this.params.user.user_info.nickname,
+      provider_location : this.params.user.user_info.location_title,
+      provider_id : this.params.user.user_info.id,
+      provider_profile_image : this.params.user.user_info.image,
+      is_your_post: this.params.user.user_info.id == parseInt(user_id) ? true : false,
      }, () => {
       this.setState({ icon : this.state.like_check ? "heart" : "heart-outline" })
     }, () => {console.log(this.state)})
@@ -174,7 +177,7 @@ class PostShow extends Component{
     if(this.state.is_your_post){
       return (
         <FooterTab>
-          <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.params }) }}>
+          <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.params.post_info }) }}>
             <Text style={{ color: '#ff0055', fontWeight: 'bold', fontSize: 17, paddingVertical: 5}}>계약서 수정</Text>
           </Button>
           <Button transparent

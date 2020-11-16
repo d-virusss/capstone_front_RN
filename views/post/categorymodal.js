@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   container : {
     paddingVertical : 10,
     backgroundColor : '#ffffff',
-    alignItems : 'center',
+    justifyContent : 'space-around', 
   },
   fontconfing : {
     fontSize : 15,

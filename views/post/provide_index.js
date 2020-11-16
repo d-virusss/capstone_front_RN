@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Icon } from 'native-base';
-import { ScrollView, RefreshControl } from "react-native";
-import {TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, RefreshControl,} from "react-native";
+import {TouchableOpacity} from 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address';
 import number_delimiter from '../shared/number_delimiter'
@@ -31,8 +31,8 @@ class ProvideIndex extends Component {
     console.log("make index list")
     return this.state.posts.map((post) => {
       return(
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('PostShow', { post: post }) } key={post.post_info.id}>
-          <ListItem thumbnail>
+        <TouchableOpacity onPress={() =>{this.props.navigation.navigate('PostShow', { post: post }) }}>
+          <ListItem thumbnail key={post.post_info.id}ㄴ>
             <Left>
               <Thumbnail square source={{ uri: post.post_info.image }} />
             </Left>

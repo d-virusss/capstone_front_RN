@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Content, Container, Header, Left, Right, Title, Body, Item, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
+import { Content, Container, Header, Left, Right, Title, Body, Item, Label, Text, 
+  Spinner, Input, Form, Textarea, Icon } from 'native-base';
 import { View, ScrollView, StyleSheet, TextInput, Alert, TouchableOpacity } from "react-native";
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
@@ -31,6 +32,7 @@ class Post_ask extends Component {
 제 6 조 전조 각항에 위반할 경우 '갑'은 '을'에 대한 보상 없이 '갑'의 단독의사로 계약을 해제할 수 있다.\n
 제 7 조 본 계약의 조항 이외의 분쟁이 발생하였을 때는 '갑'과 '을'이 협의하여 정한다.
 `,
+    loading : false,
   }
 
   getToken = async () => {
@@ -83,6 +85,9 @@ class Post_ask extends Component {
       Alert.alert("게시글내용이 너무 짧습니다")
       return;
     }
+
+    //change loading status
+    this.setState({loading : true})
     api
       .post('/posts', formdata, {
         headers: {
@@ -93,6 +98,7 @@ class Post_ask extends Component {
         console.log("send success!")
         console.log(res)
         this.props.navigation.goBack()
+        Alert.alert("대여 요청", "대여 요청글이 작성되었습니다.",[{text:'확인', style:'cancel'}])
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
@@ -143,56 +149,67 @@ class Post_ask extends Component {
   }
 
   render() {
-    return (
-      <Container>
-        <Header>
-          <Left>
-            <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name='chevron-back' type='Ionicons' />
-            </TouchableOpacity>
-          </Left>
-          <Body><Title>대여 요청</Title>
-          </Body>
-          <Right>
-            <TouchableOpacity
-              style={{ marginRight: '4%' }}
-              onPress={() => this.makePostRequest()}>
-              <Text>완료</Text>
-            </TouchableOpacity>
-          </Right>
-        </Header>
-        <ScrollView>
-          <View style={ styles.imageArea }>
-            <ImageSelect stateBus={this.changeImage}></ImageSelect>
-          </View>
-          <Container>
-            <Content>
-              <Form>
-                <Item inlinelabel>
-                  <Label>제목</Label>
-                  <Input autoCapitalize='none'
-                    onChangeText={(text) => this.changedata(text, "title")} />
-                </Item>
-                <Item inlinelabel>
-                  <Label>물품명</Label>
-                  <Input autoCapitalize='none'
-                    onChangeText={(text) => this.changedata(text, "product")} />
-                </Item>
-                <CategoryPicker setParent={this.setSelect}></CategoryPicker>
-                <Item inlinelabel last>
-                  <Label>가격</Label>
-                  <Input keyboardType="numeric"
-                    onChangeText={(text) => this.changedata(text, "price")} />
-                </Item>
-                <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
-                  onChangeText={(text) => this.changedata(text, "body")}
-                  style={styles.textAreaContainer} />
-              </Form>
-            </Content>
-          </Container>
-        </ScrollView>
+    if(this.state.loading){
+      return (
+        <Container>
+        <Header />
+        <Content>
+          <Spinner color='#ff3377' />
+        </Content>
       </Container>
-    );
+      )
+    }else{
+    return (
+        <Container>
+          <Header>
+            <Left>
+              <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
+                <Icon name='chevron-back' type='Ionicons' />
+              </TouchableOpacity>
+            </Left>
+            <Body><Title>대여 요청</Title>
+            </Body>
+            <Right>
+              <TouchableOpacity
+                style={{ marginRight: '4%' }}
+                onPress={() => this.makePostRequest()}>
+                <Text>완료</Text>
+              </TouchableOpacity>
+            </Right>
+          </Header>
+          <ScrollView>
+            <View style={ styles.imageArea }>
+              <ImageSelect stateBus={this.changeImage}></ImageSelect>
+            </View>
+            <Container>
+              <Content>
+                <Form>
+                  <Item inlinelabel>
+                    <Label>제목</Label>
+                    <Input autoCapitalize='none'
+                      onChangeText={(text) => this.changedata(text, "title")} />
+                  </Item>
+                  <Item inlinelabel>
+                    <Label>물품명</Label>
+                    <Input autoCapitalize='none'
+                      onChangeText={(text) => this.changedata(text, "product")} />
+                  </Item>
+                  <CategoryPicker setParent={this.setSelect}></CategoryPicker>
+                  <Item inlinelabel last>
+                    <Label>가격</Label>
+                    <Input keyboardType="numeric"
+                      onChangeText={(text) => this.changedata(text, "price")} />
+                  </Item>
+                  <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
+                    onChangeText={(text) => this.changedata(text, "body")}
+                    style={styles.textAreaContainer} />
+                </Form>
+              </Content>
+            </Container>
+          </ScrollView>
+        </Container>
+      );
+    }
   }
 }
 const styles = StyleSheet.create({
