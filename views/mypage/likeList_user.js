@@ -68,6 +68,7 @@ class LikeListUserScreen extends Component {
         )
         .catch(function (error) {
           console.log('failed: ' + error);
+          Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         });
     });
   };

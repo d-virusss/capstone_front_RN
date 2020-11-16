@@ -1,8 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {View, StyleSheet, Alert, DeviceEventEmitter} from 'react-native';
-import {Text, Header, Thumbnail, Icon, Body, Container, Content, ListItem, Spinner, Button, Left, 
-  Right, Title,} from 'native-base';
+import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions} from 'react-native';
+import {Text, Header, Thumbnail, FooterTab, Body, Container, Content, ListItem, Spinner, Button,} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
 import moment from 'moment';
@@ -20,6 +19,7 @@ var reservation_info = {
 };
 
 class receiveScreen extends Component{
+
   state = {
     marked: null,
     token: 0,
@@ -28,6 +28,8 @@ class receiveScreen extends Component{
   };
 
   componentDidMount() {
+    reservation_info.item_id=''
+
     this.getToken();
     this.eventListener = DeviceEventEmitter.addListener('refreshList', this.handleEvent);
   }
@@ -73,6 +75,7 @@ class receiveScreen extends Component{
     }).catch((err) => {
         console.log("reservation page err")
         console.log(err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
     })
   }
 
@@ -88,12 +91,12 @@ class receiveScreen extends Component{
         Authorization: this.state.token,
       },
     }).then((res) => {
-      console.log("승인되었습니다.")
       console.log(res)
       Alert.alert("승인되었습니다", "",[{text:'확인', style:'cancel'}])
-      this.props.navigation.navigate("Contract");
+      //this.props.navigation.navigate("Contract");
     }).catch((err) => {
       console.log(err)
+      Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
     })
   }
 
@@ -107,14 +110,16 @@ class receiveScreen extends Component{
       console.log(res)
       Alert.alert("거절되었습니다", "",[{text:'확인', style:'cancel'}])
     }).catch((err) => {
-      console.log(err)
+      Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
     })
   }
 
   showOptionButton(){
+    console.log("showoptoin button -------------")
+    console.log(reservation_info.item_id)
     if(reservation_info.item_id){
       return(
-        <View style={styles.footer}>
+        <FooterTab style={styles.footer}>
           <Button transparent style={styles.bottomButtons}
            onPress={() => {this.accept()}}>
             <Text style = {styles.footerText}>승인</Text>
@@ -123,7 +128,7 @@ class receiveScreen extends Component{
           onPress= {() => {this.reject()}}>
             <Text style = {styles.footerText}>거절</Text>
           </Button>
-        </View>
+        </FooterTab>
       )
     }else{
       return null
@@ -162,14 +167,14 @@ class receiveScreen extends Component{
     else{
       return(
         <Container>
-          <Content>
+          <View>
           <Calendar
           markedDates={this.state.marked}
           markingType={'period'}
           />
-          </Content>
+          </View>
           <Content>
-              {this.makeList()}
+          {this.makeList()}
           </Content>
           <Content>
           {this.showOptionButton()}
@@ -180,19 +185,21 @@ class receiveScreen extends Component{
   };
 };
 
-
+let {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
+  container:{
+    height : height,
+    width : width,
+  },
   footer: {
     position: 'absolute',
     flex:0.1,
     left: 0,
     right: 0,
-    bottom: -5,
     backgroundColor:'#ff3377',
     flexDirection:'row',
-    height:80,
+    height:60,
     alignItems:'center',
-    paddingTop: 7
   },
   bottomButtons: {
     alignItems:'center',

@@ -28,6 +28,7 @@ class FCMService {
             }
         }).catch(error => {
             console.log("[FCMService] Permission rejected ", error)
+            Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         })
     }
 
@@ -47,6 +48,7 @@ class FCMService {
             }
         }).catch(error => {
             console.log("[FCMService] getToken rejected ", error)
+            Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         })
     }
 
@@ -56,6 +58,7 @@ class FCMService {
             this.getToken(onRegister)
         }).catch(error => {
             console.log("[FCMService] Request Permission rejected ", error)
+            Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         })
     }
 
@@ -64,6 +67,7 @@ class FCMService {
         messaging().deleteToken()
         .catch(error => {
             console.log("[FCMService] Delete token error ", error)
+            Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         })
     }
 

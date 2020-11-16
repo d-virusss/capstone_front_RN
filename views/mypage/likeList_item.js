@@ -40,7 +40,10 @@ class LikeListItemScreen extends Component {
         console.log('success');
         this.props.navigation.navigate('PostShow', { post: response.data })
       }.bind(this))
-      .catch((err) => console.log("err : ", err))
+      .catch((err) => {
+        console.log("err : ", err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+      })
   }
 
   getToken = async () => {
@@ -73,6 +76,7 @@ class LikeListItemScreen extends Component {
         )
         .catch(function (error) {
           console.log('failed: ' + error);
+          Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         });
     });
   };
