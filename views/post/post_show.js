@@ -16,8 +16,7 @@ UserAgent.getUserAgent(); //synchronous
 
 var user_id;
 class PostShow extends Component{
-  params = this.props.route.params.post;
-
+  params = this.props.route.params;
   state = {
     login_user_id : "",
     token: "",
