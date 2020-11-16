@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, useState, useCallback, useEffect, Fragment } from 'react';
-import {StyleSheet, Alert} from 'react-native';
+import {StyleSheet, Alert, Image} from 'react-native';
 import { 
   Container, Header, Content, List, ListItem, 
   Left, Body, Right, Thumbnail, Text, View , Footer, FooterTab, Button, Icon, Root, Badge, ActionSheet, Textarea
@@ -11,6 +11,7 @@ import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
 import db from '../shared/chat_db';
+import { Bubble, Time, Colors } from 'react-native-gifted-chat'
 
 IconM.loadFont();
 
@@ -20,7 +21,9 @@ let postID = 0;
 let userName = "";
 let token = AsyncStorage.getItem('token');
 let myID = -1;
-let dbData = [];
+let other_id=-1;
+let other_nickname = '';
+let avatarURI='empty';
 
 function forTimeout(){
   return 1;
@@ -33,6 +36,8 @@ function forceUpdate(){
 
 function ChatRoom ({route , navigation}) {
   const [refreshing, setRefreshing] = useState();
+  const [post_title, setPostTitle] = useState('');
+  const [post_img, setPostImg] = useState('');
 
   const getToken = async () => {
     try{
@@ -48,15 +53,34 @@ function ChatRoom ({route , navigation}) {
     }
   }
 
-  const {chat_id, post_id} = route.params;
+  const {chat_id, post_id, nickname, avatar} = route.params;
   if(updateFlag === 0) {
     chatID = chat_id;
     postID = post_id;
+    other_nickname = nickname;
+    avatarURI = avatar;
   }
+
+  const getPostInfo = async () => {
+    await api
+            .get(`posts/${postID}`,{
+              headers:{
+                'Authorization': token
+              }
+            })
+            .then((response)=>{
+              console.log(response)
+              setPostTitle(response.data.post_info.title);
+              setPostImg(response.data.post_info.image);
+            })
+            .catch((err)=>console.log(err))
+  }
+
   const [messages, setMessages] = useState([]);
   const [show_popover, setShowPopover] = useState(false);
   const onSend = useCallback(async(messages = []) => {
     console.log(messages[0].text);
+    let dbData = [];
     await api
       .post(`/chats/${chatID}/messages`, 
         {
@@ -84,13 +108,13 @@ function ChatRoom ({route , navigation}) {
     console.log(messages[0]);
     (await db).transaction((tx)=>{
       tx.executeSql('insert into message (message_id, chat_id, sender_id, message_text, message_created, image_url) VALUES(?,?,?,?,?,?)',
-      [dbData.message_info.id, chatID, myID,dbData.message_info.body,dbData.message_info.created_time,dbData.message_info.image],
+      [dbData.message_info.id, chatID, myID,dbData.message_info.body,dbData.message_info.created_time,dbData.message_info.sender.image],
       (tx,results)=>{console.log(results.rowsAffected)},(err)=>{console.log(err)})
     })
     function mSetting(){
       setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
     }
-    setTimeout(mSetting, 100)
+    setTimeout(mSetting, 50)
   }, [])
   const onGet = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
@@ -101,7 +125,8 @@ function ChatRoom ({route , navigation}) {
     console.log(token);
     console.log(myID);
     console.log(chatID);
-    api
+    console.log("avatar  "+avatarURI)
+    await api
       .get(`/chats/${chatID}/messages`, 
       { 
         headers : {
@@ -113,6 +138,7 @@ function ChatRoom ({route , navigation}) {
         console.log('get success');
         console.log(response.status);
         if(response != null){
+          console.log(response)
           let chatDataList= [];
           if(response.data.length>0) updateFlag = 1;
           response.data.map(async (loadMessage) => {
@@ -125,7 +151,7 @@ function ChatRoom ({route , navigation}) {
               user:{
                 _id: 2,
                 name: userName,
-                avatar: '',
+                avatar: avatarURI,
               }
             }
             gotChatData._id = loadMessage.message_info.id;
@@ -139,16 +165,16 @@ function ChatRoom ({route , navigation}) {
             await db.transaction((tx)=>{
               console.log('in get transaction')
               tx.executeSql('INSERT INTO message (message_id, chat_id, sender_id, message_text, message_created, image_url) VALUES(?,?,?,?,?,?)',
-              [gotChatData._id,chatID,loadMessage.message_info.sender,gotChatData.text,gotChatData.createdAt,gotChatData.image],(tx, results)=>{
+              [gotChatData._id,chatID,loadMessage.message_info.sender.id,gotChatData.text,gotChatData.createdAt,gotChatData.image],(tx, results)=>{
                 console.log('Results : ', results.rowsAffected)
               },(error)=>{
                 console.log("dbdbdb error ", error)
               })
             })
           })
-          console.log(JSON.stringify(chatDataList));
+          console.log(response)
           if(response.data.length > 0) {
-            dbData = chatDataList;
+            updateFlag=1;
             onGet(chatDataList);
           }
         }
@@ -161,6 +187,7 @@ function ChatRoom ({route , navigation}) {
 
   const getOldChat = async() => {
     console.log('in old chat')
+    console.log(avatarURI);
     db.transaction((tx)=>{
       tx.executeSql('SELECT * FROM message WHERE chat_id=?',[chatID],(tx, results)=>{
         let len = results.rows.length;
@@ -171,11 +198,16 @@ function ChatRoom ({route , navigation}) {
           for(let i = len-1; i>=0; i--){
             let loadMessage = results.rows.item(i)
             let sender = 0;
+            let avatarImage = '';
             console.log(loadMessage.sender_id)
             if(loadMessage.sender_id == myID) {
               sender = 1;
             }
-            else sender = 2;
+            else {
+              other_id = loadMessage.sender_id;
+              avatarImage=avatarURI;
+              sender = 2;
+            }
             let gotChatData = 
             {
               _id: null,
@@ -184,7 +216,7 @@ function ChatRoom ({route , navigation}) {
               user:{
                 _id: sender,
                 name: userName,
-                avatar: '',
+                avatar: avatarImage,
               }
             }
             console.log(gotChatData)
@@ -194,8 +226,8 @@ function ChatRoom ({route , navigation}) {
             console.log("----------------------");
             console.log(gotChatData.text);
             chatDataList[chatDataList.length] = gotChatData;
-            console.log(JSON.stringify(chatDataList));
           }
+          updateFlag = 1;
           onGet(chatDataList);
         }
       })
@@ -206,18 +238,19 @@ function ChatRoom ({route , navigation}) {
     (tx,results)=>console.log('create execute'),
     (error)=>console.log(error));
   })
-  console.log(dbData)
-  if(dbData != []){}
-  getToken();
-  messageGetRequest();
+  useEffect(()=>{
+    getToken();
+    getPostInfo();
+  })
   const update = forceUpdate();
   if(updateFlag === 1){
     //setTimeout(update, 100000);
   }
   else {
     updateFlag = 1;
-    setTimeout(getOldChat, 50);
-    setTimeout(update, 100);
+    setTimeout(messageGetRequest, 50)
+    setTimeout(getOldChat, 100);
+    setTimeout(update, 200);
   }
   return (
     <Container>
@@ -228,7 +261,7 @@ function ChatRoom ({route , navigation}) {
           </Button>
         </Left>
         <Body>
-          <Text style = {{fontSize : 17}}>채팅</Text>
+          <Text style = {{fontSize : 17,}}>{other_nickname}</Text>
         </Body>
         <Right>
         <Popover
@@ -240,12 +273,12 @@ function ChatRoom ({route , navigation}) {
                 </TouchableOpacity>
               )}>
               <TouchableOpacity
-                  onPress={() => {setShowPopover(false); updateFlag = 0; navigation.navigate('PostReport')}}>
+                  onPress={() => {setShowPopover(false); navigation.navigate('PostReport')}}>
                 <Text style={styles.popoverel}>신고하기</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => {setShowPopover(false); Alert.alert("신고하지마요 ㅜ")}}>
-                <Text style={styles.popoverel}>가짜신고하기</Text>
+                onPress={() => {setShowPopover(false); messageGetRequest()}}>
+                <Text style={styles.popoverel}>새로고침</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => Alert.alert("집에가고 싶나?")}>
@@ -258,20 +291,74 @@ function ChatRoom ({route , navigation}) {
             </Popover>
         </Right>
       </Header>
+      <Header>
+        <Left>
+          <Image source = {{uri: post_img || "empty"}} style={{
+            width:50,
+            height:50,
+          }}
+          />
+        </Left>
+        <Body>
+          <Text>{post_title}</Text>
+        </Body>
+        <Right>
+
+        </Right>
+      </Header>
       <GiftedChat
+        showAvatarForEveryMessage = {true}
+        listViewProps={{
+          style:{
+            backgroundColor: '#BCE6EB'
+          }
+        }}
+        renderTime={renderTime}
+        renderBubble = {renderBubble}
         messages={messages}
         onSend={messages => onSend(messages)}
-        onPressAvatar={()=> navigation.navigate('ProfileShow',{other_id : 1})}
+        onPressAvatar={()=> navigation.navigate('ProfileShow',{other_id : other_id})}
         user={{
           _id: 1,
         }}
       />
-      <Button onPress= {()=>{update()}}>
-        <Text>수동 업데이트</Text>
-      </Button>
     </Container>
   );
   
+}
+function renderBubble (props) {
+  return (
+    <Bubble
+      {...props}
+      wrapperStyle={{
+        left:{
+          backgroundColor : '#ffffff',
+          padding: 2
+        },
+        right: {
+          backgroundColor: '#fdcfdf',
+          padding: 2
+        }
+      }}
+      textProps={{ style: {color: props.position === 'right' ? 'black': 'black', } }}
+    />
+  )
+}
+
+function renderTime(props) {
+  return (
+    <Time
+    {...props}
+      timeTextStyle={{
+        right: {
+          color:'#000',
+        },
+        left: {
+          color:'#000',
+        }
+      }}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
@@ -280,24 +367,7 @@ const styles = StyleSheet.create({
     paddingHorizontal : 15,
     margin : 5,
   },
-  postbody: {
-    paddingVertical : '7%',
-    paddingHorizontal : '5%',
-    flexDirection: 'column',
-    alignItems : 'flex-start'
-  },
-  post_title :{
-    fontSize : 25,
-    fontWeight : "bold",
-    paddingVertical : '3%'
-  },
-  post_category :{
-    fontSize: 15,
-    color: 'grey',
-  },
-  post_body : {
-    marginTop : '10%'
-  }
+  
 })
 
 export default ChatRoom;
