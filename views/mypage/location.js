@@ -80,6 +80,7 @@ class MypageScreen extends Component{
       }.bind(this))
       .catch(function (error) {
         console.log('failed: ' + error);
+        Alert.alert("지역 인증 실패", "법정동을 읽어올 수 없습니다",[{text:'확인', style:'cancel'}])
       });
   }
   
@@ -98,6 +99,7 @@ class MypageScreen extends Component{
         this.setState({loading: false})
       }).catch((err) => {
         console.log(err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
       })
     })
   }
@@ -129,8 +131,8 @@ class MypageScreen extends Component{
         }
       })
       .catch((err) => {
-        console.log('put request fail');
         console.log(err);
+        Alert.alert("동네 인증 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
       });
 
   }

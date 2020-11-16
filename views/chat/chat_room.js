@@ -79,6 +79,7 @@ function ChatRoom ({route , navigation}) {
       })
       .catch(function (error) {
         console.log('axios call failed!! : ' + error);
+        Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
       });
     console.log(messages[0]);
     (await db).transaction((tx)=>{
@@ -152,7 +153,10 @@ function ChatRoom ({route , navigation}) {
           }
         }
       })
-      .catch((err) => console.log("err : ", err))
+      .catch((err) => {
+        console.log("err : ", err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+      })
   }
 
   const getOldChat = async() => {

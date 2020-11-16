@@ -38,6 +38,7 @@ function profileShow({route, navigation}){
       })
       .catch(function (e) {
         console.log('load failed!!!!' + e)
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 

@@ -70,10 +70,8 @@ export default class RegistrationScreen extends React.Component {
       })
       .catch((err) =>  {
         console.log('fail to register');
-        console.log(err)
-        if(err.response.status == 422){
-          Alert.alert("회원가입 실패", "이메일 중복 입니다.",[{text:'확인', style:'cancel'}])
-        }
+        console.log(err.response.data.error)
+        Alert.alert("가입 실패", err.response.data.error,[{text:'확인', style:'cancel'}])       
       });
     }
   };

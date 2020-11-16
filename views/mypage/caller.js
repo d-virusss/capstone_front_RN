@@ -8,7 +8,7 @@ import IconA from 'react-native-vector-icons/AntDesign';
 import IconB from 'react-native-vector-icons/Feather';
 import IconC from 'react-native-vector-icons/EvilIcons';
 import api from '../shared/server_address';
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions, StackActions } from '@react-navigation/native';
 IconA.loadFont();
 IconB.loadFont();
 IconC.loadFont();
@@ -42,7 +42,9 @@ class MypageScreen extends Component {
         index: 1,
         routes: [{ name: 'Logins' },],
       })
-    );// pop everything in stack navigation
+    );
+    //this.props.navigation.navigate('Logins')
+    // pop everything in stack navigation
   }
 
   ShowLikeList() {
@@ -88,6 +90,7 @@ class MypageScreen extends Component {
       })
       .catch((err) => {
         console.log("my page err")
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
       })
     })
   }

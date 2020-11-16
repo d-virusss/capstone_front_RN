@@ -64,6 +64,7 @@ class AskIndex extends Component{
       })
       .catch(function (e) {
         console.log('send post-ask failed!!!!' + e)
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 

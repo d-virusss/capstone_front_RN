@@ -95,6 +95,7 @@ class PostShow extends Component{
       .catch((err) => {
         this.setState({val:1})
         console.log("err : ", err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 
@@ -116,6 +117,7 @@ class PostShow extends Component{
       })
       .catch((e) => {
         console.log(e)
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
   makeCallchat_navigate(){
@@ -152,6 +154,7 @@ class PostShow extends Component{
       })
       .catch((e) => {
         console.log(e)
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 

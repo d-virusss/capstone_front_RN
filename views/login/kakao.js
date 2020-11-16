@@ -9,8 +9,6 @@ var user={
   }
 };
 
-var uri = api + "/users/auth/kakao"
-
 class KakaoLoginScreen extends Component {
 
   onWebViewMessage = (e) => {
