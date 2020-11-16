@@ -52,74 +52,68 @@ class categoryScreen extends Component {
             </TouchableOpacity>
           )}>
           
-          <View style = {{flexDirection: 'row'}}>
-          <TouchableOpacity
+          <TouchableOpacity style={ styles.categorybutton }
               onPress={() => this.sendCategoryId(5)}>
               <Icon type="FontAwesome" name="soccer-ball-o" style={styles.item}>
                 <Text style={styles.popoverel}> 레저용품</Text>
               </Icon>
             </TouchableOpacity>
-            <TouchableOpacity
+            <TouchableOpacity style={ styles.categorybutton }
               onPress={() => this.sendCategoryId(2)}>
               <Icon type="MaterialCommunityIcons" name="tshirt-crew" style={styles.item}>
               <Text style={styles.popoverel}> 의류</Text>
               </Icon>
             </TouchableOpacity>
-            <TouchableOpacity
+            <TouchableOpacity style={ styles.categorybutton }
               onPress={() => this.sendCategoryId(3)}>
                 <Icon type="MaterialCommunityIcons" name="lipstick" style={styles.item}>
                 <Text style={styles.popoverel}> 뷰티</Text>
               </Icon>
             </TouchableOpacity>
-            <TouchableOpacity
+            <TouchableOpacity style={ styles.categorybutton }
               onPress={() => this.sendCategoryId(4)}>
               <Icon type="MaterialCommunityIcons" name="microwave" style={styles.item}>
                 <Text style={styles.popoverel}> 전자제품</Text>
               </Icon>
             </TouchableOpacity>
-          </View>
 
-          <View style = {{flexDirection: 'row'}}>
-            <TouchableOpacity
+            <TouchableOpacity style={ styles.categorybutton }
               onPress={() => this.sendCategoryId(6)}>
               <Icon type="MaterialCommunityIcons" name="wallet-giftcard" style={styles.item}>
                 <Text style={styles.popoverel}> 생활용품</Text>
               </Icon>
             </TouchableOpacity>
-            <TouchableOpacity
+            <TouchableOpacity style={ styles.categorybutton }
               onPress={() => this.sendCategoryId(7)}>
               <Icon type="MaterialCommunityIcons" name="silverware-fork-knife" style={styles.item}>
                 <Text style={styles.popoverel}> 요리</Text>
               </Icon>
             </TouchableOpacity>
-            <TouchableOpacity
+            <TouchableOpacity style={ styles.categorybutton }
               onPress={() => this.sendCategoryId(8)}>
               <Icon type="MaterialCommunityIcons" name="car" style={styles.item}>
                 <Text style={styles.popoverel}> 자동차</Text>
               </Icon>
             </TouchableOpacity>
-            <TouchableOpacity
+            <TouchableOpacity style={ styles.categorybutton }
               onPress={() => this.sendCategoryId(9)}>
               <Icon type="MaterialCommunityIcons" name="baby-buggy" style={styles.item}>
                 <Text style={styles.popoverel}> 유아용품</Text>
               </Icon>
             </TouchableOpacity>
-          </View>
 
-          <View style = {{flexDirection: 'row'}}>
-          <TouchableOpacity
+          <TouchableOpacity style={ styles.categorybutton }
                 onPress={() => this.sendCategoryId(1)}>
               <Icon type="FontAwesome" name="shopping-bag" style={styles.item}>
               <Text style={styles.popoverel}> 잡화</Text>
               </Icon>
             </TouchableOpacity>
-            <TouchableOpacity
+            <TouchableOpacity style={ styles.categorybutton }
               onPress={() => this.sendCategoryId(0)}>
               <Icon type="MaterialCommunityIcons" name="select-all" style={styles.item}>
                 <Text style={styles.popoverel}> 전체 </Text>
               </Icon>
             </TouchableOpacity>
-          </View>
 
         </Popover>
       </View>
@@ -131,8 +125,8 @@ class categoryScreen extends Component {
 const styles = StyleSheet.create({
   popoverel : {
     paddingVertical : 10,
-    paddingHorizontal : 15,
-    margin : 5,
+    paddingHorizontal : 10,
+    marginLeft : 10
   },
   container : {
     paddingVertical : 10,
@@ -146,6 +140,10 @@ const styles = StyleSheet.create({
   item : {
     marginVertical : 7,
     fontSize: 17,
+    paddingRight : 10
+  },
+  categorybutton : {
+    margin : 10
   }
 })
 

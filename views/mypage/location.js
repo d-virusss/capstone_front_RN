@@ -32,8 +32,8 @@ var user_addr = {
 // });
 
 class MypageScreen extends Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       location:'',
       title:'',
@@ -53,7 +53,7 @@ class MypageScreen extends Component{
     }
   }
   
- getToken = async() =>  {
+  getToken = async() =>  {
     token_value = await AsyncStorage.getItem('token');
     myLocation = await AsyncStorage.getItem('my_location');
     console.log("gettoken")
@@ -80,8 +80,9 @@ class MypageScreen extends Component{
       }.bind(this))
       .catch(function (error) {
         console.log('failed: ' + error);
-        Alert.alert("지역 인증 실패", "법정동을 읽어올 수 없습니다",[{text:'확인', style:'cancel'}])
-      });
+        Alert.alert("지역 인증 실패", "법정동을 읽어올 수 없습니다",[
+          {text:'확인', style:'cancel', onPress: ()=> { this.props.navigation.navigate("MyPage") } }])
+      }.bind(this));
   }
   
   getNearLocation() {
@@ -138,6 +139,8 @@ class MypageScreen extends Component{
   }
 
   componentDidMount () {
+    console.log('component did mount ---------')
+    console.log(this)
     this.requestPermission().then((res) => {
       if (res === 'granted') {
         Geolocation.getCurrentPosition(
