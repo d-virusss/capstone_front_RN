@@ -31,7 +31,7 @@ class ListProfile extends Component {
     return(
       <ListItem avatar>
         <Left>
-          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom'), {chat_id : this.props.chatID, post_id: this.props.postID}}>
+          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID})}>
             <Thumbnail source={{ uri: this.props.imageURI}} style={{ marginTop: -8, width : 45, height: 45 }} />
           </TouchableOpacity>
         </Left>
@@ -87,7 +87,9 @@ function ChatList ({ navigation }){
         }
       })
       .then((response) => {
+        console.log('response start')
         console.log(response)
+        console.log('response end')
         let total_unchecked = 0;
         _.each(response.data, (chat) => {
           total_unchecked += chat.chat_info.num_unchecked;
