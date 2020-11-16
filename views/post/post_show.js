@@ -9,14 +9,14 @@ import UserAgent from 'react-native-user-agent';
 import number_delimiter from '../shared/number_delimiter'
 
 let myID;
+var is_your_post = false;
 
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
 var user_id;
 class PostShow extends Component{
-  params = this.props.route.params.post;
-
+  params = this.props.route.params;
   state = {
     login_user_id : "",
     token: "",
@@ -32,10 +32,11 @@ class PostShow extends Component{
     provider_location : "",
     provider_id : "",
     provider_profile_image: "",
+    rent_count : 0,
     show_popover : false,
-    is_your_post : false,
     chat_id: 0,
     val: -1,
+    loading:true
   };
   getToken = async () => {
     try{
@@ -49,6 +50,8 @@ class PostShow extends Component{
   }
 
   componentDidMount() {
+    //init var
+    is_your_post = true;
     console.log('------- enter post_show -------');
     console.log(this.params)
     this.getToken();
@@ -57,23 +60,27 @@ class PostShow extends Component{
 
   setParams = () => {
     this.setState({ 
-      title: this.params.post_info.title,
-      price: this.params.post_info.price,
-      body: this.params.post_info.body,
-      category: this.params.post_info.category,
-      post_id : this.params.post_info.id,
-      like_check : this.params.post_info.like_check,
-      image: this.params.post_info.image,
-      icon: this.params.post_info.like_check ? "heart" : "heart-outline",
-      provider_name : this.params.user.user_info.nickname,
-      provider_location : this.params.user.user_info.location_title,
-      provider_id : this.params.user.user_info.id,
-      provider_profile_image : this.params.user.user_info.image,
-      is_your_post: this.params.user.user_info.id == parseInt(user_id) ? true : false,
+      title: this.params.post.post_info.title,
+      price: this.params.post.post_info.price,
+      body: this.params.post.post_info.body,
+      category: this.params.post.post_info.category,
+      post_id : this.params.post.post_info.id,
+      like_check : this.params.post.post_info.like_check,
+      image: this.params.post.post_info.image,
+      icon: this.params.post.post_info.like_check ? "heart" : "heart-outline",
+      provider_name : this.params.post.user.user_info.nickname,
+      provider_location : this.params.post.user.user_info.location_title,
+      provider_id : this.params.post.user.user_info.id,
+      provider_profile_image : this.params.post.user.user_info.image,
+      rent_count : this.params.post.post_info.rent_count,
      }, () => {
       this.setState({ icon : this.state.like_check ? "heart" : "heart-outline" })
-    }, () => {console.log(this.state)})
+    }, () => {console.log("aa8304872394724028" + this.state)})
+    is_your_post = this.params.post.user.user_info.id == parseInt(user_id) ? true : false;
+    console.log("=-------------------")
     console.log(this.state)
+    console.log(is_your_post)
+    this.setState({loading : false})
   }
 
   chatCreateRequset = async()=> {
@@ -160,7 +167,7 @@ class PostShow extends Component{
   }
 
   renderUpdateandDelete(){
-    if(this.state.is_your_post)
+    if(is_your_post)
     return(
       <View>
         <TouchableOpacity
@@ -177,7 +184,7 @@ class PostShow extends Component{
   }
 
   renderFooter(){
-    if(this.state.is_your_post){
+    if(is_your_post){
       return (
         <FooterTab>
           <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.params.post_info }) }}>
@@ -209,6 +216,11 @@ class PostShow extends Component{
   }
 
   render(){
+    console.log("reder")
+    console.log(this.state.rent_count)
+    console.log(is_your_post)
+    if(this.state.loading) return null;
+    else{
     return(
       <Container>
         <Header>
@@ -262,6 +274,10 @@ class PostShow extends Component{
                       <Text style={styles.providerName}>{this.state.provider_name}</Text>
                       <Text style={styles.providerLocation}>{this.state.provider_location}</Text>
                     </View>
+                  
+                    <Right style={styles.rentCountArea}>
+                        <Text style={styles.providerLocation}>지난 대여 수  {this.state.rent_count}</Text>
+                    </Right>
                   </Item>
                   <Item regular style={styles.postbody}>
                       <Text style={styles.post_category}>{this.state.category}</Text>
@@ -281,7 +297,7 @@ class PostShow extends Component{
           </Footer>
         </View>
       </Container>
-    );
+    );}
   }
 }
 
@@ -317,6 +333,11 @@ const styles = StyleSheet.create({
     fontSize : 13,
     color : 'grey',
     padding : '5%'
+  },
+  rentCountArea : {
+    width: '30%',
+    marginRight : '8%',
+    marginTop : '10%',
   },
   fontView : {
     fontSize : 17,
