@@ -168,40 +168,45 @@ class Post_provide extends Component {
             <TouchableOpacity 
               style={{ marginRight: '4%' }}
               onPress={() => this.makePostRequest()}>
-              <Title>완료</Title>
+              <Text style={{fontWeight: 'bold'}}>완료</Text>
             </TouchableOpacity>
           </Right>
         </Header>
-        <View style={styles.imageArea}>
-          <ImageSelect stateBus={this.changeImage} ></ImageSelect>
-        </View>
-        <Container>
-          <Content>
-            <Form>
-              <Item inlinelabel>
-                <Label style={{width:'15%'}}>제목</Label>
-                <Input autoCapitalize='none'
-                  onChangeText={(text) => this.changedata(text, "title")} />
-              </Item>
-              <Item inlinelabel>
-                <Label style={{width:'15%'}}>물품명</Label>
-                <Input autoCapitalize='none'
-                  onChangeText={(text) => this.changedata(text, "product")} />
-              </Item>
-              <CategoryPicker setParent={this.setSelect}></CategoryPicker>
-              <Item inlinelabel last>
-                <Label style={{width:'15%'}}>가격</Label>
-                <Input keyboardType="numeric"
-                  onChangeText={(text) => this.changedata(text, "price")} />
-              </Item>
-              <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
-                onChangeText={(text) => this.changedata(text, "body")}
-                style={styles.textAreaContainer} />
-            </Form>
-          </Content>
-        </Container>
-      </ScrollView>
-    );}
+        <Spinner visible={this.state.loading} />
+        <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
+          <KeyboardAvoidingView>
+            <ScrollView style={{ marginTop : '5%' }}>
+              <ImageSelect stateBus={this.changeImage} ></ImageSelect>
+              <Container>
+                <Content>
+                  <Form>
+                    <Item inlinelabel style={{ marginTop: '5%'}}>
+                      <Label style={{width:'15%'}}>제목</Label>
+                      <Input autoCapitalize='none'
+                        onChangeText={(text) => this.changedata(text, "title")} />
+                    </Item>
+                    <Item inlinelabel>
+                      <Label style={{width:'15%'}}>물품명</Label>
+                      <Input autoCapitalize='none'
+                        onChangeText={(text) => this.changedata(text, "product")} />
+                    </Item>
+                    <CategoryPicker setParent={this.setSelect}></CategoryPicker>
+                    <Item inlinelabel last>
+                      <Label style={{width:'15%'}}>가격</Label>
+                      <Input keyboardType="numeric"
+                        onChangeText={(text) => this.changedata(text, "price")} />
+                    </Item>
+                    <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
+                      onChangeText={(text) => this.changedata(text, "body")}
+                      style={styles.textAreaContainer} />
+                  </Form>
+                </Content>
+              </Container>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </Container>
+    );
   }
 }
 
