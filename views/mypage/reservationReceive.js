@@ -52,8 +52,10 @@ class receiveScreen extends Component{
 
   showBookingDate(id, post_id, startDate, endDate) {
     nextDay = [];
+    
     const start = moment(startDate);
     const end = moment(endDate);
+    
     for (let m = moment(start); m.diff(end, 'days') <= 0; m.add(1, 'days')) {
       nextDay.push(m.format('YYYY-MM-DD'));
     }
