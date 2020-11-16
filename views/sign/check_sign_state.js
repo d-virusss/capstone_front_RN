@@ -40,6 +40,7 @@ export default class SignState extends React.Component {
       })
       .catch((e) => {
         console.log('send post failed!!!!' + e)
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 

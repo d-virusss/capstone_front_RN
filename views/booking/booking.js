@@ -65,7 +65,7 @@ class bookingScreen extends Component{
       })
       .catch((err) => {
         console.log("err : ", err)
-        Alert.alert("오류", "잘못된 요청입니다.",[{text:"확인", style:'cancel'}])
+        Alert.alert("예약 오류", err.response.data.error,[{text:"확인", style:'cancel'}])
       })
       console.log(this.state.booked);
   }
@@ -102,7 +102,10 @@ class bookingScreen extends Component{
         this.state.image_info = response.data.post_info.image;
         this.setState({post_price: response.data.post_info.price});
       })
-      .catch((error) => console.log(error))
+      .catch((error) => {
+        console.log(error)
+        Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
+      })
   }
 
   isBooked = async () => {
@@ -122,6 +125,7 @@ class bookingScreen extends Component{
       })
       .catch((error) => {
         console.log(error)
+        Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 
@@ -139,7 +143,10 @@ class bookingScreen extends Component{
         console.log(this.state.token)
         Alert.alert("예약 취소", "예약을 취소하였습니다.",[{text:"확인", style:'cancel'}])
       })
-      .catch((error) => console.log(error))
+      .catch((error) => {
+        console.log(error)
+        Alert.alert("예약 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
+      })
       console.log(this.state.booked);
       this.props.navigation.goBack();
   }

@@ -49,9 +49,6 @@ class categoryScreen extends Component {
               <Icon name="menu" style={styles.item}>
               <Text> 카테고리</Text>
               </Icon>
-              <Icon type="FontAwesome" name="sort" style={styles.item} >
-              <Text> 정렬</Text>
-              </Icon>
             </TouchableOpacity>
           )}>
           

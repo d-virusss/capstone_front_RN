@@ -59,6 +59,7 @@ export default class Contract extends React.Component {
       })
       .catch((e) => {
         console.log('send post failed!!!!' + e)
+        Alert.alert("계약서 작성 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 
