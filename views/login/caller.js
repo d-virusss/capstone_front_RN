@@ -125,7 +125,7 @@ class LoginScreen extends Component {
               <Icon name="ios-person-outline" size={30} color="black" style={{flex: 1}}></Icon>
               <Item style={{flex: 4, marginLeft: -10}}>
                 <Input
-                  style={{fontSize: 20, marginRight:100}}
+                  style={{fontSize: 20, }}
                   placeholder="이메일"
                   autoCapitalize="none"
                   onChangeText={(text) => this.changeUsername(text, 'email')}

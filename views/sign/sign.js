@@ -13,6 +13,7 @@ var formdata = new FormData();
 
 export default class Sign extends React.Component {
   booking_info = this.props.route.params.booking_info
+  current_date = new Date()
 
   state = {
     token: "",
@@ -24,6 +25,7 @@ export default class Sign extends React.Component {
     this.getToken();
     console.log(this.state)
     console.log(this.booking_info)
+    console.log('component did mount ----------------')
   }
 
   getToken = async () => {
@@ -32,17 +34,21 @@ export default class Sign extends React.Component {
   }
 
   setCertForm(){
-    formdata.append('kakaocert[birthday]', )
-    formdata.append('kakaocert[number]', )
-    formdata.append('kakaocert[name]', )
-    formdata.append('kakaocert[token]', )
+    formdata = new FormData()
+    formdata.append('kakaocert[birthday]', this.booking_info.provider.birth)
+    formdata.append('kakaocert[number]', this.booking_info.provider.number)
+    formdata.append('kakaocert[name]', this.booking_info.provider.name)
+    formdata.append('kakaocert[token]', this.state.body)
     console.log(formdata)
+    console.log('in setCertForm --------------')
   }
 
   certRequest() {
     console.log("start sign--------------")
-    console.log(this.state);
     this.setCertForm()
+    // this.props.navigation.navigate("SignState", ({
+    //   booking_info: this.booking_info,
+    // }))
     api
       .post(`/kakaocert/requestESign`, (formdata), {
         headers: {
@@ -52,7 +58,10 @@ export default class Sign extends React.Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
-        this.props.navigation.navigate("SignState")
+        this.props.navigation.navigate("SignState", { 
+          booking_info : this.booking_info,
+          res : res.data
+         })
       })
       .catch((e) => {
         console.log('send post failed!!!!')
@@ -74,14 +83,9 @@ export default class Sign extends React.Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>계약서 작성</Title>
+          <Body><Title>계약서 서명</Title>
           </Body>
           <Right>
-            <TouchableOpacity
-              style={{ marginRight: '4%' }}
-              onPress={() => { this.finishContract() }}>
-              <Text> 계약 완료 </Text>
-            </TouchableOpacity>
           </Right>
         </Header>
         <ScrollView>
@@ -112,11 +116,11 @@ export default class Sign extends React.Component {
                 </Body>
               </CardItem>
               <CardItem footer>
-                <Text>{new Date().getFullYear()}년 {new Date().getMonth()+1}월 {new Date().getDate()}일
+                <Text>{this.current_date.getFullYear()}년 {this.current_date.getMonth()+1}월 {this.current_date.getDate()}일
                 </Text>
               </CardItem>
             </Card>
-            <Button block style={ styles.signbutton } onPress={this.certRequest()}>
+            <Button block style={ styles.signbutton } onPress={() => this.certRequest()}>
               <Text>서명하기</Text>
             </Button>
           </Content>
@@ -147,4 +151,3 @@ const styles = StyleSheet.create({
     backgroundColor : "#ff3377",
   },
 });
-
