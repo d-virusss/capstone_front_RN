@@ -1,180 +1,155 @@
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-} from 'react-native';
+import {Text,View,StyleSheet, Alert} from 'react-native';
 import { Button, Icon, Right } from 'native-base';
-import Modal from 'react-native-modal';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Popover from 'react-native-popover-view';
+import IconF from 'react-native-vector-icons/FontAwesome'
+import IconI from 'react-native-vector-icons/Ionicons'
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-community/async-storage';
+import api from '../shared/server_address'
+IconF.loadFont();
+IconI.loadFont();
+IconM.loadFont();
 
-class Example extends Component {
+class categoryScreen extends Component {
   constructor() {
     super();
     this.state = {
       visibility: false,
-      modalText : "전체"
+      show_popover : false,
+      token:'',
     };
   }
 
-  setModalText(modalIndex){
-    if (modalIndex == 0){
-      this.state.modalText = '캠핑용품';
-    }
-    else if (modalIndex == 1){
-      this.state.modalText = '낚시용품';
-    }
-    else if (modalIndex == 2){
-      this.state.modalText = '카메라';
-    }
-    else if (modalIndex == 3){
-      this.state.modalText = '게임기';
-    }
-    else if (modalIndex == 4){
-      this.state.modalText = '캠핑용품';
-    }
-    else if (modalIndex == 5){
-      this.state.modalText = '캠핑용품';
-    }
-    
+  showOption(){
+    this.setState({ show_popover: true })
   }
 
-  setModalVisibility(visible) {
-    this.setState({
-      visibility: visible,
-    });
+  sendCategoryId(id){
+    this.setState({ show_popover: false });
+    this.props.parentReference(id)
   }
 
-  onPFunction(modalIndex){
-    this.setModalVisibility(!this.state.visibility);
-    this.setModalText(modalIndex);
-  }
+  getToken = async () => {
+    let value = await AsyncStorage.getItem('token');
+    this.state.token = value;
+  };
 
   render() {
-    this.modalText = '전체';
+    this.getToken();
     return (
-      <View style = {{backgroundColor : '#fffff'}}>
-        <Modal
-          animationIn={'fadeIn'}
-          animationOut={'fadeOut'}
-          isVisible={this.state.visibility}
-          style = {{flex : 1,  margin : 0,}}
-          onPress={() => this.setModalVisibility(!this.state.visibility)}
-        >
-          <View style = {{flex : 1, justifyContent : 'center', alignItems : 'center',}}>
-            <View style = {{ opacity : 0.5, zIndex : 0}}>
-              <TouchableOpacity
-                style = {{width : '100%', height : '100%'}}
-                onPress={() => this.setModalVisibility(!this.state.visibility)}
-              >
-                <Text style = {{opacity : 0}}>asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasa</Text>
-              </TouchableOpacity>
-            </View>
-            <View style = {{
-              width : '70%',
-              backgroundColor: "white",
-              borderRadius: 20,
-              alignItems: "center",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 2
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-              zIndex : 10,
-              position : 'absolute'
-            }}>
-              <Text style = {{fontSize : 25, margin : '3%'}}>카테고리</Text>
-              <Button
-                transparent
-                color="#000"
-                onPress={() => this.onPFunction(0)}
-                style = {{justifyContent : 'center', width : '100%'}}
-              >
-                <Text>
-                  캠핑용품
-                </Text>
-              </Button>
-              <Button
-                transparent
-                color="#000"
-                onPress={() => this.onPFunction(1)}
-                style = {{justifyContent : 'center', width : '100%'}}
-              >
-                <Text>
-                  낚시용품
-                </Text>
-              </Button>
-              <Button
-                transparent
-                color="#000"
-                onPress={() => this.onPFunction(2)}
-                style = {{justifyContent : 'center', width : '100%'}}
-              >
-                <Text>
-                  카메라
-                </Text>
-              </Button>
-              <Button
-                transparent
-                color="#000"
-                onPress={() => this.onPFunction(3)}
-                style = {{justifyContent : 'center', width : '100%'}}
-              >
-                <Text>
-                  게임기
-                </Text>
-              </Button>
-              <Button 
-                transparent
-                color="#000"
-                onPress={() => this.setModalVisibility(!this.state.visibility)}
-                style = {{justifyContent : 'center', width : '100%'}}
-              >
-                <Text>
-                  숨기기
-                </Text>
-              </Button>
-            </View>
+      <View style = { styles.container }>
+        <Popover
+          isVisible = {this.state.show_popover}
+          onRequestClose = {() => this.setState({ show_popover: false })}
+          from={(
+            <TouchableOpacity onPress={() => this.showOption()}
+            style={{ flexDirection: 'row'}} >
+              <Icon name="menu" style={styles.item}>
+              <Text> 카테고리</Text>
+              </Icon>
+              <Icon type="FontAwesome" name="sort" style={styles.item} >
+              <Text> 정렬</Text>
+              </Icon>
+            </TouchableOpacity>
+          )}>
+          
+          <View style = {{flexDirection: 'row'}}>
+          <TouchableOpacity
+              onPress={() => this.sendCategoryId(5)}>
+              <Icon type="FontAwesome" name="soccer-ball-o" style={styles.item}>
+                <Text style={styles.popoverel}> 레저용품</Text>
+              </Icon>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.sendCategoryId(2)}>
+              <Icon type="MaterialCommunityIcons" name="tshirt-crew" style={styles.item}>
+              <Text style={styles.popoverel}> 의류</Text>
+              </Icon>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.sendCategoryId(3)}>
+                <Icon type="MaterialCommunityIcons" name="lipstick" style={styles.item}>
+                <Text style={styles.popoverel}> 뷰티</Text>
+              </Icon>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.sendCategoryId(4)}>
+              <Icon type="MaterialCommunityIcons" name="microwave" style={styles.item}>
+                <Text style={styles.popoverel}> 전자제품</Text>
+              </Icon>
+            </TouchableOpacity>
           </View>
-        </Modal>
 
-        <Button
-          onPress={() => this.setModalVisibility(true)}
-          bordered dark
-          style = {{
-            width : '80%', 
-            justifyContent : 'center',
-            alignSelf : 'center',
-            backgroundColor : 'white',
-            borderRadius : 0,
-            margin : 10,
-            zIndex : 0
-          }}
-        >
-          <Text
-            style = {{
-              textAlign : 'center',
-              fontSize : 20,
-              color : '#000',
-              alignSelf : 'center'
-            }}
-          >
-            {this.state.modalText}
-          </Text>
-          <Icon name = 'arrow-down'
-            
-            style={{
-              zIndex : 1,
-              position : 'absolute',
-              right : '2%'
-            }}
-          />
-        </Button>
+          <View style = {{flexDirection: 'row'}}>
+            <TouchableOpacity
+              onPress={() => this.sendCategoryId(6)}>
+              <Icon type="MaterialCommunityIcons" name="wallet-giftcard" style={styles.item}>
+                <Text style={styles.popoverel}> 생활용품</Text>
+              </Icon>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.sendCategoryId(7)}>
+              <Icon type="MaterialCommunityIcons" name="silverware-fork-knife" style={styles.item}>
+                <Text style={styles.popoverel}> 요리</Text>
+              </Icon>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.sendCategoryId(8)}>
+              <Icon type="MaterialCommunityIcons" name="car" style={styles.item}>
+                <Text style={styles.popoverel}> 자동차</Text>
+              </Icon>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.sendCategoryId(9)}>
+              <Icon type="MaterialCommunityIcons" name="baby-buggy" style={styles.item}>
+                <Text style={styles.popoverel}> 유아용품</Text>
+              </Icon>
+            </TouchableOpacity>
+          </View>
+
+          <View style = {{flexDirection: 'row'}}>
+          <TouchableOpacity
+                onPress={() => this.sendCategoryId(1)}>
+              <Icon type="FontAwesome" name="shopping-bag" style={styles.item}>
+              <Text style={styles.popoverel}> 잡화</Text>
+              </Icon>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.sendCategoryId(0)}>
+              <Icon type="MaterialCommunityIcons" name="select-all" style={styles.item}>
+                <Text style={styles.popoverel}> 전체 </Text>
+              </Icon>
+            </TouchableOpacity>
+          </View>
+
+        </Popover>
       </View>
     );
   }
 }
 
-export default Example;
+
+const styles = StyleSheet.create({
+  popoverel : {
+    paddingVertical : 10,
+    paddingHorizontal : 15,
+    margin : 5,
+  },
+  container : {
+    paddingVertical : 10,
+    backgroundColor : '#ffffff',
+    justifyContent : 'space-around', 
+  },
+  fontconfing : {
+    fontSize : 15,
+    alignSelf : 'center',
+  },
+  item : {
+    margin: 7,
+    fontSize: 17,
+  }
+})
+
+export default categoryScreen;

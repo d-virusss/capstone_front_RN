@@ -4,12 +4,15 @@ Vector_Icon.loadFont()
 import { Header, Content, Form, Item, Picker, Icon, Text } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 export default class CategoryPicker extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
-      selected: undefined
+      selected: this.props.existing_category != undefined ? this.props.existing_category : undefined,
+      
     };
   }
+
   seleçtedValue(value) {
     this.setState({
       selected: value
@@ -26,7 +29,7 @@ export default class CategoryPicker extends Component {
           <Picker
             mode="dropdown"
             iosIcon={<Icon type="AntDesign" name="down" />}
-            placeholder="전자제품"
+            placeholder="선택"
             placeholderStyle={{ color: "gray", }}
             placeholderIconColor="#007aff"
             selectedValue={this.state.selected}

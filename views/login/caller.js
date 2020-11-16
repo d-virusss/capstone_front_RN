@@ -1,18 +1,10 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import React, {Component, Fragment} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  TextInput,
-  Button,
-  TouchableHighlightBase,
-} from 'react-native';
+import React, {Component} from 'react';
+import { StyleSheet, Text, View, Alert} from 'react-native';
 import CustomButton from './custom_button';
-import {Container, Header, Content, Form, Item, Input} from 'native-base';
+import { Item, Input, Toast} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import api from '../shared/server_address'
+import api from '../shared/server_address';
 
 Icon.loadFont();
 
@@ -31,16 +23,10 @@ var userinfo = {
 };
 
 class LoginScreen extends Component {
-  state = {
-    token: '',
-    title: 'first',
-    user: {
-      email: '',
-      password: '',
-      asdf: '',
-      ttas: '',
-    },
-  };
+  constructor(props){
+    super(props);
+  }
+
 
   setToken = async () => {
     try {
@@ -54,18 +40,53 @@ class LoginScreen extends Component {
     console.log('enter senddata');
   }
 
-  
-  makeRequest() {
-    console.log("user.obj.user.email : " + user_obj.user.email)
+  getToken = async() =>{
+    myL = await AsyncStorage.getItem('my_location');
+    console.log(myL)
+  }
+  makeRequest (){
+    if (userinfo.user.email == ''){
+      Alert.alert('로그인',"이메일을 입력해주세요",[{text: '확인', style:'cancel'}])
+    }
+    if (userinfo.user.password == '')
+      Alert.alert("로그인", "비밀번호를 입력해주세요",[{text: '확인', style:'cancel'}])
+    if (!(userinfo.user.email == '') && !(userinfo.user.password == '')) {
+      api
+        .post('/users/sign_in', userinfo)
+        .then((response) => {
+          console.log(response);
+          AsyncStorage.setItem('token', response.data.token);
+          AsyncStorage.setItem('user_id', String(response.data.id));
+          AsyncStorage.setItem('my_location',String(response.data.location_auth));
+          console.log(response.data.location_auth == null);
+          console.log("call gettioen-----------------")
+          
+          this.getToken();
+          if (response.data.location_auth != null) {// already has location
+            this.props.navigation.navigate('postIndex')
+          } else {
+            this.props.navigation.navigate('MyPage_Location')
+          }
+          //this.addUserIDtoDB(response.data.id);
+        })
+        .catch(function (error) {
+          console.log("login fail")
+          Alert.alert("로그인 실패", "입력한 정보가 잘못되었습니다.",[{text:'확인', style:'cancel'}])
+        });
+    }
+  }
+
+  testLoginRequest(){
     api
-      .post('/users/sign_in', user_obj)//fordebug
+      .post('/users/sign_in', user_obj)
       .then((response) => {
-        console.log(response.data.token);
+        console.log(response);
+        console.log(response.data.location_auth)
         AsyncStorage.setItem('token', response.data.token);
         AsyncStorage.setItem('user_id', String(response.data.id));
-        AsyncStorage.setItem('myLocation', String(response.data.location_auth));
+        AsyncStorage.setItem('my_location', String(response.data.location_auth));
         
-        if (String(response.data.location_auth) == "true") {// already has location
+        if ((response.data.location_auth) != null) {// already has location
           this.props.navigation.navigate('postIndex')
         } else {
           this.props.navigation.navigate('MyPage_Location')
@@ -111,15 +132,11 @@ class LoginScreen extends Component {
                 height: '50%',
                 alignItems: 'center',
               }}>
-              <Icon
-                name="ios-person-outline"
-                size={30}
-                color="black"
-                style={{flex: 1}}></Icon>
-              <Item style={{flex: 4}}>
+              <Icon name="ios-person-outline" size={30} color="black" style={{flex: 1}}></Icon>
+              <Item style={{flex: 4, marginLeft: -10}}>
                 <Input
-                  style={{fontSize: 25}}
-                  placeholder="Username"
+                  style={{fontSize: 20 }}
+                  placeholder="이메일"
                   autoCapitalize="none"
                   onChangeText={(text) => this.changeUsername(text, 'email')}
                 />
@@ -132,10 +149,11 @@ class LoginScreen extends Component {
                 alignItems: 'center',
               }}>
               <Icon name="key" size={30} color="black" style={{flex: 1}}></Icon>
-              <Item style={{flex: 4}}>
+              <Item style={{flex: 4, marginLeft: -10}}>
                 <Input
-                  style={{fontSize: 25}}
-                  placeholder="Password"
+                  type="password"
+                  style={{fontSize: 20}}
+                  placeholder="비밀번호"
                   autoCapitalize="none"
                   secureTextEntry={true}
                   onChangeText={(text) => this.changeUsername(text, 'password')}
@@ -158,7 +176,19 @@ class LoginScreen extends Component {
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>
               <CustomButton
-                title="카카오계정 로그인"
+                title="test로그인"
+                titleColor="black"
+                buttonColor="white"
+                borderWidth={5}
+                borderRadius={5}
+                width="100%"
+                height="100%"
+                onPress={() => this.testLoginRequest()}
+              />
+            </View>
+            <View style={{marginTop: '3%', height: '10%'}}>
+              <CustomButton
+                title="카카오 로그인"
                 icon_name="chatbubble-sharp"
                 titleColor="black"
                 buttonColor="#fae100"
@@ -173,7 +203,7 @@ class LoginScreen extends Component {
               <CustomButton
                 title="회원가입"
                 titleColor="#fff"
-                buttonColor="#64b5f6"
+                buttonColor="#ff3377"
                 width="100%"
                 height="100%"
                 onPress={() => this.props.navigation.navigate('Register')}

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component, useState} from 'react';
-import {View, Dimensions} from 'react-native';
+import {View, Image, Alert, Left} from 'react-native';
 import {
   Text, Form, Icon, Textarea, Item, Input, Button, 
   Container, Content, Header
@@ -12,6 +12,9 @@ import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 
 //let token;
 let dateNumber = 0;
+function noThing(){
+  return 0;
+}
 
 class bookingScreen extends Component{
   params = this.props.route.params;
@@ -28,13 +31,18 @@ class bookingScreen extends Component{
     flag : 0,
     startDate: "",
     endDate: "",
-    token: 0
+    token: 0,
+    booked : false,
+    post_title : "",
+    post_price : "",
+    booking_id:0,
+    image_info:'',
   };
 
   getToken = async () => {
     let value = await AsyncStorage.getItem("token")
     this.state.token = value
-    this.sendIndexRequest()
+    console.log(this.state.token);
   }
 
   bookingCreateRequest = () => {
@@ -52,9 +60,14 @@ class bookingScreen extends Component{
         console.log('success');
         console.log(this.state.token);
         console.log(response);
-        navigation.goBack();
+        Alert.alert("예약 신청 완료", "예약 신청이 완료되었습니다.",[{text:"확인", style:'cancel'}])
+        this.props.navigation.goBack();
       })
-      .catch((err) => console.log("err : ", err))
+      .catch((err) => {
+        console.log("err : ", err)
+        Alert.alert("오류", "잘못된 요청입니다.",[{text:"확인", style:'cancel'}])
+      })
+      console.log(this.state.booked);
   }
 
   calculateDate = (data) => {
@@ -71,10 +84,67 @@ class bookingScreen extends Component{
 
   calculatePrice = () => {
     // this.setState({totalPrice : (this.state.dateNumber * 10000)});
-    this.state.totalPrice = (this.state.dateNumber * 10000)
+    this.state.totalPrice = (this.state.dateNumber * this.state.post_price)
     console.log(this.state)
     this.forceUpdate();
   }
+
+  getPostInfo = async () => {
+    await api
+      .get(`/posts/${this.state.post_id}`,{
+        headers : {
+        'Authorization': this.state.token
+        }
+      })
+      .then((response) => {
+        console.log(response)
+        this.state.post_title = response.data.post_info.title;
+        this.state.image_info = response.data.post_info.image;
+        this.setState({post_price: response.data.post_info.price});
+      })
+      .catch((error) => console.log(error))
+  }
+
+  isBooked = async () => {
+    await api
+      .get(`/bookings/new?post_id=${this.state.post_id}`,{ 
+        headers : {
+        'Authorization': this.state.token
+        }
+      })
+      .then((response)=>{
+        console.log(response.data)
+        if(response.data === null) this.state.booked = false;
+        else {
+          this.state.booked = true;
+          this.state.booking_id = response.data.booking_info.id;
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  removeBooking = async() => {
+    await api
+      .delete(`/bookings/${this.state.booking_id}`,{
+        headers : {
+          'Authorization' : this.state.token
+        },
+        data:{
+          foo: 'bar'
+        }
+      })
+      .then(()=>{
+        console.log(this.state.token)
+        Alert.alert("예약 취소", "예약을 취소하였습니다.",[{text:"확인", style:'cancel'}])
+      })
+      .catch((error) => console.log(error))
+      console.log(this.state.booked);
+      this.props.navigation.goBack();
+  }
+
+  
 
   componentDidMount(){
     console.log('screen load!');
@@ -85,6 +155,8 @@ class bookingScreen extends Component{
       this.state.flag = 1;
       console.log("post_id: "+ post_id);
     }
+    setTimeout(this.isBooked, 50);
+    setTimeout(this.getPostInfo, 200);
   }
 
   render(){
@@ -92,15 +164,15 @@ class bookingScreen extends Component{
       <Container>
         <Header style = {{height: 100}}>
           <View style = {{width : '30%', justifyContent : 'center'}}>
-            <Icon name = 'person' style = {{fontSize : 80, margin : '1%'}}/>
+          <Image source={{ uri : this.state.image_info || "empty" }} style={{width: 80, height: 80}} />
           </View>
           <View style = {{width : '40%', justifyContent : 'center'}}>
-            <Text style = {{margin : '1%', fontSize : 25}}>화이트채플</Text>
-            <Text style = {{margin : '1%', fontSize : 20}}>10000원</Text>
+            <Text style = {{margin : '2%', fontSize : 17}}>{this.state.post_title}</Text>
+            <Text style = {{margin : '2%', fontSize : 17}}>{this.state.post_price.toLocaleString()} 원</Text>
           </View>
           <View style = {{width : '30%', justifyContent : 'center'}}>
-            <Text style = {{margin : '1%', fontSize : 25}}>대여가격</Text>
-    <Text style = {{margin : '1%', fontSize : 20}}>{this.state.totalPrice + ' 원'}</Text>
+            <Text style = {{margin : '2%', fontSize : 17}}>대여가격</Text>
+    <Text style = {{margin : '2%', fontSize : 17}}>{this.state.totalPrice.toLocaleString() + ' 원'}</Text>
           </View>
         </Header>
         <Calendar
@@ -113,19 +185,35 @@ class bookingScreen extends Component{
           theme={ theme }
         />
         <View style = {{
-          backgroundColor : 'orange',
-          justifyContent : 'center'
+          backgroundColor : '#ff3377',
+          justifyContent : 'center',
+          alignItems:'center',
+          width : '100%',
+          height : '8%'
         }}>
-          <Button style = {{
-              alignSelf : 'center', marginTop : '3%',
-              padding : 4,
-              margin : '1%',
-              backgroundColor : 'white'
-            }}
-            onPress = {() => this.bookingCreateRequest()}
-          >
-            <Text style = {{color : 'black'}}>예약 신청하기</Text>
-          </Button>
+          {this.state.booked == false && (
+            <Button transparent style = {{
+                alignSelf : 'center',
+                padding : 4,
+                marginBottom : '3%',
+                height: 80,
+              }}
+              onPress = {() => this.bookingCreateRequest()}
+            >
+              <Text style = {{color : 'white', fontSize:20, fontWeight: 'bold'}}>예약 신청하기</Text>
+            </Button>
+          )}
+          {this.state.booked == true && (
+            <Button transparent style = {{
+                alignSelf : 'center',
+                padding : 4,
+                margin : '1%',
+              }}
+              onPress = {() => this.removeBooking()}
+            >
+              <Text style = {{color : 'white', fontSize: 20, fontWeight: 'bold'}}>예약 취소하기</Text>
+            </Button>
+          )}
         </View>
       </Container>
     );
@@ -135,7 +223,7 @@ class bookingScreen extends Component{
 let theme = {
   activeDayColor: {},
   monthTitleTextStyle: {
-    color: '#3264ff',
+    color: '#ff3377',
     fontWeight: '300',
     fontSize: 16,
   },
@@ -165,10 +253,10 @@ let theme = {
   dayOutOfRangeTextStyle: {},
   todayContainerStyle: {},
   todayTextStyle: {
-    color: '#6d95da',
+    color: '#ff3377',
   },
   activeDayContainerStyle: {
-    backgroundColor: '#6d95da',
+    backgroundColor: '#ff3377',
   },
   activeDayTextStyle: {
     color: 'white',

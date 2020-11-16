@@ -1,13 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Container, Content, Header, Left, Right, Body, Icon,
-  Button, Text, View, List, ListItem, Tabs, Tab, TabHeading,
-  Thumbnail
+  Title, Text, List, ListItem, Tabs, Tab, TabHeading,
+  Thumbnail,
 } from 'native-base';
-import IconA from 'react-native-vector-icons/Ionicons';
-import IconFe from 'react-native-vector-icons/Feather';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
+import IconM from 'react-native-vector-icons/Ionicons'
+IconM.loadFont()
 
 class myItemListScreen extends Component{
   state = {
@@ -19,21 +19,17 @@ class myItemListScreen extends Component{
 
   makeIndexList(posts){
     return posts.map((post) => {
-      
+      console.log(post.title)
       return(
-        <ListItem thumbnail key={post.id}>
+        <ListItem thumbnail key={post.post_info.id} button
+        onPress={() => this.showPostRequset(post.post_info.id)}>
           <Left>
-            <Thumbnail square source={{ uri: post.image.url }} />
+            <Thumbnail square source={{ uri: post.post_info.image }} />
           </Left>
           <Body>
-            <Text>{post.title}</Text>
-            <Text note numberOfLines={1}>{post.body}</Text>
+            <Text>{post.post_info.title}</Text>
+            <Text note numberOfLines={1}>{post.post_info.body}</Text>
           </Body>
-          <Right>
-            <Button transparent onPress={() => this.showPostRequset(post.id)}>
-              <Text>보기</Text>
-            </Button>
-          </Right>
         </ListItem>
       )
     })
@@ -46,7 +42,6 @@ class myItemListScreen extends Component{
         'Authorization': this.state.token
       }})
       .then(function(response) {
-        console.log('success');
         this.props.navigation.navigate('PostShow', { post: response.data })
       }.bind(this))
       .catch((err) => console.log("err : ", err))
@@ -60,8 +55,7 @@ class myItemListScreen extends Component{
         }
       })
       .then((res) => {
-        console.log("index send success!")
-        this.setState({posts1:res.data.posts}, ()=> { })
+        this.setState({posts1:res.data}, ()=> { })
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
@@ -76,8 +70,7 @@ class myItemListScreen extends Component{
         }
       })
       .then((res) => {
-        console.log("index send success!")
-        this.setState({posts2:res.data.posts}, ()=> { })
+        this.setState({posts2:res.data}, ()=> { })
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
@@ -99,22 +92,61 @@ class myItemListScreen extends Component{
 
   render(){
     return(
-      <Tabs>
-        <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
-          <Content>
+      <Container>
+         <Header>
+          <Left>
+            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+              <Icon name = 'chevron-back' type = 'Ionicons'/>
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>글 관리</Title></Body>
+          <Right></Right>
+        </Header>
+        <Content>
+        <Tabs>
+          <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
+            <Content>
+              <List>
+                {this.makeIndexList(this.state.posts1)}
+              </List>
+            </Content>
+          </Tab>
+          <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
             <List>
-              {this.makeIndexList(this.state.posts1)}
+              {this.makeIndexList(this.state.posts2)}
             </List>
-          </Content>
-        </Tab>
-        <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
-          <List>
-            {this.makeIndexList(this.state.posts2)}
-          </List>
-        </Tab>
-        </Tabs>
+          </Tab>
+          </Tabs>
+        </Content>
+        </Container>
+        
     );
   }
 }
+
+const styles = StyleSheet.create({
+  footer: {
+    position: 'absolute',
+    flex:0.1,
+    left: 0,
+    right: 0,
+    bottom: -5,
+    backgroundColor:'#50cebb',
+    flexDirection:'row',
+    height:80,
+    alignItems:'center',
+  },
+  bottomButtons: {
+    alignItems:'center',
+    justifyContent: 'center',
+    flex:1,
+  },
+  footerText: {
+    color:'white',
+    fontWeight:'bold',
+    alignItems:'center',
+    fontSize:18,
+  },
+ });
 
 export default myItemListScreen;
