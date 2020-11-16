@@ -176,7 +176,7 @@ class Post_ask extends Component {
             <TouchableOpacity
               style={{ marginRight: '4%' }}
               onPress={() => this.makePostRequest()}>
-              <Text>완료</Text>
+              <Title>완료</Title>
             </TouchableOpacity>
           </Right>
         </Header>
@@ -187,18 +187,18 @@ class Post_ask extends Component {
           <Content>
             <Form>
               <Item inlinelabel>
-                <Label>제목</Label>
+                <Label style={{width:'15%'}}>제목</Label>
                 <Input autoCapitalize='none'
                   onChangeText={(text) => this.changedata(text, "title")} />
               </Item>
               <Item inlinelabel>
-                <Label>물품명</Label>
+                <Label style={{width:'15%'}}>물품명</Label>
                 <Input autoCapitalize='none'
                   onChangeText={(text) => this.changedata(text, "product")} />
               </Item>
               <CategoryPicker setParent={this.setSelect}></CategoryPicker>
               <Item inlinelabel last>
-                <Label>가격</Label>
+                <Label style={{width:'15%'}}>가격</Label>
                 <Input keyboardType="numeric"
                   onChangeText={(text) => this.changedata(text, "price")} />
               </Item>

@@ -35,17 +35,20 @@ class reservationScreen extends Component{
               </TouchableOpacity>
             </Right>
           </Header>
-
-          <Content>
+          
            <Tabs Style={{marginTop : '0%',}}>
              <Tab heading={ <TabHeading transparent><Text>받은 예약</Text></TabHeading>}>
-             <ReceiveList navigation={this.props.navigation}></ReceiveList>
+               <Content scrollEnabled={false}>
+                  <ReceiveList navigation={this.props.navigation}></ReceiveList>
+               </Content>
             </Tab>
              <Tab heading={ <TabHeading transparent><Text>신청한 예약</Text></TabHeading>}>
-             <SendList navigation={this.props.navigation}></SendList>
+                <Content scrollEnabled={false}>
+                  <SendList navigation={this.props.navigation}></SendList>
+                </Content>
              </Tab>
            </Tabs>
-          </Content>
+  
         </Container>
         
       )

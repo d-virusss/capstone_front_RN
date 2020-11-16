@@ -28,6 +28,7 @@ class receiveScreen extends Component{
   };
 
   componentDidMount() {
+    //init var
     reservation_info.item_id=''
 
     this.getToken();
