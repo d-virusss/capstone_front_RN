@@ -164,7 +164,7 @@ class Post_ask extends Component {
             <TouchableOpacity
               style={{ marginRight: '4%' }}
               onPress={() => this.makePostRequest()}>
-              <Text>완료</Text>
+              <Text style={{fontWeight: 'bold'}}>완료</Text>
             </TouchableOpacity>
           </Right>
         </Header>

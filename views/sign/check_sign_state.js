@@ -19,6 +19,7 @@ export default class SignState extends React.Component {
     token: "",
     receipt_id: this.res.receiptId,
     booking_id : this.booking_info.id,
+    eSignState : -1,
   };
 
   componentDidMount() {
@@ -34,6 +35,20 @@ export default class SignState extends React.Component {
     this.state.token = value
   }
 
+  checkState(){
+    if(this.state.eSignState === 0){
+      Alert.alert("인증 대기", "인증을 완료해주세요.", [{ text: '확인', style: 'cancel' }])
+    }
+    else if (this.state.eSignState === 1) {
+      Alert.alert("인증 완료", "계약서 서명이 완료되었습니다.", [
+        { text: '확인', style: 'cancel', onPress: () => { this.props.navigation.navigate("MyPage") } }])
+    }
+    else if(this.state.eSignState === 2){
+      Alert.alert("인증 시간 만료", "인증 요청이 종료되었습니다.", [
+        { text: '확인', style: 'cancel', onPress: () => { this.props.navigation.navigate("MyPage") } }])
+    }
+  }
+
   RequestcheckCertstate() {
     console.log("start checksignstate-------------")
     console.log(this.res.receiptId)
@@ -47,10 +62,13 @@ export default class SignState extends React.Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
+        this.setState({ eSignState : res.data.state }, () => this.checkState())
       })
       .catch((e) => {
-        console.log('send post failed!!!!' + e)
-        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
+        console.log('send post failed!!!!')
+        console.log(e)
+        Alert.alert("요청 실패", e.response.data.error,[
+          { text: '확인', style: 'cancel', onPress: () => { this.props.navigation.navigate("MyPage") } }])
       })
   }
 
@@ -129,7 +147,7 @@ const styles = StyleSheet.create({
   },
   footer : {
     backgroundColor: '#ff3377',
-    height: 50,
+    height: 35,
     alignItems: 'center',
     paddingTop : '3%'    
   },
