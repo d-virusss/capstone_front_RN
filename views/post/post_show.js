@@ -16,7 +16,7 @@ UserAgent.getUserAgent(); //synchronous
 
 var user_id;
 class PostShow extends Component{
-  params = this.props.route.params;
+  params = this.props.route.params.post;
 
   state = {
     login_user_id : "",
@@ -54,6 +54,7 @@ class PostShow extends Component{
     //init var
     is_your_post = true;
     console.log('------- enter post_show -------');
+    console.log(this.params)
     this.getToken();
     this.setParams();
   }
@@ -143,7 +144,7 @@ class PostShow extends Component{
   }
 
   gochangeRequest(){
-    this.props.navigation.navigate('PostUpdate', { my_post : this.params.post.post_info})
+    this.props.navigation.navigate('PostUpdate', { my_post : this.params})
   }
 
   destroyRequest(){
@@ -172,7 +173,7 @@ class PostShow extends Component{
       <View>
         <TouchableOpacity
           onPress={() => this.setState({ show_popover : false }, 
-          () => { this.props.navigation.navigate("PostUpdate", { my_post : this.params.post.post_info } ) }) }>
+          () => { this.props.navigation.navigate("PostUpdate", { my_post : this.params } ) }) }>
           <Text style={styles.popoverel}>수정</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -187,7 +188,7 @@ class PostShow extends Component{
     if(is_your_post){
       return (
         <FooterTab>
-          <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.params.post.post_info }) }}>
+          <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.params.post_info }) }}>
             <Text style={{ color: '#ff0055', fontWeight: 'bold', fontSize: 17, paddingVertical: 5}}>계약서 수정</Text>
           </Button>
           <Button transparent

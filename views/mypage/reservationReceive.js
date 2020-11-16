@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions} from 'react-native';
-import {Text, Header, Thumbnail, FooterTab, Body, Container, Content, ListItem, Spinner, Button,} from 'native-base';
+import {Text, Header, Thumbnail, FooterTab, Body, Container, 
+  Content, ListItem, Spinner, Button, Footer} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
 import moment from 'moment';
@@ -93,8 +94,7 @@ class receiveScreen extends Component{
       },
     }).then((res) => {
       console.log(res)
-      Alert.alert("승인되었습니다", "",[{text:'확인', style:'cancel'}])
-      //this.props.navigation.navigate("Contract");
+      this.props.navigation.navigate("Sign", { booking_info : res.data.booking_info});
     }).catch((err) => {
       console.log(err)
       Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
@@ -120,16 +120,18 @@ class receiveScreen extends Component{
     console.log(reservation_info.item_id)
     if(reservation_info.item_id){
       return(
-        <FooterTab style={styles.footer}>
-          <Button transparent style={styles.bottomButtons}
-           onPress={() => {this.accept()}}>
-            <Text style = {styles.footerText}>승인</Text>
-          </Button>
-          <Button transparent style={styles.bottomButtons}
-          onPress= {() => {this.reject()}}>
-            <Text style = {styles.footerText}>거절</Text>
-          </Button>
-        </FooterTab>
+        <Footer>
+          <FooterTab style={styles.footer}>
+            <Button transparent style={styles.bottomButtons}
+            onPress={() => {this.accept()}}>
+              <Text style = {styles.footerText}>승인</Text>
+            </Button>
+            <Button transparent style={styles.bottomButtons}
+            onPress= {() => {this.reject()}}>
+              <Text style = {styles.footerText}>거절</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       )
     }else{
       return null
@@ -158,21 +160,21 @@ class receiveScreen extends Component{
     if(this.state.loading) {
       return (
         <Container>
-        <Header />
-        <Content>
-          <Spinner color='#ff3377' />
-        </Content>
-      </Container>
+          <Header />
+          <Content>
+            <Spinner color='#ff3377' />
+          </Content>
+        </Container>
       )
     }
     else{
       return(
         <Container>
           <View>
-          <Calendar
-          markedDates={this.state.marked}
-          markingType={'period'}
-          />
+            <Calendar
+            markedDates={this.state.marked}
+            markingType={'period'}
+            />
           </View>
           <Content>
           {this.makeList()}
@@ -197,9 +199,9 @@ const styles = StyleSheet.create({
     flex:0.1,
     left: 0,
     right: 0,
+    bottom: -30,
     backgroundColor:'#ff3377',
     flexDirection:'row',
-    height:60,
     alignItems:'center',
   },
   bottomButtons: {
