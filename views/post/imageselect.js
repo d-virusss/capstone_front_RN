@@ -44,7 +44,6 @@ class ImageSelect extends Component{
 const styles = StyleSheet.create({
   imageArea: {
     flex : 1,
-    marginVertical: 50,
     width: '70%',
     alignItems: 'center',
     alignSelf : 'center',

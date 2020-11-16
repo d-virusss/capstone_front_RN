@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Content, Container, Item, Header, Left, Right, Title, Body, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
+import { Content, Container, Item, Header, Left, Right, Title, Body, Label, 
+  Text, Button, Input, Form, Textarea, Icon } from 'native-base';
 import { View, ScrollView, StyleSheet, TextInput, Alert, TouchableOpacity,
-    TouchableWithoutFeedback, KeyboardAvoidingView } from "react-native";
+    TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from "react-native";
+import Spinner from 'react-native-loading-spinner-overlay';
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -32,6 +34,7 @@ class Post_provide extends Component {
 제 6 조 전조 각항에 위반할 경우 '갑'은 '을'에 대한 보상 없이 '갑'의 단독의사로 계약을 해제할 수 있다.\n
 제 7 조 본 계약의 조항 이외의 분쟁이 발생하였을 때는 '갑'과 '을'이 협의하여 정한다.
 `,
+    loading : false,
 
   }
 
@@ -86,7 +89,7 @@ class Post_provide extends Component {
       Alert.alert("게시글내용이 너무 짧습니다")
       return;
     }
-    //change loading status
+
     this.setState({loading : true});
 
     api
@@ -150,69 +153,59 @@ class Post_provide extends Component {
   }
 
   render() {
-    if(this.state.loading){
-      return (
-        <Container>
-        <Header />
-        <Content>
-          <Spinner color='#ff3377' />
-        </Content>
+    return (
+      <Container>
+        <Header>
+          <Left>
+            <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
+              <Icon name='chevron-back' type='Ionicons' />
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>물품 등록</Title>
+          </Body>
+          <Right>
+            <TouchableOpacity 
+              style={{ marginRight: '4%' }}
+              onPress={() => this.makePostRequest()}>
+              <Text>완료</Text>
+            </TouchableOpacity>
+          </Right>
+        </Header>
+        <Spinner visible={this.state.loading} />
+        <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
+          <KeyboardAvoidingView>
+            <ScrollView style={{ marginTop : '5%' }}>
+              <ImageSelect stateBus={this.changeImage} ></ImageSelect>
+              <Container>
+                <Content>
+                  <Form>
+                    <Item inlinelabel style={{ marginTop: '5%'}}>
+                      <Label>제목</Label>
+                      <Input autoCapitalize='none'
+                        onChangeText={(text) => this.changedata(text, "title")} />
+                    </Item>
+                    <Item inlinelabel>
+                      <Label>물품명</Label>
+                      <Input autoCapitalize='none'
+                        onChangeText={(text) => this.changedata(text, "product")} />
+                    </Item>
+                    <CategoryPicker setParent={this.setSelect}></CategoryPicker>
+                    <Item inlinelabel last>
+                      <Label>가격</Label>
+                      <Input keyboardType="numeric"
+                        onChangeText={(text) => this.changedata(text, "price")} />
+                    </Item>
+                    <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
+                      onChangeText={(text) => this.changedata(text, "body")}
+                      style={styles.textAreaContainer} />
+                  </Form>
+                </Content>
+              </Container>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
       </Container>
-      )
-    }else{
-      return (
-        <Container>
-          <Header>
-            <Left>
-              <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
-                <Icon name='chevron-back' type='Ionicons' />
-              </TouchableOpacity>
-            </Left>
-            <Body><Title>물품 등록</Title>
-            </Body>
-            <Right>
-              <TouchableOpacity 
-                style={{ marginRight: '4%' }}
-                onPress={() => this.makePostRequest()}>
-                <Text>완료</Text>
-              </TouchableOpacity>
-            </Right>
-          </Header>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <KeyboardAvoidingView>
-              <ScrollView>
-                <ImageSelect stateBus={this.changeImage} ></ImageSelect>
-                <Container>
-                  <Content>
-                    <Form>
-                      <Item inlinelabel>
-                        <Label>제목</Label>
-                        <Input autoCapitalize='none'
-                          onChangeText={(text) => this.changedata(text, "title")} />
-                      </Item>
-                      <Item inlinelabel>
-                        <Label>물품명</Label>
-                        <Input autoCapitalize='none'
-                          onChangeText={(text) => this.changedata(text, "product")} />
-                      </Item>
-                      <CategoryPicker setParent={this.setSelect}></CategoryPicker>
-                      <Item inlinelabel last>
-                        <Label>가격</Label>
-                        <Input keyboardType="numeric"
-                          onChangeText={(text) => this.changedata(text, "price")} />
-                      </Item>
-                      <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
-                        onChangeText={(text) => this.changedata(text, "body")}
-                        style={styles.textAreaContainer} />
-                    </Form>
-                  </Content>
-                </Container>
-              </ScrollView>
-            </KeyboardAvoidingView>
-          </TouchableWithoutFeedback>
-        </Container>
-      );
-    }
+    );
   }
 }
 
@@ -229,6 +222,9 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     alignSelf: 'center'
   },
+  spinnerText :{
+    color : '#dddffd'
+  }
 })
 
 export default Post_provide;
