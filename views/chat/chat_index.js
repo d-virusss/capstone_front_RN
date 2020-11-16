@@ -27,16 +27,29 @@ class ListProfile extends Component {
   state = {
     nick: "",
   }
+  getImage= async() => {
+    await api
+            .get(`posts/${postID}`,{
+              headers:{
+                'Authorization': token
+              }
+            })
+            .then((response)=>{
+              console.log(response)
+              this.state.img = response.data.post_info.image;
+            })
+            .catch((err)=>console.log(err))
+  }
   render(){
     return(
       <ListItem avatar>
         <Left>
-          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID})}>
-            <Thumbnail source={{ uri: this.props.imageURI}} style={{ marginTop: -8, width : 45, height: 45 }} />
+          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI})}>
+            <Thumbnail source={{ uri: this.props.imgURI||'empty'}} style={{ marginTop: -8, width : 45, height: 45 }} />
           </TouchableOpacity>
         </Left>
         <Body style={{paddingVertical: 30}} >
-          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID})}>
+          <TouchableOpacity onPress = {() => {this.props.navigation.navigate('ChatRoom', {chat_id: this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI})}}>
             <Text> {this.props.nickname} </Text>
             <Text note> {this.props.body} </Text>
           </TouchableOpacity>
@@ -58,7 +71,7 @@ function ChatList ({ navigation }){
   const [chats, setChats] = useState([]);
   const [refreshing, setRefresh] = useState();
   const [unchecked, setUnchecked] = useState();
-
+  let imgURI = '';
   const _onRefresh = () => {
    
     console.log("refresh")
@@ -87,9 +100,7 @@ function ChatList ({ navigation }){
         }
       })
       .then((response) => {
-        console.log('response start')
         console.log(response)
-        console.log('response end')
         let total_unchecked = 0;
         _.each(response.data, (chat) => {
           total_unchecked += chat.chat_info.num_unchecked;
@@ -117,7 +128,7 @@ function ChatList ({ navigation }){
     console.log(JSON.stringify(chats));
     return chats.map((chat) => {
       return(
-        <ListProfile navigation = {navigation} imageURI="https://picsum.photos/id/3/150/150" 
+        <ListProfile navigation = {navigation} imageURI={imgURI} 
           nickname = {chat.chat_info.nickname} 
           postID = {chat.chat_info.post_id} 
           body = {chat.chat_info.message} 
@@ -125,6 +136,7 @@ function ChatList ({ navigation }){
           chatID = {chat.chat_info.id}
           unchecked = { chat.chat_info.num_unchecked }
           exist_unchecked = {chat.chat_info.num_unchecked > 0 && true}
+          imgURI = {chat.chat_info.image}
         /> 
       )
     })
@@ -157,7 +169,7 @@ function ChatList ({ navigation }){
         </ScrollView>
         <Footer>
         <FooterTab>
-          <Button vertical onPress={() => {navigation.navigate('postIndex'); refreshFlag = true;}}>
+          <Button vertical onPress={() => {refreshFlag = true; navigation.navigate('postIndex');}}>
             <Icon name="home" />
             <Text>홈</Text>
           </Button>

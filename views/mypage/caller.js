@@ -144,6 +144,35 @@ class MypageScreen extends Component {
 
             <Separator bordered></Separator>
 
+            <ListItem button onPress = {()=>{
+              getFCMToken = async() =>{
+                let fcmToken = await AsyncStorage.getItem('fcmToken')
+                await api
+                  .post('/users/add_device',
+                    {
+                      user:{
+                        device_token: fcmToken
+                      }
+                    },
+                    {
+                      headers:{
+                        'Authorization': this.state.token
+                      }
+                    }
+                  )
+                  .then((response)=>console.log(response))
+                  .then((error)=>console.log(error))
+              }
+              getFCMToken();}}>
+              <Left>
+                <Icon type="AntDesign" name="addusergroup" />
+                <Text style={ styles.listText }> 기기 인증</Text>
+              </Left>
+              <Right>
+                <Icon type="AntDesign" name="right" />
+              </Right>
+            </ListItem>
+
             <ListItem button onPress={()=>{this.SettingGroup()}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
@@ -236,52 +265,6 @@ class MypageScreen extends Component {
             </ListItem>
           </List>
         </Content>
-        <Button onPress = {()=>{
-          getFCMToken = async() =>{
-            let fcmToken = await AsyncStorage.getItem('fcmToken')
-            await api
-              .post('/users/add_device',
-                {
-                  user:{
-                    device_token: fcmToken
-                  }
-                },
-                {
-                  headers:{
-                    'Authorization': this.state.token
-                  }
-                }
-              )
-              .then((response)=>console.log(response))
-              .then((error)=>console.log(error))
-          }
-          getFCMToken();
-        }}>
-          <Text>디버그(fcmtoken)</Text>
-        </Button>
-        <Button onPress={()=>{
-          dropFCMToken = async() =>{
-            let fcmToken = await AsyncStorage.getItem('fcmToken')
-            await api
-              .post('/users/remove_device',
-                {
-                  user:{
-                    device_token: fcmToken
-                  }
-                },
-                {
-                  headers:{
-                    'Authorization': this.state.token
-                  }
-                }
-              )
-              .then((response)=>console.log(response))
-              .then((error)=>console.log(error))
-          }
-          dropFCMToken();
-        }}>
-          <Text>해제</Text>
-        </Button>
         </ScrollView>
 
         <Footer>
