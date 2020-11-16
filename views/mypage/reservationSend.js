@@ -27,15 +27,6 @@ class sendScreen extends Component{
     refreshing: '',
   };
 
-  onRefresh = () => {
-   
-    console.log("refresh")
-    
-    this.setState({refreshing: true});
-    this.getReservationList();
-    this.setState({refreshing: false});
-  }
-
   componentDidMount() {
     this.getToken();
   }
@@ -134,7 +125,7 @@ class sendScreen extends Component{
           <Body>
             <Text>{ele.booking_info.title}</Text>
             <Text note numberOfLines={1}>
-              {ele.booking_info.acceptance}
+              {ele.booking_info.result}
             </Text>
           </Body>
         </ListItem>

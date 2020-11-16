@@ -21,6 +21,8 @@ class Search_Bar extends React.Component {
 
   getMyInfo = async() => {
     let location = await AsyncStorage.getItem("my_location")
+    console.log("get my location=-----------------")
+    console.log(location)
     this.setState({location : location})
   }
 
@@ -43,9 +45,10 @@ class Search_Bar extends React.Component {
           <Item style={{backgroundColor:'#ffffff', marginLeft: '4%', borderColor: 'transparent' }}>
             <Icon name="ios-search" />
             <Input placeholder="Search" />
+            <Category style={styles.category} parentReference = {this.makeCategoryRequest.bind(this)}/>
           </Item>
 
-        <Category style={styles.category} parentReference = {this.makeCategoryRequest.bind(this)}/>
+        
 
           <Tabs style={{marginTop : '0%',}}>
             <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
