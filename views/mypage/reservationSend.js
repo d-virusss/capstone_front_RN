@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {Dimensions, View, StyleSheet, Alert} from 'react-native';
+import {Dimensions, View, StyleSheet, Alert, DeviceEventEmitter} from 'react-native';
 import {Text, Header, Thumbnail, Icon, Body, Container, Content, ListItem, Spinner, Button, Left, 
   Right, Title,} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
@@ -27,17 +27,21 @@ class sendScreen extends Component{
     refreshing: '',
   };
 
-  onRefresh = () => {
-   
-    console.log("refresh")
-    
-    this.setState({refreshing: true});
-    this.getReservationList();
-    this.setState({refreshing: false});
-  }
-
   componentDidMount() {
     this.getToken();
+    this.eventListener = DeviceEventEmitter.addListener('refreshList', this.handleEvent);
+  }
+
+  componentWillUnmount(){
+    //remove listener
+    this.eventListener.remove();
+}
+
+  handleEvent = (e) => {
+    console.log("event handler")
+    this.setState({refreshing : true})
+    this.getSendReservationList();
+    this.setState({refreshing : false})
   }
 
   getToken = async () => {
@@ -134,7 +138,7 @@ class sendScreen extends Component{
           <Body>
             <Text>{ele.booking_info.title}</Text>
             <Text note numberOfLines={1}>
-              {ele.booking_info.acceptance}
+              {ele.booking_info.result}
             </Text>
           </Body>
         </ListItem>

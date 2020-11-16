@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Content, Container, Header, Left, Right, Title, Body, Item, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
+import { Content, Container, Header, Left, Right, Title, Body, Item, Label, Text, 
+  Spinner, Input, Form, Textarea, Icon } from 'native-base';
 import { View, ScrollView, StyleSheet, TextInput, Alert, TouchableOpacity } from "react-native";
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
@@ -33,6 +34,7 @@ class Post_ask extends Component {
 제 8 조 전조 각항에 위반할 경우 '갑'은 '을'에 대한 보상 없이 '갑'의 단독의사로 계약을 해제할 수 있다.\n
 제 9 조 본 계약의 조항 이외의 분쟁이 발생하였을 때는 '갑'과 '을'이 협의하여 정한다.
     `,
+    loading : false,
   }
 
   getToken = async () => {
@@ -85,6 +87,9 @@ class Post_ask extends Component {
       Alert.alert("게시글내용이 너무 짧습니다")
       return;
     }
+
+    //change loading status
+    this.setState({loading : true})
     api
       .post('/posts', formdata, {
         headers: {
@@ -95,6 +100,7 @@ class Post_ask extends Component {
         console.log("send success!")
         console.log(res)
         this.props.navigation.goBack()
+        Alert.alert("대여 요청", "대여 요청글이 작성되었습니다.",[{text:'확인', style:'cancel'}])
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
@@ -145,6 +151,16 @@ class Post_ask extends Component {
   }
 
   render() {
+    if(this.state.loading){
+      return (
+        <Container>
+        <Header />
+        <Content>
+          <Spinner color='#ff3377' />
+        </Content>
+      </Container>
+      )
+    }else{
     return (
       <ScrollView>
         <Header>
@@ -192,7 +208,7 @@ class Post_ask extends Component {
           </Content>
         </Container>
       </ScrollView>
-    );
+    );}
   }
 }
 const styles = StyleSheet.create({

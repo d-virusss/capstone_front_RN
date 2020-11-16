@@ -10,6 +10,8 @@ import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/Ionicons'
 import Slider from '@react-native-community/slider'
 import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
+import { CommonActions } from '@react-navigation/native';
+
 IconM.loadFont()
 
 const kakaoApi = axios.create({baseURL: 'https://dapi.kakao.com/v2/local/'});
@@ -23,6 +25,11 @@ var user_addr = {
     range: '',
   },
 };
+
+// const resetAction = StackActions.reset({
+//   index : 0,
+//   actions: [NavigationActions.navigate({routeName: 'Mypage',})]
+// });
 
 class MypageScreen extends Component{
   constructor() {
@@ -106,12 +113,19 @@ class MypageScreen extends Component{
       })
       .then(() => {
         Alert.alert("동네 인증 완료", "동네 인증이 완료되었습니다.",[{text:'확인', style:'cancel'}])
-        AsyncStorage.setItem('myLocation', user_addr.location.title);
+        console.log("-------------------------")
+        console.log("myLocation is")
+        console.log(myLocation == "null")
+        AsyncStorage.setItem('my_location', user_addr.location.title);
         if(myLocation == "null"){
           this.props.navigation.navigate('postIndex')
         }else{
-          this.props.navigation.navigate('MyPage')
-         
+          this.props.navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [{ name: 'MyPage' },],
+            })
+          );
         }
       })
       .catch((err) => {

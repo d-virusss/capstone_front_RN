@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import {WebView} from 'react-native-webview';
-import { Container, View, Header, Left, Right, Body, Title, TouchableOpacity, Icon } from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
+
 var user={
   user:{
     device_token:''
   }
 };
+
+var uri = api + "/users/auth/kakao"
 
 class KakaoLoginScreen extends Component {
 
@@ -49,7 +51,7 @@ class KakaoLoginScreen extends Component {
     return (
       <WebView
         ref={(webview) => (this.webview = webview)}
-        source={{ uri: 'http://54.180.26.138/users/auth/kakao'}}
+        source={{ uri: 'http://15.164.230.255/users/auth/kakao'}}
         // source={{html}}
         onMessage={this.onWebViewMessage}
         javaScriptEnabled={true}

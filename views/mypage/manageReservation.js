@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {TouchableOpacity, View, StyleSheet, } from 'react-native';
+import {TouchableOpacity, View, StyleSheet, DeviceEventEmitter,} from 'react-native';
 import {Text, Header, Icon, Body, Container, Content, Left, 
   Right, Title, Tabs, Tab, TabHeading} from 'native-base';
 import IconM from 'react-native-vector-icons/Ionicons'
@@ -9,6 +9,15 @@ import SendList from './reservationSend'
 IconM.loadFont()
 
 class reservationScreen extends Component{
+
+  makeRefreshRequest(){
+    DeviceEventEmitter.emit('refreshList');
+  }
+
+  onRefresh(){
+    console.log("상태 refresh")
+    this.makeRefreshRequest();
+  }
 
   render(){
       return(
