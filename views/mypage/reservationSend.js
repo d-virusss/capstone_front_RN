@@ -104,27 +104,24 @@ class receiveScreen extends Component{
 
   showOptionButton(){
     console.log('showoption button ---------- ')
+    console.log(reservation_info)
     if(reservation_info.booking.acceptance){
       return(
-        <Footer style={{ backgroundColor: 'white', borderColor: 'transparent' }}>
-          <FooterTab style={styles.footer}>
-            <Button transparent style={styles.bottomButtons}
-              onPress={() => { this.accept() }}>
-              <Text style={styles.footerText}>서명하기</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+        <View style={ styles.footer }>
+          <Button transparent style={styles.bottomButtons}
+            onPress={() => { this.accept() }}>
+            <Text style={styles.footerText}>서명하기</Text>
+          </Button>
+        </View>
       )
     }
     else if(reservation_info.booking.acceptance === false){
       return(
-        <Footer style={{ backgroundColor: 'white', borderColor: 'transparent' }}>
-          <FooterTab style={styles.disabledfooter}>
-            <Button disabled transparent style={styles.bottomButtons} >
-              <Text style={styles.footerText}>서명하기</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+        <View style={ styles.disabledfooter }>
+          <Button disabled transparent style={styles.bottomButtons} >
+            <Text style={styles.footerText}>서명하기</Text>
+          </Button>
+        </View>
       )
     }
     else{
@@ -154,25 +151,26 @@ class receiveScreen extends Component{
     if(this.state.loading) {
       return (
         <Container>
-        <Header />
-        <Content>
-          <Spinner color='#ff3377' />
-        </Content>
-      </Container>
+          <Header />
+          <Content>
+            <Spinner color='#ff3377' />
+          </Content>
+        </Container>
       )
     }
     else{
       return(
         <Container>
           <View>
-          <Calendar
-          markedDates={this.state.marked}
-          markingType={'period'}
-          />
+            <Calendar
+            markedDates={this.state.marked}
+            markingType={'period'}
+            />
           </View>
           <Content>
-          {this.makeList()}
+            {this.makeList()}
           </Content>
+            {this.showOptionButton()}
         </Container>
       )
     } 
@@ -190,6 +188,7 @@ const styles = StyleSheet.create({
     flex:0.1,
     left: 0,
     right: 0,
+    top : height * 0.755,
     backgroundColor:'#ff3377',
     flexDirection:'row',
     height:60,
@@ -211,6 +210,7 @@ const styles = StyleSheet.create({
     flex: 0.1,
     left: 0,
     right: 0,
+    top : height * 0.755,
     backgroundColor: '#dddddd',
     flexDirection: 'row',
     height: 60,

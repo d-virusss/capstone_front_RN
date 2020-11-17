@@ -36,18 +36,18 @@ class reservationScreen extends Component{
             </Right>
           </Header>
           
-           <Tabs Style={{marginTop : '0%',}}>
-             <Tab heading={ <TabHeading transparent><Text>받은 예약</Text></TabHeading>}>
-               <FooterTab scrollEnabled={false}>
+          <Tabs Style={{marginTop : '0%',}}>
+            <Tab heading={ <TabHeading transparent><Text>받은 예약</Text></TabHeading>}>
+              <FooterTab scrollEnabled={false}>
                   <ReceiveList navigation={this.props.navigation}></ReceiveList>
-               </FooterTab>
+              </FooterTab>
             </Tab>
-             <Tab heading={ <TabHeading transparent><Text>신청한 예약</Text></TabHeading>}>
-                <FooterTab scrollEnabled={false}>
-                  <SendList navigation={this.props.navigation}></SendList>
-                </FooterTab>
-             </Tab>
-           </Tabs>
+            <Tab heading={ <TabHeading transparent><Text>신청한 예약</Text></TabHeading>}>
+              <Footer>
+                <SendList navigation={this.props.navigation}></SendList>
+              </Footer>
+            </Tab>
+          </Tabs>
   
         </Container>
         
