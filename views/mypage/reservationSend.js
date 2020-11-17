@@ -173,9 +173,6 @@ class receiveScreen extends Component{
           <Content>
           {this.makeList()}
           </Content>
-          <Content>
-          {this.showOptionButton()}
-          </Content>
         </Container>
       )
     } 
