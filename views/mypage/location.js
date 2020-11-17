@@ -198,7 +198,7 @@ class MypageScreen extends Component{
             <Body><Title>동네 설정</Title></Body>
             <Right></Right>
           </Header>
-        <Content>
+        <Content scrollEnabled={false}>
         <View style={{alignItems:'center', textAlign:'center'}}>
         <Text/>
         <Title>현재 위치는 "{user_addr.location.title}" 입니다.</Title>
@@ -259,6 +259,7 @@ const styles = StyleSheet.create({
     zIndex: 3,
     backgroundColor:'#ff3377',
     height:50,
+    bottom:-5,
     width: width,
     alignItems:'center',
     justifyContent: 'center',

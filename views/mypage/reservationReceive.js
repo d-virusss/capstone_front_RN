@@ -29,6 +29,7 @@ class receiveScreen extends Component{
   };
 
   componentDidMount() {
+    //init var
     reservation_info.item_id=''
 
     this.getToken();
@@ -119,7 +120,7 @@ class receiveScreen extends Component{
     console.log(reservation_info.item_id)
     if(reservation_info.item_id){
       return(
-        <Footer>
+        <Footer style={{backgroundColor:'white', borderColor:'transparent'}}>
           <FooterTab style={styles.footer}>
             <Button transparent style={styles.bottomButtons}
             onPress={() => {this.accept()}}>
