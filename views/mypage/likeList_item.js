@@ -15,7 +15,6 @@ class LikeListItemScreen extends Component {
 
   makeList() {
     return like_item.map((ele) => {
-      console.log(ele)
       return (
         <ListItem thumbnail key = {ele.like_info.id} button
         onPress = {() => this.showPostRequset(ele.like_info.target_id)}>
@@ -31,7 +30,6 @@ class LikeListItemScreen extends Component {
   }
 
   showPostRequset(id){
-    console.log("show request")
     api
       .get(`/posts/${id}`, { headers : {
         'Authorization': this.state.token
@@ -54,13 +52,11 @@ class LikeListItemScreen extends Component {
   };
 
   componentDidMount() {
-    console.log('component did mount ---');
     this.GetRequest();
   }
 
   GetRequest = () => {
     this.getToken().then(() => {
-      console.log('Sending likeListGetRequest ...');
       api
         .get(`/users/${this.state.user_id}/likes?target_type=post`, {
           headers: {
@@ -92,7 +88,6 @@ class LikeListItemScreen extends Component {
       </Container>
       );
     } else {
-      console.log('show');
       return <View>{this.makeList()}</View>;
     }
   }

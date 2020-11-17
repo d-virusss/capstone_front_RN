@@ -7,10 +7,6 @@ import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
 import number_delimiter from '../shared/number_delimiter'
-
-let myID;
-var is_your_post = false;
-
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
@@ -36,12 +32,13 @@ class PostShow extends Component{
     show_popover : false,
     chat_id: 0,
     val: -1,
-    loading:true
+    loading:true,
+    is_your_post:'',
   };
+
   getToken = async () => {
     try{
       const value = await AsyncStorage.getItem('token');
-      myID = await AsyncStorage.getItem('user_id');
       this.state.token = value
       user_id = await AsyncStorage.getItem('user_id')
     } catch (error){
@@ -50,36 +47,28 @@ class PostShow extends Component{
   }
 
   componentDidMount() {
-    //init var
-    is_your_post = true;
     console.log('------- enter post_show -------');
-    console.log(this.params)
-    this.getToken();
-    this.setParams();
+    this.getToken().then(() => {
+      this.setParams();
+    })
   }
 
-  setParams = () => {
-    this.setState({ 
-      title: this.params.post.post_info.title,
-      price: this.params.post.post_info.price,
-      body: this.params.post.post_info.body,
-      category: this.params.post.post_info.category,
-      post_id : this.params.post.post_info.id,
-      like_check : this.params.post.post_info.like_check,
-      image: this.params.post.post_info.image,
-      icon: this.params.post.post_info.like_check ? "heart" : "heart-outline",
-      provider_name : this.params.post.user.user_info.nickname,
-      provider_location : this.params.post.user.user_info.location_title,
-      provider_id : this.params.post.user.user_info.id,
-      provider_profile_image : this.params.post.user.user_info.image,
-      rent_count : this.params.post.post_info.rent_count,
-     }, () => {
-      this.setState({ icon : this.state.like_check ? "heart" : "heart-outline" })
-    }, () => {console.log("aa8304872394724028" + this.state)})
-    is_your_post = this.params.post.user.user_info.id == parseInt(user_id) ? true : false;
-    console.log("=-------------------")
-    console.log(this.state)
-    console.log(is_your_post)
+  setParams() {
+    this.state.title = this.params.post.post_info.title,
+    this.state.price = this.params.post.post_info.price,
+    this.state.body = this.params.post.post_info.body,
+    this.state.category = this.params.post.post_info.category,
+    this.state.post_id = this.params.post.post_info.id,
+    this.state.like_check = this.params.post.post_info.like_check,
+    this.state.image = this.params.post.post_info.image,
+    this.state.icon = this.params.post.post_info.like_check ? "heart" : "heart-outline",
+    this.state.provider_name = this.params.post.user.user_info.nickname,
+    this.state.provider_location = this.params.post.user.user_info.location_title,
+    this.state.provider_id = this.params.post.user.user_info.id,
+    this.state.provider_profile_image = this.params.post.user.user_info.image,
+    this.state.rent_count = this.params.post.post_info.rent_count,
+
+    this.state.is_your_post = this.params.post.user.user_info.id == parseInt(user_id) ? true : false;
     this.setState({loading : false})
   }
 
@@ -91,9 +80,7 @@ class PostShow extends Component{
       })
       .then((response) => {
         console.log('success');
-        console.log(response);
         this.state.chat_id = response.data.chat_info.id;
-        console.log(this.state.chat_id)
         this.setState({val:0})
       })
       .catch((err) => {
@@ -104,7 +91,6 @@ class PostShow extends Component{
   }
 
   likeRequest = () => {
-    console.log(this.state)
     if (this.state.like_check) {
       this.setState({ icon: 'heart-outline', like_check: false })
     }
@@ -142,10 +128,6 @@ class PostShow extends Component{
     }
   }
 
-  gochangeRequest(){
-    this.props.navigation.navigate('PostUpdate', { my_post : this.params})
-  }
-
   destroyRequest(){
     api
       .delete(`/posts/${this.state.post_id}`, {
@@ -162,17 +144,13 @@ class PostShow extends Component{
       })
   }
 
-  showstate() {
-    console.log(this.state)
-  }
-
   renderUpdateandDelete(){
-    if(is_your_post)
+    if(this.state.is_your_post)
     return(
       <View>
         <TouchableOpacity
           onPress={() => this.setState({ show_popover : false }, 
-          () => { this.props.navigation.navigate("PostUpdate", { my_post : this.params.my_post } ) }) }>
+          () => { this.props.navigation.navigate("PostUpdate", { my_post : this.params.post.post_info } ) }) }>
           <Text style={styles.popoverel}>수정</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -184,7 +162,7 @@ class PostShow extends Component{
   }
 
   renderFooter(){
-    if(is_your_post){
+    if(this.state.is_your_post){
       return (
         <FooterTab>
           <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.params.post_info }) }}>
@@ -217,8 +195,7 @@ class PostShow extends Component{
 
   render(){
     console.log("reder")
-    console.log(this.state.rent_count)
-    console.log(is_your_post)
+    console.log(this.state.is_your_post)
     if(this.state.loading) return null;
     else{
     return(

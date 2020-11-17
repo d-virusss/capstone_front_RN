@@ -87,7 +87,7 @@ const App = () => {
         <Stack.Screen name="P_W_p" component={Post_provide} options={{ headerShown : false }} />
         <Stack.Screen name="P_W_c" component={Post_ask} options={{ headerShown : false }} />
         <Stack.Screen name="Seach" component={SearchBar} />
-        <Stack.Screen name="postIndex" component={PostIndex} options={{ headerShown: false}} />
+        <Stack.Screen name="postIndex" component={PostIndex} options={{ gestureEnabled : false, headerShown: false}} />
         <Stack.Screen name="PostShow" component={PostShow}options={{ headerShown: false }}/>
         <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
@@ -96,7 +96,7 @@ const App = () => {
           headerBackTitle: '뒤로' }} />
 
         <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false, gestureEnabled: false}} />
-        <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{headerShown: false}}  />
+        <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{gestureEnabled: false, headerShown: false}}  />
         <Stack.Screen name="SettingGroup" component={SettingGroup} options={{ headerShown : false}} />
         <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{headerShown: false}}  />
         <Stack.Screen name="ProfileShow" component={ProfileShow} options={{ headerShown : false, }} />

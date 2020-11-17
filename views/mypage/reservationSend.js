@@ -83,7 +83,6 @@ class receiveScreen extends Component{
 
   makeList() {
     return reservation_list.map((ele) => {
-      console.log(ele)
       return (
         <ListItem key={ele.booking_info.id}
           button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id, ele.booking_info.start_at, ele.booking_info.end_at)}>
