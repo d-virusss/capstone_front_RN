@@ -172,7 +172,7 @@ class PostShow extends Component{
       <View>
         <TouchableOpacity
           onPress={() => this.setState({ show_popover : false }, 
-          () => { this.props.navigation.navigate("PostUpdate", { my_post : this.params } ) }) }>
+          () => { this.props.navigation.navigate("PostUpdate", { my_post : this.params.my_post } ) }) }>
           <Text style={styles.popoverel}>수정</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -242,18 +242,6 @@ class PostShow extends Component{
               <TouchableOpacity
                   onPress={() => this.setState({ show_popover: false }, () => { this.props.navigation.navigate('PostReport')})}>
                 <Text style={styles.popoverel}>신고하기</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.setState({ show_popover: false }, () => { Alert.alert("신고하지마요 ㅜ") })}>
-                <Text style={styles.popoverel}>가짜신고하기</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => Alert.alert("집에가고 싶나?")}>
-                <Text style={styles.popoverel}>힘들 떄</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => Alert.alert("히히 못가")}>
-                <Text style={styles.popoverel}>집가기</Text>
               </TouchableOpacity>
               {this.renderUpdateandDelete()}
             </Popover>
