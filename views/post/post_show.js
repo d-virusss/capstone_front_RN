@@ -7,6 +7,7 @@ import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
 import number_delimiter from '../shared/number_delimiter'
+import { CommonActions, StackActions } from '@react-navigation/native';
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
@@ -137,6 +138,13 @@ class PostShow extends Component{
       })
       .then((res) => {
         console.log(res)
+        Alert.alert("삭제 완료", "", [{text:'확인', style:'cancel'}])
+        this.props.navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{ name: 'postIndex' },],
+          })
+        );
       })
       .catch((e) => {
         console.log(e)
@@ -165,7 +173,7 @@ class PostShow extends Component{
     if(this.state.is_your_post){
       return (
         <FooterTab>
-          <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.params.post_info }) }}>
+          <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.params.post.post_info }) }}>
             <Text style={{ color: '#ff0055', fontWeight: 'bold', fontSize: 17, paddingVertical: 5}}>계약서 수정</Text>
           </Button>
           <Button transparent
