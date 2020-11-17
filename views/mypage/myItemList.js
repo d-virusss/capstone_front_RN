@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, ScrollView, View} from 'react-native';
 import {Container, Content, Header, Left, Right, Body, Icon,
   Title, Text, List, ListItem, Tabs, Tab, TabHeading,
   Thumbnail,
@@ -44,7 +44,10 @@ class myItemListScreen extends Component{
       .then(function(response) {
         this.props.navigation.navigate('PostShow', { post: response.data })
       }.bind(this))
-      .catch((err) => console.log("err : ", err))
+      .catch((err) => {
+        console.log("err : ", err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+      })
   }
 
   sendProvideIndexRequest() {
@@ -59,6 +62,7 @@ class myItemListScreen extends Component{
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 
@@ -74,6 +78,7 @@ class myItemListScreen extends Component{
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 
@@ -92,7 +97,7 @@ class myItemListScreen extends Component{
 
   render(){
     return(
-      <Container>
+      <View>
          <Header>
           <Left>
             <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
@@ -102,24 +107,28 @@ class myItemListScreen extends Component{
           <Body><Title>글 관리</Title></Body>
           <Right></Right>
         </Header>
+
+        <ScrollView>
         <Content>
         <Tabs>
           <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
-            <Content>
+              <Content>
               <List>
                 {this.makeIndexList(this.state.posts1)}
               </List>
-            </Content>
+              </Content>
           </Tab>
           <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
+           <Content>
             <List>
               {this.makeIndexList(this.state.posts2)}
             </List>
+            </Content>
           </Tab>
           </Tabs>
         </Content>
-        </Container>
-        
+        </ScrollView>
+        </View>
     );
   }
 }

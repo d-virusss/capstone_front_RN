@@ -32,8 +32,8 @@ var user_addr = {
 // });
 
 class MypageScreen extends Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       location:'',
       title:'',
@@ -53,11 +53,9 @@ class MypageScreen extends Component{
     }
   }
   
- getToken = async() =>  {
+  getToken = async() =>  {
     token_value = await AsyncStorage.getItem('token');
     myLocation = await AsyncStorage.getItem('my_location');
-    console.log("gettoken")
-    console.log(myLocation)
   }
   
   requestKakao = async(coords) => {
@@ -80,7 +78,9 @@ class MypageScreen extends Component{
       }.bind(this))
       .catch(function (error) {
         console.log('failed: ' + error);
-      });
+        Alert.alert("지역 인증 실패", "법정동을 읽어올 수 없습니다",[
+          {text:'확인', style:'cancel', onPress: ()=> { this.props.navigation.navigate("MyPage") } }])
+      }.bind(this));
   }
   
   getNearLocation() {
@@ -98,6 +98,7 @@ class MypageScreen extends Component{
         this.setState({loading: false})
       }).catch((err) => {
         console.log(err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
       })
     })
   }
@@ -117,20 +118,21 @@ class MypageScreen extends Component{
         console.log("myLocation is")
         console.log(myLocation == "null")
         AsyncStorage.setItem('my_location', user_addr.location.title);
-        if(myLocation == "null"){
+        if(myLocation == "null"){ // first location auth
           this.props.navigation.navigate('postIndex')
-        }else{
-          this.props.navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [{ name: 'MyPage' },],
-            })
-          );
+        }else{ //already has location
+          // this.props.navigation.dispatch(
+          //   CommonActions.reset({
+          //     index: 1,
+          //     routes: [{ name: 'MyPage' },],
+          //   })
+          // );
+          this.props.navigation.goBack();
         }
       })
       .catch((err) => {
-        console.log('put request fail');
         console.log(err);
+        Alert.alert("동네 인증 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
       });
 
   }
@@ -171,6 +173,31 @@ class MypageScreen extends Component{
     { list: locationList[this.state.value].title, num : locationList[this.state.value].count })
   }
 
+  renderHeader(){
+    if(myLocation == "null"){
+      return(
+        <Header>
+          <Left>
+          </Left>
+          <Body><Title>동네 설정</Title></Body>
+          <Right></Right>
+        </Header>
+      )
+    }else{ // already has location
+      return(
+        <Header>
+          <Left>
+            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+            <Icon name = 'chevron-back' type = 'Ionicons'/>
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>동네 설정</Title></Body>
+          <Right></Right>
+        </Header>
+      )
+    }
+  }
+
   render(){
     if (this.state.loading == true) {
       return (
@@ -184,32 +211,25 @@ class MypageScreen extends Component{
     } //else
     return (
       <Container>
-        <Header>
-            <Left>
-              <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
-                <Icon name = 'chevron-back' type = 'Ionicons'/>
-              </TouchableOpacity>
-            </Left>
-            <Body><Title>동네 설정</Title></Body>
-            <Right></Right>
-          </Header>
-        <Content>
-        <View style={{alignItems:'center', textAlign:'center'}}>
-        <Text/>
-        <Title>현재 위치는 "{user_addr.location.title}" 입니다.</Title>
-        <Text/>
-        <Text onPress={() => this.showNearLocationList()} style={{textDecorationLine: 'underline'}}>근처 동네 {locationList[this.state.value].count}개</Text>
-        <Slider
-          style={styles.slider}
-          onValueChange={(value)=>{this.showNearLocation(value)}}
-          minimumValue={0} //0:alone, 1: near, 2: normal, 3: far
-          maximumValue={3}
-          minimumTrackTintColor="#ff3377"
-          maximumTrackTintColor="#f4c2c2"
-          step={1}
-          value = {this.state.value}
-        />
+        {this.renderHeader()}
+        <Content scrollEnabled={false}>
+          <View style={{alignItems:'center', textAlign:'center'}}>
+            <Text/>
+            <Title>현재 위치는 "{user_addr.location.title}" 입니다.</Title>
+            <Text/>
+            <Text onPress={() => this.showNearLocationList()} style={{textDecorationLine: 'underline'}}>근처 동네 {locationList[this.state.value].count}개</Text>
+          <Slider
+            style={styles.slider}
+            onValueChange={(value)=>{this.showNearLocation(value)}}
+            minimumValue={0} //0:alone, 1: near, 2: normal, 3: far
+            maximumValue={3}
+            minimumTrackTintColor="#ff3377"
+            maximumTrackTintColor="#f4c2c2"
+            step={1}
+            value = {this.state.value}
+          />
         </View>
+
         <View style={styles.container}>
           <MapView
             ref={(map) => {this.map = map}}
@@ -232,6 +252,7 @@ class MypageScreen extends Component{
             />
           </MapView>
         </View>
+
         <Button style={styles.footer} onPress={() => {this.putRequest();}}>
           <Text style={{textAlign:'center'}}>현재 위치에서 동네 인증하기</Text>
         </Button>
@@ -254,6 +275,7 @@ const styles = StyleSheet.create({
     zIndex: 3,
     backgroundColor:'#ff3377',
     height:50,
+    bottom:-5,
     width: width,
     alignItems:'center',
     justifyContent: 'center',

@@ -32,7 +32,7 @@ class ProvideIndex extends Component {
     return this.state.posts.map((post) => {
       return(
         <TouchableOpacity onPress={() =>{this.props.navigation.navigate('PostShow', { post: post }) }}>
-          <ListItem thumbnail key = {post.post_info.id}ㄴ>
+          <ListItem thumbnail key = {post.post_info.id}>
             <Left>
               <Thumbnail square source={{ uri: post.post_info.image }} />
             </Left>
@@ -67,6 +67,7 @@ class ProvideIndex extends Component {
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e);
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       });
     }else{
       api
@@ -84,6 +85,7 @@ class ProvideIndex extends Component {
       })
       .catch(function (e) {
         console.log('category request failed!!!!' + e);
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       });
     }
    
@@ -119,8 +121,7 @@ class ProvideIndex extends Component {
         refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh}/>}
-      >
+            onRefresh={this._onRefresh}/>}>
         <Content>
           <List>{this.makeIndexList()}</List>
         </Content>

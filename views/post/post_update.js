@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Content, Container, Item, Header, Left, Right, Title, Body, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
-import { View, ScrollView, StyleSheet, TextInput, Alert, TouchableOpacity } from "react-native";
+import { View, ScrollView, StyleSheet, TextInput, Alert, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard, } from "react-native";
 import CategoryPicker from './categorypicker';
+import Spinner from 'react-native-loading-spinner-overlay';
 import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import FormData from 'form-data'
+import { CommonActions, StackActions } from '@react-navigation/native';
 
 const image_info = {
   uri: '',
@@ -26,6 +28,7 @@ class PostUpdate extends Component {
     body: this.params.my_post.body,
     image: this.params.my_post.image,
     token: "",
+    loading : false,
   }
 
   getToken = async () => {
@@ -36,7 +39,7 @@ class PostUpdate extends Component {
 
   componentDidMount() {
     this.getToken()
-    console.log("component did mount ---")
+    console.log(this.params)
     // this.setState({image: formdata}, () => {console.log(this.state.image)})
   }
 
@@ -55,6 +58,7 @@ class PostUpdate extends Component {
 
   makeUpdateRequest() {
     console.log("Start create Post-provide")
+    this.setState({loading : true})
     this.setPostInfo(this.state)
     console.log(formdata)
     api
@@ -66,10 +70,25 @@ class PostUpdate extends Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
-        this.props.navigation.navigate("postIndex")
+        Alert.alert("수정 완료",'',
+        [
+          {
+            text:'확인', 
+            onPress: () => {this.props.navigation.dispatch(
+              CommonActions.reset({
+              index: 1,
+              routes: [{ name: 'postIndex' },],
+              })
+            );}
+          },
+          {
+            style:'cancel'
+          }
+        ])
       })
       .catch((e) => {
         console.log('send post failed!!!!' + e)
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 
@@ -135,12 +154,15 @@ class PostUpdate extends Component {
             </TouchableOpacity>
           </Right>
         </Header>
+        <Spinner visible={this.state.loading}/>
+        <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
+          <KeyboardAvoidingView>
         <View style={styles.imageArea}>
           <ImageSelect stateBus={this.changeImage} existing_image={this.state.image} ></ImageSelect>
         </View>
         <Container>
           <TouchableOpacity onPress={this.shownowstate()} style={{ padding: 10 }}>
-            <Text>state값 확인</Text>
+            <Text></Text>
           </TouchableOpacity>
           <Content>
             <Form>
@@ -164,6 +186,8 @@ class PostUpdate extends Component {
             </Form>
           </Content>
         </Container>
+        </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
       </ScrollView>
     );
   }

@@ -39,7 +39,7 @@ class Search_Bar extends React.Component {
     return (
         <Container>
         <Header style={styles.header}>
-            <Title style={{fontSize: 20}}>{this.state.location}</Title>
+            <Title style={{fontSize: 20, color: 'white'}}>{this.state.location}</Title>
         </Header>
 
           <Item style={{backgroundColor:'#ffffff', marginLeft: '4%', borderColor: 'transparent' }}>

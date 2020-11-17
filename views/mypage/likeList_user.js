@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text} from 'react-native';
+import {Text, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Header, ListItem, View, Left, Thumbnail, Body, Right, Spinner, Container, Content} from 'native-base';
 import api from '../shared/server_address'
@@ -15,7 +15,6 @@ class LikeListUserScreen extends Component {
 
   makeList() {
     return like_user.map((ele) => {
-      console.log(ele)
       return (
         <ListItem thumbnail key = {ele.like_info.id} button
         onPress = {() => this.props.navigation.navigate("ProfileShow", { other_id: ele.like_info.target_id})}>
@@ -37,22 +36,18 @@ class LikeListUserScreen extends Component {
   }
 
   getToken = async () => {
-    console.log(this);
     let token_value = AsyncStorage.getItem('token');
     let id_value = AsyncStorage.getItem('user_id');
     this.state.token = await token_value;
     this.state.user_id = await id_value;
-    console.log(this.state.token);
   };
 
   componentDidMount() {
-    console.log('component did mount ---');
     this.GetRequest();
   }
 
   GetRequest = () => {
     this.getToken().then(() => {
-      console.log('Sending likeListGetRequest ...');
       api
         .get(`/users/${this.state.user_id}/likes?target_type=user`, {
           headers: {
@@ -68,6 +63,7 @@ class LikeListUserScreen extends Component {
         )
         .catch(function (error) {
           console.log('failed: ' + error);
+          Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         });
     });
   };
@@ -83,7 +79,7 @@ class LikeListUserScreen extends Component {
       </Container>
       );
     } else {
-      return <View>{this.makeList()}</View>;
+      return <ScrollView>{this.makeList()}</ScrollView>;
     }
   }
 }

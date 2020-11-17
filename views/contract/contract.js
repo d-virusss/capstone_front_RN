@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { Container, Content, Form, Item, Input, Label, Button, Text, 
   Header, Card, CardItem, Body, Left, Right, Icon, Title, Textarea } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
+import Spinner from 'react-native-loading-spinner-overlay';
 import api from '../shared/server_address'
 import FormData from 'form-data'
 
@@ -15,22 +16,15 @@ export default class Contract extends React.Component {
     token : "",
     title : "",
     post_id : this.my_post.id,
-    body : 
-`제 1 조 본 계약에서 대여물건이라 함은 계약서 상단에 기재된 것을 말한다.\n
-제 2 조 대여물건의 대여료는 계약과 동시에 '을'이 '갑'에게 지급한다.\n
-제 3 조 대여물건에 관한 화재보험료는 '을'이 부담하고 화재보험금의 수취인 명의는 '갑'으로 한다.\n
-제 4 조 '을'은 '갑'의 동의 없이 대여물건을 타인에게 판매, 양도, 대여할 수 없다.\n
-제 5 조 '을'은 대여물건에 대하여 항상 최선의 주의를 하며 선량한 관리자의 주의로써 상용하고 손상, 훼손하지 않도록 노력한다. 만약 '을'의 귀책사유로 손해가 발생한 경우는 즉시 '갑'에게 보고하고 '을'의 비용으로 완전히 보상한다.\n
-제 6 조 '을'은 '갑'의 허가 없이 대여물건의 개조 또는 개수를 할 수 없다.\n
-제 7 조 본 계약이 완료했을 경우 '을'은 즉시 대여물건을 보수완비하고 '갑'에게 반환한다.\n
-제 8 조 전조 각항에 위반할 경우 '갑'은 '을'에 대한 보상 없이 '갑'의 단독의사로 계약을 해제할 수 있다.\n
-제 9 조 본 계약의 조항 이외의 분쟁이 발생하였을 때는 '갑'과 '을'이 협의하여 정한다.
-    `,
+    body : this.my_post.contract,
+    loading : false,
   };
 
   componentDidMount() {
     this.getToken();
     console.log(this.state)
+    console.log(this.my_post)
+    console.log('component did mount ----------------------')
   }
 
   getToken = async () => {
@@ -46,6 +40,11 @@ export default class Contract extends React.Component {
   makeContractRequest() {
     console.log("start update post data ---- add contract ")
     this.setContract(this.state)
+    if(this.state.body.length > 499){
+      Alert.alert("수정 실패", "게약서는 500자 이내로 작성해주세요.", [{ text: '확인', style: 'cancel' }])
+      return;
+    }
+
     api
       .put(`/posts/${this.state.post_id}`, (formdata), {
         headers: {
@@ -55,10 +54,16 @@ export default class Contract extends React.Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
-        // this.props.navigation.navigate("postIndex")
+        Alert.alert("수정 완료", "계약서가 수정되었습니다.", [
+          {
+            text: '확인',
+            onPress: () => this.props.navigation.navigate("postIndex"),
+          }
+        ])
       })
       .catch((e) => {
         console.log('send post failed!!!!' + e)
+        Alert.alert("계약서 작성 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 
@@ -81,6 +86,7 @@ export default class Contract extends React.Component {
             </TouchableOpacity>
           </Right>
         </Header>
+        <Spinner visible={this.state.loading} style={{ color: '#ff3377'  }} />
         <ScrollView>
           <Content style={{padding : 20}}>
             <Card style={ styles.card }>

@@ -7,16 +7,13 @@ import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
 import number_delimiter from '../shared/number_delimiter'
-
-let myID;
-
+import { CommonActions, StackActions } from '@react-navigation/native';
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
 var user_id;
 class PostShow extends Component{
   params = this.props.route.params;
-
   state = {
     login_user_id : "",
     token: "",
@@ -32,15 +29,17 @@ class PostShow extends Component{
     provider_location : "",
     provider_id : "",
     provider_profile_image: "",
+    rent_count : 0,
     show_popover : false,
-    is_your_post : false,
     chat_id: 0,
     val: -1,
+    loading:true,
+    is_your_post:'',
   };
+
   getToken = async () => {
     try{
       const value = await AsyncStorage.getItem('token');
-      myID = await AsyncStorage.getItem('user_id');
       this.state.token = value
       user_id = await AsyncStorage.getItem('user_id')
     } catch (error){
@@ -50,29 +49,28 @@ class PostShow extends Component{
 
   componentDidMount() {
     console.log('------- enter post_show -------');
-    this.getToken();
-    this.setParams();
+    this.getToken().then(() => {
+      this.setParams();
+    })
   }
 
-  setParams = () => {
-    this.setState({ 
-      title: this.params.post.post_info.title,
-      price: this.params.post.post_info.price,
-      body: this.params.post.post_info.body,
-      category: this.params.post.post_info.category,
-      post_id : this.params.post.post_info.id,
-      like_check : this.params.post.post_info.like_check,
-      image: this.params.post.post_info.image,
-      icon: this.params.post.post_info.like_check ? "heart" : "heart-outline",
-      provider_name : this.params.post.user.user_info.nickname,
-      provider_location : this.params.post.user.user_info.location_title,
-      provider_id : this.params.post.user.user_info.id,
-      provider_profile_image : this.params.post.user.user_info.image,
-      is_your_post: this.params.post.user.user_info.id == parseInt(user_id) ? true : false,
-     }, () => {
-      this.setState({ icon : this.state.like_check ? "heart" : "heart-outline" })
-    }, () => {console.log(this.state)})
-    console.log(this.state)
+  setParams() {
+    this.state.title = this.params.post.post_info.title,
+    this.state.price = this.params.post.post_info.price,
+    this.state.body = this.params.post.post_info.body,
+    this.state.category = this.params.post.post_info.category,
+    this.state.post_id = this.params.post.post_info.id,
+    this.state.like_check = this.params.post.post_info.like_check,
+    this.state.image = this.params.post.post_info.image,
+    this.state.icon = this.params.post.post_info.like_check ? "heart" : "heart-outline",
+    this.state.provider_name = this.params.post.user.user_info.nickname,
+    this.state.provider_location = this.params.post.user.user_info.location_title,
+    this.state.provider_id = this.params.post.user.user_info.id,
+    this.state.provider_profile_image = this.params.post.user.user_info.image,
+    this.state.rent_count = this.params.post.post_info.rent_count,
+
+    this.state.is_your_post = this.params.post.user.user_info.id == parseInt(user_id) ? true : false;
+    this.setState({loading : false})
   }
 
   chatCreateRequset = async()=> {
@@ -83,19 +81,17 @@ class PostShow extends Component{
       })
       .then((response) => {
         console.log('success');
-        console.log(response);
         this.state.chat_id = response.data.chat_info.id;
-        console.log(this.state.chat_id)
         this.setState({val:0})
       })
       .catch((err) => {
         this.setState({val:1})
         console.log("err : ", err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 
   likeRequest = () => {
-    console.log(this.state)
     if (this.state.like_check) {
       this.setState({ icon: 'heart-outline', like_check: false })
     }
@@ -112,6 +108,7 @@ class PostShow extends Component{
       })
       .catch((e) => {
         console.log(e)
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
   makeCallchat_navigate(){
@@ -132,10 +129,6 @@ class PostShow extends Component{
     }
   }
 
-  gochangeRequest(){
-    this.props.navigation.navigate('PostUpdate', { my_post : this.params.post.post_info})
-  }
-
   destroyRequest(){
     api
       .delete(`/posts/${this.state.post_id}`, {
@@ -145,14 +138,18 @@ class PostShow extends Component{
       })
       .then((res) => {
         console.log(res)
+        Alert.alert("삭제 완료", "", [{text:'확인', style:'cancel'}])
+        this.props.navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{ name: 'postIndex' },],
+          })
+        );
       })
       .catch((e) => {
         console.log(e)
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
-  }
-
-  showstate() {
-    console.log(this.state)
   }
 
   renderUpdateandDelete(){
@@ -205,6 +202,8 @@ class PostShow extends Component{
   }
 
   render(){
+    if(this.state.loading) return null;
+    else{
     return(
       <Container>
         <Header>
@@ -227,18 +226,6 @@ class PostShow extends Component{
                   onPress={() => this.setState({ show_popover: false }, () => { this.props.navigation.navigate('PostReport')})}>
                 <Text style={styles.popoverel}>신고하기</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.setState({ show_popover: false }, () => { Alert.alert("신고하지마요 ㅜ") })}>
-                <Text style={styles.popoverel}>가짜신고하기</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => Alert.alert("집에가고 싶나?")}>
-                <Text style={styles.popoverel}>힘들 떄</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => Alert.alert("히히 못가")}>
-                <Text style={styles.popoverel}>집가기</Text>
-              </TouchableOpacity>
               {this.renderUpdateandDelete()}
             </Popover>
           </Right>
@@ -258,6 +245,10 @@ class PostShow extends Component{
                       <Text style={styles.providerName}>{this.state.provider_name}</Text>
                       <Text style={styles.providerLocation}>{this.state.provider_location}</Text>
                     </View>
+                  
+                    <Right style={styles.rentCountArea}>
+                        <Text style={styles.providerLocation}>지난 대여 {this.state.rent_count}</Text>
+                    </Right>
                   </Item>
                   <Item regular style={styles.postbody}>
                       <Text style={styles.post_category}>{this.state.category}</Text>
@@ -277,7 +268,7 @@ class PostShow extends Component{
           </Footer>
         </View>
       </Container>
-    );
+    );}
   }
 }
 
@@ -313,6 +304,11 @@ const styles = StyleSheet.create({
     fontSize : 13,
     color : 'grey',
     padding : '5%'
+  },
+  rentCountArea : {
+    width: '30%',
+    marginRight : '8%',
+    marginTop : '10%',
   },
   fontView : {
     fontSize : 17,

@@ -5,6 +5,7 @@ import CustomButton from './custom_button';
 import { Item, Input, Toast} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../shared/server_address';
+import { CommonActions } from '@react-navigation/native';
 
 Icon.loadFont();
 
@@ -63,15 +64,21 @@ class LoginScreen extends Component {
           
           this.getToken();
           if (response.data.location_auth != null) {// already has location
-            this.props.navigation.navigate('postIndex')
-          } else {
+            this.props.navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [{ name: 'postIndex' }],
+              })
+            );
+          }
+          else {
             this.props.navigation.navigate('MyPage_Location')
           }
           //this.addUserIDtoDB(response.data.id);
         })
         .catch(function (error) {
           console.log("login fail")
-          Alert.alert("로그인 실패", "입력한 정보가 잘못되었습니다.",[{text:'확인', style:'cancel'}])
+          Alert.alert("로그인 실패",error.response.data.error,[{text:'확인', style:'cancel'}])
         });
     }
   }
@@ -87,13 +94,19 @@ class LoginScreen extends Component {
         AsyncStorage.setItem('my_location', String(response.data.location_auth));
         
         if ((response.data.location_auth) != null) {// already has location
-          this.props.navigation.navigate('postIndex')
+          this.props.navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [{ name: 'postIndex' }],
+            })
+          );
         } else {
           this.props.navigation.navigate('MyPage_Location')
         }
       })
       .catch(function (error) {
         console.log('axios call failed!! : ' + error);
+        Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
       });
   }
 
@@ -135,7 +148,7 @@ class LoginScreen extends Component {
               <Icon name="ios-person-outline" size={30} color="black" style={{flex: 1}}></Icon>
               <Item style={{flex: 4, marginLeft: -10}}>
                 <Input
-                  style={{fontSize: 20 }}
+                  style={{fontSize: 20, }}
                   placeholder="이메일"
                   autoCapitalize="none"
                   onChangeText={(text) => this.changeUsername(text, 'email')}

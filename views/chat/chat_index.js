@@ -117,7 +117,10 @@ function ChatList ({ navigation }){
         console.log(noChat+" nochat")
         setChats(response.data, [])
       })
-      .catch((err) => console.log("err : ", err))
+      .catch((err) => {
+        console.log("err : ", err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+      })
   }
 
   let callimage = () => {

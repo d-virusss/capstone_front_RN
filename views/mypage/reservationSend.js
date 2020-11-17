@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {Dimensions, View, StyleSheet, Alert, DeviceEventEmitter} from 'react-native';
-import {Text, Header, Thumbnail, Icon, Body, Container, Content, ListItem, Spinner, Button, Left, 
-  Right, Title,} from 'native-base';
+import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions} from 'react-native';
+import {Text, Header, Thumbnail, Body, Container, Content, ListItem, 
+  Spinner, Button, Right, Footer, FooterTab} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
 import moment from 'moment';
@@ -15,11 +15,11 @@ var reservation_info = {
   item_id : '',
   booking: {
     post_id: '',
-    acceptance: '',
+    acceptance: null,
   },
 };
 
-class sendScreen extends Component{
+class receiveScreen extends Component{
   state = {
     marked: null,
     token: 0,
@@ -40,38 +40,46 @@ class sendScreen extends Component{
   handleEvent = (e) => {
     console.log("event handler")
     this.setState({refreshing : true})
-    this.getSendReservationList();
+    this.getReservationList();
     this.setState({refreshing : false})
   }
 
   getToken = async () => {
     let value = await AsyncStorage.getItem("token")
     this.state.token = value
-    this.getSendReservationList()
+    this.getReservationList()
   }
 
-  showBookingDate(id, post_id, startDate, endDate) {
+  showBookingDate(id, post_id, startDate, endDate, acceptance) {
     nextDay = [];
+    
     const start = moment(startDate);
     const end = moment(endDate);
+    
     for (let m = moment(start); m.diff(end, 'days') <= 0; m.add(1, 'days')) {
       nextDay.push(m.format('YYYY-MM-DD'));
     }
     reservation_info.item_id = id;
     reservation_info.booking.post_id = post_id;
+    if(acceptance === "accepted"){
+      reservation_info.booking.acceptance = true
+    }
+    else reservation_info.booking.acceptance = false
+
     this.markingDate();
   }
 
-  getSendReservationList() {
+  getReservationList () {
     api.get('/bookings', {
-      headers: {Authorization: this.state.token},
-  }).then((res) => {
-      reservation_list = res.data;
-      this.setState({loading: false});
-  }).catch((err) => {
-      console.log("reservation page err")
-      console.log(err)
-  })
+        headers: {Authorization: this.state.token},
+    }).then((res) => {
+        reservation_list = res.data;
+        this.setState({loading: false});
+    }).catch((err) => {
+        console.log("reservation page err")
+        console.log(err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+    })
   }
 
   markingDate() {
@@ -79,61 +87,54 @@ class sendScreen extends Component{
     this.setState({ marked : obj});
   }
 
-  accept (){
-    reservation_info.booking.acceptance='accepted'
-    api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
-      headers: {
-        Authorization: this.state.token,
-      },
-    }).then((res) => {
-      console.log("승인되었습니다.")
-      console.log(res)
-      Alert.alert("승인되었습니다", "",[{text:'확인', style:'cancel'}])
-      this.props.navigation.navigate("Contract");
-    }).catch((err) => {
-      console.log(err)
-    })
-  }
-
-  reject() {
-    reservation_info.booking.acceptance='rejected'
+  accept() {
+    reservation_info.booking.acceptance = 'accepted'
     api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
       headers: {
         Authorization: this.state.token,
       },
     }).then((res) => {
       console.log(res)
-      Alert.alert("거절되었습니다", "",[{text:'확인', style:'cancel'}])
+      this.props.navigation.navigate("Sign", { booking_info: res.data.booking_info, who: 'consumer' });
     }).catch((err) => {
       console.log(err)
+      Alert.alert("요청 실패", err.response.data.error, [{ text: '확인', style: 'cancel' }])
     })
   }
 
   showOptionButton(){
-    if(reservation_info.item_id){
+    console.log('showoption button ---------- ')
+    console.log(reservation_info)
+    if(reservation_info.booking.acceptance){
       return(
-        <View style={styles.footer}>
+        <View style={ styles.footer }>
           <Button transparent style={styles.bottomButtons}
-           onPress={() => {this.accept()}}>
-            <Text style = {styles.footerText}>승인</Text>
-          </Button>
-          <Button transparent style={styles.bottomButtons}
-          onPress= {() => {this.reject()}}>
-            <Text style = {styles.footerText}>거절</Text>
+            onPress={() => { this.accept() }}>
+            <Text style={styles.footerText}>서명하기</Text>
           </Button>
         </View>
       )
-    }else{
+    }
+    else if(reservation_info.booking.acceptance === false){
+      return(
+        <View style={ styles.disabledfooter }>
+          <Button disabled transparent style={styles.bottomButtons} >
+            <Text style={styles.footerText}>서명하기</Text>
+          </Button>
+        </View>
+      )
+    }
+    else{
       return null
     }
   }
 
   makeList() {
     return reservation_list.map((ele) => {
-      console.log(ele)
       return (
         <ListItem key={ele.booking_info.id}
-          button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id, ele.booking_info.start_at, ele.booking_info.end_at)}>
+          button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id,
+           ele.booking_info.start_at, ele.booking_info.end_at, ele.booking_info.acceptance)}>
           <Thumbnail source={{ uri: ele.booking_info.image }} />
           <Body>
             <Text>{ele.booking_info.title}</Text>
@@ -150,26 +151,26 @@ class sendScreen extends Component{
     if(this.state.loading) {
       return (
         <Container>
-        <Header />
-        <Content>
-          <Spinner color='#ff3377' />
-        </Content>
-      </Container>
+          <Header />
+          <Content>
+            <Spinner color='#ff3377' />
+          </Content>
+        </Container>
       )
     }
     else{
       return(
         <Container>
-          <Content style={styles.container}>
-          <Calendar 
-          markedDates={this.state.marked}
-          markingType={'period'}
-          />
-          </Content>
+          <View>
+            <Calendar
+            markedDates={this.state.marked}
+            markingType={'period'}
+            />
+          </View>
           <Content>
-              {this.makeList()}
+            {this.makeList()}
           </Content>
-          {this.showOptionButton()}
+            {this.showOptionButton()}
         </Container>
       )
     } 
@@ -178,20 +179,19 @@ class sendScreen extends Component{
 
 let {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
-    container: {
-        height: height*0.65,
-        width: width,
-      },
-
+  container:{
+    height : height,
+    width : width,
+  },
   footer: {
     position: 'absolute',
     flex:0.1,
     left: 0,
     right: 0,
-    bottom: -5,
+    top : height * 0.755,
     backgroundColor:'#ff3377',
     flexDirection:'row',
-    height:80,
+    height:60,
     alignItems:'center',
   },
   bottomButtons: {
@@ -205,6 +205,17 @@ const styles = StyleSheet.create({
     alignItems:'center',
     fontSize:18,
   },
+  disabledfooter: {
+    position: 'absolute',
+    flex: 0.1,
+    left: 0,
+    right: 0,
+    top : height * 0.755,
+    backgroundColor: '#dddddd',
+    flexDirection: 'row',
+    height: 60,
+    alignItems: 'center',
+  }
  });
 
-export default sendScreen;
+export default receiveScreen;

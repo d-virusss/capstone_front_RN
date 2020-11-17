@@ -8,7 +8,7 @@ import IconA from 'react-native-vector-icons/AntDesign';
 import IconB from 'react-native-vector-icons/Feather';
 import IconC from 'react-native-vector-icons/EvilIcons';
 import api from '../shared/server_address';
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions, StackActions } from '@react-navigation/native';
 IconA.loadFont();
 IconB.loadFont();
 IconC.loadFont();
@@ -33,7 +33,7 @@ class MypageScreen extends Component {
   }
 
   goToSetLocation() {
-    this.props.navigation.navigate('MyPage_Location');
+    this.props.navigation.push('MyPage_Location');
   }
 
   Logout() {
@@ -42,7 +42,10 @@ class MypageScreen extends Component {
         index: 1,
         routes: [{ name: 'Logins' },],
       })
-    );// pop everything in stack navigation
+    );
+    //this.props.navigation.dispatch(StackActions.popToTop())
+
+    // pop everything in stack navigation
   }
 
   ShowLikeList() {
@@ -88,10 +91,30 @@ class MypageScreen extends Component {
       })
       .catch((err) => {
         console.log("my page err")
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
       })
     })
   }
 
+  getFCMToken = async() =>{
+    let fcmToken = await AsyncStorage.getItem('fcmToken')
+    await api
+      .post('/users/add_device',
+        {
+          user:{
+            device_token: fcmToken
+          }
+        },
+        {
+          headers:{
+            'Authorization': this.state.token
+          }
+        }
+      )
+      .then((response)=>console.log(response))
+      .then((error)=>console.log(error))
+  }
+  
   render() {
     if(!this.state.loading) return null
     else{
@@ -150,26 +173,7 @@ class MypageScreen extends Component {
 
             <Separator bordered></Separator>
 
-            <ListItem button onPress = {()=>{
-              getFCMToken = async() =>{
-                let fcmToken = await AsyncStorage.getItem('fcmToken')
-                await api
-                  .post('/users/add_device',
-                    {
-                      user:{
-                        device_token: fcmToken
-                      }
-                    },
-                    {
-                      headers:{
-                        'Authorization': this.state.token
-                      }
-                    }
-                  )
-                  .then((response)=>console.log(response))
-                  .then((error)=>console.log(error))
-              }
-              getFCMToken();}}>
+            <ListItem button onPress = {()=>{this.getFCMToken();}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text style={ styles.listText }> 기기 인증</Text>
