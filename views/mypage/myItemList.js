@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import {StyleSheet, TouchableOpacity, ScrollView, View} from 'react-native';
 import {Container, Content, Header, Left, Right, Body, Icon,
   Title, Text, List, ListItem, Tabs, Tab, TabHeading,
   Thumbnail,
@@ -97,7 +97,7 @@ class myItemListScreen extends Component{
 
   render(){
     return(
-      <Container>
+      <View>
          <Header>
           <Left>
             <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
@@ -107,8 +107,9 @@ class myItemListScreen extends Component{
           <Body><Title>글 관리</Title></Body>
           <Right></Right>
         </Header>
+
+        <ScrollView>
         <Content>
-          <ScrollView>
         <Tabs>
           <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
               <Content>
@@ -125,10 +126,9 @@ class myItemListScreen extends Component{
             </Content>
           </Tab>
           </Tabs>
-          </ScrollView>
         </Content>
-        </Container>
-        
+        </ScrollView>
+        </View>
     );
   }
 }
