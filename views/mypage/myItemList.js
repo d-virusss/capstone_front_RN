@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 import {Container, Content, Header, Left, Right, Body, Icon,
   Title, Text, List, ListItem, Tabs, Tab, TabHeading,
   Thumbnail,
@@ -108,20 +108,24 @@ class myItemListScreen extends Component{
           <Right></Right>
         </Header>
         <Content>
+          <ScrollView>
         <Tabs>
           <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
-            <Content>
+              <Content>
               <List>
                 {this.makeIndexList(this.state.posts1)}
               </List>
-            </Content>
+              </Content>
           </Tab>
           <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
+           <Content>
             <List>
               {this.makeIndexList(this.state.posts2)}
             </List>
+            </Content>
           </Tab>
           </Tabs>
+          </ScrollView>
         </Content>
         </Container>
         

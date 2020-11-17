@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import FormData from 'form-data'
 import { CommonActions, StackActions } from '@react-navigation/native';
-import Spinner from 'react-native-loading-spinner-overlay';
 
 const image_info = {
   uri: '',
@@ -62,8 +61,6 @@ class PostUpdate extends Component {
     this.setState({loading : true})
     this.setPostInfo(this.state)
     console.log(formdata)
-
-    this.setState({ loading: true })
     api
       .put(`/posts/${this.state.post_id}`, (formdata), {
         headers: {
@@ -73,12 +70,21 @@ class PostUpdate extends Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
-        this.props.navigation.dispatch(
-          CommonActions.reset({
-            index: 1,
-            routes: [{ name: 'postIndex' },],
-          })
-        );
+        Alert.alert("수정 완료",'',
+        [
+          {
+            text:'확인', 
+            onPress: () => {this.props.navigation.dispatch(
+              CommonActions.reset({
+              index: 1,
+              routes: [{ name: 'postIndex' },],
+              })
+            );}
+          },
+          {
+            style:'cancel'
+          }
+        ])
       })
       .catch((e) => {
         console.log('send post failed!!!!' + e)

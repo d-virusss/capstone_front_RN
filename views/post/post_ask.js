@@ -97,8 +97,16 @@ class Post_ask extends Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
-        this.props.navigation.goBack()
-        Alert.alert("대여 요청", "대여 요청글이 작성되었습니다.",[{text:'확인', style:'cancel'}])
+        Alert.alert("대여 요청",'대여 요청글이 작성되었습니다.',
+        [
+          {
+            text:'확인', 
+            onPress: () => this.props.navigation.goBack()}
+          ,
+          {
+            style:'cancel'
+          }
+        ])
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)

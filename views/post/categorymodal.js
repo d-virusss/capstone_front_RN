@@ -12,6 +12,9 @@ IconF.loadFont();
 IconI.loadFont();
 IconM.loadFont();
 
+
+var Clist = ['전체','잡화', '의류', '뷰티', '전자제품', '레져용품', '생활용품', '요리', '자동차', '유아용품']
+
 class categoryScreen extends Component {
   constructor() {
     super();
@@ -19,6 +22,7 @@ class categoryScreen extends Component {
       visibility: false,
       show_popover : false,
       token:'',
+      title:'카테고리',
     };
   }
 
@@ -27,7 +31,7 @@ class categoryScreen extends Component {
   }
 
   sendCategoryId(id){
-    this.setState({ show_popover: false });
+    this.setState({ show_popover: false, title: Clist[id]});
     this.props.parentReference(id)
   }
 
@@ -47,7 +51,7 @@ class categoryScreen extends Component {
             <TouchableOpacity onPress={() => this.showOption()}
             style={{ flexDirection: 'row'}} >
               <Icon name="menu" style={styles.item}>
-              <Text> 카테고리</Text>
+              <Text> {this.state.title}</Text>
               </Icon>
             </TouchableOpacity>
           )}>

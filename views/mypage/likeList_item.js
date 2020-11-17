@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text} from 'react-native';
+import {Text, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Header, ListItem, View, Container, Content, Body, Right, Spinner, Thumbnail, Left } from 'native-base';
 import api from '../shared/server_address'
@@ -88,7 +88,7 @@ class LikeListItemScreen extends Component {
       </Container>
       );
     } else {
-      return <View>{this.makeList()}</View>;
+      return <ScrollView>{this.makeList()}</ScrollView>;
     }
   }
 }
