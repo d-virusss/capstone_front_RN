@@ -33,7 +33,7 @@ class MypageScreen extends Component {
   }
 
   goToSetLocation() {
-    this.props.navigation.navigate('MyPage_Location');
+    this.props.navigation.push('MyPage_Location');
   }
 
   Logout() {
@@ -43,7 +43,8 @@ class MypageScreen extends Component {
         routes: [{ name: 'Logins' },],
       })
     );
-    //this.props.navigation.navigate('Logins')
+    //this.props.navigation.dispatch(StackActions.popToTop())
+
     // pop everything in stack navigation
   }
 
