@@ -36,6 +36,11 @@ import LocationDetail from './views/mypage/location_detail'
 const Stack = createStackNavigator();
 
 const App = () => {
+  /*db.transaction((tx)=>{
+    tx.executeSql('drop table message',
+    (tx,results)=>console.log('create execute'),
+    (error)=>console.log(error));
+  })*/
 
   useEffect(() => {
     fcmService.registerAppWithFCM()
