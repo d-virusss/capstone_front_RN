@@ -107,7 +107,8 @@ class receiveScreen extends Component{
         Authorization: this.state.token,
       },
     }).then((res) => {
-      Alert.alert("거절되었습니다", "",[{text:'확인', style:'cancel'}])
+      console.log(res)
+      Alert.alert("예약 거절", "예약을 거절하였습니다.",[{text:'확인', style:'cancel'}])
     }).catch((err) => {
       Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
     })

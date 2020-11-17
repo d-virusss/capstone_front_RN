@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions} from 'react-native';
-import {Text, Header, Thumbnail, Body, Container, Content, ListItem, Spinner, Button,} from 'native-base';
+import {Text, Header, Thumbnail, Body, Container, Content, ListItem, 
+  Spinner, Button, Right, Footer, FooterTab} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
 import moment from 'moment';
@@ -14,7 +15,7 @@ var reservation_info = {
   item_id : '',
   booking: {
     post_id: '',
-    acceptance: '',
+    acceptance: null,
   },
 };
 
@@ -49,7 +50,7 @@ class receiveScreen extends Component{
     this.getReservationList()
   }
 
-  showBookingDate(id, post_id, startDate, endDate) {
+  showBookingDate(id, post_id, startDate, endDate, acceptance) {
     nextDay = [];
     
     const start = moment(startDate);
@@ -60,6 +61,11 @@ class receiveScreen extends Component{
     }
     reservation_info.item_id = id;
     reservation_info.booking.post_id = post_id;
+    if(acceptance === "accepted"){
+      reservation_info.booking.acceptance = true
+    }
+    else reservation_info.booking.acceptance = false
+
     this.markingDate();
   }
 
@@ -81,11 +87,57 @@ class receiveScreen extends Component{
     this.setState({ marked : obj});
   }
 
+  accept() {
+    reservation_info.booking.acceptance = 'accepted'
+    api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
+      headers: {
+        Authorization: this.state.token,
+      },
+    }).then((res) => {
+      console.log(res)
+      this.props.navigation.navigate("Sign", { booking_info: res.data.booking_info });
+    }).catch((err) => {
+      console.log(err)
+      Alert.alert("요청 실패", err.response.data.error, [{ text: '확인', style: 'cancel' }])
+    })
+  }
+
+  showOptionButton(){
+    console.log('showoption button ---------- ')
+    if(reservation_info.booking.acceptance){
+      return(
+        <Footer style={{ backgroundColor: 'white', borderColor: 'transparent' }}>
+          <FooterTab style={styles.footer}>
+            <Button transparent style={styles.bottomButtons}
+              onPress={() => { this.accept() }}>
+              <Text style={styles.footerText}>서명하기</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      )
+    }
+    else if(reservation_info.booking.acceptance === false){
+      return(
+        <Footer style={{ backgroundColor: 'white', borderColor: 'transparent' }}>
+          <FooterTab style={styles.disabledfooter}>
+            <Button disabled transparent style={styles.bottomButtons} >
+              <Text style={styles.footerText}>서명하기</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      )
+    }
+    else{
+      return null
+    }
+  }
+
   makeList() {
     return reservation_list.map((ele) => {
       return (
         <ListItem key={ele.booking_info.id}
-          button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id, ele.booking_info.start_at, ele.booking_info.end_at)}>
+          button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id,
+           ele.booking_info.start_at, ele.booking_info.end_at, ele.booking_info.acceptance)}>
           <Thumbnail source={{ uri: ele.booking_info.image }} />
           <Body>
             <Text>{ele.booking_info.title}</Text>
@@ -122,7 +174,7 @@ class receiveScreen extends Component{
           {this.makeList()}
           </Content>
           <Content>
-       
+          {this.showOptionButton()}
           </Content>
         </Container>
       )
@@ -157,6 +209,16 @@ const styles = StyleSheet.create({
     alignItems:'center',
     fontSize:18,
   },
+  disabledfooter: {
+    position: 'absolute',
+    flex: 0.1,
+    left: 0,
+    right: 0,
+    backgroundColor: '#dddddd',
+    flexDirection: 'row',
+    height: 60,
+    alignItems: 'center',
+  }
  });
 
 export default receiveScreen;
