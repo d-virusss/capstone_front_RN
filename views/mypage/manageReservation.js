@@ -31,26 +31,28 @@ class reservationScreen extends Component{
           <Body><Title>예약 관리</Title></Body>
           <Right>
             <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
-              <Icon name = 'refresh' type = 'Ionicons'/>
-            </TouchableOpacity>
-          </Right>
-        </Header>
-
-        <Content>
-          <Tabs Style={{marginTop : '0%',}}>
-            <Tab heading={ <TabHeading transparent><Text>받은 예약</Text></TabHeading>}>
-            <ReceiveList navigation={this.props.navigation}></ReceiveList>
-          </Tab>
-            <Tab heading={ <TabHeading transparent><Text>신청한 예약</Text></TabHeading>}>
-            <SendList navigation={this.props.navigation}></SendList>
+                <Icon name = 'refresh' type = 'Ionicons'/>
+              </TouchableOpacity>
+            </Right>
+          </Header>
+          
+           <Tabs Style={{marginTop : '0%',}}>
+             <Tab heading={ <TabHeading transparent><Text>받은 예약</Text></TabHeading>}>
+               <Content scrollEnabled={false}>
+                  <ReceiveList navigation={this.props.navigation}></ReceiveList>
+               </Content>
             </Tab>
-          </Tabs>
-        </Content>
-        {/* <Footer>
-          <Button><Text>dfasdf</Text></Button>
-        </Footer> */}
-      </Container>
-    )
+             <Tab heading={ <TabHeading transparent><Text>신청한 예약</Text></TabHeading>}>
+                <Content scrollEnabled={false}>
+                  <SendList navigation={this.props.navigation}></SendList>
+                </Content>
+             </Tab>
+           </Tabs>
+  
+        </Container>
+        
+      )
+    
   };
 };
 
