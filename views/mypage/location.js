@@ -56,8 +56,6 @@ class MypageScreen extends Component{
   getToken = async() =>  {
     token_value = await AsyncStorage.getItem('token');
     myLocation = await AsyncStorage.getItem('my_location');
-    console.log("gettoken")
-    console.log(myLocation)
   }
   
   requestKakao = async(coords) => {
@@ -120,9 +118,9 @@ class MypageScreen extends Component{
         console.log("myLocation is")
         console.log(myLocation == "null")
         AsyncStorage.setItem('my_location', user_addr.location.title);
-        if(myLocation == "null"){
+        if(myLocation == "null"){ // first location auth
           this.props.navigation.navigate('postIndex')
-        }else{
+        }else{ //already has location
           this.props.navigation.dispatch(
             CommonActions.reset({
               index: 1,
@@ -139,8 +137,6 @@ class MypageScreen extends Component{
   }
 
   componentDidMount () {
-    console.log('component did mount ---------')
-    console.log(this)
     this.requestPermission().then((res) => {
       if (res === 'granted') {
         Geolocation.getCurrentPosition(
@@ -176,6 +172,31 @@ class MypageScreen extends Component{
     { list: locationList[this.state.value].title, num : locationList[this.state.value].count })
   }
 
+  renderHeader(){
+    if(myLocation == "null"){
+      return(
+        <Header>
+          <Left>
+          </Left>
+          <Body><Title>동네 설정</Title></Body>
+          <Right></Right>
+        </Header>
+      )
+    }else{ // already has location
+      return(
+        <Header>
+          <Left>
+            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+            <Icon name = 'chevron-back' type = 'Ionicons'/>
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>동네 설정</Title></Body>
+          <Right></Right>
+        </Header>
+      )
+    }
+  }
+
   render(){
     if (this.state.loading == true) {
       return (
@@ -189,32 +210,25 @@ class MypageScreen extends Component{
     } //else
     return (
       <Container>
-        <Header>
-            <Left>
-              <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
-                <Icon name = 'chevron-back' type = 'Ionicons'/>
-              </TouchableOpacity>
-            </Left>
-            <Body><Title>동네 설정</Title></Body>
-            <Right></Right>
-          </Header>
+        {this.renderHeader()}
         <Content scrollEnabled={false}>
-        <View style={{alignItems:'center', textAlign:'center'}}>
-        <Text/>
-        <Title>현재 위치는 "{user_addr.location.title}" 입니다.</Title>
-        <Text/>
-        <Text onPress={() => this.showNearLocationList()} style={{textDecorationLine: 'underline'}}>근처 동네 {locationList[this.state.value].count}개</Text>
-        <Slider
-          style={styles.slider}
-          onValueChange={(value)=>{this.showNearLocation(value)}}
-          minimumValue={0} //0:alone, 1: near, 2: normal, 3: far
-          maximumValue={3}
-          minimumTrackTintColor="#ff3377"
-          maximumTrackTintColor="#f4c2c2"
-          step={1}
-          value = {this.state.value}
-        />
+          <View style={{alignItems:'center', textAlign:'center'}}>
+            <Text/>
+            <Title>현재 위치는 "{user_addr.location.title}" 입니다.</Title>
+            <Text/>
+            <Text onPress={() => this.showNearLocationList()} style={{textDecorationLine: 'underline'}}>근처 동네 {locationList[this.state.value].count}개</Text>
+          <Slider
+            style={styles.slider}
+            onValueChange={(value)=>{this.showNearLocation(value)}}
+            minimumValue={0} //0:alone, 1: near, 2: normal, 3: far
+            maximumValue={3}
+            minimumTrackTintColor="#ff3377"
+            maximumTrackTintColor="#f4c2c2"
+            step={1}
+            value = {this.state.value}
+          />
         </View>
+
         <View style={styles.container}>
           <MapView
             ref={(map) => {this.map = map}}
@@ -237,6 +251,7 @@ class MypageScreen extends Component{
             />
           </MapView>
         </View>
+
         <Button style={styles.footer} onPress={() => {this.putRequest();}}>
           <Text style={{textAlign:'center'}}>현재 위치에서 동네 인증하기</Text>
         </Button>

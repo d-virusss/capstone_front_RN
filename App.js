@@ -96,7 +96,7 @@ const App = () => {
           headerBackTitle: '뒤로' }} />
 
         <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false, gestureEnabled: false}} />
-        <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{headerShown: false}}  />
+        <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{gestureEnabled: false, headerShown: false}}  />
         <Stack.Screen name="SettingGroup" component={SettingGroup} options={{ headerShown : false}} />
         <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{headerShown: false}}  />
         <Stack.Screen name="ProfileShow" component={ProfileShow} options={{ headerShown : false, }} />
