@@ -93,7 +93,7 @@ class receiveScreen extends Component{
         Authorization: this.state.token,
       },
     }).then((res) => {
-      this.props.navigation.navigate("Sign", { booking_info : res.data.booking_info});
+      this.props.navigation.navigate("Sign", { booking_info : res.data.booking_info, who: 'provider'});
     }).catch((err) => {
       console.log(err)
       Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])

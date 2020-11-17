@@ -46,7 +46,7 @@ class Post_provide extends Component {
 
   componentDidMount() {
     this.getToken()
-    console.log("component did mount ---")
+    console.log("component did mount --- providef qewt")
   }
 
   setPostInfo = (data) => {
