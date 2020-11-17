@@ -13,6 +13,7 @@ var formdata = new FormData();
 
 export default class Sign extends React.Component {
   booking_info = this.props.route.params.booking_info
+  who = this.props.route.params.who
   current_date = new Date()
 
   state = {
@@ -25,6 +26,7 @@ export default class Sign extends React.Component {
     this.getToken();
     console.log(this.state)
     console.log(this.booking_info)
+    console.log(this.who)
     console.log('component did mount ----------------')
   }
 
@@ -35,10 +37,18 @@ export default class Sign extends React.Component {
 
   setCertForm(){
     formdata = new FormData()
-    formdata.append('kakaocert[birthday]', this.booking_info.provider.birth)
-    formdata.append('kakaocert[number]', this.booking_info.provider.number)
-    formdata.append('kakaocert[name]', this.booking_info.provider.name)
-    formdata.append('kakaocert[token]', this.state.body)
+    if(this.who === 'provider'){
+      formdata.append('kakaocert[birthday]', this.booking_info.provider.birth)
+      formdata.append('kakaocert[number]', this.booking_info.provider.number)
+      formdata.append('kakaocert[name]', this.booking_info.provider.name)
+      formdata.append('kakaocert[token]', this.state.body)
+    }
+    else if(this.who === 'consumer'){
+      formdata.append('kakaocert[birthday]', this.booking_info.consumer.birth)
+      formdata.append('kakaocert[number]', this.booking_info.consumer.number)
+      formdata.append('kakaocert[name]', this.booking_info.consumer.name)
+      formdata.append('kakaocert[token]', this.state.body)
+    }
     console.log(formdata)
     console.log('in setCertForm --------------')
   }
