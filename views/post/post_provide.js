@@ -102,8 +102,16 @@ class Post_provide extends Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
-        Alert.alert("물품 등록", "물품 등록글이 작성되었습니다.", [{ text: '확인', style: 'cancel' }])
-        this.props.navigation.goBack()
+        Alert.alert("물품 등록",'물품 등록글이 작성되었습니다.',
+        [
+          {
+            text:'확인', 
+            onPress: () => this.props.navigation.goBack()}
+          ,
+          {
+            style:'cancel'
+          }
+        ])
         
       })
       .catch((e) => {
