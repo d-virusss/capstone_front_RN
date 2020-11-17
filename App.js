@@ -87,7 +87,7 @@ const App = () => {
         <Stack.Screen name="P_W_p" component={Post_provide} options={{ headerShown : false }} />
         <Stack.Screen name="P_W_c" component={Post_ask} options={{ headerShown : false }} />
         <Stack.Screen name="Seach" component={SearchBar} />
-        <Stack.Screen name="postIndex" component={PostIndex} options={{ headerShown: false}} />
+        <Stack.Screen name="postIndex" component={PostIndex} options={{ gestureEnabled : false, headerShown: false}} />
         <Stack.Screen name="PostShow" component={PostShow}options={{ headerShown: false }}/>
         <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />

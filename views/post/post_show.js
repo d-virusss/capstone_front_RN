@@ -143,6 +143,8 @@ class PostShow extends Component{
   }
 
   gochangeRequest(){
+    console.log(this.params)
+    console.log("--------------send to update")
     this.props.navigation.navigate('PostUpdate', { my_post : this.params})
   }
 
@@ -172,7 +174,7 @@ class PostShow extends Component{
       <View>
         <TouchableOpacity
           onPress={() => this.setState({ show_popover : false }, 
-          () => { this.props.navigation.navigate("PostUpdate", { my_post : this.params.my_post } ) }) }>
+          () => { this.props.navigation.navigate("PostUpdate", { my_post : this.params.post.post_info } ) }) }>
           <Text style={styles.popoverel}>수정</Text>
         </TouchableOpacity>
         <TouchableOpacity

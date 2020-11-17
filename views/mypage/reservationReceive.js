@@ -93,7 +93,6 @@ class receiveScreen extends Component{
         Authorization: this.state.token,
       },
     }).then((res) => {
-      console.log(res)
       this.props.navigation.navigate("Sign", { booking_info : res.data.booking_info});
     }).catch((err) => {
       console.log(err)
@@ -108,7 +107,6 @@ class receiveScreen extends Component{
         Authorization: this.state.token,
       },
     }).then((res) => {
-      console.log(res)
       Alert.alert("거절되었습니다", "",[{text:'확인', style:'cancel'}])
     }).catch((err) => {
       Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
@@ -116,8 +114,6 @@ class receiveScreen extends Component{
   }
 
   showOptionButton(){
-    console.log("showoptoin button -------------")
-    console.log(reservation_info.item_id)
     if(reservation_info.item_id){
       return(
         <Footer style={{backgroundColor:'white', borderColor:'transparent'}}>
@@ -140,7 +136,6 @@ class receiveScreen extends Component{
 
   makeList() {
     return reservation_list.map((ele) => {
-      console.log(ele)
       return (
         <ListItem key={ele.booking_info.id}
           button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id, ele.booking_info.start_at, ele.booking_info.end_at)}>

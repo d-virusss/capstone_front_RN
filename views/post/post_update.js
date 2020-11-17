@@ -36,7 +36,6 @@ class PostUpdate extends Component {
 
   componentDidMount() {
     this.getToken()
-    console.log("component did mount ---")
     console.log(this.params)
     // this.setState({image: formdata}, () => {console.log(this.state.image)})
   }
@@ -142,7 +141,7 @@ class PostUpdate extends Component {
         </View>
         <Container>
           <TouchableOpacity onPress={this.shownowstate()} style={{ padding: 10 }}>
-            <Text>state값 확인</Text>
+            <Text></Text>
           </TouchableOpacity>
           <Content>
             <Form>
