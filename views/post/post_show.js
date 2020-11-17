@@ -202,8 +202,6 @@ class PostShow extends Component{
   }
 
   render(){
-    console.log("reder")
-    console.log(this.state.is_your_post)
     if(this.state.loading) return null;
     else{
     return(
@@ -249,7 +247,7 @@ class PostShow extends Component{
                     </View>
                   
                     <Right style={styles.rentCountArea}>
-                        <Text style={styles.providerLocation}>지난 대여 수  {this.state.rent_count}</Text>
+                        <Text style={styles.providerLocation}>지난 대여 수 {this.state.rent_count}</Text>
                     </Right>
                   </Item>
                   <Item regular style={styles.postbody}>

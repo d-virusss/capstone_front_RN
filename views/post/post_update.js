@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Content, Container, Item, Header, Left, Right, Title, Body, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
 import { View, ScrollView, StyleSheet, TextInput, Alert, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard, } from "react-native";
 import CategoryPicker from './categorypicker';
+import Spinner from 'react-native-loading-spinner-overlay';
 import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
@@ -61,6 +62,8 @@ class PostUpdate extends Component {
     this.setState({loading : true})
     this.setPostInfo(this.state)
     console.log(formdata)
+
+    this.setState({ loading: true })
     api
       .put(`/posts/${this.state.post_id}`, (formdata), {
         headers: {

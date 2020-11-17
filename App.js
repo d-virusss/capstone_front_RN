@@ -1,6 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {Alert, StyleSheet} from 'react-native';
-import React, {useEffect} from 'react';
+import Toast from 'react-native-toast-message';
+import React, { useEffect } from 'react';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import LoginScreen from './views/login/caller';
 import Register_form from './views/registration/caller';

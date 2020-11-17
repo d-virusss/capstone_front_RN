@@ -40,8 +40,26 @@ export default class SignState extends React.Component {
       Alert.alert("인증 대기", "인증을 완료해주세요.", [{ text: '확인', style: 'cancel' }])
     }
     else if (this.state.eSignState === 1) {
-      Alert.alert("인증 완료", "계약서 서명이 완료되었습니다.", [
-        { text: '확인', style: 'cancel', onPress: () => { this.props.navigation.navigate("MyPage") } }])
+      api
+        .get(`/kakaocert/verifyESign?receiptId=${this.state.receipt_id}&booking_id=${this.state.booking_id}`, {
+          headers: {
+            'Authorization': this.state.token,
+          }
+        })
+        .then((res) => {
+          console.log("3번째 요청 ----------------성공------")
+          console.log(res)
+          Alert.alert("인증 완료", "계약서 서명이 완료되었습니다.", [
+            {
+              text: '확인', style: 'cancel', onPress: () => {
+                this.props.navigation.navigate("MyPage")
+              }
+            }])
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+
     }
     else if(this.state.eSignState === 2){
       Alert.alert("인증 시간 만료", "인증 요청이 종료되었습니다.", [
@@ -77,9 +95,6 @@ export default class SignState extends React.Component {
       <Container>
         <Header>
           <Left>
-            <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name='chevron-back' type='Ionicons' />
-            </TouchableOpacity>
           </Left>
           <Body><Title>서명 확인</Title>
           </Body>

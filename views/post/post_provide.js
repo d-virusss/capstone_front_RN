@@ -4,6 +4,7 @@ import { Content, Container, Item, Header, Left, Right, Title, Body, Label,
 import { View, ScrollView, StyleSheet, TextInput, Alert, TouchableOpacity,
     TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from "react-native";
 import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-toast-message';
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -78,15 +79,15 @@ class Post_provide extends Component {
       return;
     }
     if(this.state.price.length === 0){
-      Alert.alert("가격을 입력해주세요")
+      Alert.alert("물품 등록 실패", "게시글 내용을 입력해주세요."[{ text: '확인', style: 'cancel' }])
       return;
     }
     if(this.state.body.length === 0){
-      Alert.alert("게시글내용을 입력해주세요")
+      Alert.alert("물품 등록 실패", "게시글 내용을 입력해주세요." [{ text: '확인', style: 'cancel' }])
       return;
     }
     else if(this.state.body.length < 10){
-      Alert.alert("게시글내용이 너무 짧습니다")
+      Alert.alert("물품 등록 실패", "게시글 내용이 너무 짧습니다.", [{ text: '확인', style: 'cancel' }])
       return;
     }
 
@@ -101,8 +102,9 @@ class Post_provide extends Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
+        Alert.alert("물품 등록", "물품 등록글이 작성되었습니다.", [{ text: '확인', style: 'cancel' }])
         this.props.navigation.goBack()
-        Alert.alert("물품 등록", "물품 등록글이 작성되었습니다.",[{text:'확인', style:'cancel'}])
+        
       })
       .catch((e) => {
         console.log('send post failed!!!!' + e)
