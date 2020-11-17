@@ -37,6 +37,7 @@ class PostUpdate extends Component {
   componentDidMount() {
     this.getToken()
     console.log("component did mount ---")
+    console.log(this.params)
     // this.setState({image: formdata}, () => {console.log(this.state.image)})
   }
 
