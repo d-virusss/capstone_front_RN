@@ -140,7 +140,9 @@ function ChatRoom ({route , navigation}) {
           console.log(response)
           let chatDataList= [];
           if(response.data.length>0) updateFlag = 1;
-          response.data.map(async (loadMessage) => {
+          let len = response.data.length
+          for(let i = len-1; i>=0; i--){
+            loadMessage = response.data[i]
             let gotChatData = 
             {
               _id: null,
@@ -161,7 +163,7 @@ function ChatRoom ({route , navigation}) {
             console.log(gotChatData.text);
             chatDataList[chatDataList.length] = gotChatData;
             console.log(JSON.stringify(chatDataList));
-            await db.transaction((tx)=>{
+            db.transaction((tx)=>{
               console.log('in get transaction')
               tx.executeSql('INSERT INTO message (message_id, chat_id, sender_id, message_text, message_created, image_url) VALUES(?,?,?,?,?,?)',
               [gotChatData._id,chatID,loadMessage.message_info.sender.id,gotChatData.text,gotChatData.createdAt,gotChatData.image],(tx, results)=>{
@@ -170,7 +172,7 @@ function ChatRoom ({route , navigation}) {
                 console.log("dbdbdb error ", error)
               })
             })
-          })
+          }
           console.log(response)
           if(response.data.length > 0) {
             updateFlag=1;
@@ -224,6 +226,7 @@ function ChatRoom ({route , navigation}) {
             chatDataList[chatDataList.length] = gotChatData;
           }
           updateFlag = 1;
+          setTimeout(forTimeout, 50);
           onGet(chatDataList);
         }
       })
