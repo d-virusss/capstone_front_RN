@@ -4,7 +4,6 @@ import { Content, Container, Item, Header, Left, Right, Title, Body, Label,
 import { View, ScrollView, StyleSheet, TextInput, Alert, TouchableOpacity,
     TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from "react-native";
 import Spinner from 'react-native-loading-spinner-overlay';
-import Toast from 'react-native-toast-message';
 import CategoryPicker from './categorypicker';
 import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';

@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import FormData from 'form-data'
 import { CommonActions, StackActions } from '@react-navigation/native';
-import Spinner from 'react-native-loading-spinner-overlay';
 
 const image_info = {
   uri: '',
