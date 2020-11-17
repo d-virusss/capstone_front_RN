@@ -116,8 +116,7 @@ class receiveScreen extends Component{
   showOptionButton(){
     if(reservation_info.item_id){
       return(
-        <Footer style={{backgroundColor:'white', borderColor:'transparent'}}>
-          <FooterTab style={styles.footer}>
+          <View style={styles.footer}>
             <Button transparent style={styles.bottomButtons}
             onPress={() => {this.accept()}}>
               <Text style = {styles.footerText}>승인</Text>
@@ -126,8 +125,7 @@ class receiveScreen extends Component{
             onPress= {() => {this.reject()}}>
               <Text style = {styles.footerText}>거절</Text>
             </Button>
-          </FooterTab>
-        </Footer>
+          </View>
       )
     }else{
       return null
@@ -174,10 +172,9 @@ class receiveScreen extends Component{
           <Content>
           {this.makeList()}
           </Content>
-          <Content>
           {this.showOptionButton()}
-          </Content>
         </Container>
+        
       )
     } 
   };
@@ -186,7 +183,7 @@ class receiveScreen extends Component{
 let {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container:{
-    height : height,
+    height : height*0.1,
     width : width,
   },
   footer: {
@@ -194,10 +191,12 @@ const styles = StyleSheet.create({
     flex:0.1,
     left: 0,
     right: 0,
-    bottom: -30,
+    top:height*0.75,
     backgroundColor:'#ff3377',
     flexDirection:'row',
+    height:80,
     alignItems:'center',
+    paddingTop: 7
   },
   bottomButtons: {
     alignItems:'center',

@@ -121,9 +121,6 @@ class receiveScreen extends Component{
           <Content>
           {this.makeList()}
           </Content>
-          <Content>
-       
-          </Content>
         </Container>
       )
     } 
