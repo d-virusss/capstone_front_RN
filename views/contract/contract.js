@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { Container, Content, Form, Item, Input, Label, Button, Text, 
   Header, Card, CardItem, Body, Left, Right, Icon, Title, Textarea } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
+import Spinner from 'react-native-loading-spinner-overlay';
 import api from '../shared/server_address'
 import FormData from 'form-data'
 
@@ -16,6 +17,7 @@ export default class Contract extends React.Component {
     title : "",
     post_id : this.my_post.id,
     body : this.my_post.contract,
+    loading : false,
   };
 
   componentDidMount() {
@@ -38,6 +40,11 @@ export default class Contract extends React.Component {
   makeContractRequest() {
     console.log("start update post data ---- add contract ")
     this.setContract(this.state)
+    if(this.state.body.length > 499){
+      Alert.alert("수정 실패", "게약서는 500자 이내로 작성해주세요.", [{ text: '확인', style: 'cancel' }])
+      return;
+    }
+
     api
       .put(`/posts/${this.state.post_id}`, (formdata), {
         headers: {
@@ -47,7 +54,12 @@ export default class Contract extends React.Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
-        // this.props.navigation.navigate("postIndex")
+        Alert.alert("수정 완료", "계약서가 수정되었습니다.", [
+          {
+            text: '확인',
+            onPress: () => this.props.navigation.navigate("postIndex"),
+          }
+        ])
       })
       .catch((e) => {
         console.log('send post failed!!!!' + e)
@@ -74,6 +86,7 @@ export default class Contract extends React.Component {
             </TouchableOpacity>
           </Right>
         </Header>
+        <Spinner visible={this.state.loading} style={{ color: '#ff3377'  }} />
         <ScrollView>
           <Content style={{padding : 20}}>
             <Card style={ styles.card }>

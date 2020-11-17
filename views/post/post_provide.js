@@ -78,11 +78,11 @@ class Post_provide extends Component {
       return;
     }
     if(this.state.price.length === 0){
-      Alert.alert("물품 등록 실패", "게시글 내용을 입력해주세요."[{ text: '확인', style: 'cancel' }])
+      Alert.alert("물품 등록 실패", "게시글 내용을 입력해주세요.", [{ text: '확인', style: 'cancel' }])
       return;
     }
     if(this.state.body.length === 0){
-      Alert.alert("물품 등록 실패", "게시글 내용을 입력해주세요." [{ text: '확인', style: 'cancel' }])
+      Alert.alert("물품 등록 실패", "게시글 내용을 입력해주세요.", [{ text: '확인', style: 'cancel' }])
       return;
     }
     else if(this.state.body.length < 10){
@@ -105,7 +105,7 @@ class Post_provide extends Component {
         [
           {
             text:'확인', 
-            onPress: () => this.props.navigation.goBack()}
+            onPress: () => this.props.navigation.navigate("postIndex")}
           ,
           {
             style:'cancel'

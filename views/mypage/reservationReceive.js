@@ -72,6 +72,7 @@ class receiveScreen extends Component{
     api.get('/bookings?received=true', {
         headers: {Authorization: this.state.token},
     }).then((res) => {
+        console.log(res)
         reservation_list = res.data;
         this.setState({loading: false});
     }).catch((err) => {
@@ -115,6 +116,7 @@ class receiveScreen extends Component{
   }
 
   showOptionButton(){
+    console.log(reservation_info)
     if(reservation_info.item_id){
       return(
           <View style={styles.footer}>
