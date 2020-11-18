@@ -11,7 +11,7 @@ import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
 import db from '../shared/chat_db';
-import { Bubble, Time, Composer} from 'react-native-gifted-chat'
+import { Bubble, Time, Composer, Avatar, Message} from 'react-native-gifted-chat'
 
 IconM.loadFont();
 
@@ -238,6 +238,11 @@ function ChatRoom ({route , navigation}) {
       })
     })
   }
+  /*db.transaction((tx)=>{
+    tx.executeSql('drop table message',
+    (tx,results)=>console.log('create execute'),
+    (error)=>console.log(error));
+  })*/
   db.transaction((tx)=>{
     tx.executeSql('create table if not exists message (message_id integer primary key, chat_id integer, sender_id integer, message_text text, message_created text, image_url text)',[],
     (tx,results)=>console.log('create execute'),
@@ -315,10 +320,12 @@ function ChatRoom ({route , navigation}) {
       </Header>
       </TouchableOpacity>
       <GiftedChat
+        renderAvatarOnTop = {true}
         showAvatarForEveryMessage = {true}
         renderTime={renderTime}
         renderBubble = {renderBubble}
         renderComposer = {renderComposer}
+        renderMessage = {renderMessage}
         messages={messages}
         onSend={messages => onSend(messages)}
         onPressAvatar={()=> navigation.navigate('ProfileShow',{other_id : other_id})}
@@ -336,14 +343,10 @@ function renderBubble (props) {
       {...props}
       wrapperStyle={{
         left:{
-          //backgroundColor : '#ffffff',
-          padding: 2,
-          margin: '1%'
+      
         },
         right: {
           backgroundColor: '#ff3377',
-          padding: 2,
-          margin: '1%'
         }
       }}
       //textProps={{ style: {color: props.position === 'right' ? 'black': 'black', } }}
@@ -366,6 +369,17 @@ function renderTime(props) {
 
 function renderComposer(props) {
   return <Composer {...props} placeholder={'메세지를 입력하세요'} />;
+}
+
+function renderMessage(props){
+  return <Message
+    {...props}
+    containerStyle={{
+      left:{
+        padding:'1%'
+      }
+    }}
+  />
 }
 
 const styles = StyleSheet.create({
