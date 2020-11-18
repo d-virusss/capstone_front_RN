@@ -1,16 +1,22 @@
 import React, {Component} from 'react';
 import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Icon } from 'native-base';
-import { ScrollView, RefreshControl } from "react-native";
+import { ScrollView, RefreshControl, DeviceEventEmitter } from "react-native";
 import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
 import number_delimiter from '../shared/number_delimiter'
+
+var searchModel= {
+  id : '', // category_id (default 0)
+  content : '',
+}
 
 class AskIndex extends Component{
   state = {
     token : '',
     posts : [],
     refreshing: '',
+    id:0,
   }
 
   _onRefresh = () => {
@@ -50,22 +56,47 @@ class AskIndex extends Component{
   }
 
   sendIndexRequest() {
-    console.log("give me post-index!-----------------")
+    console.log("----------------")
+    console.log(searchModel)
+    if(searchModel.id == 0){
+      api
+      .get('/posts?post_type=ask', {
+        headers: {
+          Authorization: this.state.token,
+        },
+        params: {
+          "q[title_or_body_cont]" : searchModel.content,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        this.setState({posts: res.data});
+      })
+      .catch(function (e) {
+        console.log('send post failed!!!!' + e);
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
+      });
+
+      return;
+    }
     api
       .get('/posts?post_type=ask', {
         headers: {
-          'Authorization': this.state.token
-        }
+          Authorization: this.state.token,
+        },
+        params: {
+          "q[category_id_eq]" : searchModel.id,
+          "q[title_or_body_cont]" : searchModel.content,
+        },
       })
       .then((res) => {
-        console.log("ask_index send success!")
-        console.log(res)
-        this.setState({ posts: res.data }, () => { })
+        console.log(res);
+        this.setState({posts: res.data});
       })
       .catch(function (e) {
-        console.log('send post-ask failed!!!!' + e)
+        console.log('send post failed!!!!' + e);
         Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
-      })
+      });
   }
 
   getToken = async () => {
@@ -75,8 +106,25 @@ class AskIndex extends Component{
   }
 
   componentDidMount() {
-    console.log("render post-ask")
     this.getToken()
+    this.eventListener = DeviceEventEmitter.addListener('categoryId', this.catetoryEventHandler);
+    this.eventListener = DeviceEventEmitter.addListener('searchContent', this.searchEventHandler)
+  }
+
+  componentWillUnmount(){
+    this.eventListener.remove();
+}
+
+  catetoryEventHandler = (e) => {
+    console.log("category event handler_ask")
+    searchModel.id = e.id;
+    this.sendIndexRequest();
+  }
+
+  searchEventHandler = (e) => {
+    console.log("search event handler_ask");
+    searchModel.content = e.search;
+    this.sendIndexRequest();
   }
 
   render(){
