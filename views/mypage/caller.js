@@ -153,7 +153,7 @@ class MypageScreen extends Component {
       <Container>
         <Header>
           <Body>
-            <Title>마이 페이지</Title>
+            <Title>마이페이지</Title>
           </Body>
           <Right>
             {this.renderPopover()}
@@ -167,23 +167,23 @@ class MypageScreen extends Component {
               thumbnail
               style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop:'3%'}}>
               <Thumbnail source={{uri: this.state.myImage}} />
-              <View>
-                <Body>
-                  <Text>{this.state.myName}</Text>
-                  <Text note numberOfLines={1}>
-                    {this.state.myGroup}
-                  </Text>
-                  <Text note numberOfLines={2}>
-                    {this.state.myLocation}
-                  </Text>
-                </Body>
-              </View>
+              <Body style={{ marginLeft : '5%' }}>
+                <View style={{ flexDirection : 'row' }}>
+                <Text>{this.state.myName}</Text>
+                <Text note numberOfLines={1}>
+                  {this.state.myGroup}
+                </Text>
+                  </View>
+                <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
+                  {this.state.myLocation}
+                </Text>
+              </Body>
               <View></View>
             </ListItem>
 
 
             <ListItem
-              style={{flexDirection: 'row', justifyContent: 'center', height: 100}}>
+              style={{flexDirection: 'row', justifyContent: 'center', height: 100, marginTop: '3%'}}>
               <Button light style={styles.btn}
                 onPress={() => {this.props.navigation.navigate('ProviderRentList')}}>
                 <Icon type="MaterialCommunityIcons" name="receipt" />
@@ -207,7 +207,7 @@ class MypageScreen extends Component {
             <ListItem button onPress={() => { {this.props.navigation.navigate('MyPage_Location')} }}>
               <Left>
                 <Icon type="Ionicons" name="location-sharp" />
-                <Text style={styles.listText}> 동네 인증하기</Text>
+                <Text style={styles.listText}> 동네 인증</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />

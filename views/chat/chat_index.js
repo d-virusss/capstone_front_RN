@@ -42,10 +42,12 @@ class ListProfile extends Component {
   }
   render(){
     return(
-      <ListItem avatar style={{}}>
+      <ListItem avatar noBorder style={{
+        borderColor:'#cccccc'
+      }}>
         <Left>
-          <TouchableOpacity onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI})}>
-            <Thumbnail source={{ uri: this.props.imgURI||'empty'}} style={{ marginTop: -8, width : 45, height: 45 }} />
+          <TouchableOpacity style = {{paddingBottom:14}} onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI})}>
+            <Thumbnail source={{ uri: this.props.imgURI||'https://applepink.s3.amazonaws.com/uploads/user/image/1/square_447087af-da95-4a04-94c4-2ccccc782c28applePink_logo.png'}} style={{ width : 60, height: 60, }} />
           </TouchableOpacity>
         </Left>
         <Body style={{paddingVertical: 30, alignSelf: 'center'}} >
