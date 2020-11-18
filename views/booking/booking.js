@@ -235,7 +235,19 @@ class bookingScreen extends Component{
                 marginBottom : '3%',
                 height: 80,
               }}
-              onPress = {() => this.bookingCreateRequest()}
+              onPress = {() => {
+                  Alert.alert("예약 신청", "예약을 신청하시겠습니까?", [
+                    {
+                      text: '취소',
+                      style: 'cancel'
+                    },
+                    {
+                      text: '확인',
+                      onPress: () => this.bookingCreateRequest(),
+                    },
+                  ])
+                }
+              }
             >
               <Text style = {{color : 'white', fontSize:20, fontWeight: 'bold'}}>예약 신청하기</Text>
             </Button>
@@ -246,7 +258,18 @@ class bookingScreen extends Component{
                 padding : 4,
                 margin : '1%',
               }}
-              onPress = {() => this.removeBooking()}
+              onPress = {() => {
+                Alert.alert("예약 취소", "예약을 취소하시겠습니까?", [
+                  {
+                    text: '취소',
+                    style: 'cancel',
+                  },
+                  {
+                    text: '확인',
+                    onPress: () => this.removeBooking(),
+                  }
+                ])
+              }}
             >
               <Text style = {{color : 'white', fontSize: 20, fontWeight: 'bold'}}>예약 취소하기</Text>
             </Button>

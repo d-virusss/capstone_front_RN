@@ -70,7 +70,7 @@ class PostUpdate extends Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
-        Alert.alert("수정 완료",'',
+        Alert.alert("수정 완료",'게시물을 수정했습니다.',
         [
           {
             text:'확인', 
@@ -148,8 +148,19 @@ class PostUpdate extends Component {
           </Body>
           <Right>
             <TouchableOpacity
-              style={{ marginRight: '4%' }}
-              onPress={() => this.makeUpdateRequest()}>
+              style={{ marginRight: '4%' }} makeUpdateRequest
+              onPress={() => {
+                Alert.alert("게시물 수정", "게시물을 수정하시겠습니까?", [
+                  {
+                    text: '확인',
+                    onPress: () => this.makeUpdateRequest()
+                  },
+                  {
+                    text: '취소',
+                    style: 'cancel',
+                  }
+                ])
+              }}>
               <Text>수정완료</Text>
             </TouchableOpacity>
           </Right>

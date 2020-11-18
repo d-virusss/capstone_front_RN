@@ -75,7 +75,6 @@ class PostShow extends Component{
     console.log('------- enter post_show -------');
     this.getToken().then(() => {
       this.setParams();
-      this.getPostInfo();
     })
   }
 
