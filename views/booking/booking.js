@@ -121,6 +121,8 @@ class bookingScreen extends Component{
         else {
           this.state.booked = true;
           this.state.booking_id = response.data.booking_info.id;
+          this.state.startDate = new Date(response.data.booking_info.start_at);
+          this.state.endDate = new Date(response.data.end_at);
         }
       })
       .catch((error) => {
@@ -179,18 +181,29 @@ class bookingScreen extends Component{
           </View>
           <View style = {{width : '30%', justifyContent : 'center'}}>
             <Text style = {{margin : '2%', fontSize : 17}}>대여가격</Text>
-    <Text style = {{margin : '2%', fontSize : 17}}>{this.state.totalPrice.toLocaleString() + ' 원'}</Text>
+            <Text style = {{margin : '2%', fontSize : 17}}>{this.state.totalPrice.toLocaleString() + ' 원'}</Text>
           </View>
         </Header>
-        <Calendar
-          onChange={(range) => { console.log(range); if(typeof(range.endDate) != "undefined"){
-            this.calculateDate(range); this.calculatePrice()
-          }}} 
+        {this.state.booked == false && (<Calendar
+          onChange={(range) => { 
+            console.log(range); 
+            if(typeof(range.endDate) != "undefined"){
+              this.calculateDate(range); 
+              this.calculatePrice();
+            }
+          }} 
           startDate = {new Date(this.state.startYear, this.state.startMonth, this.state.startDay)}
           endDate = {new Date(this.state.endYear, this.state.endMonth, this.state.endDay)}
           numberOfMonths = {3}
           theme={ theme }
-        />
+        />)}
+        {this.state.booked == true && (<Calendar
+          onChange = {(range)=>{console.log}}
+          startDate = {new Date(this.state.startDate.getFullYear(),this.state.startDate.getMonth(),this.state.startDate.getDate())}
+          endDate = {new Date(this.state.endDate.getFullYear(),this.state.endDate.getMonth(),this.state.endDate.getDate())}
+          numberOfMonths = {3}
+          theme={ theme }
+        />)}
         <View style = {{
           backgroundColor : '#ff3377',
           justifyContent : 'center',
