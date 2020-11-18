@@ -68,6 +68,10 @@ class MypageScreen extends Component {
     this.props.navigation.navigate('MyItemList')
   }
 
+  BookingList(){
+    this.props.navigation.navigate('BookingList')
+  }
+
   getToken = async () => {
     let value = await AsyncStorage.getItem("token")
     this.state.token = value
@@ -203,10 +207,10 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem>
+            <ListItem button onPress={() => {this.BookingList()}}>
               <Left>
                 <Icon type="Feather" name="list" />
-                <Text style={ styles.listText }> 거래 목록</Text>
+                <Text style={ styles.listText }> 대여 목록</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
