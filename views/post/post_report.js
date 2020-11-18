@@ -1,18 +1,29 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, TouchableOpacity } from 'react-native';
 import BottomTab from '../shared/bottom_tab';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, 
   Text, Thumbnail, Footer, FooterTab, Content, ListItem, List, Separator, 
-  Card, CardItem,
+  Card, CardItem, 
 } from 'native-base';
-import IconA from 'react-native-vector-icons/AntDesign';
-import IconB from 'react-native-vector-icons/Feather';
-import IconC from 'react-native-vector-icons/EvilIcons';
-IconA.loadFont();
-IconB.loadFont();
-IconC.loadFont();
+import AsyncStorage from '@react-native-community/async-storage';
+import api from '../shared/server_address'
+import FormData from 'form-data'
 
 class PostReportScreen extends Component {
+  post = this.props.route.params
+
+  getToken = async () => {
+    let value = await AsyncStorage.getItem("token")
+    this.state.token = value
+    console.log(this.state.token)
+  }
+
+  componentDidMount() {
+    this.getToken()
+    console.log(post)
+    console.log("component did mount --- report")
+  }
+  
   goToSetLocation() {
     this.props.navigation.navigate('MyPage_Location');
     console.log('Navigation router run...');
@@ -37,6 +48,17 @@ class PostReportScreen extends Component {
 
     return (
       <Container>
+
+        <Header>
+          <Left>
+            <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
+              <Icon name='chevron-back' type='Ionicons' />
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>신고하기</Title></Body>
+          <Right></Right>
+        </Header>
+
         <Content>
           <List>
           <ListItem

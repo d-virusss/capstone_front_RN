@@ -255,7 +255,11 @@ class PostShow extends Component{
                 </TouchableOpacity>
               )}>
               <TouchableOpacity
-                  onPress={() => this.setState({ show_popover: false }, () => { updateFlag = 1; this.props.navigation.navigate('PostReport',{onGoBack: ()=>{this.getPostInfo(); }})})}>
+                  onPress={() => this.setState({ show_popover: false }, () => { 
+                    updateFlag = 1; this.props.navigation.navigate('PostReport',{
+                      onGoBack: ()=>{this.getPostInfo(); },
+                      post : this.params
+                    })})}>
                 <Text style={styles.popoverel}>신고하기</Text>
               </TouchableOpacity>
               {this.renderUpdateandDelete()}

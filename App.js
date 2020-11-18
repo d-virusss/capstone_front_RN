@@ -94,7 +94,7 @@ const App = () => {
         <Stack.Screen name="Seach" component={SearchBar} />
         <Stack.Screen name="postIndex" component={PostIndex} options={{ gestureEnabled : false, headerShown: false}} />
         <Stack.Screen name="PostShow" component={PostShow}options={{ headerShown: false }}/>
-        <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
+        <Stack.Screen name="PostReport" component={PostReport} options={{headerShown: false,}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
         <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
         <Stack.Screen name="Booking" component={Booking} options={{ headerShown : false}} />
