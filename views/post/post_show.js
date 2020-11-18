@@ -35,6 +35,7 @@ class PostShow extends Component{
     val: -1,
     loading:true,
     is_your_post:'',
+    isBooked: null,
   };
 
   getToken = async () => {
@@ -68,6 +69,7 @@ class PostShow extends Component{
     this.state.provider_id = this.params.post.user.user_info.id,
     this.state.provider_profile_image = this.params.post.user.user_info.image,
     this.state.rent_count = this.params.post.post_info.rent_count,
+    this.state.isBooked = this.params.post.post_info.is_booked,
 
     this.state.is_your_post = this.params.post.user.user_info.id == parseInt(user_id) ? true : false;
     this.setState({loading : false})
@@ -192,10 +194,14 @@ class PostShow extends Component{
           <Button transparent onPress={() => { this.makeCallchat_navigate() }}>
             <Text style={{color: 'orange', fontWeight : 'bold', fontSize:17}}>채팅</Text>
           </Button>
-          <Button transparent
+          {this.state.isBooked == false && (<Button transparent
             onPress={() => { this.props.navigation.navigate('Booking', { post_id: this.state.post_id, }) }} >
             <Text style={{ fontWeight: 'bold', fontSize: 17 }}>예약</Text>
-          </Button>
+          </Button>)}
+          {this.state.isBooked == true && (<Button transparent
+            onPress={() => { this.props.navigation.navigate('Booking', { post_id: this.state.post_id, }) }} >
+            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>예약취소</Text>
+          </Button>)}
         </FooterTab>
       )
     }
