@@ -96,7 +96,7 @@ class ProviderRentList extends Component {
 
   render() {
     return (
-      <View>
+      <Container>
         <Header>
           <Left>
             <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
@@ -107,27 +107,25 @@ class ProviderRentList extends Component {
           <Right></Right>
         </Header>
 
-        <ScrollView>
-          <Content>
-            <Tabs>
-              <Tab heading={<TabHeading transparent><Text>대여 중</Text></TabHeading>}>
-                <Content>
-                  <List>
-                    {this.makeRentList(this.state.after_booking)}
-                  </List>
-                </Content>
-              </Tab>
-              <Tab heading={<TabHeading transparent><Text>지난 대여</Text></TabHeading>}>
-                <Content>
-                  <List>
-                    {this.makeCompletedList(this.state.after_booking)}
-                  </List>
-                </Content>
-              </Tab>
-            </Tabs>
-          </Content>
-        </ScrollView>
-      </View>
+        <Content>
+          <Tabs>
+            <Tab heading={<TabHeading transparent><Text>대여 중</Text></TabHeading>}>
+              <Content>
+                <List>
+                  {this.makeRentList(this.state.after_booking)}
+                </List>
+              </Content>
+            </Tab>
+            <Tab heading={<TabHeading transparent><Text>지난 대여</Text></TabHeading>}>
+              <Content>
+                <List>
+                  {this.makeCompletedList(this.state.after_booking)}
+                </List>
+              </Content>
+            </Tab>
+          </Tabs>
+        </Content>
+      </Container>
     );
   }
 }
