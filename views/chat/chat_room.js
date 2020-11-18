@@ -24,6 +24,7 @@ let myID = -1;
 let other_id=-1;
 let other_nickname = '';
 let avatarURI='empty';
+let postInfo = [];
 
 function forTimeout(){
   return 1;
@@ -70,6 +71,7 @@ function ChatRoom ({route , navigation}) {
             })
             .then((response)=>{
               console.log(response)
+              postInfo = response.data;
               setPostTitle(response.data.post_info.title);
               setPostImg(response.data.post_info.image);
             })
@@ -283,17 +285,10 @@ function ChatRoom ({route , navigation}) {
                 onPress={() => {setShowPopover(false); messageGetRequest()}}>
                 <Text style={styles.popoverel}>새로고침</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => Alert.alert("집에가고 싶나?")}>
-                <Text style={styles.popoverel}>힘들 떄</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => Alert.alert("히히 못가")}>
-                <Text style={styles.popoverel}>집가기</Text>
-              </TouchableOpacity>
             </Popover>
         </Right>
       </Header>
+      <TouchableOpacity onPress ={()=>{navigation.navigate('PostShow',{post: postInfo})}}>
       <Header>
         <Left>
           <Image source = {{uri: post_img || "empty"}} style={{
@@ -306,9 +301,10 @@ function ChatRoom ({route , navigation}) {
           <Text>{post_title}</Text>
         </Body>
         <Right>
-
+          <Button transparent></Button>
         </Right>
       </Header>
+      </TouchableOpacity>
       <GiftedChat
         showAvatarForEveryMessage = {true}
         listViewProps={{
