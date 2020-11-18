@@ -43,7 +43,8 @@ class LoginScreen extends Component {
 
   getToken = async() =>{
     myL = await AsyncStorage.getItem('my_location');
-    console.log(myL)
+    let iiiiid = await AsyncStorage.getItem('user_id');
+    console.log(iiiiid)
   }
   makeRequest (){
     if (userinfo.user.email == ''){
@@ -92,7 +93,7 @@ class LoginScreen extends Component {
         AsyncStorage.setItem('token', response.data.token);
         AsyncStorage.setItem('user_id', String(response.data.id));
         AsyncStorage.setItem('my_location', String(response.data.location_auth));
-        
+        this.getToken();
         if ((response.data.location_auth) != null) {// already has location
           this.props.navigation.dispatch(
             CommonActions.reset({
