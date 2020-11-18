@@ -32,7 +32,8 @@ import db from './views/shared/chat_db'
 import Sign from './views/sign/sign'
 import SignState from './views/sign/check_sign_state'
 import LocationDetail from './views/mypage/location_detail'
-import RentList from './views/mypage/rent_list';
+import ProviderRentList from './views/mypage/provider_rent_list';
+import ConsumerRentList from './views/mypage/consumer_rent_list';
 
 const Stack = createStackNavigator();
 
@@ -101,12 +102,13 @@ const App = () => {
         <Stack.Screen name="Booking" component={Booking} options={{ headerShown : false}} />
 
         <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false, gestureEnabled: false}} />
+        <Stack.Screen name="ProviderRentList" component={ProviderRentList} options={{ headerShown: false, }} />
+        <Stack.Screen name="ConsumerRentList" component={ConsumerRentList} options={{ headerShown: false, }} />
         <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{gestureEnabled: false, headerShown: false}}  />
         <Stack.Screen name="SettingGroup" component={SettingGroup} options={{ headerShown : false}} />
         <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{headerShown: false}}  />
         <Stack.Screen name="ProfileShow" component={ProfileShow} options={{ headerShown : false, }} />
         <Stack.Screen name="ProfileShowList" component={ProfileShowList} options={{ headerShown : false, }} />
-        <Stack.Screen name="RentList" component={RentList} options={{ headerShown : false, }} />
         <Stack.Screen name="MyItemList" component={MyItemList} options={{ headerShown : false }} />
         <Stack.Screen name="Reservation" component={ManageReservation} options={{ headerShown: false }} />
         <Stack.Screen name="LocationDetail" component={LocationDetail} options={{headerShown : false}}/>

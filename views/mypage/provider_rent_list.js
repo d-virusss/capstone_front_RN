@@ -9,7 +9,7 @@ import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/Ionicons'
 IconM.loadFont()
 
-class RentList extends Component {
+class ProviderRentList extends Component {
   state = {
     token: '',
     myId: '',
@@ -120,4 +120,4 @@ class RentList extends Component {
 const styles = StyleSheet.create({
 });
 
-export default RentList;
+export default ProviderRentList;
