@@ -204,7 +204,7 @@ class MypageScreen extends Component {
 
             <Separator bordered style={{ height: '1%'}}></Separator>
 
-            <ListItem button onPress={() => { {this.props.navigation.navigate('MyPgae_Location')} }}>
+            <ListItem button onPress={() => { {this.props.navigation.navigate('MyPage_Location')} }}>
               <Left>
                 <Icon type="Ionicons" name="location-sharp" />
                 <Text style={styles.listText}> 동네 인증하기</Text>
