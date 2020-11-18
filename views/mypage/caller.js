@@ -37,6 +37,7 @@ class MypageScreen extends Component {
   }
 
   Logout() {
+    this.dropFCMToken();
     this.props.navigation.dispatch(
       CommonActions.reset({
         index: 1,
@@ -66,6 +67,10 @@ class MypageScreen extends Component {
 
   showMyItemList(){
     this.props.navigation.navigate('MyItemList')
+  }
+
+  BookingList(){
+   
   }
 
   getToken = async () => {
@@ -115,6 +120,25 @@ class MypageScreen extends Component {
       .then((error)=>console.log(error))
   }
   
+  dropFCMToken = async() =>{
+    let fcmToken = await AsyncStorage.getItem('fcmToken')
+    await api
+      .post('/users/remove_device',
+      {
+        user:{
+          device_token: fcmToken
+        }
+      },
+      {
+        headers:{
+          'Authorization': this.state.token
+        }
+      }
+    )
+    .then((response)=>console.log(response))
+    .then((error)=>console.log(error))
+  }
+
   render() {
     if(!this.state.loading) return null
     else{
@@ -203,10 +227,10 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem>
+            <ListItem button onPress={() => {this.BookingList()}}>
               <Left>
                 <Icon type="Feather" name="list" />
-                <Text style={ styles.listText }> 거래 목록</Text>
+                <Text style={ styles.listText }> 대여 목록</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -243,28 +267,7 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => {
-              dropFCMToken = async() =>{
-                let fcmToken = await AsyncStorage.getItem('fcmToken')
-                await api
-                  .post('/users/remove_device',
-                  {
-                    user:{
-                      device_token: fcmToken
-                    }
-                  },
-                  {
-                    headers:{
-                      'Authorization': this.state.token
-                    }
-                  }
-                )
-                .then((response)=>console.log(response))
-                .then((error)=>console.log(error))
-              }
-              dropFCMToken();
-              this.Logout();
-            }}>
+            <ListItem button onPress={() => {this.Logout();}}>
               <Left>
                 <Icon type="AntDesign" name="logout" />
                 <Text style={ styles.listText }> 로그아웃</Text>
