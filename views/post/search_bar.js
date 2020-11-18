@@ -35,9 +35,14 @@ class Search_Bar extends React.Component {
 
   makeCategoryRequest(id){
     this.setState({category_id : id});
-    DeviceEventEmitter.emit('categoryId', {id : id});
+    if(id == 0){
+      DeviceEventEmitter.emit('categoryId', {id : ''});
+    }
+    else{
+      DeviceEventEmitter.emit('categoryId', {id : id});
+    }
+   
   }
-
 
   searchRequest() {
     DeviceEventEmitter.emit('searchContent', {search : this.state.search});
@@ -53,7 +58,7 @@ class Search_Bar extends React.Component {
     return (
         <Container>
         <Header style={styles.header}>
-            <Title style={{fontSize: 20, color: 'white'}}>{this.state.location}</Title>
+            <Title style={{fontSize: 20, color: 'white', alignSelf: 'center'}}>{this.state.location}</Title>
         </Header>
 
           <Item style={{backgroundColor:'#ffffff',borderColor: 'transparent' }}>
@@ -63,7 +68,7 @@ class Search_Bar extends React.Component {
               ref={input => { this.textInput = input }}/>
               <Icon name="close" type="Ionicons" onPress={() => this.clear()}/>
             </Item>
-            <Item style={{ marginLeft: '4%', borderColor: 'transparent'}}>
+            <Item style={{ marginLeft: '3%', borderColor: 'transparent'}}>
             <Category parentReference = {this.makeCategoryRequest.bind(this)}/>
             </Item>
           </Item>
@@ -87,7 +92,7 @@ const styles = StyleSheet.create({
 
   header: {
     width: DEVICE_WIDTH,
-    height: 40,
+    height: 60,
     backgroundColor: '#ff3377',
     borderBottomColor: 'transparent',
     borderTopColor: 'transparent'

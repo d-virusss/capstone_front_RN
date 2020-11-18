@@ -116,7 +116,6 @@ class receiveScreen extends Component{
   }
 
   showOptionButton(){
-    console.log(reservation_info)
     if(reservation_info.item_id){
       return(
           <View style={styles.footer}>

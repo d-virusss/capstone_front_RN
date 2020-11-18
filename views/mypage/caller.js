@@ -13,6 +13,8 @@ IconA.loadFont();
 IconB.loadFont();
 IconC.loadFont();
 
+var posts = [];
+
 class MypageScreen extends Component {
   state = {
     token:'',
@@ -32,10 +34,6 @@ class MypageScreen extends Component {
     this.setState({refreshing: false});
   }
 
-  goToSetLocation() {
-    this.props.navigation.push('MyPage_Location');
-  }
-
   Logout() {
     this.dropFCMToken();
     this.props.navigation.dispatch(
@@ -49,55 +47,35 @@ class MypageScreen extends Component {
     // pop everything in stack navigation
   }
 
-  ShowLikeList() {
-    this.props.navigation.navigate('Like_List');
-  }
-
-  SettingGroup(){
-    this.props.navigation.navigate('SettingGroup')
-  }
-
-  componentDidMount() {
-    this.getMyInfo();
-  }
-
-  showReservation(){
-    this.props.navigation.navigate('Reservation')
-  }
-
-  showMyItemList(){
-    this.props.navigation.navigate('MyItemList')
-  }
-
-  BookingList(){
-   
-  }
-
   getToken = async () => {
     let value = await AsyncStorage.getItem("token")
     this.state.token = value
+    this.getMyInfo();
+    
+  }
+
+  componentDidMount() {
+    console.log("---------------------------------")
+    this.getToken();
   }
 
   getMyInfo = () => {
-    this.getToken().then(() => {
-
-      api.get(`/users/mypage`,{
-        headers: {
-          Authorization: this.state.token,
-        },
-      })
-      .then((res) => {
-        this.state.myName = res.data.user_info.nickname;
-        this.state.myLocation = res.data.user_info.location_title;
-        this.state.myImage = res.data.user_info.image;
-        this.state.myGroup = "ajou"
-        this.setState({loading: true})
-
-      })
-      .catch((err) => {
-        console.log("my page err")
-        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
-      })
+    api.get(`/users/mypage`,{
+      headers: {
+        Authorization: this.state.token,
+      },
+    })
+    .then((res) => {
+      this.state.myName = res.data.user_info.nickname;
+      this.state.myLocation = res.data.user_info.location_title;
+      this.state.myImage = res.data.user_info.image;
+      this.state.myGroup = "ajou"
+      posts = res.data.user_info;
+      this.setState({loading: true})
+    })
+    .catch((err) => {
+      console.log("my page err")
+      Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
     })
   }
 
@@ -179,17 +157,17 @@ class MypageScreen extends Component {
             <ListItem
               style={{flexDirection: 'row', justifyContent: 'center', height: 100}}>
               <Button light style={styles.btn}
-                onPress={() => {this.goToSetLocation()}}>
+                onPress={() => {this.props.navigation.push('MyPage_Location');}}>
                 <Icon type="AntDesign" name="home" />
                 <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 동네 설정</Text>
               </Button>
 
-              <Button light style={styles.btn}>
+              <Button light style={styles.btn} onPress={()=> {this.props.navigation.navigate('SettingMyInfo', {post : posts})}}>
                 <Icon type="Feather" name="settings" />
                 <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 정보 수정</Text>
               </Button>
 
-              <Button light style={styles.btn} onPress={() => {this.ShowLikeList();}}>
+              <Button light style={styles.btn} onPress={() => {this.props.navigation.navigate('Like_List')}}>
                 <Icon type="Feather" name="heart" />
                 <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 관심 목록</Text>
               </Button>
@@ -207,7 +185,7 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={()=>{this.SettingGroup()}}>
+            <ListItem button onPress={()=>{this.props.navigation.navigate('SettingGroup')}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text style={ styles.listText }> 소속 인증</Text>
@@ -227,7 +205,7 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => {this.BookingList()}}>
+            <ListItem button onPress={() => {}}>
               <Left>
                 <Icon type="Feather" name="list" />
                 <Text style={ styles.listText }> 대여 목록</Text>
@@ -237,7 +215,7 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => {this.showMyItemList();}}>
+            <ListItem button onPress={() => {this.props.navigation.navigate('MyItemList')}}>
               <Left>
                 <Icon type="Ionicons" name="file-tray-stacked-outline" />
                 <Text style={ styles.listText }> 내 글 관리</Text>
@@ -257,7 +235,7 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => {this.showReservation();}}>
+            <ListItem button onPress={() => {this.props.navigation.navigate('Reservation')}}>
               <Left>
                 <Icon type="AntDesign" name="calendar" />
                 <Text style={ styles.listText }> 예약 관리</Text>
