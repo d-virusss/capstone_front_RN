@@ -13,6 +13,7 @@ UserAgent.getUserAgent(); //synchronous
 
 let updateFlag = 0;
 var user_id;
+
 class PostShow extends Component{
   params = this.props.route.params;
   state = {

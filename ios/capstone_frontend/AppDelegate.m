@@ -7,7 +7,8 @@
 #import <Firebase.h>
 #import <UserNotifications/UserNotifications.h>
 #import <RNCPushNotificationIOS.h>
-
+#import <GoogleMaps/GoogleMaps.h>
+#import <FlipperKit/FlipperClient.h>
 
 #ifdef FB_SONARKIT_ENABLED
 #import <GoogleMaps/GoogleMaps.h>

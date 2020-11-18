@@ -11,7 +11,7 @@ Icon.loadFont();
 
 var user_obj = {
   user: {
-    email: 'tester1@test.com',
+    email: 'tester4@test.com',
     password: 'test123',
   },
 };
@@ -146,6 +146,7 @@ class LoginScreen extends Component {
                 <Input
                   style={{fontSize: 20, }}
                   placeholder="이메일"
+                  keyboardType="email-address"
                   autoCapitalize="none"
                   onChangeText={(text) => this.changeUsername(text, 'email')}
                 />
