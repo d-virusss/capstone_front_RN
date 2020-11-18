@@ -1,11 +1,11 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component, useState} from 'react';
-import {View, Image, Alert, Left} from 'react-native';
-import {
-  Text, Form, Icon, Textarea, Item, Input, Button, 
-  Container, Content, Header
+import {View, Image, Alert, StyleSheet} from 'react-native';
+import { Text, Form, Icon, Textarea, Item, Input, Button, 
+  Container, Content, Header, Body, Title, Left, Right,
 } from 'native-base';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Calendar } from 'react-native-calendario';
 import api from '../shared/server_address'
 import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
@@ -171,17 +171,24 @@ class bookingScreen extends Component{
   render(){
     return(
       <Container>
+        <Header>
+          <Left style={{flex: 1}}>
+            <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
+              <Icon name='chevron-back' type='Ionicons' />
+            </TouchableOpacity>
+          </Left>
+          <Body style={{flex:8}}><Title>{this.state.post_title}</Title></Body>
+          <Right style={{flex:1}}></Right>
+        </Header>
         <Header style = {{height: 100}}>
-          <View style = {{width : '30%', justifyContent : 'center'}}>
-          <Image source={{ uri : this.state.image_info || "empty" }} style={{width: 80, height: 80}} />
+          <View style = {{width : '30%', justifyContent : 'center', alignItems: 'flex-start'}}>
+          <Image source={{ uri : this.state.image_info || "empty" }} style={{width: 100, height: 100}} />
           </View>
-          <View style = {{width : '40%', justifyContent : 'center'}}>
-            <Text style = {{margin : '2%', fontSize : 17}}>{this.state.post_title}</Text>
-            <Text style = {{margin : '2%', fontSize : 17}}>{this.state.post_price.toLocaleString()} 원</Text>
-          </View>
-          <View style = {{width : '30%', justifyContent : 'center'}}>
-            <Text style = {{margin : '2%', fontSize : 17}}>대여가격</Text>
-            <Text style = {{margin : '2%', fontSize : 17}}>{this.state.totalPrice.toLocaleString() + ' 원'}</Text>
+          <View style = {{width : '70%', justifyContent : 'center'}}>
+            <Text style = {styles.priceTitle}>대여가격</Text>
+            <Text style = {styles.priceText}>
+              {this.state.totalPrice.toLocaleString() + ' 원'}
+            </Text>
           </View>
         </Header>
         {this.state.booked == false && (<Calendar
@@ -240,6 +247,30 @@ class bookingScreen extends Component{
   };
 };
 
+const styles = StyleSheet.create({
+  productTitle : {
+    margin : '2%',
+    fontSize : 17,
+  },
+  productPrice :{
+    margin : '2%',
+    fontSize : 15,
+    color : '#5c5b5b',
+    alignSelf : 'center'
+  },
+  priceTitle : {
+    margin : '2%',
+    fontSize : 15,
+    alignSelf : 'center'
+  },
+  priceText : {
+    margin : '2%',
+    fontSize : 17,
+    fontWeight : '600',
+    alignSelf : 'center'
+  }
+})
+
 let theme = {
   activeDayColor: {},
   monthTitleTextStyle: {
@@ -283,5 +314,4 @@ let theme = {
   },
   nonTouchableLastMonthDayTextStyle: {},
 }
-
 export default bookingScreen;

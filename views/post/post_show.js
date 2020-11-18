@@ -213,13 +213,13 @@ class PostShow extends Component{
     return(
       <Container>
         <Header>
-          <Left>
+          <Left style={{flex : 1}}>
             <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>{this.state.title}</Title></Body>
-          <Right>
+          <Body style={{flex : 8}}><Title>{this.state.title}</Title></Body>
+          <Right style={{flex : 1}}>
             <Popover
               isVisible = {this.state.show_popover}
               onRequestClose = {() => this.setState({ show_popover: false })}

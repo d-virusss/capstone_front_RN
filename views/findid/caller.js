@@ -1,18 +1,11 @@
 //import axios from 'axios';
 import React, {Component} from 'react';
 import {StyleSheet, Platform, View, Alert} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
-import {
-  Container,
-  Header,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-} from 'native-base';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { Container, Header, Content, Form, Item, Input, Label, 
+  Button, Text, Right, Body, Footer, Left, Icon, Title } from 'native-base';
+import api from '../shared/server_address'
+
 //import getLoginClient from '../../apiAuth/loggedInClient';
 //Import the file if you are logged in
 
@@ -52,25 +45,59 @@ export default class FindIdScreen extends React.Component {
   render() {
     return (
       <Container>
+        <Header>
+          <Left>
+            <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
+              <Icon name='chevron-back' type='Ionicons' />
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>ID 찾기</Title></Body>
+          <Right></Right>
+        </Header>
         <Content>
           <Form>
           {/* phone */}
-          <Item floatingLabel>
-            <Label>연락처</Label>
-            <Input
-              placeholder="가입한 핸드폰 번호를 입력하세요"
-            />
-          </Item>
-       
-
-          <Button bordered onPress={this.onButtonPress}>
-            <Text>찾기</Text>
-          </Button>
+            <Item floatingLabel>
+              <Label>연락처</Label>
+              <Input
+                placeholder="가입한 핸드폰 번호를 입력하세요"
+              />
+            </Item>
           </Form>
         </Content>
+        <Footer style={styles.footer}>
+          <Button transparent style={styles.footerbutton}
+                onPress={() => {console.log('찾기')}}>
+            <Text style={styles.footerText}>찾기</Text>
+          </Button>
+        </Footer>
       </Container>
     );
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  footer: {
+    position: 'absolute',
+    flex: 0.1,
+    left: 0,
+    right: 0,
+    bottom: -5,
+    backgroundColor: '#ff3377',
+    flexDirection: 'row',
+    height: 80,
+    alignItems: 'center',
+    paddingTop: 7,
+  },
+  footerbutton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  footerText: {
+    color: 'white',
+    fontWeight: 'bold',
+    alignItems: 'center',
+    fontSize: 20,
+  },
+});

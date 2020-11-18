@@ -85,8 +85,8 @@ const App = () => {
         <Stack.Screen name="Logins" component={LoginScreen} options={{headerShown: false, gestureEnabled : false, }} />
         <Stack.Screen name="KakaoLogin" component={KakaoLogin} options={{ gestureEnabled : false, headerTitle: "카카오 로그인", headerBackTitle: '뒤로'}} />
         <Stack.Screen name="Register" component={Register_form} options={{headerShown: false}} />
-        <Stack.Screen name="Find_id" component={FindId} />
-        <Stack.Screen name="Find_pw" component={FindPw} />
+        <Stack.Screen name="Find_id" component={FindId} options={{headerShown: false}} />
+        <Stack.Screen name="Find_pw" component={FindPw} options={{headerShown: false}} />
 
         <Stack.Screen name="Chats" component={chatIndex} options={{ title: '채팅', headerLeft: null, gestureEnabled: false}} />
         <Stack.Screen name="P_W_p" component={Post_provide} options={{ headerShown : false }} />
@@ -97,8 +97,7 @@ const App = () => {
         <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
         <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
-        <Stack.Screen name="Booking" component={Booking} options={{ headerTitle: "예약날짜 선택하기",
-          headerBackTitle: '뒤로' }} />
+        <Stack.Screen name="Booking" component={Booking} options={{ headerShown : false}} />
 
         <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false, gestureEnabled: false}} />
         <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{gestureEnabled: false, headerShown: false}}  />
