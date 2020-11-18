@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, 
   Left, Right, Body, Title, Icon, Footer, Button, Text} from 'native-base';
 import api from '../shared/server_address'
+
 var user_obj = {
   user: {
     email: '',

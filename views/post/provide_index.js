@@ -7,6 +7,11 @@ import api from '../shared/server_address';
 import number_delimiter from '../shared/number_delimiter'
 import { DeviceEventEmitter } from 'react-native';
 
+var searchModel= {
+  id : '', // category_id
+  content : '',
+}
+
 class ProvideIndex extends Component {
   constructor(props){
     super(props)
@@ -14,7 +19,6 @@ class ProvideIndex extends Component {
       token: '',
       posts: [],
       refreshing: '',
-      id :0,
     }
   }
 
@@ -23,7 +27,7 @@ class ProvideIndex extends Component {
     console.log("제공 게시물 refresh")
     
     this.setState({refreshing: true});
-    this.sendIndexRequest(this.state.id);
+    this.sendIndexRequest();
     this.setState({refreshing: false});
   }
 
@@ -53,12 +57,17 @@ class ProvideIndex extends Component {
     })
   }
 
-  sendIndexRequest(id) {
-    if(id == 0){ //for all
+  sendIndexRequest() {
+    console.log("----------------")
+    console.log(searchModel)
+    if(searchModel.id == 0){
       api
       .get('/posts?post_type=provide', {
         headers: {
           Authorization: this.state.token,
+        },
+        params: {
+          "q[title_or_body_cont]" : searchModel.content,
         },
       })
       .then((res) => {
@@ -69,37 +78,39 @@ class ProvideIndex extends Component {
         console.log('send post failed!!!!' + e);
         Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       });
-    }else{
-      api
+
+      return;
+    }
+    api
       .get('/posts?post_type=provide', {
         headers: {
           Authorization: this.state.token,
         },
         params: {
-          "q[category_id_eq]" : id,
+          "q[category_id_eq]" : searchModel.id,
+          "q[title_or_body_cont]" : searchModel.content,
         },
       })
       .then((res) => {
-        console.log(res)
+        console.log(res);
         this.setState({posts: res.data});
       })
       .catch(function (e) {
-        console.log('category request failed!!!!' + e);
+        console.log('send post failed!!!!' + e);
         Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       });
-    }
-   
   }
 
   getToken = async () => {
     let value = await AsyncStorage.getItem('token');
     this.state.token = value;
-    this.sendIndexRequest(this.state.id);
+    this.sendIndexRequest();
   };
 
   componentDidMount(){
     this.getToken()
-    this.eventListener = DeviceEventEmitter.addListener('categoryId', this.handleEvent);
+    this.eventListener = DeviceEventEmitter.addListener('categoryId', this.catetoryEventHandler);
+    this.eventListener = DeviceEventEmitter.addListener('searchContent', this.searchEventHandler)
   }
 
   componentWillUnmount(){
@@ -107,15 +118,19 @@ class ProvideIndex extends Component {
     this.eventListener.remove();
 }
 
-  handleEvent = (e) => {
-    console.log("event handler")
-    this.state.id = e.id;
-    this.sendIndexRequest(this.state.id);
+  catetoryEventHandler = (e) => {
+    console.log("category event handler")
+    searchModel.id = e.id;
+    this.sendIndexRequest();
+  }
+
+  searchEventHandler = (e) => {
+    console.log("search event handler");
+    searchModel.content = e.search;
+    this.sendIndexRequest();
   }
 
   render() {
-    console.log("render")
-    console.log(this.props)
     return (
       <ScrollView style={{flex: 1}}
         refreshControl={

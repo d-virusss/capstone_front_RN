@@ -1,12 +1,15 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
-import {Dimensions,  DeviceEventEmitter,  StyleSheet, Text,} from 'react-native';
+import {Dimensions,  DeviceEventEmitter,  StyleSheet, Text, TextInput} from 'react-native';
 import ProvideIndex from './provide_index';
 import AskIndex from './ask_index';
-import {Container, Tabs, Tab, TabHeading, Header, Item, Icon, Input, Title} from 'native-base'
+import {Container, Tabs, Tab, TabHeading, Header, Item, Icon, Title, Input} from 'native-base'
 import Category from './categorymodal';
+import api from '../shared/server_address';
+import IconI from 'react-native-vector-icons/Ionicons';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
+IconI.loadFont();
 
 class Search_Bar extends React.Component {
   constructor(props) {
@@ -15,15 +18,15 @@ class Search_Bar extends React.Component {
       search: '',
       location:'',
       category_id: 0,
+      token:'',
     };
   }
 
 
   getMyInfo = async() => {
-    let location = await AsyncStorage.getItem("my_location")
-    console.log("get my location=-----------------")
-    console.log(location)
-    this.setState({location : location})
+    let location = await AsyncStorage.getItem("my_location");
+    let token = await AsyncStorage.getItem("token");
+    this.setState({location : location, token : token})
   }
 
   componentDidMount(){
@@ -35,6 +38,17 @@ class Search_Bar extends React.Component {
     DeviceEventEmitter.emit('categoryId', {id : id});
   }
 
+
+  searchRequest() {
+    DeviceEventEmitter.emit('searchContent', {search : this.state.search});
+  }
+
+  clear(){
+    this.textInput._root.clear();
+    this.state.search = '';
+    DeviceEventEmitter.emit('searchContent', {search : this.state.search});
+  }
+
   render() {
     return (
         <Container>
@@ -42,12 +56,17 @@ class Search_Bar extends React.Component {
             <Title style={{fontSize: 20, color: 'white'}}>{this.state.location}</Title>
         </Header>
 
-          <Item style={{backgroundColor:'#ffffff', marginLeft: '4%', borderColor: 'transparent' }}>
-            <Icon name="ios-search" />
-            <Input placeholder="Search" />
-            <Category style={styles.category} parentReference = {this.makeCategoryRequest.bind(this)}/>
+          <Item style={{backgroundColor:'#ffffff',borderColor: 'transparent' }}>
+            <Item style={{width : DEVICE_WIDTH*0.7, marginLeft: '4%', borderColor: 'transparent'}}>
+              <Icon name="ios-search" onPress = {() => this.searchRequest()}/>
+              <Input placeholder="Search" onChangeText = {(content) => this.state.search = content}
+              ref={input => { this.textInput = input }}/>
+              <Icon name="close" type="Ionicons" onPress={() => this.clear()}/>
+            </Item>
+            <Item style={{ marginLeft: '4%', borderColor: 'transparent'}}>
+            <Category parentReference = {this.makeCategoryRequest.bind(this)}/>
+            </Item>
           </Item>
-
         
 
           <Tabs style={{marginTop : '0%',}}>
@@ -73,9 +92,6 @@ const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
     borderTopColor: 'transparent'
   },
-  categoty:{
-    marginLeft: '40%', 
-  }
 });
 
 export default Search_Bar;
