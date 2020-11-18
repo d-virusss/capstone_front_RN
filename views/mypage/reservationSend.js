@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions} from 'react-native';
 import {Text, Header, Thumbnail, Body, Container, Content, ListItem, 
-  Spinner, Button, Right, Footer, FooterTab} from 'native-base';
+  Spinner, Button, Right, Footer, FooterTab, Badge} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
 import moment from 'moment';
@@ -70,10 +70,11 @@ class receiveScreen extends Component{
   }
 
   getReservationList () {
-    api.get('/bookings', {
+    api.get('/bookings?status=before', {
         headers: {Authorization: this.state.token},
     }).then((res) => {
         reservation_list = res.data;
+        console.log(res)
         this.setState({loading: false});
     }).catch((err) => {
         console.log("reservation page err")
@@ -129,19 +130,36 @@ class receiveScreen extends Component{
     }
   }
 
+  setBadgeColor(result){
+    if(result === "대기 중"){
+      return 'black'
+    }
+    else if(result === '승인'){
+      return 'green'
+    }
+    else if(result === '거절'){
+      return '#a1282c'
+    }
+  }
+
   makeList() {
     return reservation_list.map((ele) => {
       return (
         <ListItem key={ele.booking_info.id}
           button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id,
            ele.booking_info.start_at, ele.booking_info.end_at, ele.booking_info.acceptance)}>
-          <Thumbnail source={{ uri: ele.booking_info.image }} />
+          <Thumbnail source={{ uri: ele.booking_info.post_image }} />
           <Body>
             <Text>{ele.booking_info.title}</Text>
             <Text note numberOfLines={1}>
               {ele.booking_info.result}
-            </Text>
+            </Text> 
           </Body>
+          <Right>
+            <Badge style={{ backgroundColor : this.setBadgeColor(ele.booking_info.result) }}>{/* 승인 success, 대기 회색, 거절 진홍색 */}
+              <Text>{ele.booking_info.result}</Text>
+            </Badge>
+          </Right>
         </ListItem>
       );
     });

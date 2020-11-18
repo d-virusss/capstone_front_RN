@@ -116,7 +116,12 @@ class MypageScreen extends Component{
         if(myLocation == "null"){ // first location auth
           this.props.navigation.navigate('postIndex')
         }else{ //already has location
-          this.props.navigation.goBack();
+          this.props.navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [{ name: 'MyPage' },],
+            })
+          );
         }
       })
       .catch((err) => {

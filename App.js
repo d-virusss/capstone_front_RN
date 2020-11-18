@@ -33,6 +33,8 @@ import Sign from './views/sign/sign'
 import SignState from './views/sign/check_sign_state'
 import LocationDetail from './views/mypage/location_detail'
 import SettingMyInfo from './views/mypage/settingMyInfo'
+import ProviderRentList from './views/mypage/provider_rent_list';
+import ConsumerRentList from './views/mypage/consumer_rent_list';
 
 const Stack = createStackNavigator();
 
@@ -101,6 +103,8 @@ const App = () => {
         <Stack.Screen name="Booking" component={Booking} options={{ headerShown : false}} />
 
         <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false, gestureEnabled: false}} />
+        <Stack.Screen name="ProviderRentList" component={ProviderRentList} options={{ headerShown: false, }} />
+        <Stack.Screen name="ConsumerRentList" component={ConsumerRentList} options={{ headerShown: false, }} />
         <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{gestureEnabled: false, headerShown: false}}  />
         <Stack.Screen name="SettingGroup" component={SettingGroup} options={{ headerShown : false}} />
         <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{headerShown: false}}  />

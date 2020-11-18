@@ -11,7 +11,7 @@ import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
 import db from '../shared/chat_db';
-import { Bubble, Time, Colors } from 'react-native-gifted-chat'
+import { Bubble, Time, Composer} from 'react-native-gifted-chat'
 
 IconM.loadFont();
 
@@ -24,6 +24,7 @@ let myID = -1;
 let other_id=-1;
 let other_nickname = '';
 let avatarURI='empty';
+let postInfo = [];
 
 function forTimeout(){
   return 1;
@@ -70,6 +71,7 @@ function ChatRoom ({route , navigation}) {
             })
             .then((response)=>{
               console.log(response)
+              postInfo = response.data;
               setPostTitle(response.data.post_info.title);
               setPostImg(response.data.post_info.image);
             })
@@ -244,6 +246,9 @@ function ChatRoom ({route , navigation}) {
   useEffect(()=>{
     getToken();
     getPostInfo();
+    const unsubscribe = navigation.addListener('focus', ()=>{
+      updateFlag = 0;
+    })
   })
   const update = forceUpdate();
   if(updateFlag === 1){
@@ -283,41 +288,37 @@ function ChatRoom ({route , navigation}) {
                 onPress={() => {setShowPopover(false); messageGetRequest()}}>
                 <Text style={styles.popoverel}>새로고침</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => Alert.alert("집에가고 싶나?")}>
-                <Text style={styles.popoverel}>힘들 떄</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => Alert.alert("히히 못가")}>
-                <Text style={styles.popoverel}>집가기</Text>
-              </TouchableOpacity>
             </Popover>
         </Right>
       </Header>
-      <Header>
-        <Left>
-          <Image source = {{uri: post_img || "empty"}} style={{
-            width:50,
-            height:50,
-          }}
-          />
-        </Left>
-        <Body>
-          <Text>{post_title}</Text>
-        </Body>
-        <Right>
-
-        </Right>
+      <TouchableOpacity onPress ={()=>{navigation.navigate('PostShow',{post: postInfo})}}>
+      <Header style = {{
+        backgroundColor: '#ffffff',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderBottomColor: '#cccccc'
+      }}>
+        <Image source = {{uri: post_img || "empty"}} style={{
+          width:50,
+          height:50,
+          margin: '3%'
+        }}
+        />
+        <Text>
+          {post_title}
+        </Text>
+        <Icon transparent style={{
+          width:50,
+          height:50,
+        }}
+        />
       </Header>
+      </TouchableOpacity>
       <GiftedChat
         showAvatarForEveryMessage = {true}
-        listViewProps={{
-          style:{
-            backgroundColor: '#BCE6EB'
-          }
-        }}
         renderTime={renderTime}
         renderBubble = {renderBubble}
+        renderComposer = {renderComposer}
         messages={messages}
         onSend={messages => onSend(messages)}
         onPressAvatar={()=> navigation.navigate('ProfileShow',{other_id : other_id})}
@@ -335,15 +336,17 @@ function renderBubble (props) {
       {...props}
       wrapperStyle={{
         left:{
-          backgroundColor : '#ffffff',
-          padding: 2
+          //backgroundColor : '#ffffff',
+          padding: 2,
+          margin: '1%'
         },
         right: {
-          backgroundColor: '#fdcfdf',
-          padding: 2
+          backgroundColor: '#ff3377',
+          padding: 2,
+          margin: '1%'
         }
       }}
-      textProps={{ style: {color: props.position === 'right' ? 'black': 'black', } }}
+      //textProps={{ style: {color: props.position === 'right' ? 'black': 'black', } }}
     />
   )
 }
@@ -353,15 +356,16 @@ function renderTime(props) {
     <Time
     {...props}
       timeTextStyle={{
-        right: {
-          color:'#000',
-        },
         left: {
           color:'#000',
         }
       }}
     />
   );
+}
+
+function renderComposer(props) {
+  return <Composer {...props} placeholder={'메세지를 입력하세요'} />;
 }
 
 const styles = StyleSheet.create({
