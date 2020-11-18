@@ -70,7 +70,8 @@ class Search_Bar extends React.Component {
         
 
           <Tabs style={{marginTop : '0%',}}>
-            <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
+            <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}
+            style={{ color: '#ff3377' }}>
               <ProvideIndex navigation = {this.props.navigation}/>
             </Tab>
             <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
