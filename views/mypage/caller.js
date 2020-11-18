@@ -1,17 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView, Alert} from 'react-native';
 import BottomTab from '../shared/bottom_tab';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbnail,
        Footer, FooterTab, Content, ListItem, List, Separator } from 'native-base';
-import IconA from 'react-native-vector-icons/AntDesign';
-import IconB from 'react-native-vector-icons/Feather';
-import IconC from 'react-native-vector-icons/EvilIcons';
-import api from '../shared/server_address';
 import { CommonActions, StackActions } from '@react-navigation/native';
-IconA.loadFont();
-IconB.loadFont();
-IconC.loadFont();
+import Popover from 'react-native-popover-view';
+import api from '../shared/server_address';
+
 
 class MypageScreen extends Component {
   state = {
@@ -22,10 +18,11 @@ class MypageScreen extends Component {
     myImage:'',
     loading: false,
     refreshing : '',
+    show_popover : false,
   };
 
   _onRefresh = () => {
-   
+  
     console.log("refresh")
     this.setState({refreshing: true});
     this.getMyInfo();
@@ -59,6 +56,14 @@ class MypageScreen extends Component {
 
   componentDidMount() {
     this.getMyInfo();
+  }
+
+  providerRentList() {
+    this.props.navigation.navigate('ProviderRentList')
+  } 
+  
+  consumerRentList() {
+    this.props.navigation.navigate('ConsumerRentList')
   }
 
   showReservation(){
@@ -139,6 +144,38 @@ class MypageScreen extends Component {
     .then((error)=>console.log(error))
   }
 
+  renderPopover(){
+    return(
+      <Popover
+        isVisible={this.state.show_popover}
+        onRequestClose={() => this.setState({ show_popover: false })}
+        from={(
+          <TouchableOpacity onPress={() => this.setState({ show_popover: true })}>
+            <Icon name="menu" />
+          </TouchableOpacity>
+        )}>
+        <TouchableOpacity
+          onPress={() => this.setState({ show_popover: false }, () => {
+            console.log("menu popover pressed! --------")
+          })}>
+          <Text style={styles.popoverel}>내 정보 수정</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.setState({ show_popover: false }, () => {
+            console.log("menu popover pressed! --------")
+          })}>
+          <Text style={styles.popoverel}>키워드 알림</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.setState({ show_popover: false }, () => {
+            this.Logout()
+          })}>
+          <Text style={styles.popoverel}>로그아웃</Text>
+        </TouchableOpacity>
+      </Popover>
+    )
+  }
+
   render() {
     if(!this.state.loading) return null
     else{
@@ -146,12 +183,10 @@ class MypageScreen extends Component {
       <Container>
         <Header>
           <Body>
-            <Title>마이 페이지</Title>
+            <Title>My Page</Title>
           </Body>
           <Right>
-            <TouchableOpacity>
-              <Icon name="menu" />
-            </TouchableOpacity>
+            {this.renderPopover()}
           </Right>
         </Header>
 
@@ -179,14 +214,15 @@ class MypageScreen extends Component {
             <ListItem
               style={{flexDirection: 'row', justifyContent: 'center', height: 100}}>
               <Button light style={styles.btn}
-                onPress={() => {this.goToSetLocation()}}>
-                <Icon type="AntDesign" name="home" />
-                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 동네 설정</Text>
+                onPress={() => {this.providerRentList()}}>
+                <Icon type="MaterialCommunityIcons" name="receipt" />
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 제공 목록</Text>
               </Button>
 
-              <Button light style={styles.btn}>
-                <Icon type="Feather" name="settings" />
-                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 정보 수정</Text>
+              <Button light style={styles.btn}
+                onPress={() => {this.consumerRentList()}}>
+                <Icon type="Ionicons" name="basket-sharp" />
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 대여 목록</Text>
               </Button>
 
               <Button light style={styles.btn} onPress={() => {this.ShowLikeList();}}>
@@ -196,6 +232,16 @@ class MypageScreen extends Component {
             </ListItem>
 
             <Separator bordered></Separator>
+
+            <ListItem button onPress={() => { this.goToSetLocation(); }}>
+              <Left>
+                <Icon type="Ionicons" name="location-sharp" />
+                <Text style={styles.listText}> 동네 인증하기</Text>
+              </Left>
+              <Right>
+                <Icon type="AntDesign" name="right" />
+              </Right>
+            </ListItem>
 
             <ListItem button onPress = {()=>{this.getFCMToken();}}>
               <Left>
@@ -211,26 +257,6 @@ class MypageScreen extends Component {
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text style={ styles.listText }> 소속 인증</Text>
-              </Left>
-              <Right>
-                <Icon type="AntDesign" name="right" />
-              </Right>
-            </ListItem>
-
-            <ListItem button>
-              <Left>
-                <Icon type="Feather" name="bell" />
-                <Text style={ styles.listText }> 키워드 알림</Text>
-              </Left>
-              <Right>
-                <Icon type="AntDesign" name="right" />
-              </Right>
-            </ListItem>
-
-            <ListItem button onPress={() => {this.BookingList()}}>
-              <Left>
-                <Icon type="Feather" name="list" />
-                <Text style={ styles.listText }> 대여 목록</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -267,15 +293,6 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => {this.Logout();}}>
-              <Left>
-                <Icon type="AntDesign" name="logout" />
-                <Text style={ styles.listText }> 로그아웃</Text>
-              </Left>
-              <Right>
-                <Icon type="AntDesign" name="right" />
-              </Right>
-            </ListItem>
           </List>
         </Content>
         </ScrollView>
@@ -300,6 +317,11 @@ const styles = StyleSheet.create({
   },
   listText : {
     marginLeft: '3%',
-  }
+  },
+  popoverel: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    margin: 5,
+  },
 });
 export default MypageScreen;

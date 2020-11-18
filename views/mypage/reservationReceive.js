@@ -69,7 +69,7 @@ class receiveScreen extends Component{
   }
 
   getReservationList () {
-    api.get('/bookings?received=true', {
+    api.get('/bookings?received=true&status=before', {
         headers: {Authorization: this.state.token},
     }).then((res) => {
         console.log(res)
@@ -140,7 +140,7 @@ class receiveScreen extends Component{
       return (
         <ListItem key={ele.booking_info.id}
           button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id, ele.booking_info.start_at, ele.booking_info.end_at)}>
-          <Thumbnail source={{ uri: ele.booking_info.image }} />
+          <Thumbnail source={{ uri: ele.booking_info.post_image }} />
           <Body>
             <Text>{ele.booking_info.title}</Text>
             <Text note numberOfLines={1}>
