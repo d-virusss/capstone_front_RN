@@ -167,23 +167,23 @@ class MypageScreen extends Component {
               thumbnail
               style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop:'3%'}}>
               <Thumbnail source={{uri: this.state.myImage}} />
-              <View>
-                <Body>
-                  <Text>{this.state.myName}</Text>
-                  <Text note numberOfLines={1}>
-                    {this.state.myGroup}
-                  </Text>
-                  <Text note numberOfLines={2}>
-                    {this.state.myLocation}
-                  </Text>
-                </Body>
-              </View>
+              <Body style={{ marginLeft : '5%' }}>
+                <View style={{ flexDirection : 'row' }}>
+                <Text>{this.state.myName}</Text>
+                <Text note numberOfLines={1}>
+                  {this.state.myGroup}
+                </Text>
+                  </View>
+                <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
+                  {this.state.myLocation}
+                </Text>
+              </Body>
               <View></View>
             </ListItem>
 
 
             <ListItem
-              style={{flexDirection: 'row', justifyContent: 'center', height: 100}}>
+              style={{flexDirection: 'row', justifyContent: 'center', height: 100, marginTop: '3%'}}>
               <Button light style={styles.btn}
                 onPress={() => {this.props.navigation.navigate('ProviderRentList')}}>
                 <Icon type="MaterialCommunityIcons" name="receipt" />
