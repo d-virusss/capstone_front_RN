@@ -89,6 +89,12 @@ class bookingScreen extends Component{
     this.forceUpdate();
   }
 
+  isBookedCalculate = () => {
+    this.state.totalPrice = ((this.state.endDate-this.state.startDate) * this.state.post_price)
+    console.log(this.state)
+    //this.forceUpdate();
+  }
+
   getPostInfo = async () => {
     await api
       .get(`/posts/${this.state.post_id}`,{
@@ -122,7 +128,9 @@ class bookingScreen extends Component{
           this.state.booked = true;
           this.state.booking_id = response.data.booking_info.id;
           this.state.startDate = new Date(response.data.booking_info.start_at);
-          this.state.endDate = new Date(response.data.end_at);
+          this.state.endDate = new Date(response.data.booking_info.end_at);
+          this.state.post_price = response.data.booking_info.price;
+          this.state.totalPrice = ((this.state.endDate - this.state.startDate) / (1000 * 3600 * 24) + 1) * this.state.post_price
         }
       })
       .catch((error) => {
