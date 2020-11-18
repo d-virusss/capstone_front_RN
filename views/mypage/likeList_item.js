@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {Text, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Header, ListItem, View, Container, Content, Body, Right, Spinner, Thumbnail, Left } from 'native-base';
 import api from '../shared/server_address'
@@ -15,17 +15,14 @@ class LikeListItemScreen extends Component {
 
   makeList() {
     return like_item.map((ele) => {
-      console.log(ele)
       return (
-        <ListItem thumbnail key = {ele.like_info.id}>
+        <ListItem thumbnail key = {ele.like_info.id} button
+        onPress = {() => this.showPostRequset(ele.like_info.target_id)}>
           <Body>
             <Text>{ele.like_info.title}</Text>
           </Body>
           <Right>
-            <TouchableOpacity
-            onPress = {() => this.showPostRequset(ele.like_info.target_id)}>
-              <Text>보기</Text>
-            </TouchableOpacity>
+            <Text>보기</Text>
           </Right>
         </ListItem>
       );
@@ -33,7 +30,6 @@ class LikeListItemScreen extends Component {
   }
 
   showPostRequset(id){
-    console.log("show request")
     api
       .get(`/posts/${id}`, { headers : {
         'Authorization': this.state.token
@@ -42,7 +38,10 @@ class LikeListItemScreen extends Component {
         console.log('success');
         this.props.navigation.navigate('PostShow', { post: response.data })
       }.bind(this))
-      .catch((err) => console.log("err : ", err))
+      .catch((err) => {
+        console.log("err : ", err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+      })
   }
 
   getToken = async () => {
@@ -53,13 +52,11 @@ class LikeListItemScreen extends Component {
   };
 
   componentDidMount() {
-    console.log('component did mount ---');
     this.GetRequest();
   }
 
   GetRequest = () => {
     this.getToken().then(() => {
-      console.log('Sending likeListGetRequest ...');
       api
         .get(`/users/${this.state.user_id}/likes?target_type=post`, {
           headers: {
@@ -75,6 +72,7 @@ class LikeListItemScreen extends Component {
         )
         .catch(function (error) {
           console.log('failed: ' + error);
+          Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         });
     });
   };
@@ -85,13 +83,12 @@ class LikeListItemScreen extends Component {
         <Container>
         <Header />
         <Content>
-          <Spinner color='green' />
+          <Spinner color='#ff3377' />
         </Content>
       </Container>
       );
     } else {
-      console.log('show');
-      return <View>{this.makeList()}</View>;
+      return <ScrollView>{this.makeList()}</ScrollView>;
     }
   }
 }

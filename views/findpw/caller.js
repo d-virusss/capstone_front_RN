@@ -33,21 +33,21 @@ export default class FindPwScreen extends React.Component {
   //   }
 
   onButtonPress = async () => {
-    let t_name = this.state.name;
-    let t_num = this.state.phone;
-    console.log('temp : ' + t_name + ' ' + t_num);
-    const {randomMesage} = this.state;
-    const client = await getLoginClient();
-    client
-      .post('contactSupport', {
-        message: randomMessage,
-      })
-      .then((response) => {
-        console.log('response is', response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // let t_name = this.state.name;
+    // let t_num = this.state.phone;
+    // console.log('temp : ' + t_name + ' ' + t_num);
+    // const {randomMesage} = this.state;
+    // const client = await getLoginClient();
+    // client
+    //   .post('contactSupport', {
+    //     message: randomMessage,
+    //   })
+    //   .then((response) => {
+    //     console.log('response is', response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   render() {

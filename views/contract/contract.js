@@ -1,26 +1,30 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, TextInput } from 'react-native';
-import CustomButton from '../login/custom_button';
+import { StyleSheet, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { Container, Content, Form, Item, Input, Label, Button, Text, 
   Header, Card, CardItem, Body, Left, Right, Icon, Title, Textarea } from 'native-base';
+import AsyncStorage from '@react-native-community/async-storage';
+import Spinner from 'react-native-loading-spinner-overlay';
 import api from '../shared/server_address'
 import FormData from 'form-data'
 
-const contract = {
-  title : "",
-  body : "",
-}
 var formdata = new FormData();
 export default class Contract extends React.Component {
+
+  my_post = this.props.route.params.my_post
+
   state = {
     token : "",
     title : "",
-    post_id : "",
-    body : "제 1 조 본 계약에서 대여물건이라 함은 명세서에 기재된 것을 말한다.",
+    post_id : this.my_post.id,
+    body : this.my_post.contract,
+    loading : false,
   };
 
   componentDidMount() {
     this.getToken();
+    console.log(this.state)
+    console.log(this.my_post)
+    console.log('component did mount ----------------------')
   }
 
   getToken = async () => {
@@ -28,8 +32,19 @@ export default class Contract extends React.Component {
     this.state.token = value
   }
 
+  setContract(data){
+    formdata.append('post[contract]', this.state.body)
+    console.log(formdata)
+  }
+
   makeContractRequest() {
     console.log("start update post data ---- add contract ")
+    this.setContract(this.state)
+    if(this.state.body.length > 499){
+      Alert.alert("수정 실패", "게약서는 500자 이내로 작성해주세요.", [{ text: '확인', style: 'cancel' }])
+      return;
+    }
+
     api
       .put(`/posts/${this.state.post_id}`, (formdata), {
         headers: {
@@ -39,10 +54,16 @@ export default class Contract extends React.Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
-        // this.props.navigation.navigate("postIndex")
+        Alert.alert("수정 완료", "계약서가 수정되었습니다.", [
+          {
+            text: '확인',
+            onPress: () => this.props.navigation.navigate("postIndex"),
+          }
+        ])
       })
       .catch((e) => {
         console.log('send post failed!!!!' + e)
+        Alert.alert("계약서 작성 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 
@@ -65,32 +86,40 @@ export default class Contract extends React.Component {
             </TouchableOpacity>
           </Right>
         </Header>
-        <Content style={{padding : 20}}>
-          <Card style={ styles.card }>
-            <CardItem header>
-              <Text>물품임대 계약서</Text>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <Text>--(이하 “갑”이라 칭함.)와 --(이하 “을”이라 칭함.)와의 사이에 물품
-               의 대여(이하 “대여물건”이라 칭함.)에 관하여 다음과 같이 계약을 체결한다.</Text>
-              </Body>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <View style={styles.textareaContainer}>
-                  <TextInput multiline={true} numberOfLines={10}
-                    placeholder="textinput의 기본텍스트입니다"
-                    style={styles.textarea}
-                    onChangeText={(text) => this.setState({ body : text })}
-                    value={this.state.body}
+        <Spinner visible={this.state.loading} style={{ color: '#ff3377'  }} />
+        <ScrollView>
+          <Content style={{padding : 20}}>
+            <Card style={ styles.card }>
+              <CardItem header>
+                <Text>물품임대 계약서</Text>
+              </CardItem>
+              <CardItem>
+                <Body>
+                  <Text>--(이하 “갑”이라 칭함.)와 --(이하 “을”이라 칭함.)와의 사이에 물품
+                --의 대여(이하 “대여물건”이라 칭함.)에 관하여 다음과 같이 계약을 체결한다.
+                    대여물건의 대여료는 금 -- 원으로 정한다.
+                  </Text>
+                </Body>
+              </CardItem>
+              <CardItem>
+                <Body>
+                  <View style={styles.textareaContainer}>
+                    <TextInput multiline={true} numberOfLines={10}
+                      style={styles.textarea}
+                      onChangeText={(text) => this.setState({ body : text })}
+                      value={this.state.body}
 
-                  ></TextInput>
-                </View>
-              </Body>
-            </CardItem>
-          </Card>
-        </Content>
+                    ></TextInput>
+                  </View>
+                </Body>
+              </CardItem>
+              <CardItem footer>
+                <Text>202*년 * 월 * 일
+                </Text>
+              </CardItem>
+            </Card>
+          </Content>
+        </ScrollView>
       </Container>
     );
   }
@@ -101,7 +130,6 @@ const styles = StyleSheet.create({
     padding : 10,
     margin : 10,
     alignItems : 'center',
-    height : 700
   },
   textareaContainer : {
     borderColor: '#dddddd',

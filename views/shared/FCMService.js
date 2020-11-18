@@ -1,5 +1,6 @@
 import messaging from '@react-native-firebase/messaging'
 import {Platform} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class FCMService {
 
@@ -27,13 +28,19 @@ class FCMService {
             }
         }).catch(error => {
             console.log("[FCMService] Permission rejected ", error)
+            Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         })
+    }
+
+    saveFCMToken = async(fcmToken) => {
+        await AsyncStorage.setItem('fcmToken', fcmToken);
     }
 
     getToken = (onRegister) => {
         messaging().getToken()
         .then(fcmToken => {
             if (fcmToken) {
+                this.saveFCMToken(fcmToken);
                 console.log("this is token : " + fcmToken);
                 onRegister(fcmToken)
             }else {
@@ -41,6 +48,7 @@ class FCMService {
             }
         }).catch(error => {
             console.log("[FCMService] getToken rejected ", error)
+            Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         })
     }
 
@@ -50,6 +58,7 @@ class FCMService {
             this.getToken(onRegister)
         }).catch(error => {
             console.log("[FCMService] Request Permission rejected ", error)
+            Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         })
     }
 
@@ -58,6 +67,7 @@ class FCMService {
         messaging().deleteToken()
         .catch(error => {
             console.log("[FCMService] Delete token error ", error)
+            Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         })
     }
 

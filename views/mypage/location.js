@@ -1,33 +1,44 @@
 import axios from 'axios' // for kakao
 import React, {Component} from 'react';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
-import {StyleSheet, Dimensions, View, Platform, TouchableOpacity,} from 'react-native';
+import {StyleSheet, Dimensions, View, Platform, TouchableOpacity, Alert} from 'react-native';
 import {Button, Container, Content, Left, Right, Header, Body, Title, Icon, Spinner} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
 import {Text} from 'native-base';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/Ionicons'
+import Slider from '@react-native-community/slider'
 import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
+import { CommonActions } from '@react-navigation/native';
+
 IconM.loadFont()
 
 const kakaoApi = axios.create({baseURL: 'https://dapi.kakao.com/v2/local/'});
 
+var locationList = []
 var myLocation = ''
 var token_value = '';
 var user_addr = {
   location: {
     title: '',
+    range: '',
   },
 };
 
+// const resetAction = StackActions.reset({
+//   index : 0,
+//   actions: [NavigationActions.navigate({routeName: 'Mypage',})]
+// });
+
 class MypageScreen extends Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       location:'',
       title:'',
       loading: true,
+      value:0,
     };
   }
 
@@ -42,9 +53,9 @@ class MypageScreen extends Component{
     }
   }
   
- getToken = async() =>  {
+  getToken = async() =>  {
     token_value = await AsyncStorage.getItem('token');
-    myLocation = await AsyncStorage.getItem('myLocation');
+    myLocation = await AsyncStorage.getItem('my_location');
   }
   
   requestKakao = async(coords) => {
@@ -59,43 +70,71 @@ class MypageScreen extends Component{
         },
       })
       .then(function (response) {
-        console.log('kakao request success!!');
+        console.log(response)
         user_addr.location.title =
           response.data.documents[0].address.region_3depth_name;
-        console.log(user_addr.location.title)
-        this.setState({title : user_addr.location.title});
-        this.setState({loading: false})
+        this.getNearLocation();
+        this.state.title = user_addr.location.title;
       }.bind(this))
       .catch(function (error) {
         console.log('failed: ' + error);
-      });
+        Alert.alert("지역 인증 실패", "법정동을 읽어올 수 없습니다",[
+          {text:'확인', style:'cancel', onPress: ()=> { this.props.navigation.navigate("MyPage") } }])
+      }.bind(this));
   }
   
-  putRequest = async() =>  {
-    console.log('call put request');
-    
+  getNearLocation() {
     this.getToken().then(() => {
-      api
-        .put('/locations/certificate', user_addr, {
-          headers: {
-            Authorization: token_value,
-          },
-        })
-        .then(() => {
-          console.log('put request success');
-          alert("현재 내 위치는 '" + user_addr.location.title + "'입니다.")
-          AsyncStorage.setItem('myLocation', user_addr.location.title);
-          if(myLocation == null){
-            this.props.navigation.navigate('postIndex')
-          }else{
-            this.props.navigation.navigate('MyPage')
-          }
-        })
-        .catch((err) => {
-          console.log('put request fail');
-          console.log(err);
-        });
-    });
+      api.get('/locations/display', {
+        params: {
+          title: user_addr.location.title
+        },
+        headers: {
+          Authorization: token_value,
+        }
+      }).then((res) => {
+        locationList = res.data.location_info.range;
+        this.state.value = res.data.location_info.user_range;
+        this.setState({loading: false})
+      }).catch((err) => {
+        console.log(err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+      })
+    })
+  }
+
+  putRequest = async() =>  {  
+    user_addr.location.range = this.state.value;
+    console.log("puterquest")
+    api
+      .put('/locations/certificate', user_addr, {
+        headers: {
+          Authorization: token_value,
+        },
+      })
+      .then(() => {
+        Alert.alert("동네 인증 완료", "동네 인증이 완료되었습니다.",[{text:'확인', style:'cancel'}])
+        console.log("-------------------------")
+        console.log("myLocation is")
+        console.log(myLocation == "null")
+        AsyncStorage.setItem('my_location', user_addr.location.title);
+        if(myLocation == "null"){ // first location auth
+          this.props.navigation.navigate('postIndex')
+        }else{ //already has location
+          // this.props.navigation.dispatch(
+          //   CommonActions.reset({
+          //     index: 1,
+          //     routes: [{ name: 'MyPage' },],
+          //   })
+          // );
+          this.props.navigation.goBack();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert("동네 인증 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+      });
+
   }
 
   componentDidMount () {
@@ -125,6 +164,40 @@ class MypageScreen extends Component{
     });
   }
 
+  showNearLocation(value) {
+    this.setState({value : value})
+  }
+
+  showNearLocationList(){
+    this.props.navigation.navigate('LocationDetail', 
+    { list: locationList[this.state.value].title, num : locationList[this.state.value].count })
+  }
+
+  renderHeader(){
+    if(myLocation == "null"){
+      return(
+        <Header>
+          <Left>
+          </Left>
+          <Body><Title>동네 설정</Title></Body>
+          <Right></Right>
+        </Header>
+      )
+    }else{ // already has location
+      return(
+        <Header>
+          <Left>
+            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+            <Icon name = 'chevron-back' type = 'Ionicons'/>
+            </TouchableOpacity>
+          </Left>
+          <Body><Title>동네 설정</Title></Body>
+          <Right></Right>
+        </Header>
+      )
+    }
+  }
+
   render(){
     if (this.state.loading == true) {
       return (
@@ -138,21 +211,25 @@ class MypageScreen extends Component{
     } //else
     return (
       <Container>
-        <Header>
-            <Left>
-              <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
-                <Icon name = 'chevron-back' type = 'Ionicons'/>
-              </TouchableOpacity>
-            </Left>
-            <Body><Title>동네 설정</Title></Body>
-            <Right></Right>
-          </Header>
-        <Content>
-        <View style={{alignItems:'center', flexDirection:'row'}}>
-        <Button transparent style={styles.bottomButtons}>
-          <Text>현재 위치는 "{user_addr.location.title}" 입니다.</Text>
-        </Button>
+        {this.renderHeader()}
+        <Content scrollEnabled={false}>
+          <View style={{alignItems:'center', textAlign:'center'}}>
+            <Text/>
+            <Title>현재 위치는 "{user_addr.location.title}" 입니다.</Title>
+            <Text/>
+            <Text onPress={() => this.showNearLocationList()} style={{textDecorationLine: 'underline'}}>근처 동네 {locationList[this.state.value].count}개</Text>
+          <Slider
+            style={styles.slider}
+            onValueChange={(value)=>{this.showNearLocation(value)}}
+            minimumValue={0} //0:alone, 1: near, 2: normal, 3: far
+            maximumValue={3}
+            minimumTrackTintColor="#ff3377"
+            maximumTrackTintColor="#f4c2c2"
+            step={1}
+            value = {this.state.value}
+          />
         </View>
+
         <View style={styles.container}>
           <MapView
             ref={(map) => {this.map = map}}
@@ -175,6 +252,7 @@ class MypageScreen extends Component{
             />
           </MapView>
         </View>
+
         <Button style={styles.footer} onPress={() => {this.putRequest();}}>
           <Text style={{textAlign:'center'}}>현재 위치에서 동네 인증하기</Text>
         </Button>
@@ -189,7 +267,7 @@ const styles = StyleSheet.create({
   container: {
     zIndex: 0,
     top: 2,
-    height: height*0.7,
+    height: height*0.65,
     width: width,
   },
   footer: {
@@ -197,6 +275,7 @@ const styles = StyleSheet.create({
     zIndex: 3,
     backgroundColor:'#ff3377',
     height:50,
+    bottom:-5,
     width: width,
     alignItems:'center',
     justifyContent: 'center',
@@ -204,11 +283,13 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
-  bottomButtons: {
+  slider: {
     alignItems:'center',
     justifyContent: 'center',
     flex:1,
-  },
+    width: 200, 
+    height: 40,
+  }
 });
 
 export default MypageScreen;

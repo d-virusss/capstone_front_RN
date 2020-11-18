@@ -1,6 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {Alert} from 'react-native';
-import React, {useEffect} from 'react';
+import {Alert, StyleSheet} from 'react-native';
+import React, { useEffect } from 'react';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import LoginScreen from './views/login/caller';
 import Register_form from './views/registration/caller';
@@ -28,10 +28,19 @@ import MyItemList from './views/mypage/myItemList'
 import ManageReservation from './views/mypage/manageReservation'
 import PostUpdate from './views/post/post_update'
 import Contract from './views/contract/contract'
+import db from './views/shared/chat_db'
+import Sign from './views/sign/sign'
+import SignState from './views/sign/check_sign_state'
+import LocationDetail from './views/mypage/location_detail'
 
 const Stack = createStackNavigator();
 
 const App = () => {
+  /*db.transaction((tx)=>{
+    tx.executeSql('drop table message',
+    (tx,results)=>console.log('create execute'),
+    (error)=>console.log(error));
+  })*/
 
   useEffect(() => {
     fcmService.registerAppWithFCM()
@@ -63,38 +72,47 @@ const App = () => {
         localNotificationService.unregister()
       }
     }
+    db.transaction((tx)=>{
+      tx.executeSql('create table if not exists message (message_id integer primary key, chat_id integer, sender_id integer, message_text text, message_created text, image_url text)',[],
+      (tx,results)=>console.log(results),
+      (error)=>console.log(error));
+    })
   }, []);
 
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Logins">
-        <Stack.Screen name="Logins" component={LoginScreen} options={{headerShown: false, gestureEnabled : false}} />
-        <Stack.Screen name="KakaoLogin" component={KakaoLogin} options={{gestureEnabled : false}} />
-        <Stack.Screen name="Register" component={Register_form} />
+        <Stack.Screen name="Logins" component={LoginScreen} options={{headerShown: false, gestureEnabled : false, }} />
+        <Stack.Screen name="KakaoLogin" component={KakaoLogin} options={{ gestureEnabled : false, headerTitle: "카카오 로그인", headerBackTitle: '뒤로'}} />
+        <Stack.Screen name="Register" component={Register_form} options={{headerShown: false}} />
         <Stack.Screen name="Find_id" component={FindId} />
         <Stack.Screen name="Find_pw" component={FindPw} />
 
-        <Stack.Screen name="Chats" component={chatIndex} options={{ title: '채팅', headerLeft: null, }} />
+        <Stack.Screen name="Chats" component={chatIndex} options={{ title: '채팅', headerLeft: null, gestureEnabled: false}} />
         <Stack.Screen name="P_W_p" component={Post_provide} options={{ headerShown : false }} />
         <Stack.Screen name="P_W_c" component={Post_ask} options={{ headerShown : false }} />
         <Stack.Screen name="Seach" component={SearchBar} />
-        <Stack.Screen name="postIndex" component={PostIndex} options={{ headerShown: false}} />
+        <Stack.Screen name="postIndex" component={PostIndex} options={{ gestureEnabled : false, headerShown: false}} />
         <Stack.Screen name="PostShow" component={PostShow}options={{ headerShown: false }}/>
         <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
         <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
-        
+        <Stack.Screen name="Booking" component={Booking} options={{ headerTitle: "예약날짜 선택하기",
+          headerBackTitle: '뒤로' }} />
 
-        <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false}} />
-        <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{headerShown: false}}  />
+        <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false, gestureEnabled: false}} />
+        <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{gestureEnabled: false, headerShown: false}}  />
         <Stack.Screen name="SettingGroup" component={SettingGroup} options={{ headerShown : false}} />
         <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{headerShown: false}}  />
         <Stack.Screen name="ProfileShow" component={ProfileShow} options={{ headerShown : false, }} />
         <Stack.Screen name="ProfileShowList" component={ProfileShowList} options={{ headerShown : false, }} />
-        <Stack.Screen name="Booking" component={Booking} />
         <Stack.Screen name="MyItemList" component={MyItemList} options={{ headerShown : false }} />
         <Stack.Screen name="Reservation" component={ManageReservation} options={{ headerShown: false }} />
+        <Stack.Screen name="LocationDetail" component={LocationDetail} options={{headerShown : false}}/>
+
         <Stack.Screen name="Contract" component={Contract} options={{ headerShown : false }} />
+        <Stack.Screen name="Sign" component={Sign} options={{ headerShown : false }} />
+        <Stack.Screen name="SignState" component={SignState} options={{ headerShown : false }} />
         
       </Stack.Navigator>
     </NavigationContainer>

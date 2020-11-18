@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Icon } from 'native-base';
-import { ScrollView, RefreshControl,TouchableOpacity} from "react-native";
+import { ScrollView, RefreshControl,} from "react-native";
+import {TouchableOpacity} from 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address';
 import number_delimiter from '../shared/number_delimiter'
@@ -19,17 +20,19 @@ class ProvideIndex extends Component {
 
   _onRefresh = () => {
    
-    console.log("refresh")
+    console.log("제공 게시물 refresh")
+    
     this.setState({refreshing: true});
     this.sendIndexRequest(this.state.id);
     this.setState({refreshing: false});
   }
 
   makeIndexList() {
+    console.log("make index list")
     return this.state.posts.map((post) => {
       return(
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('PostShow', { post: post }) } key={post.post_info.id}>
-          <ListItem thumbnail>
+        <TouchableOpacity onPress={() =>{this.props.navigation.navigate('PostShow', { post: post }) }}>
+          <ListItem thumbnail key = {post.post_info.id}>
             <Left>
               <Thumbnail square source={{ uri: post.post_info.image }} />
             </Left>
@@ -61,11 +64,10 @@ class ProvideIndex extends Component {
       .then((res) => {
         console.log(res);
         this.setState({posts: res.data});
-        return true;
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e);
-        return false;
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       });
     }else{
       api
@@ -83,6 +85,7 @@ class ProvideIndex extends Component {
       })
       .catch(function (e) {
         console.log('category request failed!!!!' + e);
+        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       });
     }
    
@@ -105,18 +108,20 @@ class ProvideIndex extends Component {
 }
 
   handleEvent = (e) => {
+    console.log("event handler")
     this.state.id = e.id;
     this.sendIndexRequest(this.state.id);
   }
 
   render() {
+    console.log("render")
+    console.log(this.props)
     return (
       <ScrollView style={{flex: 1}}
-      refreshControl={
-        <RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this._onRefresh}/>
-      }>
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}/>}>
         <Content>
           <List>{this.makeIndexList()}</List>
         </Content>
