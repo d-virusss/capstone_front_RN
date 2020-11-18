@@ -97,8 +97,7 @@ const App = () => {
         <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
         <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
-        <Stack.Screen name="Booking" component={Booking} options={{ headerTitle: "예약날짜 선택하기",
-          headerBackTitle: '뒤로' }} />
+        <Stack.Screen name="Booking" component={Booking} options={{ headerShown : false}} />
 
         <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false, gestureEnabled: false}} />
         <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{gestureEnabled: false, headerShown: false}}  />
