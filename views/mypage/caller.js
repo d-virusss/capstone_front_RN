@@ -9,6 +9,8 @@ import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
 
 
+var posts = [];
+
 class MypageScreen extends Component {
   state = {
     token:'',
@@ -29,10 +31,6 @@ class MypageScreen extends Component {
     this.setState({refreshing: false});
   }
 
-  goToSetLocation() {
-    this.props.navigation.push('MyPage_Location');
-  }
-
   Logout() {
     this.dropFCMToken();
     this.props.navigation.dispatch(
@@ -46,63 +44,35 @@ class MypageScreen extends Component {
     // pop everything in stack navigation
   }
 
-  ShowLikeList() {
-    this.props.navigation.navigate('Like_List');
-  }
-
-  SettingGroup(){
-    this.props.navigation.navigate('SettingGroup')
-  }
-
-  componentDidMount() {
-    this.getMyInfo();
-  }
-
-  providerRentList() {
-    this.props.navigation.navigate('ProviderRentList')
-  } 
-  
-  consumerRentList() {
-    this.props.navigation.navigate('ConsumerRentList')
-  }
-
-  showReservation(){
-    this.props.navigation.navigate('Reservation')
-  }
-
-  showMyItemList(){
-    this.props.navigation.navigate('MyItemList')
-  }
-
-  BookingList(){
-   
-  }
-
   getToken = async () => {
     let value = await AsyncStorage.getItem("token")
     this.state.token = value
+    this.getMyInfo();
+    
+  }
+
+  componentDidMount() {
+    console.log("---------------------------------")
+    this.getToken();
   }
 
   getMyInfo = () => {
-    this.getToken().then(() => {
-
-      api.get(`/users/mypage`,{
-        headers: {
-          Authorization: this.state.token,
-        },
-      })
-      .then((res) => {
-        this.state.myName = res.data.user_info.nickname;
-        this.state.myLocation = res.data.user_info.location_title;
-        this.state.myImage = res.data.user_info.image;
-        this.state.myGroup = "ajou"
-        this.setState({loading: true})
-
-      })
-      .catch((err) => {
-        console.log("my page err")
-        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
-      })
+    api.get(`/users/mypage`,{
+      headers: {
+        Authorization: this.state.token,
+      },
+    })
+    .then((res) => {
+      this.state.myName = res.data.user_info.nickname;
+      this.state.myLocation = res.data.user_info.location_title;
+      this.state.myImage = res.data.user_info.image;
+      this.state.myGroup = "ajou"
+      posts = res.data.user_info;
+      this.setState({loading: true})
+    })
+    .catch((err) => {
+      console.log("my page err")
+      Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
     })
   }
 
@@ -156,7 +126,7 @@ class MypageScreen extends Component {
         )}>
         <TouchableOpacity
           onPress={() => this.setState({ show_popover: false }, () => {
-            console.log("menu popover pressed! --------")
+            this.props.navigation.navigate("SettingMyInfo", {post: posts})
           })}>
           <Text style={styles.popoverel}>내 정보 수정</Text>
         </TouchableOpacity>
@@ -215,18 +185,18 @@ class MypageScreen extends Component {
             <ListItem
               style={{flexDirection: 'row', justifyContent: 'center', height: 100}}>
               <Button light style={styles.btn}
-                onPress={() => {this.providerRentList()}}>
+                onPress={() => {this.props.navigation.navigate('ProviderRentList')}}>
                 <Icon type="MaterialCommunityIcons" name="receipt" />
                 <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 제공 목록</Text>
               </Button>
 
               <Button light style={styles.btn}
-                onPress={() => {this.consumerRentList()}}>
+                onPress={() => {this.props.navigation.navigate('ConsumerRentList')}}>
                 <Icon type="Ionicons" name="basket-sharp" />
                 <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 대여 목록</Text>
               </Button>
 
-              <Button light style={styles.btn} onPress={() => {this.ShowLikeList();}}>
+              <Button light style={styles.btn} onPress={() => {this.props.navigation.navigate('Like_List')}}>
                 <Icon type="Feather" name="heart" />
                 <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 관심 목록</Text>
               </Button>
@@ -234,7 +204,7 @@ class MypageScreen extends Component {
 
             <Separator bordered style={{ height: '1%'}}></Separator>
 
-            <ListItem button onPress={() => { this.goToSetLocation(); }}>
+            <ListItem button onPress={() => { {this.props.navigation.navigate('MyPage_Location')} }}>
               <Left>
                 <Icon type="Ionicons" name="location-sharp" />
                 <Text style={styles.listText}> 동네 인증하기</Text>
@@ -254,7 +224,7 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={()=>{this.SettingGroup()}}>
+            <ListItem button onPress={() => {this.props.navigation.navigate('SettingGroup')}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text style={ styles.listText }> 소속 인증</Text>
@@ -264,7 +234,7 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => {this.showMyItemList();}}>
+            <ListItem button onPress={() => {this.props.navigation.navigate('MyItemList')}}>
               <Left>
                 <Icon type="Ionicons" name="file-tray-stacked-outline" />
                 <Text style={ styles.listText }> 내 글 관리</Text>
@@ -284,7 +254,7 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => {this.showReservation();}}>
+            <ListItem button onPress={() => {this.props.navigation.navigate('Reservation')}}>
               <Left>
                 <Icon type="AntDesign" name="calendar" />
                 <Text style={ styles.listText }> 예약 관리</Text>
