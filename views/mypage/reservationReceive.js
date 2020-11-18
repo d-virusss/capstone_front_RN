@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions} from 'react-native';
 import {Text, Header, Thumbnail, FooterTab, Body, Container, 
-  Content, ListItem, Spinner, Button, Footer} from 'native-base';
+  Content, ListItem, Spinner, Button, Footer, Badge, Right} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
 import moment from 'moment';
@@ -69,7 +69,7 @@ class receiveScreen extends Component{
   }
 
   getReservationList () {
-    api.get('/bookings?received=true', {
+    api.get('/bookings?received=true&status=before', {
         headers: {Authorization: this.state.token},
     }).then((res) => {
         console.log(res)
@@ -116,7 +116,6 @@ class receiveScreen extends Component{
   }
 
   showOptionButton(){
-    console.log(reservation_info)
     if(reservation_info.item_id){
       return(
           <View style={styles.footer}>
@@ -135,18 +134,37 @@ class receiveScreen extends Component{
     }
   }
 
+  setBadgeColor(result) {
+    if (result === "대기 중") {
+      return 'black'
+    }
+    else if (result === '승인') {
+      return '#29850b'
+    }
+    else if (result === '거절') {
+      return '#a1282c'
+    }
+  }
+
   makeList() {
     return reservation_list.map((ele) => {
       return (
         <ListItem key={ele.booking_info.id}
           button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id, ele.booking_info.start_at, ele.booking_info.end_at)}>
-          <Thumbnail source={{ uri: ele.booking_info.image }} />
+          <Thumbnail source={{ uri: ele.booking_info.post_image }} />
           <Body>
             <Text>{ele.booking_info.title}</Text>
-            <Text note numberOfLines={1}>
-              {ele.booking_info.result}
-            </Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ paddingTop : '2%' }}>{ele.booking_info.consumer.nickname}</Text>
+            </View>
           </Body>
+          <Right>
+            <Badge style={{ backgroundColor : this.setBadgeColor(ele.booking_info.result) }}>
+              <Text numberOfLines={1} >
+                {ele.booking_info.result}
+              </Text>
+            </Badge>
+          </Right>
         </ListItem>
       );
     });

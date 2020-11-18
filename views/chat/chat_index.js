@@ -47,22 +47,20 @@ class ListProfile extends Component {
       }}>
         <Left>
           <TouchableOpacity style = {{paddingBottom:14}} onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI})}>
-            <Thumbnail source={{ uri: this.props.imgURI||'empty'}} style={{ width : 60, height: 60, }} />
+            <Thumbnail source={{ uri: this.props.imgURI||'https://applepink.s3.amazonaws.com/uploads/user/image/1/square_447087af-da95-4a04-94c4-2ccccc782c28applePink_logo.png'}} style={{ width : 60, height: 60, }} />
           </TouchableOpacity>
         </Left>
-        <Body style={{paddingVertical: 30}} >
+        <Body style={{paddingVertical: 30, alignSelf: 'center'}} >
           <TouchableOpacity onPress = {() => {this.props.navigation.navigate('ChatRoom', {chat_id: this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI})}}>
             <Text> {this.props.nickname} </Text>
             <Text note> {this.props.body} </Text>
           </TouchableOpacity>
         </Body>
-        <Right style={{paddingVertical : 0}}>
-          <Text note> {this.props.time}</Text>
+        <Right style={{ flexDirection:'row', alignItems : 'center', justifyContent : 'flex-end', paddingVertical: 0}}>
           {this.props.exist_unchecked ? 
-          <Button disabled small badge transparent style={{paddingVertical:0}}>
-            <Badge style={{marginLeft: '5%'}}><Text>{this.props.unchecked}</Text></Badge>
-          </Button>
-          : <Text></Text> }
+            <Badge small style={{}}><Text>{this.props.unchecked}</Text></Badge>
+            : <Text></Text> }
+            <Text note style={{ marginLeft : '5%' }}> {this.props.time}</Text>
         </Right>
       </ListItem>
     );

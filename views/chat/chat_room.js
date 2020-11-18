@@ -303,7 +303,7 @@ function ChatRoom ({route , navigation}) {
         justifyContent: 'space-between',
         borderBottomColor: '#cccccc'
       }}>
-        <Image source = {{uri: post_img || "empty"}} style={{
+        <Image source = {{uri: post_img || "https://applepink.s3.amazonaws.com/uploads/user/image/1/square_447087af-da95-4a04-94c4-2ccccc782c28applePink_logo.png"}} style={{
           width:50,
           height:50,
           margin: '3%'
