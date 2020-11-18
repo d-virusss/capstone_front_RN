@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, ScrollView, View, Alert } from 'react-native';
 import { Container, Content, Header, Left, Right, Body, Icon,
-  Title, Text, List, ListItem, Tabs, Tab, TabHeading, Thumbnail,
+  Title, Text, List, ListItem, Tabs, Tab, TabHeading, Thumbnail, Badge
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
@@ -26,7 +26,7 @@ class ProviderRentList extends Component {
             </Left>
             <Body>
               <Text>{booking.booking_info.title}</Text>
-              <Text note numberOfLines={1}>
+              <Text note numberOfLines={1} style={{ paddingVertical : 4}}>
                 {booking.booking_info.start_at.split('T')[0]} ~
                 {booking.booking_info.end_at.split('T')[0]}
               </Text>
@@ -43,7 +43,9 @@ class ProviderRentList extends Component {
                   style: 'cancel'
                 }
               ])}}>
-                <Text style={styles.returnbutton}>반납확인</Text>
+                <Badge style={{ backgroundColor: '#fcf11e', height : 30}}>
+                  <Text style={styles.returnbutton}>반납 확인</Text>
+                </Badge>
               </TouchableOpacity>
             </Right>
           </ListItem>
@@ -65,7 +67,7 @@ class ProviderRentList extends Component {
             </Left>
             <Body>
               <Text>{booking.booking_info.title}</Text>
-              <Text note numberOfLines={1} style={{ paddingVertical : '1%'}}>
+              <Text note numberOfLines={1} style={{ paddingVertical : 4}}>
                 {booking.booking_info.start_at.split('T')[0]} ~ { booking.booking_info.end_at.split('T')[0]}
               </Text>
               <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원</Text>
@@ -85,6 +87,9 @@ class ProviderRentList extends Component {
       })
       .then((res) => {
         console.log(res)
+        Alert.alert("반납 완료", "반납이 완료되었습니다", [{
+          text: '확인', style: 'cancel'
+        }])
         this.afterRequest()
       })
       .catch(function (e) {
@@ -124,7 +129,7 @@ class ProviderRentList extends Component {
 
   render() {
     return (
-      <View>
+      <Container>
         <Header>
           <Left>
             <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
@@ -155,15 +160,16 @@ class ProviderRentList extends Component {
             </Tabs>
           </Content>
         </ScrollView>
-      </View>
+      </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
   returnbutton : {
-    fontSize : 15,
-    fontWeight : '500'
+    fontSize : 13,
+    fontWeight : '400',
+    color : 'black'
   }
 });
 

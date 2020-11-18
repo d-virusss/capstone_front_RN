@@ -211,6 +211,7 @@ class MypageScreen extends Component {
               <View></View>
             </ListItem>
 
+
             <ListItem
               style={{flexDirection: 'row', justifyContent: 'center', height: 100}}>
               <Button light style={styles.btn}
@@ -231,7 +232,7 @@ class MypageScreen extends Component {
               </Button>
             </ListItem>
 
-            <Separator bordered></Separator>
+            <Separator bordered style={{ height: '1%'}}></Separator>
 
             <ListItem button onPress={() => { this.goToSetLocation(); }}>
               <Left>
