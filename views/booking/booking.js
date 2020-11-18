@@ -61,6 +61,7 @@ class bookingScreen extends Component{
         console.log(this.state.token);
         console.log(response);
         Alert.alert("예약 신청 완료", "예약 신청이 완료되었습니다.",[{text:"확인", style:'cancel'}])
+        this.props.route.params.onGoBack();
         this.props.navigation.goBack();
       })
       .catch((err) => {
@@ -87,6 +88,12 @@ class bookingScreen extends Component{
     this.state.totalPrice = (this.state.dateNumber * this.state.post_price)
     console.log(this.state)
     this.forceUpdate();
+  }
+
+  isBookedCalculate = () => {
+    this.state.totalPrice = ((this.state.endDate-this.state.startDate) * this.state.post_price)
+    console.log(this.state)
+    //this.forceUpdate();
   }
 
   getPostInfo = async () => {
@@ -121,6 +128,10 @@ class bookingScreen extends Component{
         else {
           this.state.booked = true;
           this.state.booking_id = response.data.booking_info.id;
+          this.state.startDate = new Date(response.data.booking_info.start_at);
+          this.state.endDate = new Date(response.data.booking_info.end_at);
+          this.state.post_price = response.data.booking_info.price;
+          this.state.totalPrice = ((this.state.endDate - this.state.startDate) / (1000 * 3600 * 24) + 1) * this.state.post_price
         }
       })
       .catch((error) => {
@@ -142,13 +153,14 @@ class bookingScreen extends Component{
       .then(()=>{
         console.log(this.state.token)
         Alert.alert("예약 취소", "예약을 취소하였습니다.",[{text:"확인", style:'cancel'}])
+        this.props.route.params.onGoBack();
+        this.props.navigation.goBack();
       })
       .catch((error) => {
         console.log(error)
         Alert.alert("예약 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
       })
       console.log(this.state.booked);
-      this.props.navigation.goBack();
   }
 
   
@@ -189,15 +201,26 @@ class bookingScreen extends Component{
             </Text>
           </View>
         </Header>
-        <Calendar
-          onChange={(range) => { console.log(range); if(typeof(range.endDate) != "undefined"){
-            this.calculateDate(range); this.calculatePrice()
-          }}} 
+        {this.state.booked == false && (<Calendar
+          onChange={(range) => { 
+            console.log(range); 
+            if(typeof(range.endDate) != "undefined"){
+              this.calculateDate(range); 
+              this.calculatePrice();
+            }
+          }} 
           startDate = {new Date(this.state.startYear, this.state.startMonth, this.state.startDay)}
           endDate = {new Date(this.state.endYear, this.state.endMonth, this.state.endDay)}
           numberOfMonths = {3}
           theme={ theme }
-        />
+        />)}
+        {this.state.booked == true && (<Calendar
+          onChange = {(range)=>{console.log}}
+          startDate = {new Date(this.state.startDate.getFullYear(),this.state.startDate.getMonth(),this.state.startDate.getDate())}
+          endDate = {new Date(this.state.endDate.getFullYear(),this.state.endDate.getMonth(),this.state.endDate.getDate())}
+          numberOfMonths = {3}
+          theme={ theme }
+        />)}
         <View style = {{
           backgroundColor : '#ff3377',
           justifyContent : 'center',
@@ -212,7 +235,19 @@ class bookingScreen extends Component{
                 marginBottom : '3%',
                 height: 80,
               }}
-              onPress = {() => this.bookingCreateRequest()}
+              onPress = {() => {
+                  Alert.alert("예약 신청", "예약을 신청하시겠습니까?", [
+                    {
+                      text: '취소',
+                      style: 'cancel'
+                    },
+                    {
+                      text: '확인',
+                      onPress: () => this.bookingCreateRequest(),
+                    },
+                  ])
+                }
+              }
             >
               <Text style = {{color : 'white', fontSize:20, fontWeight: 'bold'}}>예약 신청하기</Text>
             </Button>
@@ -223,7 +258,18 @@ class bookingScreen extends Component{
                 padding : 4,
                 margin : '1%',
               }}
-              onPress = {() => this.removeBooking()}
+              onPress = {() => {
+                Alert.alert("예약 취소", "예약을 취소하시겠습니까?", [
+                  {
+                    text: '취소',
+                    style: 'cancel',
+                  },
+                  {
+                    text: '확인',
+                    onPress: () => this.removeBooking(),
+                  }
+                ])
+              }}
             >
               <Text style = {{color : 'white', fontSize: 20, fontWeight: 'bold'}}>예약 취소하기</Text>
             </Button>

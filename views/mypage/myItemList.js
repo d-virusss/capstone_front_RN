@@ -19,11 +19,9 @@ class myItemListScreen extends Component{
 
   makeIndexList(posts){
     return posts.map((post) => {
-      console.log('each post -----')
-      console.log(post.post_info.title)
       return(
         <ListItem thumbnail key={post.post_info.id} button
-        onPress={() => this.showPostRequset(post.post_info.id)}>
+        onPress={() =>  this.props.navigation.navigate('PostShow', { post: post })}>
           <Left>
             <Thumbnail square source={{ uri: post.post_info.image }} />
           </Left>
@@ -36,21 +34,6 @@ class myItemListScreen extends Component{
     })
   }
 
-  showPostRequset(id){
-    console.log("show request")
-    api
-      .get(`/posts/${id}`, { headers : {
-        'Authorization': this.state.token
-      }})
-      .then(function(response) {
-        this.props.navigation.navigate('PostShow', { post: response.data })
-      }.bind(this))
-      .catch((err) => {
-        console.log("err : ", err)
-        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
-      })
-  }
-
   sendProvideIndexRequest() {
     api
       .get(`/users/${this.state.myId}/list?post_type=provide`, {
@@ -59,7 +42,7 @@ class myItemListScreen extends Component{
         }
       })
       .then((res) => {
-        console.log(res)
+        
         this.setState({posts1:res.data}, ()=> { })
       })
       .catch(function (e) {
@@ -100,7 +83,7 @@ class myItemListScreen extends Component{
 
   render(){
     return(
-      <View>
+      <Container>
          <Header>
           <Left>
             <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
@@ -111,27 +94,26 @@ class myItemListScreen extends Component{
           <Right></Right>
         </Header>
 
-        <ScrollView>
         <Content>
-        <Tabs>
-          <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
-            <Content>
-            <List>
-              {this.makeIndexList(this.state.posts1)}
-            </List>
-            </Content>
-          </Tab>
-          <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
-           <Content>
-            <List>
-              {this.makeIndexList(this.state.posts2)}
-            </List>
-            </Content>
-          </Tab>
+          <Tabs>
+            <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
+              <Content>
+                <List>
+                  {this.makeIndexList(this.state.posts1)}
+                </List>
+              </Content>
+            </Tab>
+
+            <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
+              <Content>
+                <List>
+                  {this.makeIndexList(this.state.posts2)}
+                </List>
+              </Content>
+            </Tab>
           </Tabs>
         </Content>
-        </ScrollView>
-        </View>
+      </Container>
     );
   }
 }

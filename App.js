@@ -110,6 +110,7 @@ const App = () => {
         <Stack.Screen name="MyItemList" component={MyItemList} options={{ headerShown : false }} />
         <Stack.Screen name="Reservation" component={ManageReservation} options={{ headerShown: false }} />
         <Stack.Screen name="LocationDetail" component={LocationDetail} options={{headerShown : false}}/>
+      
 
         <Stack.Screen name="Contract" component={Contract} options={{ headerShown : false }} />
         <Stack.Screen name="Sign" component={Sign} options={{ headerShown : false }} />

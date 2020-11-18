@@ -11,6 +11,7 @@ import { CommonActions, StackActions } from '@react-navigation/native';
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
+let updateFlag = 0;
 var user_id;
 class PostShow extends Component{
   params = this.props.route.params;
@@ -35,6 +36,7 @@ class PostShow extends Component{
     val: -1,
     loading:true,
     is_your_post:'',
+    isBooked: null,
   };
 
   getToken = async () => {
@@ -45,6 +47,28 @@ class PostShow extends Component{
     } catch (error){
       console.log("error : ", error);
     }
+  }
+ 
+  getPostInfo = async () => {
+    api
+      .get(`/posts/${this.state.post_id}`,{
+        headers:{
+          'Authorization' : this.state.token,
+        }
+      })
+      .then((response)=>{
+        this.setState({
+          title: response.data.post_info.title,
+          price: response.data.post_info.price,
+          body: response.data.post_info.body,
+          category: response.data.post_info.category,
+          icon: response.data.post_info.like_check ? "heart" : "heart-outline",
+          image: response.data.post_info.image,
+          provider_location:response.data.post_info.location_title,
+          rent_count : response.data.post_info.rent_count,
+          isBooked: response.data.post_info.is_booked,
+        })
+      })
   }
 
   componentDidMount() {
@@ -68,6 +92,7 @@ class PostShow extends Component{
     this.state.provider_id = this.params.post.user.user_info.id,
     this.state.provider_profile_image = this.params.post.user.user_info.image,
     this.state.rent_count = this.params.post.post_info.rent_count,
+    this.state.isBooked = this.params.post.post_info.is_booked,
 
     this.state.is_your_post = this.params.post.user.user_info.id == parseInt(user_id) ? true : false;
     this.setState({loading : false})
@@ -119,8 +144,10 @@ class PostShow extends Component{
   }
   
   checkNavigate(){
-    if(this.state.val === 0)
+    if(this.state.val === 0){
+      updateFlag = 1;
       this.props.navigation.navigate('ChatRoom', {chat_id: this.state.chat_id, post_id: this.state.post_id,nickname:this.state.provider_name,avatar:this.state.provider_profile_image});
+    }
     if(this.state.val === 1) {
       Alert.alert(
         "오류",
@@ -139,6 +166,7 @@ class PostShow extends Component{
       .then((res) => {
         console.log(res)
         Alert.alert("삭제 완료", "", [{text:'확인', style:'cancel'}])
+        updateFlag = 1;
         this.props.navigation.dispatch(
           CommonActions.reset({
             index: 1,
@@ -158,7 +186,7 @@ class PostShow extends Component{
       <View>
         <TouchableOpacity
           onPress={() => this.setState({ show_popover : false }, 
-          () => { this.props.navigation.navigate("PostUpdate", { my_post : this.params.post.post_info } ) }) }>
+          () => { updateFlag = 1; this.props.navigation.navigate("PostUpdate", { my_post : this.params.post.post_info } ) }) }>
           <Text style={styles.popoverel}>수정</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -173,11 +201,11 @@ class PostShow extends Component{
     if(this.state.is_your_post){
       return (
         <FooterTab>
-          <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.params.post.post_info }) }}>
+          <Button transparent onPress={() => { updateFlag = 1; this.props.navigation.navigate("Contract", { my_post : this.params.post.post_info, onGoBack: ()=>{this.getPostInfo();}}) }}>
             <Text style={{ color: '#ff0055', fontWeight: 'bold', fontSize: 17, paddingVertical: 5}}>계약서 수정</Text>
           </Button>
           <Button transparent
-            onPress={() => { this.props.navigation.navigate('Reservation') }} >
+            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Reservation',{onGoBack: ()=>{this.getPostInfo();}}) }} >
             <Text style={{ fontWeight: 'bold', fontSize: 17, paddingVertical: 5 }}>예약 목록 확인</Text>
           </Button>
         </FooterTab>
@@ -192,10 +220,14 @@ class PostShow extends Component{
           <Button transparent onPress={() => { this.makeCallchat_navigate() }}>
             <Text style={{color: 'orange', fontWeight : 'bold', fontSize:17}}>채팅</Text>
           </Button>
-          <Button transparent
-            onPress={() => { this.props.navigation.navigate('Booking', { post_id: this.state.post_id, }) }} >
+          {this.state.isBooked == false && (<Button transparent
+            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Booking', { post_id: this.state.post_id, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize: 17 }}>예약</Text>
-          </Button>
+          </Button>)}
+          {this.state.isBooked == true && (<Button transparent
+            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Booking', { post_id: this.state.post_id, onGoBack: ()=>{this.getPostInfo(); }}) }} >
+            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>예약취소</Text>
+          </Button>)}
         </FooterTab>
       )
     }
@@ -223,7 +255,7 @@ class PostShow extends Component{
                 </TouchableOpacity>
               )}>
               <TouchableOpacity
-                  onPress={() => this.setState({ show_popover: false }, () => { this.props.navigation.navigate('PostReport')})}>
+                  onPress={() => this.setState({ show_popover: false }, () => { updateFlag = 1; this.props.navigation.navigate('PostReport',{onGoBack: ()=>{this.getPostInfo(); }})})}>
                 <Text style={styles.popoverel}>신고하기</Text>
               </TouchableOpacity>
               {this.renderUpdateandDelete()}
