@@ -153,7 +153,7 @@ class MypageScreen extends Component {
       <Container>
         <Header>
           <Body>
-            <Title>My Page</Title>
+            <Title>마이 페이지</Title>
           </Body>
           <Right>
             {this.renderPopover()}
