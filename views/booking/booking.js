@@ -61,6 +61,7 @@ class bookingScreen extends Component{
         console.log(this.state.token);
         console.log(response);
         Alert.alert("예약 신청 완료", "예약 신청이 완료되었습니다.",[{text:"확인", style:'cancel'}])
+        this.props.route.params.onGoBack();
         this.props.navigation.goBack();
       })
       .catch((err) => {
@@ -152,13 +153,14 @@ class bookingScreen extends Component{
       .then(()=>{
         console.log(this.state.token)
         Alert.alert("예약 취소", "예약을 취소하였습니다.",[{text:"확인", style:'cancel'}])
+        this.props.route.params.onGoBack();
+        this.props.navigation.goBack();
       })
       .catch((error) => {
         console.log(error)
         Alert.alert("예약 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
       })
       console.log(this.state.booked);
-      this.props.navigation.goBack();
   }
 
   
