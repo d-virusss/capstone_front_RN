@@ -55,7 +55,13 @@ class categoryScreen extends Component {
               </Icon>
             </TouchableOpacity>
           )}>
-          
+
+          <TouchableOpacity style={styles.categorybutton}
+            onPress={() => this.sendCategoryId(0)}>
+            <Icon type="MaterialCommunityIcons" name="select-all" style={styles.item}>
+              <Text style={styles.popoverel}> 전체 </Text>
+            </Icon>
+          </TouchableOpacity>
           <TouchableOpacity style={ styles.categorybutton }
               onPress={() => this.sendCategoryId(5)}>
               <Icon type="FontAwesome" name="soccer-ball-o" style={styles.item}>
@@ -106,16 +112,10 @@ class categoryScreen extends Component {
               </Icon>
             </TouchableOpacity>
 
-          <TouchableOpacity style={ styles.categorybutton }
+            <TouchableOpacity style={ styles.categorybutton }
                 onPress={() => this.sendCategoryId(1)}>
               <Icon type="FontAwesome" name="shopping-bag" style={styles.item}>
               <Text style={styles.popoverel}> 잡화</Text>
-              </Icon>
-            </TouchableOpacity>
-            <TouchableOpacity style={ styles.categorybutton }
-              onPress={() => this.sendCategoryId(0)}>
-              <Icon type="MaterialCommunityIcons" name="select-all" style={styles.item}>
-                <Text style={styles.popoverel}> 전체 </Text>
               </Icon>
             </TouchableOpacity>
 

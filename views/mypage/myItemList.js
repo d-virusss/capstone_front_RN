@@ -19,7 +19,8 @@ class myItemListScreen extends Component{
 
   makeIndexList(posts){
     return posts.map((post) => {
-      console.log(post.title)
+      console.log('each post -----')
+      console.log(post.post_info.title)
       return(
         <ListItem thumbnail key={post.post_info.id} button
         onPress={() => this.showPostRequset(post.post_info.id)}>
@@ -58,6 +59,7 @@ class myItemListScreen extends Component{
         }
       })
       .then((res) => {
+        console.log(res)
         this.setState({posts1:res.data}, ()=> { })
       })
       .catch(function (e) {
@@ -74,6 +76,7 @@ class myItemListScreen extends Component{
         }
       })
       .then((res) => {
+        console.log(res)
         this.setState({posts2:res.data}, ()=> { })
       })
       .catch(function (e) {
@@ -112,11 +115,11 @@ class myItemListScreen extends Component{
         <Content>
         <Tabs>
           <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
-              <Content>
-              <List>
-                {this.makeIndexList(this.state.posts1)}
-              </List>
-              </Content>
+            <Content>
+            <List>
+              {this.makeIndexList(this.state.posts1)}
+            </List>
+            </Content>
           </Tab>
           <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
            <Content>

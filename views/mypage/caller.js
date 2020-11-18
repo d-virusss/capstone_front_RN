@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView, Alert} from 'react-native';
 import BottomTab from '../shared/bottom_tab';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbnail,
        Footer, FooterTab, Content, ListItem, List, Separator } from 'native-base';
@@ -58,6 +58,11 @@ class MypageScreen extends Component {
 
   componentDidMount() {
     this.getMyInfo();
+  }
+
+  showRentList(){
+    // Alert.alert("대여목록 확인!", "곧 이동됩니다 ㅎㅎ")
+    this.props.navigation.navigate('RentList')
   }
 
   showReservation(){
@@ -203,10 +208,10 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem>
+            <ListItem button onPress={() => {this.showRentList()}}>
               <Left>
                 <Icon type="Feather" name="list" />
-                <Text style={ styles.listText }> 거래 목록</Text>
+                <Text style={ styles.listText }> 대여 목록</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />

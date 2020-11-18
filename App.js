@@ -32,6 +32,7 @@ import db from './views/shared/chat_db'
 import Sign from './views/sign/sign'
 import SignState from './views/sign/check_sign_state'
 import LocationDetail from './views/mypage/location_detail'
+import RentList from './views/mypage/rent_list';
 
 const Stack = createStackNavigator();
 
@@ -105,6 +106,7 @@ const App = () => {
         <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{headerShown: false}}  />
         <Stack.Screen name="ProfileShow" component={ProfileShow} options={{ headerShown : false, }} />
         <Stack.Screen name="ProfileShowList" component={ProfileShowList} options={{ headerShown : false, }} />
+        <Stack.Screen name="RentList" component={RentList} options={{ headerShown : false, }} />
         <Stack.Screen name="MyItemList" component={MyItemList} options={{ headerShown : false }} />
         <Stack.Screen name="Reservation" component={ManageReservation} options={{ headerShown: false }} />
         <Stack.Screen name="LocationDetail" component={LocationDetail} options={{headerShown : false}}/>
