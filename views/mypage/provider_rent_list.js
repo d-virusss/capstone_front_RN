@@ -1,49 +1,91 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, ScrollView, View, Alert } from 'react-native';
 import { Container, Content, Header, Left, Right, Body, Icon,
   Title, Text, List, ListItem, Tabs, Tab, TabHeading, Thumbnail,
-  
 } from 'native-base';
+import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
-import IconM from 'react-native-vector-icons/Ionicons'
-IconM.loadFont()
 
 class ProviderRentList extends Component {
   state = {
     token: '',
     myId: '',
-    onrent: [], //user's providing list
-    completedrent: [], //user's asking list
+    after_booking : [],
   }
 
-  makeIndexList(posts) {
-    return posts.map((post) => {
-      console.log(post.title)
-      return (
-        <ListItem thumbnail key={post.post_info.id} button
-          onPress={() => {console.log('not already exist booking_show') } }>
-          <Left>
-            <Thumbnail square source={{ uri: post.post_info.image }} />
-          </Left>
-          <Body>
-            <Text>{post.post_info.title}</Text> {/* 예약한 product title*/ }
-            <Text note numberOfLines={1}>{post.post_info.body}</Text> {/* 대여기간 및 대여가격 */}
-          </Body>
-        </ListItem>
-      )
+  makeRentList(bookings) {
+    return bookings.map((booking) => {
+      console.log('in rent list------')
+      console.log(booking.booking_info.title)
+      if(booking.booking_info.acceptance === "rent"){
+        return (
+          <ListItem thumbnail key={booking.booking_info.id} button
+            onPress={() => { console.log('not already exist booking_show') }}>
+            <Left>
+              <Thumbnail square source={{ uri: booking.booking_info.post_image }} />
+            </Left>
+            <Body>
+              <Text>{booking.booking_info.title}</Text>
+              <Text note numberOfLines={1}>
+                {booking.booking_info.start_at.split('T')[0]} ~
+                {booking.booking_info.end_at.split('T')[0]}
+              </Text>
+              <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원</Text>
+            </Body>
+            <Right>
+              <TouchableOpacity onPress={() => {Alert.alert("반납 완료", "반납 완료 상태로 수정하시겠습니까?", [
+                {
+                  text: '확인',
+                  onPress: () => { this.changeToCompletedRequest(booking.booking_info.id) }
+                },
+                {
+                  text: '취소',
+                  style: 'cancel'
+                }
+              ])}}>
+                <Text style={styles.returnbutton}>반납확인</Text>
+              </TouchableOpacity>
+            </Right>
+          </ListItem>
+        )
+      }
+    })
+  }
+  
+  makeCompletedList(bookings) {
+    return bookings.map((booking) => {
+      console.log('in completed list --------')
+      console.log(booking.booking_info.title)
+      if(booking.booking_info.acceptance === "completed"){
+        return (
+          <ListItem thumbnail key={booking.booking_info.id} button
+            onPress={() => { console.log('not already exist booking_show') }}>
+            <Left>
+              <Thumbnail square source={{ uri: booking.booking_info.post_image }} />
+            </Left>
+            <Body>
+              <Text>{booking.booking_info.title}</Text>
+              <Text note numberOfLines={1} style={{ paddingVertical : '1%'}}>
+                {booking.booking_info.start_at.split('T')[0]} ~ { booking.booking_info.end_at.split('T')[0]}
+              </Text>
+              <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원</Text>
+            </Body>
+          </ListItem>
+        )
+      }
     })
   }
 
-  onrentRequest() {
+  changeToCompletedRequest(id){
     api
-      .get(`/bookings?type=rent`, {
+      .put(`/bookings/${id}/complete`,(""), {
         headers: {
           'Authorization': this.state.token
         }
       })
       .then((res) => {
-        this.setState({ posts1: res.data }, () => { })
+        console.log(res)
+        this.afterRequest()
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
@@ -51,15 +93,16 @@ class ProviderRentList extends Component {
       })
   }
 
-  completedrentRequest() {
+  afterRequest() {
     api
-      .get(`/bookings?type=completed`, {
+      .get(`/bookings?received=true&status=after`, {
         headers: {
           'Authorization': this.state.token
         }
       })
       .then((res) => {
-        this.setState({ posts2: res.data }, () => { })
+        console.log(res)
+        this.setState({ after_booking: res.data }, () => { })
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
@@ -70,8 +113,8 @@ class ProviderRentList extends Component {
   getToken = async () => {
     const value = await AsyncStorage.getItem("token")
     this.state.token = value
-    this.onrentRequest();
-    this.completedrentRequest();
+    console.log(value)
+    this.afterRequest();
   }
 
   componentDidMount() {
@@ -88,7 +131,7 @@ class ProviderRentList extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>대여 목록</Title></Body>
+          <Body><Title>제공 목록</Title></Body>
           <Right></Right>
         </Header>
 
@@ -98,14 +141,14 @@ class ProviderRentList extends Component {
               <Tab heading={<TabHeading transparent><Text>대여 중</Text></TabHeading>}>
                 <Content>
                   <List>
-                    {this.makeIndexList(this.state.onrent)}
+                    {this.makeRentList(this.state.after_booking)}
                   </List>
                 </Content>
               </Tab>
               <Tab heading={<TabHeading transparent><Text>지난 대여</Text></TabHeading>}>
                 <Content>
                   <List>
-                    {this.makeIndexList(this.state.completedrent)}
+                    {this.makeCompletedList(this.state.after_booking)}
                   </List>
                 </Content>
               </Tab>
@@ -118,6 +161,10 @@ class ProviderRentList extends Component {
 }
 
 const styles = StyleSheet.create({
+  returnbutton : {
+    fontSize : 15,
+    fontWeight : '500'
+  }
 });
 
 export default ProviderRentList;
