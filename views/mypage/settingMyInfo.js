@@ -7,6 +7,7 @@ import api from '../shared/server_address'
 import Spinner from 'react-native-loading-spinner-overlay';
 import { CommonActions, StackActions } from '@react-navigation/native';
 import ImageSelect from '../post/imageselect';
+import FormData from 'form-data'
 
 var user_obj = {
   user: {
@@ -15,7 +16,6 @@ var user_obj = {
     // password: '',
     // password_confirmation: '',
     number:'',
-    device_token:'',
     name: '',
     birthday: '',
     image : '',
@@ -23,11 +23,12 @@ var user_obj = {
 };
 
 const image_info = {
-    uri: '',
-    type: '',
-    name: '',
+  uri: '',
+  type: '',
+  name: '',
 }
 
+var formdata = new FormData()
 
 class SettingMyInfoScreen extends React.Component {
   params = this.props.route.params;
@@ -40,46 +41,46 @@ class SettingMyInfoScreen extends React.Component {
     birthday : "",
     loading : true,
     image: '',
-    id: '',
-    token: '',
+    token:'',
+    id:'',
     // password: '',
     // password_confirmation: '',
-};
+  };
 
-    saveMyInfo() {
-        user_obj.user.email = this.state.email;
-        user_obj.user.nickname = this.state.nickname;
-        user_obj.user.number = this.state.number;
-        user_obj.user.name = this.state.name;
-        user_obj.user.birthday = this.state.birthday
-        user_obj.user.image = this.state.image;
+  saveMyInfo() {
+    formdata = new FormData()
+    formdata.append('user[email]', this.state.email)
+    formdata.append('user[nickname]', this.state.nickname)
+    formdata.append('user[number]', this.state.number)
+    formdata.append('user[name]', this.state.name)
+    formdata.append('user[birthday]', this.state.birthday)
+    if(image_info.uri != ''){
+      formdata.append('user[image]', image_info)
     }
+    console.log(formdata)
+  }
 
     changeImage = (data) => {
-        this.setState({
-          image: data
-        }, () => {console.log(this.state.image);})
-        image_info.uri = data.sourceURL;
-        image_info.type = data.mime;
-        image_info.name = data.filename;
-      }
+      this.setState({ image: data })
+      image_info.uri = data.sourceURL;
+      image_info.type = data.mime;
+      image_info.name = data.filename;
+    }
 
     checkInputVaule = () => {
-   
-        if(this.state.nickname == ''){
+      if(this.state.nickname == ''){
         Alert.alert("이름을 입력해주세요", "",[{text:'확인', style:'cancel'}])
         return false;
-        }
-
-        this.saveMyInfo();
-        return true;
-   }
+      }
+      this.saveMyInfo();
+      return true;
+    }
 
   updateRequest = async () => {
     if(this.checkInputVaule()){
-        console.log(this.state.token)
+      console.log(this.state.token)
       api
-      .put(`/users/${this.state.id}`, user_obj,
+      .put(`/users/${this.state.id}`, (formdata),
       {
         headers:{
           Authorization: this.state.token
@@ -87,6 +88,7 @@ class SettingMyInfoScreen extends React.Component {
       })
       .then((res) =>  {
         console.log('send data for registration');
+        console.log(res)
         Alert.alert("정보 수정 완료", "회원정보 수정이 완료되었습니다.",[{text:'확인', style:'cancel'}])
         this.props.navigation.dispatch(
             CommonActions.reset({
@@ -105,22 +107,22 @@ class SettingMyInfoScreen extends React.Component {
 
   componentDidMount() {
     this.getToken();
-    this.initMyInfo();
   }
 
   getToken = async() => {
-    this.state.token = await AsyncStorage.getItem('token');
-    this.state.id = await AsyncStorage.getItem('id');
+    let token = await AsyncStorage.getItem('token');
+    this.state.token = token;
+    this.initMyInfo();
   }
 
   initMyInfo() {
-    console.log(this.params)
     this.state.email = this.params.post.email;
     this.state.nickname = this.params.post.nickname;
     this.state.name = this.params.post.name;
     this.state.number = this.params.post.number;
     this.state.birthday = this.params.post.birthday;
     this.state.image = this.params.post.image;
+    this.state.id = this.params.post.id;
     this.setState({loading : false})
   }
 

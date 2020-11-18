@@ -153,7 +153,7 @@ class MypageScreen extends Component {
       <Container>
         <Header>
           <Body>
-            <Title>My Page</Title>
+            <Title>마이페이지</Title>
           </Body>
           <Right>
             {this.renderPopover()}
@@ -207,7 +207,7 @@ class MypageScreen extends Component {
             <ListItem button onPress={() => { {this.props.navigation.navigate('MyPage_Location')} }}>
               <Left>
                 <Icon type="Ionicons" name="location-sharp" />
-                <Text style={styles.listText}> 동네 인증하기</Text>
+                <Text style={styles.listText}> 동네 인증</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
