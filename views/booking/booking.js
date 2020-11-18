@@ -179,7 +179,9 @@ class bookingScreen extends Component{
           </View>
           <View style = {{width : '30%', justifyContent : 'center'}}>
             <Text style = {{margin : '2%', fontSize : 17}}>대여가격</Text>
-    <Text style = {{margin : '2%', fontSize : 17}}>{this.state.totalPrice.toLocaleString() + ' 원'}</Text>
+            <Text style = {{margin : '2%', fontSize : 17}}>
+              {this.state.totalPrice.toLocaleString() + ' 원'}
+            </Text>
           </View>
         </Header>
         <Calendar

@@ -85,8 +85,8 @@ const App = () => {
         <Stack.Screen name="Logins" component={LoginScreen} options={{headerShown: false, gestureEnabled : false, }} />
         <Stack.Screen name="KakaoLogin" component={KakaoLogin} options={{ gestureEnabled : false, headerTitle: "카카오 로그인", headerBackTitle: '뒤로'}} />
         <Stack.Screen name="Register" component={Register_form} options={{headerShown: false}} />
-        <Stack.Screen name="Find_id" component={FindId} />
-        <Stack.Screen name="Find_pw" component={FindPw} />
+        <Stack.Screen name="Find_id" component={FindId} options={{headerShown: false}} />
+        <Stack.Screen name="Find_pw" component={FindPw} options={{headerShown: false}} />
 
         <Stack.Screen name="Chats" component={chatIndex} options={{ title: '채팅', headerLeft: null, gestureEnabled: false}} />
         <Stack.Screen name="P_W_p" component={Post_provide} options={{ headerShown : false }} />
