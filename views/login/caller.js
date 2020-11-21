@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Alert} from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableOpacity } from 'react-native';
 import CustomButton from './custom_button';
-import { Item, Input, Toast} from 'native-base';
+import { Item, Input, Toast, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../shared/server_address';
 import { CommonActions } from '@react-navigation/native';
@@ -43,7 +43,8 @@ class LoginScreen extends Component {
 
   getToken = async() =>{
     myL = await AsyncStorage.getItem('my_location');
-    console.log(myL)
+    let iiiiid = await AsyncStorage.getItem('user_id');
+    console.log(iiiiid)
   }
   makeRequest (){
     if (userinfo.user.email == ''){
@@ -92,7 +93,7 @@ class LoginScreen extends Component {
         AsyncStorage.setItem('token', response.data.token);
         AsyncStorage.setItem('user_id', String(response.data.id));
         AsyncStorage.setItem('my_location', String(response.data.location_auth));
-        
+        this.getToken();
         if ((response.data.location_auth) != null) {// already has location
           this.props.navigation.dispatch(
             CommonActions.reset({
@@ -129,16 +130,12 @@ class LoginScreen extends Component {
       <View style={{flex: 1}}>
         <View style={{flex: 1}}></View>
         <View style={{flex: 4, width: '70%', alignSelf: 'center'}}>
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 40,
-              textAlign: 'center',
-              flex: 1,
-            }}>
-            모두나눔
-          </Text>
-          <View style={{flex: 1}}>
+          <TouchableOpacity style={{ flex: 1.5,}} onPress={() => this.testLoginRequest()}>
+            <Text style={{ color: 'black', fontSize: 40, textAlign: 'center',}}>
+              모두나눔
+            </Text>
+          </TouchableOpacity>
+          <View style={{flex: 1 }}>
             <View
               style={{
                 flexDirection: 'row',
@@ -150,6 +147,7 @@ class LoginScreen extends Component {
                 <Input
                   style={{fontSize: 20, }}
                   placeholder="이메일"
+                  keyboardType="email-address"
                   autoCapitalize="none"
                   onChangeText={(text) => this.changeUsername(text, 'email')}
                 />
@@ -174,6 +172,7 @@ class LoginScreen extends Component {
               </Item>
             </View>
           </View>
+          <View style={{ flex : 0.1}}></View>
           <View name="buttons" style={{flex: 3}}>
             <View style={{marginTop: '10%', height: '10%'}}>
               <CustomButton
@@ -185,18 +184,6 @@ class LoginScreen extends Component {
                 width="100%"
                 height="100%"
                 onPress={() => this.makeRequest()}
-              />
-            </View>
-            <View style={{marginTop: '3%', height: '10%'}}>
-              <CustomButton
-                title="test로그인"
-                titleColor="black"
-                buttonColor="white"
-                borderWidth={5}
-                borderRadius={5}
-                width="100%"
-                height="100%"
-                onPress={() => this.testLoginRequest()}
               />
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>
@@ -231,9 +218,9 @@ class LoginScreen extends Component {
                 }}>
                 <View style={{width: '47%', marginRight: '3%'}}>
                   <CustomButton
-                    title="ID찾기"
+                    title="ID 찾기"
                     titleColor="#fff"
-                    buttonColor="#C8C8C8"
+                    buttonColor="#aaaaaa"
                     width="100%"
                     height="100%"
                     fontSize={15}
@@ -242,9 +229,9 @@ class LoginScreen extends Component {
                 </View>
                 <View style={{width: '47%', marginLeft: '3%'}}>
                   <CustomButton
-                    title="PW찾기"
+                    title="PW 찾기"
                     titleColor="#fff"
-                    buttonColor="#C8C8C8"
+                    buttonColor="#aaaaaa"
                     width="100%"
                     height="100%"
                     fontSize={15}

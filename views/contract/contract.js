@@ -22,8 +22,11 @@ export default class Contract extends React.Component {
 
   componentDidMount() {
     this.getToken();
-    console.log(this.state)
     console.log(this.my_post)
+    this.setState({
+      post_id : this.my_post.post_id,
+      body : this.my_post.contract,
+    }, ()=> {console.log(this.state)})
     console.log('component did mount ----------------------')
   }
 
@@ -37,7 +40,7 @@ export default class Contract extends React.Component {
     console.log(formdata)
   }
 
-  makeContractRequest() {
+  ContractUpdateRequest() {
     console.log("start update post data ---- add contract ")
     this.setContract(this.state)
     if(this.state.body.length > 499){
@@ -57,7 +60,7 @@ export default class Contract extends React.Component {
         Alert.alert("수정 완료", "계약서가 수정되었습니다.", [
           {
             text: '확인',
-            onPress: () => this.props.navigation.navigate("postIndex"),
+            onPress: () => { this.props.route.params.onGoBack(); this.props.navigation.navigate("PostShow") }
           }
         ])
       })
@@ -81,7 +84,7 @@ export default class Contract extends React.Component {
           <Right>
             <TouchableOpacity
               style={{ marginRight: '4%' }}
-              onPress={() => this.makeContractRequest()}>
+              onPress={() => this.ContractUpdateRequest()}>
               <Text>완료</Text>
             </TouchableOpacity>
           </Right>

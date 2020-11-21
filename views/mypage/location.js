@@ -2,7 +2,7 @@ import axios from 'axios' // for kakao
 import React, {Component} from 'react';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import {StyleSheet, Dimensions, View, Platform, TouchableOpacity, Alert} from 'react-native';
-import {Button, Container, Content, Left, Right, Header, Body, Title, Icon, Spinner} from 'native-base';
+import {Button, Container, Content, Left, Right, Header, Body, Title, Icon, Spinner, FooterTab} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
 import {Text} from 'native-base';
@@ -25,11 +25,6 @@ var user_addr = {
     range: '',
   },
 };
-
-// const resetAction = StackActions.reset({
-//   index : 0,
-//   actions: [NavigationActions.navigate({routeName: 'Mypage',})]
-// });
 
 class MypageScreen extends Component{
   constructor(props) {
@@ -121,13 +116,12 @@ class MypageScreen extends Component{
         if(myLocation == "null"){ // first location auth
           this.props.navigation.navigate('postIndex')
         }else{ //already has location
-          // this.props.navigation.dispatch(
-          //   CommonActions.reset({
-          //     index: 1,
-          //     routes: [{ name: 'MyPage' },],
-          //   })
-          // );
-          this.props.navigation.goBack();
+          this.props.navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [{ name: 'MyPage' },],
+            })
+          );
         }
       })
       .catch((err) => {
@@ -252,10 +246,9 @@ class MypageScreen extends Component{
             />
           </MapView>
         </View>
-
-        <Button style={styles.footer} onPress={() => {this.putRequest();}}>
-          <Text style={{textAlign:'center'}}>현재 위치에서 동네 인증하기</Text>
-        </Button>
+         <Button style={styles.footer} onPress={() => {this.putRequest();}}>
+            <Text style={{textAlign:'center'}}>현재 위치에서 동네 인증하기</Text>
+          </Button>
         </Content>
       </Container>
     )

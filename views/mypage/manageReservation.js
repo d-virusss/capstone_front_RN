@@ -33,23 +33,23 @@ class reservationScreen extends Component{
             <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
                 <Icon name = 'refresh' type = 'Ionicons'/>
               </TouchableOpacity>
-            </Right>
-          </Header>
+          </Right>
+        </Header>
           
-          <Tabs Style={{marginTop : '0%',}}>
-            <Tab heading={ <TabHeading transparent><Text>받은 예약</Text></TabHeading>}>
-              <FooterTab scrollEnabled={false}>
-                  <ReceiveList navigation={this.props.navigation}></ReceiveList>
-              </FooterTab>
-            </Tab>
-            <Tab heading={ <TabHeading transparent><Text>신청한 예약</Text></TabHeading>}>
-              <Footer>
-                <SendList navigation={this.props.navigation}></SendList>
-              </Footer>
-            </Tab>
-          </Tabs>
-  
-        </Container>
+        <Tabs Style={{marginTop : '0%',}}>
+          <Tab heading={ <TabHeading transparent><Text>받은 예약</Text></TabHeading>}>
+            <FooterTab scrollEnabled={false}>
+                <ReceiveList navigation={this.props.navigation}></ReceiveList>
+            </FooterTab>
+          </Tab>
+          <Tab heading={ <TabHeading transparent><Text>신청한 예약</Text></TabHeading>}>
+            <Footer>
+              <SendList navigation={this.props.navigation}></SendList>
+            </Footer>
+          </Tab>
+        </Tabs>
+
+      </Container>
         
       )
     

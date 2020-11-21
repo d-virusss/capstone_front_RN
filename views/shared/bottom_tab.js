@@ -47,11 +47,10 @@ class BottomTab extends Component {
               <Text style={{ fontSize: 14, color: '#6b6b6b' }}>글쓰기</Text>
             </Button>
           </Root>
-          <Button badge vertical onPress={() => {
+          <Button vertical onPress={() => {
             this.props.navigation.navigate('Chats')
           }
           }>
-            <Badge ><Text>3</Text></Badge>
             <Icon name="chatbubble" />
             <Text>채팅</Text>
           </Button>
