@@ -94,6 +94,7 @@ class receiveScreen extends Component{
         Authorization: this.state.token,
       },
     }).then((res) => {
+      console.log(res)
       this.props.navigation.navigate("Sign", { booking_info : res.data.booking_info, who: 'provider'});
     }).catch((err) => {
       console.log(err)
