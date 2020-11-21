@@ -90,12 +90,7 @@ class SettingMyInfoScreen extends React.Component {
         console.log('send data for registration');
         console.log(res)
         Alert.alert("정보 수정 완료", "회원정보 수정이 완료되었습니다.",[{text:'확인', style:'cancel'}])
-        this.props.navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [{ name: 'MyPage' },],
-            })
-          );
+        this.props.navigation.navigate('Main')
       })
       .catch((err) =>  {
         console.log('fail to register');

@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import { TouchableOpacity, View, Alert} from 'react-native';
-import CustomButton from '../login/custom_button';
+import { TouchableOpacity, StyleSheet, View, Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Container, Header, Content, Form, Item, Input, Label, Left, Right, Icon, Body, Title } from 'native-base';
+import { Container, Header, Text, Form, Item, Input, Label, Left, Right, Icon, Body, Title, Button } from 'native-base';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/Ionicons'
+import { from } from 'form-data';
+import { FIX_SHIFT } from 'react-native-popover-view/dist/Constants';
+import { ThemeProvider } from '@react-navigation/native';
 IconM.loadFont()
 
 class SettingGroupScreen extends Component {
@@ -41,37 +43,63 @@ getAuthCodeRequest = async() => {
     });
 }
 
-showAuthFrom () {
-    if(this.state.auth == true){
+showAuthForm () {
+    if(this.state.auth ==  false){
+        return (
+            <View>
+                <Item floatingLabel>
+                <Label>인증할 이메일을 입력하세요</Label>
+                <Input autoCapitalize="none"
+                keyboardType = "email-address"
+                autoCapitalize="none"
+                onChangeText = {(eMail) => {this.state.user.email = eMail}}/>
+                </Item>
+            </View>
+        )
+    }
+    else if(this.state.auth == true){
         return(
         <View>
             <Item floatingLabel>
-            <Label>인증번호</Label>
-            <Input
-            onChangeText = {(code) => {
-                this.state.user.code = code
-                }}
-            />
+                <Label>인증할 이메일을 입력하세요</Label>
+                <Input autoCapitalize="none"
+                keyboardType = "email-address"
+                autoCapitalize="none"
+                value = {this.state.user.email}
+                disabled="disabled"/>
             </Item>
-            <View style={{marginTop: '10%',height: '23%', alignItems: 'center',}}>
-                <CustomButton
-                    title="소속 인증하기"
-                    titleColor="white"
-                    buttonColor="#ff3377"
-                    borderWidth={5}
-                    borderRadius={5}
-                    width="50%"
-                    height="100%"
-                    justify='center'
-                    onPress={() => this.sendAuthCodeRequest()}
-                />
-            </View>
+            <Item floatingLabel>
+                <Label>인증번호</Label>
+                <Input
+                autoCapitalize="none"
+                keyboardType="numeric"
+                onChangeText = {(code) => {this.state.user.code = code}}/>
+            </Item>
         </View>
         )
     }else{
         return null;
     }
+}
 
+showRequestButton() {
+    if(this.state.auth == false){
+        return(
+            <View style={styles.footer}>
+                <Button transparent style={styles.footerbutton} onPress={() => this.getAuthCodeRequest()}>
+                    <Text style={styles.footerText}> 인증코드 발급 받기</Text>
+                </Button>
+            </View>
+        )
+    }else if(this.state.auth == true){
+        return(
+            <View style={styles.footer}>
+                <Button transparent style={styles.footerbutton} onPress={() => this.sendAuthCodeRequest()}>
+                    <Text style={styles.footerText}> 인증하기</Text>
+                </Button>
+            </View>
+        )
+    }
 }
 
 sendAuthCodeRequest = async() => {
@@ -106,38 +134,40 @@ render() {
           <Right></Right>
         </Header>
 
-        <Content>
-            <Form>
-            {/* email */}
-            <View>
-            <Item floatingLabel>
-            <Label>인증할 이메일을 입력하세요</Label>
-            <Input autoCapitalize="none"
-            onChangeText = {(eMail) => {
-                this.state.user.email = eMail
-                }}
-            />
-            </Item>
-            <View style={{marginTop: '10%',height: '23%', alignItems: 'center',}}>
-                <CustomButton
-                    title="인증 코드 발급"
-                    titleColor="white"
-                    buttonColor="#ff3377"
-                    borderWidth={5}
-                    borderRadius={5}
-                    width="50%"
-                    height="100%"
-                    justify='center'
-                    onPress={() => this.getAuthCodeRequest()}
-                />
-            </View>
-            </View>
-                {this.showAuthFrom()}
-            </Form>
-        </Content>
+        <Form>
+            {this.showAuthForm()}
+        </Form>
+        {this.showRequestButton()}
+  
     </Container>
 );
 }
 }
+
+const styles = StyleSheet.create({
+    footer: {
+        position: 'absolute',
+        flex:0.1,
+        left: 0,
+        right: 0,
+        bottom: -5,
+        backgroundColor:'#ff3377',
+        flexDirection:'row',
+        height:80,
+        alignItems:'center',
+        paddingTop: 7
+      },
+      footerbutton: {
+        alignItems:'center',
+        justifyContent: 'center',
+        flex:1,
+      },
+      footerText: {
+        color:'white',
+        fontWeight:'bold',
+        alignItems:'center',
+        fontSize: 20,
+      },
+})
 
 export default SettingGroupScreen;

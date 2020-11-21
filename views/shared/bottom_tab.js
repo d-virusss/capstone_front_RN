@@ -1,4 +1,4 @@
-
+//have to delete
 import React, { Component, } from "react";
 import {ActionSheetIOS} from 'react-native';
 import { Footer, FooterTab, Badge, Button, Text, Icon, Root } from 'native-base';
@@ -17,7 +17,7 @@ class BottomTab extends Component {
     return (
       <Footer>
         <FooterTab>
-          <Button vertical onPress={() => this.props.navigation.navigate('postIndex')}>
+          <Button vertical onPress={() => this.props.navigation.navigate('Main')}>
             <Icon name="home" />
             <Text>홈</Text>
           </Button>
@@ -54,7 +54,7 @@ class BottomTab extends Component {
             <Icon name="chatbubble" />
             <Text>채팅</Text>
           </Button>
-          <Button vertical onPress={() => this.props.navigation.navigate('MyPage')}>
+          <Button vertical onPress={() => this.props.navigation.navigate('Main')}>
             <Icon name="person" />
             <Text>마이페이지</Text>
           </Button>

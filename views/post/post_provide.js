@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Content, Container, Item, Header, Left, Right, Title, Body, Label, 
   Text, Button, Input, Form, Textarea, Icon } from 'native-base';
-import { View, ScrollView, StyleSheet, TextInput, Alert, TouchableOpacity,
+import { View, ScrollView, StyleSheet, Alert, TouchableOpacity,
     TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from "react-native";
 import Spinner from 'react-native-loading-spinner-overlay';
 import CategoryPicker from './categorypicker';
@@ -105,7 +105,7 @@ class Post_provide extends Component {
         [
           {
             text:'확인', 
-            onPress: () => this.props.navigation.navigate("postIndex")}
+            onPress: () => this.props.navigation.navigate("Main")}
           ,
           {
             style:'cancel'

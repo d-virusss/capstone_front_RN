@@ -56,8 +56,6 @@ class AskIndex extends Component{
   }
 
   sendIndexRequest() {
-    console.log("----------------")
-    console.log(searchModel)
     if(searchModel.id == 0){
       api
       .get('/posts?post_type=ask', {

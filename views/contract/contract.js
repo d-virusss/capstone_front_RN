@@ -60,7 +60,7 @@ export default class Contract extends React.Component {
         Alert.alert("수정 완료", "계약서가 수정되었습니다.", [
           {
             text: '확인',
-            onPress: () => { this.props.route.params.onGoBack(); this.props.navigation.navigate("PostShow") }
+            onPress: () => this.props.navigation.navigate("Main"),
           }
         ])
       })

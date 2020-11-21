@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import {View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView, Alert} from 'react-native';
-import BottomTab from '../shared/bottom_tab';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbnail,
        Footer, FooterTab, Content, ListItem, List, Separator } from 'native-base';
 import { CommonActions, StackActions } from '@react-navigation/native';
@@ -39,7 +38,6 @@ class MypageScreen extends Component {
         routes: [{ name: 'Logins' },],
       })
     );
-    //this.props.navigation.dispatch(StackActions.popToTop())
 
     // pop everything in stack navigation
   }
@@ -267,14 +265,6 @@ class MypageScreen extends Component {
           </List>
         </Content>
         </ScrollView>
-
-        <Footer>
-          <FooterTab>
-            <View style={{flex: 1, backgroundColor: 'white'}}>
-              <BottomTab navigation={this.props.navigation}></BottomTab>
-            </View>
-          </FooterTab>
-        </Footer>
       </Container>
     );}
   }
