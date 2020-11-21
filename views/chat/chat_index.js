@@ -172,7 +172,7 @@ function ChatList ({ navigation }){
         </ScrollView>
         <Footer>
         <FooterTab>
-          <Button vertical onPress={() => {refreshFlag = true; navigation.navigate('postIndex');}}>
+          <Button vertical onPress={() => {refreshFlag = true; navigation.navigate('Main');}}>
             <Icon name="home" />
             <Text>홈</Text>
           </Button>
@@ -211,7 +211,7 @@ function ChatList ({ navigation }){
             <Icon name="chatbubble" />
             <Text>채팅</Text>
           </Button>
-          <Button vertical onPress={() => {navigation.navigate('MyPage'); refreshFlag = true;}}>
+          <Button vertical onPress={() => {navigation.navigate('Main'); refreshFlag = true;}}>
             <Icon name="person" />
             <Text>마이페이지</Text>
           </Button>

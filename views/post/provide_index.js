@@ -110,13 +110,13 @@ class ProvideIndex extends Component {
   componentDidMount(){
     this.getToken()
     this.eventListener = DeviceEventEmitter.addListener('categoryId', this.catetoryEventHandler);
-    this.eventListener = DeviceEventEmitter.addListener('searchContent', this.searchEventHandler)
+    this.eventListener = DeviceEventEmitter.addListener('searchContent', this.searchEventHandler);
   }
 
   componentWillUnmount(){
     //remove listener
     this.eventListener.remove();
-}
+  }
 
   catetoryEventHandler = (e) => {
     console.log("category event handler")

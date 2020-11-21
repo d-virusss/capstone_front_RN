@@ -155,7 +155,7 @@ class receiveScreen extends Component{
           <Body>
             <Text>{ele.booking_info.title}</Text>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={{ paddingTop : '2%' }}>{ele.booking_info.consumer.nickname}</Text>
+              <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>{ele.booking_info.consumer.nickname}</Text>
             </View>
           </Body>
           <Right>
@@ -203,10 +203,6 @@ class receiveScreen extends Component{
 
 let {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
-  container:{
-    height : height*0.1,
-    width : width,
-  },
   footer: {
     position: 'absolute',
     flex:0.1,

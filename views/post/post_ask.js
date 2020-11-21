@@ -101,7 +101,7 @@ class Post_ask extends Component {
         [
           {
             text:'확인', 
-            onPress: () => this.props.navigation.goBack()}
+            onPress: () => this.props.navigation.navigate('Main')}
           ,
           {
             style:'cancel'

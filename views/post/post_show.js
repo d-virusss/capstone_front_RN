@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
-import {View, ScrollView, Image, StyleSheet, TouchableOpacity, Alert,} from 'react-native';
+import {View, ScrollView, Image, StyleSheet, TouchableOpacity, Alert, DeviceEventEmitter} from 'react-native';
 import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, FooterTab, Header, Body, Container, Title} from 'native-base';
 import Popover from 'react-native-popover-view';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -77,6 +77,17 @@ class PostShow extends Component{
     this.getToken().then(() => {
       this.setParams();
     })
+    this.eventListener = DeviceEventEmitter.addListener('updateContent', this.updateEventHandler);
+  }
+
+  componentWillUnmount(){
+    //remove listener
+    this.eventListener.remove();
+}
+
+  updateEventHandler = (e) => {
+    console.log("update event handler333")
+    this.getPostInfo();
   }
 
   setParams() {
@@ -168,12 +179,7 @@ class PostShow extends Component{
         console.log(res)
         Alert.alert("삭제 완료", "", [{text:'확인', style:'cancel'}])
         updateFlag = 1;
-        this.props.navigation.dispatch(
-          CommonActions.reset({
-            index: 1,
-            routes: [{ name: 'postIndex' },],
-          })
-        );
+        this.props.navigation.navigate('Main')
       })
       .catch((e) => {
         console.log(e)

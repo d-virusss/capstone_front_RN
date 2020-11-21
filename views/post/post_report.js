@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
-import BottomTab from '../shared/bottom_tab';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, 
   Text, Thumbnail, Footer, FooterTab, Content, ListItem, List, Separator, 
   Card, CardItem,
@@ -100,14 +99,6 @@ class PostReportScreen extends Component {
             </ListItem>
           </List>
         </Content>
-
-        <Footer>
-          <FooterTab>
-            <View style={{flex: 1, backgroundColor: 'white'}}>
-              <BottomTab navigation={this.props.navigation}></BottomTab>
-            </View>
-          </FooterTab>
-        </Footer>
       </Container>
     );
   }

@@ -5,7 +5,6 @@ import ProvideIndex from './provide_index';
 import AskIndex from './ask_index';
 import {Container, Tabs, Tab, TabHeading, Header, Item, Icon, Title, Input} from 'native-base'
 import Category from './categorymodal';
-import api from '../shared/server_address';
 import IconI from 'react-native-vector-icons/Ionicons';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -41,7 +40,6 @@ class Search_Bar extends React.Component {
     else{
       DeviceEventEmitter.emit('categoryId', {id : id});
     }
-   
   }
 
   searchRequest() {
