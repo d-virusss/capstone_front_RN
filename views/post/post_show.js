@@ -38,6 +38,7 @@ class PostShow extends Component{
     loading:true,
     is_your_post:'',
     isBooked: null,
+    contract: '',
   };
 
   getToken = async () => {
@@ -68,7 +69,8 @@ class PostShow extends Component{
           provider_location:response.data.post_info.location_title,
           rent_count : response.data.post_info.rent_count,
           isBooked: response.data.post_info.is_booked,
-        })
+          contract : response.data.post_info.contract,
+        }, () => {console.log(this.state); console.log("update하기 위해 getPostinfo Call ---------")})
       })
   }
 
@@ -105,6 +107,7 @@ class PostShow extends Component{
     this.state.provider_profile_image = this.params.post.user.user_info.image,
     this.state.rent_count = this.params.post.post_info.rent_count,
     this.state.isBooked = this.params.post.post_info.is_booked,
+    this.state.contract = this.params.post.post_info.contract,
 
     this.state.is_your_post = this.params.post.user.user_info.id == parseInt(user_id) ? true : false;
     this.setState({loading : false})
@@ -208,11 +211,11 @@ class PostShow extends Component{
     if(this.state.is_your_post){
       return (
         <FooterTab>
-          <Button transparent onPress={() => { updateFlag = 1; this.props.navigation.navigate("Contract", { my_post : this.params.post.post_info, onGoBack: ()=>{this.getPostInfo();}}) }}>
+          <Button transparent onPress={() => { updateFlag = 1; this.props.navigation.navigate("Contract", { my_post : this.state, onGoBack: ()=>{this.getPostInfo();} }) }}>
             <Text style={{ color: '#ff0055', fontWeight: 'bold', fontSize: 17, paddingVertical: 5}}>계약서 수정</Text>
           </Button>
           <Button transparent
-            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Reservation',{onGoBack: ()=>{this.getPostInfo();}}) }} >
+            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Reservation',{ onGoBack: ()=>{this.getPostInfo();} }) }} >
             <Text style={{ fontWeight: 'bold', fontSize: 17, paddingVertical: 5 }}>예약 목록 확인</Text>
           </Button>
         </FooterTab>
@@ -228,11 +231,11 @@ class PostShow extends Component{
             <Text style={{color: 'orange', fontWeight : 'bold', fontSize:17}}>채팅</Text>
           </Button>
           {this.state.isBooked == false && (<Button transparent
-            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Booking', { post_id: this.state.post_id, onGoBack: ()=>{this.getPostInfo(); }}) }} >
+            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Booking', { post_info: this.params.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize: 17 }}>예약</Text>
           </Button>)}
           {this.state.isBooked == true && (<Button transparent
-            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Booking', { post_id: this.state.post_id, onGoBack: ()=>{this.getPostInfo(); }}) }} >
+            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Booking', { post_info: this.params.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize: 17 }}>예약취소</Text>
           </Button>)}
         </FooterTab>

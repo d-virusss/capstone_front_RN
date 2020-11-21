@@ -12,11 +12,9 @@ import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 
 //let token;
 let dateNumber = 0;
-function noThing(){
-  return 0;
-}
 
 class bookingScreen extends Component{
+  post_info = this.props.route.params.post_info;
   params = this.props.route.params;
   state = {
     totalPrice : 0,
@@ -38,6 +36,22 @@ class bookingScreen extends Component{
     booking_id:0,
     image_info:'',
   };
+
+  componentDidMount() {
+    console.log('screen load!');
+    this.getToken();
+    console.log(this.post_info)
+    if (this.state.flag === 0) {
+      this.setState({
+        post_id : this.post_info.id,
+        flag : 1,
+        post_title : this.post_info.title,
+        image_info : this.post_info.image
+      }, () => { console.log(this.state) })
+    }
+    setTimeout(this.isBooked, 50);
+    setTimeout(this.getPostInfo, 200);
+  }
 
   getToken = async () => {
     let value = await AsyncStorage.getItem("token")
@@ -161,21 +175,6 @@ class bookingScreen extends Component{
         Alert.alert("예약 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
       })
       console.log(this.state.booked);
-  }
-
-  
-
-  componentDidMount(){
-    console.log('screen load!');
-    this.getToken();
-    const {post_id} = this.props.route.params;
-    if(this.state.flag === 0) {
-      this.state.post_id = post_id;
-      this.state.flag = 1;
-      console.log("post_id: "+ post_id);
-    }
-    setTimeout(this.isBooked, 50);
-    setTimeout(this.getPostInfo, 200);
   }
 
   render(){
