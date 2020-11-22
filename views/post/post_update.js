@@ -52,7 +52,6 @@ class PostUpdate extends Component {
     if(image_info.uri != ''){
       formdata.append('post[image]', image_info)
     }
-    formdata.append('post[post_type]', "provide")
     console.log(formdata)
   }
 
