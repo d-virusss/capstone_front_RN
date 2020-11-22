@@ -33,6 +33,8 @@ import LocationDetail from './views/mypage/location_detail'
 import SettingMyInfo from './views/mypage/settingMyInfo'
 import ProviderRentList from './views/mypage/provider_rent_list';
 import ConsumerRentList from './views/mypage/consumer_rent_list';
+import ReportDetail from './views/post/post_report_detail'
+import PostUserReport from './views/post/post_user_report'
 import TestTab from './views/shared/Tab'
 
 const Stack = createStackNavigator();
@@ -89,7 +91,9 @@ const App = () => {
         <Stack.Screen name="P_W_c" component={Post_ask} options={{ headerShown : false }} />
         <Stack.Screen name="Seach" component={SearchBar} />
         <Stack.Screen name="PostShow" component={PostShow}options={{ headerShown: false }}/>
-        <Stack.Screen name="PostReport" component={PostReport} options={{headerTitle: "신고하기",}} />
+        <Stack.Screen name="PostReport" component={PostReport} options={{headerShown: false,}} />
+        <Stack.Screen name="PostUserReport" component={PostUserReport} options={{headerShown: false,}} />
+        <Stack.Screen name="ReportDetail" component={ReportDetail} options={{headerShown: false,}} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
         <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
         <Stack.Screen name="Booking" component={Booking} options={{ headerShown : false}} />

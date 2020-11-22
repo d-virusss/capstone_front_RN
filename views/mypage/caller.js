@@ -244,7 +244,7 @@ class MypageScreen extends Component {
 
             <ListItem>
               <Left>
-                <Icon type="EvilIcons" name="comment" />
+                <Icon type="MaterialCommunityIcons" name="comment-outline" />
                 <Text style={ styles.listText }> 받은 리뷰</Text>
               </Left>
               <Right>

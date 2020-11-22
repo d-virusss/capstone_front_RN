@@ -191,20 +191,37 @@ class PostShow extends Component{
   }
 
   renderUpdateandDelete(){
-    if(this.state.is_your_post)
-    return(
-      <View>
-        <TouchableOpacity
-          onPress={() => this.setState({ show_popover : false }, 
-          () => { updateFlag = 1; this.props.navigation.navigate("PostUpdate", { my_post : this.params.post.post_info } ) }) }>
-          <Text style={styles.popoverel}>수정</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.setState({ show_popover : false }, () => { this.destroyRequest()}) }>
-          <Text style={styles.popoverel}>삭제</Text>
-        </TouchableOpacity>
-      </View>
-    )
+    if(this.state.is_your_post){
+      return (
+        <View>
+          <TouchableOpacity
+            onPress={() => this.setState({ show_popover: false },
+              () => { updateFlag = 1; this.props.navigation.navigate("PostUpdate", { my_post: this.params.post.post_info }) })}>
+            <Text style={styles.popoverel}>수정</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.setState({ show_popover: false }, () => { this.destroyRequest() })}>
+            <Text style={styles.popoverel}>삭제</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+    else{
+      return(
+        <View>
+          <TouchableOpacity
+            onPress={() => this.setState({ show_popover: false }, () => {
+              updateFlag = 1; this.props.navigation.navigate('PostReport', {
+                onGoBack: () => { this.getPostInfo(); },
+                post: this.params.post
+              })
+            })}>
+            <Text style={styles.popoverel}>신고하기</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+
   }
 
   renderFooter(){
@@ -264,10 +281,6 @@ class PostShow extends Component{
                   <Icon name="menu" />
                 </TouchableOpacity>
               )}>
-              <TouchableOpacity
-                  onPress={() => this.setState({ show_popover: false }, () => { updateFlag = 1; this.props.navigation.navigate('PostReport',{onGoBack: ()=>{this.getPostInfo(); }})})}>
-                <Text style={styles.popoverel}>신고하기</Text>
-              </TouchableOpacity>
               {this.renderUpdateandDelete()}
             </Popover>
           </Right>
