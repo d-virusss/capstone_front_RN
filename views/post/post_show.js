@@ -308,7 +308,7 @@ class PostShow extends Component{
                   <Item regular style={styles.postbody}>
                       <Text style={styles.post_category}>{this.state.category}</Text>
                       <Text style={styles.post_title}>{this.state.title}</Text>
-                      <Text style={styles.post_price}>{number_delimiter(this.state.price)}원 / 1일</Text>
+                      <Text style={styles.post_price}>{number_delimiter(this.state.price)}원 / 일</Text>
                       <Text style={styles.post_body}>{this.state.body}</Text>
                   </Item>
                 </Form>

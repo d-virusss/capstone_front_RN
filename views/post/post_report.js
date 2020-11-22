@@ -56,7 +56,7 @@ class PostReportScreen extends Component {
 
             <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post: this.post.post, reason : 'fake_item', type: 'post' }) }}>
               <Left style={styles.elmargin}>
-                <Text>허위 매물이에요</Text> 
+                <Text>허위 매물이에요.</Text> 
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -65,7 +65,7 @@ class PostReportScreen extends Component {
 
             <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post: this.post.post, reason : 'unsuitable_post', type: 'post' }) }}>
               <Left style={styles.elmargin}>
-                <Text>부적절한 게시물이에요</Text>
+                <Text>부적절한 게시물이에요.</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -74,7 +74,7 @@ class PostReportScreen extends Component {
 
             <ListItem button onPress={() => {this.props.navigation.navigate("ReportDetail", { post: this.post.post, reason : 'fraud', type: 'post' })}}>
               <Left style={styles.elmargin}>
-                <Text>사기가 의심돼요</Text>
+                <Text>사기가 의심돼요.</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
