@@ -59,7 +59,7 @@ class PostUserReportScreen extends Component {
 
             <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post : this.post.post, reason: 'break_rule', type: 'user' }) }}>
               <Left style={styles.elmargin}>
-                <Text>계약사항을 지키지 않아요</Text>
+                <Text>계약사항을 지키지 않아요.</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -68,7 +68,7 @@ class PostUserReportScreen extends Component {
 
             <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post : this.post.post, reason: 'lost_contact', type: 'user' }) }}>
               <Left style={styles.elmargin}>
-                <Text>대여 후 연락이 두절됐어요</Text>
+                <Text>대여 후 연락이 두절됐어요.</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
@@ -86,14 +86,14 @@ class PostUserReportScreen extends Component {
 
             <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post: this.post.post, reason: 'fraud', type: 'user' }) }}>
               <Left style={styles.elmargin}>
-                <Text>사기가 의심돼요</Text>
+                <Text>사기가 의심돼요.</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post:this.post.post, reason: 'violence', type: 'user' }) }}>
+            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post: this.post.post, reason: 'threat_violence', type: 'user' }) }}>
               <Left style={styles.elmargin}>
                 <Text>폭력 및 협박, 위협을 가해요.</Text>
               </Left>

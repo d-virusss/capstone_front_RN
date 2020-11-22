@@ -70,7 +70,7 @@ class ReportDetail extends Component {
           [
             {
               text: '확인',
-              onPress: () => {this.props.navigation.goBack()}
+              onPress: () => {this.props.navigation.navigate("PostShow")}
             }
             ,
             {
@@ -87,13 +87,13 @@ class ReportDetail extends Component {
   }
 
   renderReason(){
-    if(this.state.reason === 'fake_item') return "허위 매물이에요"
-    else if(this.state.reason === 'break_rule') return "계약사항을 지키지 않아요"
-    else if(this.state.reason === 'lost_contact') return "대여 후 연락이 두절됐어요"
+    if(this.state.reason === 'fake_item') return "허위 매물이에요."
+    else if(this.state.reason === 'break_rule') return "계약사항을 지키지 않아요."
+    else if(this.state.reason === 'lost_contact') return "대여 후 연락이 두절됐어요."
     else if (this.state.reason === 'impertinence') return "무례하거나, 혐오스런 표현 혹은 차별적 발언을 해요."
-    else if(this.state.reason === 'unsuitable_post') return "부적절한 게시물이에요"
-    else if(this.state.reason === 'fraud') return "사기가 의심돼요"
-    else if(this.state.reason === 'threat_violence') return "폭력 및 협박, 위협을 가해요"
+    else if(this.state.reason === 'unsuitable_post') return "부적절한 게시물이에요."
+    else if(this.state.reason === 'fraud') return "사기가 의심돼요."
+    else if(this.state.reason === 'threat_violence') return "폭력 및 협박, 위협을 가해요."
     else if(this.state.reason === 'etc') return "기타 사유"
   }
 
