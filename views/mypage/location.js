@@ -2,15 +2,13 @@ import axios from 'axios' // for kakao
 import React, {Component} from 'react';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import {StyleSheet, Dimensions, View, Platform, TouchableOpacity, Alert} from 'react-native';
-import {Button, Container, Content, Left, Right, Header, Body, Title, Icon, Spinner, FooterTab} from 'native-base';
+import {Button, Container, Content, Left, Right, Header, Body, Title, Icon, Spinner, FooterTab, Footer} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
 import {Text} from 'native-base';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/Ionicons'
 import Slider from '@react-native-community/slider'
-import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
-import { CommonActions } from '@react-navigation/native';
 
 IconM.loadFont()
 
@@ -25,6 +23,8 @@ var user_addr = {
     range: '',
   },
 };
+
+var bodyContent = ["일단계", "이단계", "삼단계", "사단계~~"]
 
 class MypageScreen extends Component{
   constructor(props) {
@@ -74,7 +74,7 @@ class MypageScreen extends Component{
       .catch(function (error) {
         console.log('failed: ' + error);
         Alert.alert("지역 인증 실패", "법정동을 읽어올 수 없습니다",[
-          {text:'확인', style:'cancel', onPress: ()=> { this.props.navigation.navigate("MyPage") } }])
+          {text:'확인', style:'cancel', onPress: ()=> { this.props.navigation.navigate("Main") } }])
       }.bind(this));
   }
   
@@ -114,14 +114,9 @@ class MypageScreen extends Component{
         console.log(myLocation == "null")
         AsyncStorage.setItem('my_location', user_addr.location.title);
         if(myLocation == "null"){ // first location auth
-          this.props.navigation.navigate('postIndex')
+          this.props.navigation.navigate('Main')
         }else{ //already has location
-          this.props.navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [{ name: 'MyPage' },],
-            })
-          );
+          this.props.navigation.navigate('Main')
         }
       })
       .catch((err) => {
@@ -211,7 +206,8 @@ class MypageScreen extends Component{
             <Text/>
             <Title>현재 위치는 "{user_addr.location.title}" 입니다.</Title>
             <Text/>
-            <Text onPress={() => this.showNearLocationList()} style={{textDecorationLine: 'underline'}}>근처 동네 {locationList[this.state.value].count}개</Text>
+            <Text onPress={() => this.showNearLocationList()} style={{textDecorationLine: 'underline'}}>
+              {bodyContent[this.state.value]} {locationList[this.state.value].count}개</Text>
           <Slider
             style={styles.slider}
             onValueChange={(value)=>{this.showNearLocation(value)}}
@@ -246,10 +242,14 @@ class MypageScreen extends Component{
             />
           </MapView>
         </View>
-         <Button style={styles.footer} onPress={() => {this.putRequest();}}>
-            <Text style={{textAlign:'center'}}>현재 위치에서 동네 인증하기</Text>
+      </Content>
+
+       <View style = {styles.footer}>
+         <Button transparent style = {styles.footerbutton} onPress={() => {this.putRequest();}}>
+            <Text style={styles.footerText}>현재 위치에서 동네 인증하기</Text>
           </Button>
-        </Content>
+        </View>
+        
       </Container>
     )
   }
@@ -258,20 +258,32 @@ class MypageScreen extends Component{
 let {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
-    zIndex: 0,
     top: 2,
-    height: height*0.65,
+    height: height*0.7,
     width: width,
   },
   footer: {
-    flex:1,
-    zIndex: 3,
+    position: 'absolute',
+    flex:0.1,
+    left: 0,
+    right: 0,
+    bottom: -5,
     backgroundColor:'#ff3377',
-    height:50,
-    bottom:-5,
-    width: width,
+    flexDirection:'row',
+    height:80,
+    alignItems:'center',
+    paddingTop: 7
+  },
+  footerbutton: {
     alignItems:'center',
     justifyContent: 'center',
+    flex:1,
+  },
+  footerText: {
+    color:'white',
+    fontWeight:'bold',
+    alignItems:'center',
+    fontSize: 20,
   },
   map: {
     ...StyleSheet.absoluteFillObject,

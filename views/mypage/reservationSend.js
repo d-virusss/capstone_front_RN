@@ -151,7 +151,7 @@ class receiveScreen extends Component{
           <Thumbnail source={{ uri: ele.booking_info.post_image }} />
           <Body>
             <Text>{ele.booking_info.title}</Text>
-            <Text note numberOfLines={1}>
+            <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>
               {ele.booking_info.result}
             </Text> 
           </Body>

@@ -32,7 +32,7 @@ class KakaoLoginScreen extends Component {
     })
 
     if (res.location_auth != '') {// already has location
-      this.props.navigation.navigate('postIndex')
+      this.props.navigation.navigate('Main')
       AsyncStorage.setItem('my_location', res.location_auth);
     } else {
       this.props.navigation.navigate('MyPage_Location')

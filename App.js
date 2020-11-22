@@ -1,19 +1,17 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {Alert, StyleSheet} from 'react-native';
-import React, { useEffect } from 'react';
-import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import {Alert, View, Text} from 'react-native';
+import React, { useEffect, ReactElement } from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from './views/login/caller';
 import Register_form from './views/registration/caller';
 import FindId from './views/findid/caller';
 import FindPw from './views/findpw/caller';
-import PostIndex from './views/post/index';
 import Post_provide from './views/post/post_provide';
 import Post_ask from './views/post/post_ask';
 import SearchBar from './views/post/search_bar';
-import chatIndex from './views/chat/chat_index';
 import PostShow from './views/post/post_show';
 import ChatRoom from './views/chat/chat_room';
-import MyPage from './views/mypage/caller';
 import KakaoLogin from './views/login/kakao';
 import MyPgae_Location from './views/mypage/location';
 import Mypage_Like_List from './views/mypage/likeList';
@@ -37,6 +35,7 @@ import ProviderRentList from './views/mypage/provider_rent_list';
 import ConsumerRentList from './views/mypage/consumer_rent_list';
 import ReportDetail from './views/post/post_report_detail'
 import PostUserReport from './views/post/post_user_report'
+import TestTab from './views/shared/Tab'
 
 const Stack = createStackNavigator();
 
@@ -86,12 +85,11 @@ const App = () => {
         <Stack.Screen name="Register" component={Register_form} options={{headerShown: false}} />
         <Stack.Screen name="Find_id" component={FindId} options={{headerShown: false}} />
         <Stack.Screen name="Find_pw" component={FindPw} options={{headerShown: false}} />
+        <Stack.Screen name="Main" component={TestTab} options={{headerShown : false, gestureEnabled : false, }}/>
 
-        <Stack.Screen name="Chats" component={chatIndex} options={{ title: '채팅', headerLeft: null, gestureEnabled: false}} />
         <Stack.Screen name="P_W_p" component={Post_provide} options={{ headerShown : false }} />
         <Stack.Screen name="P_W_c" component={Post_ask} options={{ headerShown : false }} />
         <Stack.Screen name="Seach" component={SearchBar} />
-        <Stack.Screen name="postIndex" component={PostIndex} options={{ gestureEnabled : false, headerShown: false}} />
         <Stack.Screen name="PostShow" component={PostShow}options={{ headerShown: false }}/>
         <Stack.Screen name="PostReport" component={PostReport} options={{headerShown: false,}} />
         <Stack.Screen name="PostUserReport" component={PostUserReport} options={{headerShown: false,}} />
@@ -100,7 +98,6 @@ const App = () => {
         <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
         <Stack.Screen name="Booking" component={Booking} options={{ headerShown : false}} />
 
-        <Stack.Screen name="MyPage" component={MyPage} options={{headerShown: false, gestureEnabled: false}} />
         <Stack.Screen name="ProviderRentList" component={ProviderRentList} options={{ headerShown: false, }} />
         <Stack.Screen name="ConsumerRentList" component={ConsumerRentList} options={{ headerShown: false, }} />
         <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{gestureEnabled: false, headerShown: false}}  />
@@ -112,14 +109,13 @@ const App = () => {
         <Stack.Screen name="Reservation" component={ManageReservation} options={{ headerShown: false }} />
         <Stack.Screen name="LocationDetail" component={LocationDetail} options={{headerShown : false}}/>
         <Stack.Screen name="SettingMyInfo" component={SettingMyInfo} options={{headerShown : false}}/>
-      
 
         <Stack.Screen name="Contract" component={Contract} options={{ headerShown : false }} />
         <Stack.Screen name="Sign" component={Sign} options={{ headerShown : false }} />
         <Stack.Screen name="SignState" component={SignState} options={{ headerShown : false }} />
-        
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 };
 

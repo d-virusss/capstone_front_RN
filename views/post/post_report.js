@@ -108,7 +108,6 @@ class PostReportScreen extends Component {
             </ListItem>
           </List>
         </Content>
-
       </Container>
     );
   }

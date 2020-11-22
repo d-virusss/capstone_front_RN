@@ -28,24 +28,6 @@ class LoginScreen extends Component {
     super(props);
   }
 
-
-  setToken = async () => {
-    try {
-      await AsyncStorage.setItem('token', response.data.token);
-    } catch (error) {
-      // Error saving data
-    }
-  };
-
-  senddata(data) {
-    console.log('enter senddata');
-  }
-
-  getToken = async() =>{
-    myL = await AsyncStorage.getItem('my_location');
-    let iiiiid = await AsyncStorage.getItem('user_id');
-    console.log(iiiiid)
-  }
   makeRequest (){
     if (userinfo.user.email == ''){
       Alert.alert('로그인',"이메일을 입력해주세요",[{text: '확인', style:'cancel'}])
@@ -63,14 +45,8 @@ class LoginScreen extends Component {
           console.log(response.data.location_auth == null);
           console.log("call gettioen-----------------")
           
-          this.getToken();
           if (response.data.location_auth != null) {// already has location
-            this.props.navigation.dispatch(
-              CommonActions.reset({
-                index: 1,
-                routes: [{ name: 'postIndex' }],
-              })
-            );
+            this.props.navigation.navigate('Main')
           }
           else {
             this.props.navigation.navigate('MyPage_Location')
@@ -93,14 +69,9 @@ class LoginScreen extends Component {
         AsyncStorage.setItem('token', response.data.token);
         AsyncStorage.setItem('user_id', String(response.data.id));
         AsyncStorage.setItem('my_location', String(response.data.location_auth));
-        this.getToken();
+     
         if ((response.data.location_auth) != null) {// already has location
-          this.props.navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [{ name: 'postIndex' }],
-            })
-          );
+          this.props.navigation.navigate('Main')
         } else {
           this.props.navigation.navigate('MyPage_Location')
         }
@@ -145,10 +116,10 @@ class LoginScreen extends Component {
               <Icon name="ios-person-outline" size={30} color="black" style={{flex: 1}}></Icon>
               <Item style={{flex: 4, marginLeft: -10}}>
                 <Input
-                  style={{fontSize: 20, }}
-                  placeholder="이메일"
                   keyboardType="email-address"
                   autoCapitalize="none"
+                  style={{fontSize: 20, }}
+                  placeholder="이메일"
                   onChangeText={(text) => this.changeUsername(text, 'email')}
                 />
               </Item>
@@ -239,6 +210,7 @@ class LoginScreen extends Component {
                   />
                 </View>
               </View>
+
             </View>
           </View>
         </View>
