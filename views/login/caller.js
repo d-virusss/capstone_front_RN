@@ -6,6 +6,7 @@ import { Item, Input, Toast, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../shared/server_address';
 import { CommonActions } from '@react-navigation/native';
+import Fire from '../shared/Fire';
 
 Icon.loadFont();
 
@@ -46,16 +47,16 @@ class LoginScreen extends Component {
     let iiiiid = await AsyncStorage.getItem('user_id');
     console.log(iiiiid)
   }
-  makeRequest (){
+  makeRequest = async()=>{
     if (userinfo.user.email == ''){
       Alert.alert('로그인',"이메일을 입력해주세요",[{text: '확인', style:'cancel'}])
     }
     if (userinfo.user.password == '')
       Alert.alert("로그인", "비밀번호를 입력해주세요",[{text: '확인', style:'cancel'}])
     if (!(userinfo.user.email == '') && !(userinfo.user.password == '')) {
-      api
+      await api
         .post('/users/sign_in', userinfo)
-        .then((response) => {
+        .then(async(response) => {
           console.log(response);
           AsyncStorage.setItem('token', response.data.token);
           AsyncStorage.setItem('user_id', String(response.data.id));
@@ -63,8 +64,9 @@ class LoginScreen extends Component {
           console.log(response.data.location_auth == null);
           console.log("call gettioen-----------------")
           
-          this.getToken();
+          await this.getToken();
           if (response.data.location_auth != null) {// already has location
+            await Fire.signIn(userinfo.user);
             this.props.navigation.dispatch(
               CommonActions.reset({
                 index: 1,

@@ -12,7 +12,7 @@ import Post_ask from './views/post/post_ask';
 import SearchBar from './views/post/search_bar';
 import chatIndex from './views/chat/chat_index';
 import PostShow from './views/post/post_show';
-import ChatRoom from './views/chat/chat_room';
+import ChatRoom from './views/chat/chat_room2';
 import MyPage from './views/mypage/caller';
 import KakaoLogin from './views/login/kakao';
 import MyPgae_Location from './views/mypage/location';
