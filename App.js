@@ -34,9 +34,10 @@ import LocationDetail from './views/mypage/location_detail'
 import SettingMyInfo from './views/mypage/settingMyInfo'
 import ProviderRentList from './views/mypage/provider_rent_list';
 import ConsumerRentList from './views/mypage/consumer_rent_list';
-import ReportDetail from './views/post/post_report_detail'
-import PostUserReport from './views/post/post_user_report'
-import TestTab from './views/shared/Tab'
+import ReportDetail from './views/post/post_report_detail';
+import PostUserReport from './views/post/post_user_report';
+import TestTab from './views/shared/Tab';
+import Partner_apply from './views/partner/partner_apply';
 
 const Stack = createStackNavigator();
 
@@ -114,6 +115,8 @@ const App = () => {
         <Stack.Screen name="Contract" component={Contract} options={{ headerShown : false }} />
         <Stack.Screen name="Sign" component={Sign} options={{ headerShown : false }} />
         <Stack.Screen name="SignState" component={SignState} options={{ headerShown : false }} />
+
+        <Stack.Screen name="Partner_Apply" component={Partner_apply} options={{headerShown : false}}/>
       </Stack.Navigator>
     </NavigationContainer>
 

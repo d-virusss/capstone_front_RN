@@ -125,9 +125,6 @@ function chat_room2 ({route, navigation}){
       .then((response) => {
         console.log('get success');
         console.log(response.status);
-        if(response != null){
-          console.log(response)
-        }
       })
       .catch((err) => {
         console.log("err : ", err)
@@ -153,8 +150,6 @@ function chat_room2 ({route, navigation}){
       .then((response) => {
         console.log("create success!")
         console.log(response)
-        dbData = response.data
-        console.log('going out')
       })
       .catch(function (error) {
         console.log('axios call failed!! : ' + error);
