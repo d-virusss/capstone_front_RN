@@ -6,6 +6,7 @@ import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbn
 import { CommonActions, StackActions } from '@react-navigation/native';
 import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
+import Fire from '../shared/Fire';
 
 
 var posts = [];
@@ -136,6 +137,7 @@ class MypageScreen extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.setState({ show_popover: false }, () => {
+            Fire.off();
             this.Logout()
           })}>
           <Text style={styles.popoverel}>로그아웃</Text>
