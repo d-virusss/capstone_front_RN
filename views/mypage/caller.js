@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import {View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView, Alert} from 'react-native';
-import BottomTab from '../shared/bottom_tab';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbnail,
        Footer, FooterTab, Content, ListItem, List, Separator } from 'native-base';
 import { CommonActions, StackActions } from '@react-navigation/native';
@@ -40,7 +39,6 @@ class MypageScreen extends Component {
         routes: [{ name: 'Logins' },],
       })
     );
-    //this.props.navigation.dispatch(StackActions.popToTop())
 
     // pop everything in stack navigation
   }
@@ -169,23 +167,23 @@ class MypageScreen extends Component {
               thumbnail
               style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop:'3%'}}>
               <Thumbnail source={{uri: this.state.myImage}} />
-              <View>
-                <Body>
-                  <Text>{this.state.myName}</Text>
-                  <Text note numberOfLines={1}>
-                    {this.state.myGroup}
-                  </Text>
-                  <Text note numberOfLines={2}>
-                    {this.state.myLocation}
-                  </Text>
-                </Body>
-              </View>
+              <Body style={{ marginLeft : '5%' }}>
+                <View style={{ flexDirection : 'row' }}>
+                <Text>{this.state.myName}</Text>
+                <Text note numberOfLines={1}>
+                  {this.state.myGroup}
+                </Text>
+                  </View>
+                <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
+                  {this.state.myLocation}
+                </Text>
+              </Body>
               <View></View>
             </ListItem>
 
 
             <ListItem
-              style={{flexDirection: 'row', justifyContent: 'center', height: 100}}>
+              style={{flexDirection: 'row', justifyContent: 'center', height: 100, marginTop: '3%'}}>
               <Button light style={styles.btn}
                 onPress={() => {this.props.navigation.navigate('ProviderRentList')}}>
                 <Icon type="MaterialCommunityIcons" name="receipt" />
@@ -248,7 +246,7 @@ class MypageScreen extends Component {
 
             <ListItem>
               <Left>
-                <Icon type="EvilIcons" name="comment" />
+                <Icon type="MaterialCommunityIcons" name="comment-outline" />
                 <Text style={ styles.listText }> 받은 리뷰</Text>
               </Left>
               <Right>
@@ -269,14 +267,6 @@ class MypageScreen extends Component {
           </List>
         </Content>
         </ScrollView>
-
-        <Footer>
-          <FooterTab>
-            <View style={{flex: 1, backgroundColor: 'white'}}>
-              <BottomTab navigation={this.props.navigation}></BottomTab>
-            </View>
-          </FooterTab>
-        </Footer>
       </Container>
     );}
   }

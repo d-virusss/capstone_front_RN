@@ -64,17 +64,12 @@ class LoginScreen extends Component {
           console.log(response.data.location_auth == null);
           console.log("call gettioen-----------------")
           
-          await this.getToken();
           if (response.data.location_auth != null) {// already has location
             await Fire.signIn(userinfo.user);
-            this.props.navigation.dispatch(
-              CommonActions.reset({
-                index: 1,
-                routes: [{ name: 'postIndex' }],
-              })
-            );
+            this.props.navigation.navigate('Main')
           }
           else {
+            await Fire.signIn(userinfo.user);
             this.props.navigation.navigate('MyPage_Location')
           }
           //this.addUserIDtoDB(response.data.id);
@@ -95,14 +90,9 @@ class LoginScreen extends Component {
         AsyncStorage.setItem('token', response.data.token);
         AsyncStorage.setItem('user_id', String(response.data.id));
         AsyncStorage.setItem('my_location', String(response.data.location_auth));
-        this.getToken();
+     
         if ((response.data.location_auth) != null) {// already has location
-          this.props.navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [{ name: 'postIndex' }],
-            })
-          );
+          this.props.navigation.navigate('Main')
         } else {
           this.props.navigation.navigate('MyPage_Location')
         }
@@ -147,10 +137,10 @@ class LoginScreen extends Component {
               <Icon name="ios-person-outline" size={30} color="black" style={{flex: 1}}></Icon>
               <Item style={{flex: 4, marginLeft: -10}}>
                 <Input
-                  style={{fontSize: 20, }}
-                  placeholder="이메일"
                   keyboardType="email-address"
                   autoCapitalize="none"
+                  style={{fontSize: 20, }}
+                  placeholder="이메일"
                   onChangeText={(text) => this.changeUsername(text, 'email')}
                 />
               </Item>
@@ -241,6 +231,7 @@ class LoginScreen extends Component {
                   />
                 </View>
               </View>
+
             </View>
           </View>
         </View>

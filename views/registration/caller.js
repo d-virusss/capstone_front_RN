@@ -96,11 +96,11 @@ export default class RegistrationScreen extends React.Component {
           <Form>
           {/* email */}
             <Item floatingLabel>
-                <Label>E-mail</Label>
+                <Label>이메일</Label>
                 <Input
                 keyboardType="email-address"
-                onChangeText = {(eMail) => { this.state.user.email = eMail}}
-                autoCapitalize="none"/>
+                autoCapitalize="none"
+                onChangeText = {(eMail) => { this.state.user.email = eMail}}/>
             </Item>
 
               {/* pw */}

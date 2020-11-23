@@ -1,8 +1,9 @@
 import React, { Component} from "react";
-import { View} from "react-native";
+import { View, StyleSheet} from "react-native";
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchBar from './search_bar';
-import BottomTab from "../shared/bottom_tab";
+import ActionButton from 'react-native-action-button';
+import {Icon} from 'native-base';
 IconM.loadFont();
 
 class PostIndex extends Component {
@@ -17,10 +18,26 @@ class PostIndex extends Component {
         <View style={{ flex: 1 }} >
           <SearchBar navigation={this.props.navigation}></SearchBar>
         </View>
-        <BottomTab navigation={this.props.navigation}></BottomTab>
+        <ActionButton buttonColor="#ff3377" onPress={() => { console.log("hi")}}>
+          <ActionButton.Item buttonColor='#9b59b6' title="물품 등록" onPress={() => {this.props.navigation.navigate('P_W_p');}}>
+            <Icon name="md-create" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor='#1abc9c' title="물품 요청" onPress={() => {this.props.navigation.navigate('P_W_c');}}>
+            <Icon name="bell-ring" type="MaterialCommunityIcons" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+        </ActionButton>
+
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
+  },
+});
 
 export default PostIndex;

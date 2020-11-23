@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Content, Container, Item, Header, Left, Right, Title, Body, Label, Text, Button, Input, Form, Textarea, Icon } from 'native-base';
-import { View, ScrollView, StyleSheet, TextInput, Alert, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard, } from "react-native";
+import { View, ScrollView, StyleSheet, DeviceEventEmitter, Alert, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard, } from "react-native";
 import CategoryPicker from './categorypicker';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ImageSelect from './imageselect';
@@ -52,8 +52,6 @@ class PostUpdate extends Component {
     if(image_info.uri != ''){
       formdata.append('post[image]', image_info)
     }
-    formdata.append('post[post_type]', "provide")
-    console.log(formdata)
   }
 
   makeUpdateRequest() {
@@ -70,16 +68,13 @@ class PostUpdate extends Component {
       .then((res) => {
         console.log("send success!")
         console.log(res)
+        DeviceEventEmitter.emit('updateContent', {posts : this.state});
+
         Alert.alert("수정 완료",'게시물을 수정했습니다.',
         [
           {
             text:'확인', 
-            onPress: () => {this.props.navigation.dispatch(
-              CommonActions.reset({
-              index: 1,
-              routes: [{ name: 'postIndex' },],
-              })
-            );}
+            onPress: () => {this.props.navigation.goBack();}
           },
           {
             style:'cancel'
@@ -89,6 +84,7 @@ class PostUpdate extends Component {
       .catch((e) => {
         console.log('send post failed!!!!' + e)
         Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
+        this.props.navigation.goBack(); 
       })
   }
 

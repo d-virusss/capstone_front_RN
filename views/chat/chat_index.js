@@ -157,6 +157,11 @@ function ChatList ({ navigation }){
   })
   return(
     <Container>
+    <Header style={{height:40}}>
+      <Body>
+        <Text style={{fontSize: 17}}>채팅</Text>
+      </Body>
+    </Header>
         <ScrollView  
         refreshControl={
         <RefreshControl refreshing={refreshing}
@@ -170,53 +175,6 @@ function ChatList ({ navigation }){
             {noChat == false && makeIndexList()}
           </List>
         </ScrollView>
-        <Footer>
-        <FooterTab>
-          <Button vertical onPress={() => {refreshFlag = true; navigation.navigate('postIndex');}}>
-            <Icon name="home" />
-            <Text>홈</Text>
-          </Button>
-          <Root vertical transparent>
-            <Button
-              transparent
-              vertical
-              style={{ alignSelf: 'center' }}
-              onPress={() =>
-                ActionSheetIOS.showActionSheetWithOptions(
-                  {
-                    options: BUTTONS,
-                    cancelButtonIndex: CANCEL_INDEX,
-                    title: "글쓰기"
-                  },
-                  buttonIndex => {
-                    if (buttonIndex === 0) {
-                      refreshFlag = true;
-                      navigation.navigate('P_W_p');
-                    }
-                    if (buttonIndex === 1) {
-                      refreshFlag = true;
-                      navigation.navigate('P_W_c');
-                    }
-                  },
-                )}
-            >
-              <Icon name="pencil" style={{ color: '#6b6b6b' }} />
-              <Text style={{ fontSize: 14, color: '#6b6b6b' }}>글쓰기</Text>
-            </Button>
-          </Root>
-          <Button badge vertical >
-            { unchecked > 0 ? 
-            <Badge><Text>{unchecked}</Text></Badge>
-            : <Text></Text> }
-            <Icon name="chatbubble" />
-            <Text>채팅</Text>
-          </Button>
-          <Button vertical onPress={() => {navigation.navigate('MyPage'); refreshFlag = true;}}>
-            <Icon name="person" />
-            <Text>마이페이지</Text>
-          </Button>
-        </FooterTab>
-      </Footer>
       </Container>
   );
 }
