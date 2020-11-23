@@ -5,6 +5,7 @@ class Fire{
   state = {
     chat_id:0,
     sender_id:0,
+    avatar:''
   }
 
   constructor(){
@@ -17,6 +18,10 @@ class Fire{
 
   getSenderID = (senderID) => {
     this.state.sender_id = senderID;
+  }
+
+  getAvatar = (avatarURI) => {
+    this.state.avatar = avatarURI;
   }
 
   init = async () => {
@@ -73,7 +78,10 @@ class Fire{
     if(sender === this.state.sender_id){
       user._id = 1;
     }
-    else user._id = 2;
+    else {
+      user._id = 2;
+      user.avatar = this.state.avatar;
+    }
     if(chat === this.state.chat_id){
       return{
         _id,
@@ -98,7 +106,7 @@ class Fire{
   }
 
   get db(){
-    return firebase.database().ref("messages");
+    return firebase.database().ref(`chat${this.state.chat_id}/messages`);
   }
 
   get uid(){

@@ -20,7 +20,6 @@ let myID;
 let token;
 let myName;
 let postID;
-let other_nickname = '';
 let postInfo = [];
 let userID = 1;
 
@@ -64,6 +63,9 @@ function renderMessage(props){
     containerStyle={{
       left:{
         padding:'1%'
+      },
+      right:{
+        padding:'1%'
       }
     }}
   />
@@ -81,7 +83,7 @@ function chat_room2 ({route, navigation}){
 
   const getPostInfo = async () => {
     await api
-            .get(`posts/${postID}`,{
+            .get(`posts/${post_id}`,{
               headers:{
                 'Authorization': token
               }
@@ -109,27 +111,79 @@ function chat_room2 ({route, navigation}){
             .catch(err=>console.log(err))
   }
 
-  const onSend = useCallback((messages=[]) => {
+  const messageGetRequest = async () => {
+    Fire.getAvatar(avatar);
+    console.log(chat_id);
+    await api
+      .get(`/chats/${chat_id}/messages`, 
+      { 
+        headers : {
+          'Authorization' : token
+        }
+      }
+      )
+      .then((response) => {
+        console.log('get success');
+        console.log(response.status);
+        if(response != null){
+          console.log(response)
+        }
+      })
+      .catch((err) => {
+        console.log("err : ", err)
+        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+      })
+  }
+
+  const onSend = useCallback(async(messages=[]) => {
+    api
+      .post(`/chats/${chat_id}/messages`, 
+        {
+          message : {
+            body : messages[0].text,
+            images_attributes : null
+          }
+        },
+        {
+          headers : {
+            'Authorization' : token
+          }
+        }
+      )
+      .then((response) => {
+        console.log("create success!")
+        console.log(response)
+        dbData = response.data
+        console.log('going out')
+      })
+      .catch(function (error) {
+        console.log('axios call failed!! : ' + error);
+        Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
+      });
+    console.log(messages[0]);
     Fire.send(messages);
     //setMessages(previous=>GiftedChat.append(previous, messages))
   },[])
 
   useEffect(()=>{
-    getToken();
-    getMyInfo();
-    getPostInfo();
-    Fire.getChatID(chat_id);
-    //메세지를 하나씩 뜯어내서 조립해야함 
-    //센더와 내 아이디가 같다면?
-    //하지만 여기서 firemessage는 이미 저장되어있는 정보를 한번에 가져옴
-    //map에 실패함
-    Fire.get(message=>{
-      setMessages(previous=>GiftedChat.append(previous, message))
-    })
+    async function inEffect(){
+      await getToken();
+      await getMyInfo();
+      await getPostInfo();
+      messageGetRequest();
+      Fire.getChatID(chat_id);
+      Fire.get(message=>{
+        console.log(message)
+        setMessages(previous=>GiftedChat.append(previous, message))
+      })
+    }
+    inEffect();
   },[])
 
   
   const chat = <GiftedChat messages={messages}
+    renderAvatarOnTop = {true}
+    showAvatarForEveryMessage = {true}
     onSend={messages => onSend(messages)}
     user={{_id:1}}
     renderBubble={renderBubble}
@@ -153,7 +207,7 @@ function chat_room2 ({route, navigation}){
               </Button>
             </Left>
             <Body>
-              <Text style = {{fontSize : 17,}}>{other_nickname}</Text>
+              <Text style = {{fontSize : 17,}}>{nickname}</Text>
             </Body>
             <Right>
             <Popover
@@ -200,7 +254,6 @@ function chat_room2 ({route, navigation}){
     );
   }
   return(
-    <SafeAreaView style={{flex:1}}>
       <Container>
         <Header style = {{height : 45}}>
           <Left>
@@ -209,7 +262,7 @@ function chat_room2 ({route, navigation}){
             </Button>
           </Left>
           <Body>
-            <Text style = {{fontSize : 17,}}>{other_nickname}</Text>
+            <Text style = {{fontSize : 17,}}>{nickname}</Text>
           </Body>
           <Right>
           <Popover
@@ -256,7 +309,6 @@ function chat_room2 ({route, navigation}){
         </TouchableOpacity>
           {chat}
       </Container>
-    </SafeAreaView>
     );
   
 }
