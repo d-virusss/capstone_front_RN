@@ -15,6 +15,7 @@ class LikeListItemScreen extends Component {
 
   makeList() {
     return like_item.map((ele) => {
+      console.log(ele)
       return (
         <ListItem thumbnail key = {ele.like_info.id} button
         onPress = {() => this.showPostRequset(ele.like_info.target_id)}>
