@@ -20,8 +20,8 @@ class LikeListScreen extends Component {
           <Right></Right>
         </Header>
 
-        <Content>
-          <Tabs>
+        
+        <Tabs>
           <Tab heading={ <TabHeading transparent><Text>품목</Text></TabHeading>}>
               <LikeList_Item navigation={this.props.navigation}></LikeList_Item>
             </Tab>
@@ -29,8 +29,7 @@ class LikeListScreen extends Component {
             <Tab heading={ <TabHeading transparent><Text>유저</Text></TabHeading>}>
               <LikeListUserScreen navigation={this.props.navigation}></LikeListUserScreen>
             </Tab>
-          </Tabs>
-        </Content>
+        </Tabs>
       </Container>
     );
   }

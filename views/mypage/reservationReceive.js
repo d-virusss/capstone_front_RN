@@ -197,6 +197,9 @@ class receiveScreen extends Component{
             <View style={{ flexDirection: 'row' }}>
               <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>{ele.booking_info.consumer.nickname}</Text>
             </View>
+            <View style={{ flexDirection: 'row' }}>
+              <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>{ele.booking_info.price}</Text>
+            </View>
           </Body>
           <Right>
             <Badge style={{ backgroundColor : this.setBadgeColor(ele.booking_info.result) }}>
