@@ -3,7 +3,8 @@ import { StyleSheet, View, Alert, TouchableOpacity, } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, 
   Left, Right, Body, Title, Icon, Footer, Button, Text} from 'native-base';
-import api from '../shared/server_address'
+import api from '../shared/server_address';
+import Fire from '../shared/Fire';
 
 var user_obj = {
   user: {
@@ -41,7 +42,9 @@ export default class RegistrationScreen extends React.Component {
       console.log(user_obj.user.device_token)
       api
       .post('/users/sign_up', user_obj)
-      .then((res) =>  {
+      .then(async (res) =>  {
+        console.log(res);
+        await Fire.createUser(user_obj.user);
         console.log('send data for registration');
         Alert.alert("모두나눔 가입 완료", "회원가입이 완료되었습니다.",[{text:'확인', style:'cancel'}])
         this.props.navigation.navigate("Logins")

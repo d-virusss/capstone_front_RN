@@ -11,7 +11,8 @@ import Post_provide from './views/post/post_provide';
 import Post_ask from './views/post/post_ask';
 import SearchBar from './views/post/search_bar';
 import PostShow from './views/post/post_show';
-import ChatRoom from './views/chat/chat_room';
+import ChatRoom from './views/chat/chat_room2';
+import MyPage from './views/mypage/caller';
 import KakaoLogin from './views/login/kakao';
 import MyPgae_Location from './views/mypage/location';
 import Mypage_Like_List from './views/mypage/likeList';
@@ -38,7 +39,7 @@ import PostUserReport from './views/post/post_user_report'
 import ButtomTab from './views/shared/Tab'
 import Review from './views/mypage/review';
 import WriteReview from './views/mypage/write_review'
-
+import Partner_apply from './views/partner/partner_apply';
 
 const Stack = createStackNavigator();
 
@@ -121,6 +122,8 @@ const App = () => {
         <Stack.Screen name="Contract" component={Contract} options={{ headerShown : false }} />
         <Stack.Screen name="Sign" component={Sign} options={{ headerShown : false }} />
         <Stack.Screen name="SignState" component={SignState} options={{ headerShown : false }} />
+
+        <Stack.Screen name="Partner_Apply" component={Partner_apply} options={{headerShown : false}}/>
       </Stack.Navigator>
     </NavigationContainer>
 

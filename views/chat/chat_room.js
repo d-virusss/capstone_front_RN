@@ -250,7 +250,7 @@ function ChatRoom ({route , navigation}) {
   })
   useEffect(()=>{
     getToken();
-    getPostInfo();
+    setTimeout(10, getPostInfo);
     const unsubscribe = navigation.addListener('focus', ()=>{
       updateFlag = 0;
     })

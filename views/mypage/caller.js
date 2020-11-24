@@ -6,7 +6,10 @@ import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbn
 import { CommonActions, StackActions } from '@react-navigation/native';
 import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
+import Fire from '../shared/Fire';
+import IconM from 'react-native-vector-icons/MaterialIcons';
 
+IconM.loadFont();
 
 var posts = [];
 
@@ -135,6 +138,7 @@ class MypageScreen extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.setState({ show_popover: false }, () => {
+            Fire.off();
             this.Logout()
           })}>
           <Text style={styles.popoverel}>로그아웃</Text>
@@ -211,9 +215,19 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress = {()=>{this.getFCMToken();}}>
+            <ListItem button onPress = {()=>{this.props.navigation.navigate('Partner_Apply')}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
+                <Text style={ styles.listText }> 파트너 인증</Text>
+              </Left>
+              <Right>
+                <Icon type="AntDesign" name="right" />
+              </Right>
+            </ListItem>
+
+            <ListItem button onPress = {()=>{this.getFCMToken();}}>
+              <Left>
+                <Icon type="MaterialIcons" name="perm-device-info" />
                 <Text style={ styles.listText }> 기기 인증</Text>
               </Left>
               <Right>
