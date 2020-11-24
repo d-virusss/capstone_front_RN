@@ -94,25 +94,23 @@ class myItemListScreen extends Component{
           <Right></Right>
         </Header>
 
-        <Content>
-          <Tabs>
-            <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
-              <Content>
-                <List>
-                  {this.makeIndexList(this.state.posts1)}
-                </List>
-              </Content>
-            </Tab>
+        <Tabs>
+          <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
+            <Content>
+              <List>
+                {this.makeIndexList(this.state.posts1)}
+              </List>
+            </Content>
+          </Tab>
 
-            <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
-              <Content>
-                <List>
-                  {this.makeIndexList(this.state.posts2)}
-                </List>
-              </Content>
-            </Tab>
-          </Tabs>
-        </Content>
+          <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
+            <Content>
+              <List>
+                {this.makeIndexList(this.state.posts2)}
+              </List>
+            </Content>
+          </Tab>
+        </Tabs>
       </Container>
     );
   }

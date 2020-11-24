@@ -45,8 +45,7 @@ class MypageScreen extends Component {
   getToken = async () => {
     let value = await AsyncStorage.getItem("token")
     this.state.token = value
-    this.getMyInfo();
-    
+    this.getMyInfo(); 
   }
 
   componentDidMount() {
@@ -171,7 +170,7 @@ class MypageScreen extends Component {
                 <Text note numberOfLines={1}>
                   {this.state.myGroup}
                 </Text>
-                  </View>
+                </View>
                 <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
                   {this.state.myLocation}
                 </Text>
@@ -242,10 +241,10 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem>
+            <ListItem button onPress={() => {this.props.navigation.navigate('Review')}}>
               <Left>
                 <Icon type="MaterialCommunityIcons" name="comment-outline" />
-                <Text style={ styles.listText }> 받은 리뷰</Text>
+                <Text style={ styles.listText }> 작성한 리뷰</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />

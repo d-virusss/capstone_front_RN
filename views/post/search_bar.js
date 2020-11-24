@@ -61,8 +61,9 @@ class Search_Bar extends React.Component {
 
           <Item style={{backgroundColor:'#ffffff',borderColor: 'transparent' }}>
             <Item style={{width : DEVICE_WIDTH*0.7, marginLeft: '4%', borderColor: 'transparent'}}>
-              <Icon name="ios-search" onPress = {() => this.searchRequest()}/>
+              <Icon name="ios-search"/>
               <Input placeholder="Search" onChangeText = {(content) => this.state.search = content}
+              onSubmitEditing={() => this.searchRequest()}
               ref={input => { this.textInput = input }}/>
               <Icon name="close" type="Ionicons" onPress={() => this.clear()}/>
             </Item>

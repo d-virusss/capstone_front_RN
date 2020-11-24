@@ -33,31 +33,9 @@ export default class RegistrationScreen extends React.Component {
   },
  };
 
- checkInputVaule = () => {
-    if(this.state.user.email == ''){
-      Alert.alert("이메일을 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-    if(this.state.user.password == ''){
-      Alert.alert("비밀번호를 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-    if(this.state.user.nickname == ''){
-      Alert.alert("이름을 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-    //check pw
-    if(this.state.user.password_confirmation != this.state.user.password){
-      Alert.alert("비밀번호가 다릅니다", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-
-    user_obj.user = this.state.user;
-    return true;
-   }
-
   registrationRequest = async () => {
-    if(this.checkInputVaule()){
+    
+      user_obj.user = this.state.user;
       user_obj.user.device_token = await AsyncStorage.getItem('fcmToken');
       console.log("token")
       console.log(user_obj.user.device_token)
@@ -73,7 +51,7 @@ export default class RegistrationScreen extends React.Component {
         console.log(err.response.data.error)
         Alert.alert("가입 실패", err.response.data.error,[{text:'확인', style:'cancel'}])       
       });
-    }
+    
   };
 
 

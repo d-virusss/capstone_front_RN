@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Header, ListItem, View, Container, Content, Body, Right, Spinner, Thumbnail, Left } from 'native-base';
+import { Header, ListItem, List, Container, Content, Body, Right, Spinner, Thumbnail, Left } from 'native-base';
 import api from '../shared/server_address'
 
 var like_item = [];
@@ -19,8 +19,12 @@ class LikeListItemScreen extends Component {
       return (
         <ListItem thumbnail key = {ele.like_info.id} button
         onPress = {() => this.showPostRequset(ele.like_info.target_id)}>
+          <Left>
+              <Thumbnail square source={{ uri: ele.like_info.post_image }} />
+          </Left>
           <Body>
             <Text>{ele.like_info.title}</Text>
+            <Text note numberOfLines={1}>{ele.like_info.price} </Text>
           </Body>
           <Right>
             <Text>보기</Text>
@@ -89,7 +93,7 @@ class LikeListItemScreen extends Component {
       </Container>
       );
     } else {
-      return <ScrollView>{this.makeList()}</ScrollView>;
+      return <ScrollView>{this.makeList()}</ScrollView>
     }
   }
 }
