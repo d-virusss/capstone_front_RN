@@ -9,8 +9,14 @@ import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import FormData from 'form-data'
+import _ from 'lodash'
 
-const image_info = {
+const thumb_image = {
+  uri: '',
+  type: '',
+  name: '',
+}
+var multi_image = {
   uri: '',
   type: '',
   name: '',
@@ -23,7 +29,7 @@ class Post_provide extends Component {
     category_id: "", // 잡화 의류 뷰티 전자제품 레져용품 생활용품 요리 자동차 유아용품
     price: "",
     body: "",
-    image: {},
+    images: {},
     token: "",
     contract:
 `제 1 조 본 계약에서 대여물건이라 함은 계약서 상단에 기재된 것을 말한다.\n
@@ -56,8 +62,14 @@ class Post_provide extends Component {
     formdata.append('post[category_id]', this.state.category_id)
     formdata.append('post[price]', this.state.price)
     formdata.append('post[body]', this.state.body)
-    if(image_info.uri != ''){
-      formdata.append('post[image]', image_info)
+    if(thumb_image.uri != ''){
+      _.each(this.state.images, (image, index) => {
+        multi_image.uri = image.sourceURL;
+        multi_image.type = image.mime;
+        multi_image.name = image.filename;
+        formdata.append(`post[images_attributes][${index}][image]`, multi_image)
+      })
+      formdata.append('post[image]', thumb_image)
     }
     formdata.append('post[post_type]', "provide")
     formdata.append('post[contract]', this.state.contract)
@@ -115,7 +127,9 @@ class Post_provide extends Component {
       })
       .catch((e) => {
         console.log('send post failed!!!!' + e)
-        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
+        Alert.alert("요청 실패", e.response.data.error,[
+          {text:'확인', style:'cancel', onPress: () => {this.setState({loading: false})}}
+        ])
       })
   }
 
@@ -154,12 +168,18 @@ class Post_provide extends Component {
   }
 
   changeImage = (data) => {
+    console.log(data)
     this.setState({
-      image: data
-    }, () => {console.log(this.state.image);})
-    image_info.uri = data.sourceURL;
-    image_info.type = data.mime;
-    image_info.name = data.filename;
+      images: data
+    }, () => {console.log(this.state.images);})
+
+    _.each(this.state.images, (image) => {
+      console.log(image)
+    })
+
+    thumb_image.uri = data[0].sourceURL;
+    thumb_image.type = data[0].mime;
+    thumb_image.name = data[0].filename;
   }
 
   render() {
@@ -184,12 +204,12 @@ class Post_provide extends Component {
         <Spinner visible={this.state.loading} />
         <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
           <KeyboardAvoidingView>
-            <ScrollView style={{ marginTop : '5%' }}>
+            <ScrollView style={{  }}>
               <ImageSelect stateBus={this.changeImage} ></ImageSelect>
               <Container>
                 <Content>
                   <Form>
-                    <Item inlinelabel style={{ marginTop: '5%'}}>
+                    <Item inlinelabel style={{ marginTop: '1%'}}>
                       <Label style={{width:'15%'}}>제목</Label>
                       <Input autoCapitalize='none'
                         onChangeText={(text) => this.changedata(text, "title")} />
