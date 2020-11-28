@@ -23,13 +23,18 @@ class LocationDetailScreen extends Component{
         console.log(this.props.route.params.num)
         return (
             <Container>
-            <Header>
+            <Header style={{
+                height: 60,
+                backgroundColor: '#f8f8f8',
+                justifyContent:'space-between'}}
+                androidStatusBarColor='#000'
+            >
                 <Left>
                   <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
                     <Icon name = 'chevron-back' type = 'Ionicons'/>
                   </TouchableOpacity>
                 </Left>
-                <Body><Title>근처 동네 {num}개</Title></Body>
+                <Body><Title style={{color:'black',alignSelf:'center'}}>근처 동네 {num}개</Title></Body>
                 <Right/>
             </Header>
             <Content>

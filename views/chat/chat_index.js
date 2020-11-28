@@ -155,9 +155,12 @@ function ChatList ({ navigation }){
   },[])
   return(
     <Container>
-    <Header>
+    <Header style={{height: 60,
+    backgroundColor: '#f8f8f8',}}
+    androidStatusBarColor='black'
+    >
       <Body>
-        <Title style={{fontSize: 17}}>채팅</Title>
+        <Title style={{fontSize: 20, color: 'black', alignSelf: 'center'}}>채팅</Title>
       </Body>
     </Header>
         <ScrollView  

@@ -73,12 +73,12 @@ class Search_Bar extends React.Component {
           </Item>
         
 
-          <Tabs style={{marginTop : '0%',}}>
-            <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}
+          <Tabs tabBarUnderlineStyle={{backgroundColor:'#007aff'}} style={{marginTop : '0%',}}>
+            <Tab heading={ <TabHeading transparent style={{backgroundColor:'#F8F8F8'}}><Text>제공</Text></TabHeading>}
             style={{ color: '#ff3377' }}>
               <ProvideIndex navigation = {this.props.navigation}/>
             </Tab>
-            <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
+            <Tab heading={ <TabHeading transparent style={{backgroundColor:'#F8F8F8'}}><Text>대여</Text></TabHeading>}>
               <AskIndex navigation={this.props.navigation}></AskIndex>
             </Tab>
           </Tabs>
