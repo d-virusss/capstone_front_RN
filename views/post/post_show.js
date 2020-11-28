@@ -79,6 +79,7 @@ class PostShow extends Component{
 
   componentDidMount() {
     console.log('------- enter post_show -------');
+    console.log(this.params)
     this.getToken().then(() => {
       this.setParams();
       this.getReviewList();

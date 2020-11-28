@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StyleSheet, View, Alert } from 'react-native';
+import { TouchableOpacity, StyleSheet, View, Alert, TextInput, Button } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Header, Text, Form, Item, Input, Label, Left, 
-  Right, Icon, Body, Title, Button, Content } from 'native-base';
+  Right, Icon, Body, Title, Content, Badge, Button as NativeButton } from 'native-base';
 import api from '../shared/server_address'
-import Spinner from 'react-native-loading-spinner-overlay';
+import _ from 'lodash'
+import FormData from 'form-data'
 
+var formdata = new FormData()
 class Keyword extends Component {
   state = {
     token: '',
     loading: false,
-    keyword : ''
+    keyword : '',
+    keywordCount : 0,
+    given_keywords : [],
   }
 
   componentDidMount(){
@@ -20,34 +24,100 @@ class Keyword extends Component {
   getToken = async () => {
     let token = await AsyncStorage.getItem('token')
     this.state.token = token
-  }
-
-  getAuthCodeRequest = async () => {
-
-    this.setState({ loading: true })
-    api
-      .post('/users/email_auth', this.state, {
-        headers: {
-          'Authorization': this.state.token
-        }
-      })
-      .then((res) => {
-        console.log('success getAuthCodeRequest');
-        Alert.alert("등록 성공", "키워드를 등록했습니다.", [{ text: '확인', style: 'cancel',
-          onPress: () => { this.setState({ loading: true }) } }])
-      })
-      .catch((e) => {
-        console.log('fail getAuthCodeRequest');
-        console.log(e.response)
-        Alert.alert("등록 실패", "키워드를 등록하지 못했습니다.", [{ text: '확인', style: 'cancel',
-          onPress: () => { this.setState({ loading: true }) } }])
-      });
+    console.log(this.state.token)
+    this.getKeywordRequest()
   }
 
   changedata = (text) => {
     this.setState({
       keyword: text,
-    }, () => { console.log(this.state.title) })
+    }, () => { console.log(this.state.keyword) })
+  }
+
+  is_input_idle(){
+    if(this.state.keyword === '') return true
+    else return false
+  }
+
+  getKeywordRequest(){
+    console.log('get keyword request ------------')
+    api
+      .get('/users/keyword', {
+        headers : {
+          'Authorization': this.state.token,
+        }
+      })
+      .then((res) => {
+        console.log(res)
+        this.setState({ keywordCount : res.data.count,
+          given_keywords : res.data.keywords
+        }, () => { console.log(this.state) })
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
+
+  setFormData(){
+    formdata = new FormData()
+    console.log(this.state.keyword)
+    formdata.append('user[keyword]', this.state.keyword)
+    console.log(formdata)
+  }
+
+  createKeywordRequest(){
+    console.log('create keyword -------------')
+    this.textInput.clear()
+    this.setFormData()
+    api
+      .post('/users/keyword', (formdata), {
+        headers : {
+          'Authorization': this.state.token,
+        }
+      })
+      .then((res) => {
+        console.log(res)
+        this.getKeywordRequest()
+      })
+      .catch((e) => {
+        console.log(e.response)
+      })
+  }
+
+  deleteKeywordRequest(target){
+    console.log('delete request ----------------')
+    api
+      .delete('/users/keyword', {
+        headers: {
+          'Authorization': this.state.token,
+        },
+        params: {
+          'user[keyword]' : target
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        console.log("삭제완료!")
+        this.getKeywordRequest()
+      })
+      .catch((e) => {
+        console.log(e)
+        console.log(e.response)
+      })
+  }
+
+  makeKeywordBadge(){
+    return this.state.given_keywords.map((keyword) => {
+      return(
+        <Badge style={styles.badge}>
+          <Text style={{ fontWeight: 'bold' }}>{keyword}</Text>
+          <TouchableOpacity style={{ marginHorizontal: '2%' }}
+            onPress={() => { this.deleteKeywordRequest(keyword) }}>
+            <Icon style={{ fontSize: 11, fontWeight: 'bold' }} name='close' type="AntDesign"></Icon>
+          </TouchableOpacity>
+        </Badge>
+      )
+    })
   }
 
   render() {
@@ -62,17 +132,25 @@ class Keyword extends Component {
           <Body><Title>키워드 알림</Title></Body>
           <Right></Right>
         </Header>
-        <Spinner visible={this.state.loading} />
         <Content style={styles.screen}>
           <Text style={styles.title}>키워드 알림</Text>
           <Text>키워드를 등록해 두면 키워드가 포함된 게시글이 올라올 때 푸시 알람을 받을 수 있어요!</Text>
-          <Form>
-            <Item inlineLabel>
-              <Label>키워드</Label>
-              <Input autoCapitalize='none'
-                onChangeText={(text) => this.changedata(text)}/>
-            </Item>
-          </Form>
+          <View style={styles.inputForm}>
+            <TextInput style={styles.keywordArea}
+              ref={(input) => { this.textInput = input }}
+              placeholder='키워드'
+              autoCapitalize='none'
+              onChangeText={(text) => this.changedata(text)}/>
+            <Button style={StyleSheet.submitButton}
+              title="등록" color="#ff3377"
+              disabled={this.is_input_idle()}
+              onPress={() => {this.createKeywordRequest()}}
+            />
+          </View>
+          <Text style={styles.keywordList}>등록된 키워드 ({this.state.keywordCount}/20)</Text>
+          <View style={styles.keywordContainer}>
+            {this.makeKeywordBadge()}
+          </View>
         </Content>
       </Container>
     );
@@ -88,6 +166,45 @@ const styles = StyleSheet.create({
     fontWeight : 'bold',
     marginBottom : '3%',
   },
+  inputForm : {
+    marginLeft : 0,
+    marginTop: '5%',
+    width : '100%',
+    flexDirection : 'row',
+    alignItems : 'center',
+  },
+  submitButton : {
+    marginLeft : '3%',
+  },
+  keywordArea : {
+    width : '80%',
+    fontSize : 17,
+    borderWidth : 1,
+    borderRadius : 5,
+    borderColor : '#aaaaaa',
+    padding: '3%',
+    marginRight : '3%'
+  },
+  badge : {
+    flexDirection: 'row', 
+    backgroundColor: '#ff3377',
+    height: 33,
+    justifyContent: 'center', 
+    alignItems: 'center',
+    alignSelf : 'center',
+    marginVertical: '1%',
+    marginRight: '2%',
+  },
+  keywordList : {
+    marginTop : '4%',
+    color : '#787878',
+
+  },
+  keywordContainer : {
+    marginVertical : '3%',
+    flexDirection : 'row',
+    flexWrap : 'wrap',
+  }
 })
 
 export default Keyword;
