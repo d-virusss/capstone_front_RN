@@ -23,6 +23,8 @@ class MypageScreen extends Component {
     loading: false,
     refreshing : '',
     show_popover : false,
+    isCompany: false,
+    company_id:-1,
   };
 
   _onRefresh = () => {
@@ -63,11 +65,15 @@ class MypageScreen extends Component {
       },
     })
     .then((res) => {
+      //console.log(res)
       this.state.myName = res.data.user_info.nickname;
       this.state.myLocation = res.data.user_info.location_title;
       this.state.myImage = res.data.user_info.image;
       this.state.myGroup = "ajou"
       posts = res.data.user_info;
+      if(res.data.user_info.company_id)
+        this.state.company_id = res.data.user_info.company_id;
+      this.state.isCompany = res.data.user_info.is_company;
       this.setState({loading: true})
     })
     .catch((err) => {
@@ -112,6 +118,20 @@ class MypageScreen extends Component {
     )
     .then((response)=>console.log(response))
     .then((error)=>console.log(error))
+  }
+
+  partnerCheckNavigate() {
+    if(this.state.company_id != -1){
+      console.log(this.state.company_id)
+      if(this.state.isCompany){
+        //navigate to partner_page
+        this.props.navigation.navigate('Partner_Page',{company_id:this.state.company_id});
+      }
+      else{
+        this.props.navigation.navigate('Partner_Waiting',{company_id:this.state.company_id});
+      }
+    }
+    else this.props.navigation.navigate('Partner_Apply');
   }
 
   renderPopover(){
@@ -216,7 +236,7 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress = {()=>{this.props.navigation.navigate('Partner_Apply')}}>
+            <ListItem button onPress = {()=>{this.partnerCheckNavigate()}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text style={ styles.listText }> 파트너 인증</Text>

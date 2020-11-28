@@ -65,11 +65,11 @@ class LoginScreen extends Component {
           console.log("call gettioen-----------------")
           
           if (response.data.location_auth != null) {// already has location
-            await Fire.signIn(userinfo.user);
+            //await Fire.signIn(userinfo.user); granting open db
             this.props.navigation.navigate('Main')
           }
           else {
-            await Fire.signIn(userinfo.user);
+            //await Fire.signIn(userinfo.user); granting open db
             this.props.navigation.navigate('MyPage_Location')
           }
           //this.addUserIDtoDB(response.data.id);

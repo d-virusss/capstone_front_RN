@@ -25,7 +25,7 @@ class PostReportScreen extends Component {
 
   componentDidMount() {
     this.getToken()
-    console.log(this.post)
+    //console.log(this.post)
     console.log("component did mount --- report")
   }
   
