@@ -20,7 +20,7 @@
 
     ],
     "Firebase/CoreOnly": [
-      "6.34.0"
+      "~> 6.34.0"
     ]
   },
   "static_framework": false

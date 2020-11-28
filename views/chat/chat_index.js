@@ -91,8 +91,8 @@ function ChatList ({ navigation }){
     console.log(token);
   }
   
-  const chatGetRequest = () => {
-    api
+  const chatGetRequest = async () => {
+    await api
       .get(`/chats`, 
       { 
         headers : {
@@ -146,18 +146,16 @@ function ChatList ({ navigation }){
   }
 
   useEffect(() => {
-    getToken()
-    if(refreshFlag){
-      console.log(refreshFlag);
-      refreshFlag = false;
-      setTimeout(chatGetRequest, 200);
+    async function inEffect(){
+      await getToken()
+      await chatGetRequest();
+      console.log("--------------------")
     }
-    //setTimeout(chatGetRequest,100000);
-    console.log("--------------------")
-  })
+    inEffect();
+  },[])
   return(
     <Container>
-    <Header style={{height:40}}>
+    <Header>
       <Body>
         <Text style={{fontSize: 17}}>채팅</Text>
       </Body>

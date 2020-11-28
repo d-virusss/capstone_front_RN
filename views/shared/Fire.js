@@ -10,6 +10,7 @@ class Fire{
 
   constructor(){
     this.init();
+    this.grantAuth();
   }
 
   getChatID = (chatID) => {
@@ -40,6 +41,11 @@ class Fire{
       await firebase.auth().signInWithEmailAndPassword(user.email, user.password);
     }
     catch(err) {console.log(err);}
+  }
+
+  grantAuth = async()=>{
+    if(!firebase.auth().currentUser)
+      await firebase.auth().signInAnonymously();
   }
 
   createUser = async user => {

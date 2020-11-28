@@ -1,15 +1,19 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import {
   View, Container, Header, Content, Form, Item, Button, Text, Left, Right, 
-  Body, Icon
+  Body, Icon, Title, Label,
 } from 'native-base';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import api from '../shared/server_address';
 
 class Partner_waiting extends Component{
   constructor(props){
     super(props);
-    this.state.token = AsyncStorage.getItem('token');
+    this.state.company_id = this.props.route.params.company_id;
   }
   state={
+    token: AsyncStorage.getItem('token'),
     name: '',
     title: '',
     business_registration: '',
@@ -20,6 +24,24 @@ class Partner_waiting extends Component{
     message: '',
     description: '',
   }
+
+  getCompanyInfo = async() =>{
+    this.state.token = await AsyncStorage.getItem('token');
+    await api
+            .get(`companies/${this.state.company_id}`,
+            {
+              headers:{'Authorization': this.state.token}
+            })
+            .then((response)=>{
+              console.log(response)
+            })
+            .catch(error=>console.log(error))
+  }
+
+  componentDidMount(){
+    this.getCompanyInfo()
+  }
+
   render(){
     return(
       <Container>
@@ -32,14 +54,20 @@ class Partner_waiting extends Component{
           <Body><Title>파트너 인증</Title></Body>
           <Right></Right>
         </Header>
-        <View style = {{justifyContent:'center',alignContent:'center'}}>
-          <Button transparent bordered dark>
-            <Text>{'파트너 승인 대기중입니다'}</Text>
-          </Button>
-        </View>
+        <Button transparent bordered dark
+          style={{
+            alignSelf:'center',
+            margin : '4%',
+            width : '80%',
+            height : '7%',
+            justifyContent:'center'
+          }}
+        >
+          <Text>{'파트너 승인 대기중입니다'}</Text>
+        </Button>
         <Content>
-          <Text style={{fontSize:'17',}}>파트너 신청 정보</Text>
           <Form>
+          <Text style={{fontSize:20,marginLeft:15, marginTop:'3%'}}>파트너 신청 정보</Text>
             <Item floatingLabel>
               <Label>대표자 이름</Label>
               <Text>{this.state.name}</Text>

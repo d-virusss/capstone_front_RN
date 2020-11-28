@@ -66,7 +66,7 @@ export default class RegistrationScreen extends React.Component {
       .post('/users/sign_up', user_obj)
       .then(async (res) =>  {
         console.log(res);
-        await Fire.createUser(user_obj.user);
+        //await Fire.createUser(user_obj.user); granting open db
         console.log('send data for registration');
         Alert.alert("모두나눔 가입 완료", "회원가입이 완료되었습니다.",[{text:'확인', style:'cancel'}])
         this.props.navigation.navigate("Logins")

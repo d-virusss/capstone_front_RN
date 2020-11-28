@@ -27,7 +27,6 @@ import MyItemList from './views/mypage/myItemList'
 import ManageReservation from './views/mypage/manageReservation'
 import PostUpdate from './views/post/post_update'
 import Contract from './views/contract/contract'
-import db from './views/shared/chat_db'
 import Sign from './views/sign/sign'
 import SignState from './views/sign/check_sign_state'
 import LocationDetail from './views/mypage/location_detail'
@@ -38,6 +37,8 @@ import ReportDetail from './views/post/post_report_detail';
 import PostUserReport from './views/post/post_user_report';
 import TestTab from './views/shared/Tab';
 import Partner_apply from './views/partner/partner_apply';
+import Partner_waiting from './views/partner/partner_waiting';
+import Partner_page from './views/partner/partner_page';
 
 const Stack = createStackNavigator();
 
@@ -72,11 +73,6 @@ const App = () => {
         localNotificationService.unregister()
       }
     }
-    db.transaction((tx)=>{
-      tx.executeSql('create table if not exists message (message_id integer primary key, chat_id integer, sender_id integer, message_text text, message_created text, image_url text)',[],
-      (tx,results)=>console.log(results),
-      (error)=>console.log(error));
-    })
   }, []);
 
   return (
@@ -117,6 +113,8 @@ const App = () => {
         <Stack.Screen name="SignState" component={SignState} options={{ headerShown : false }} />
 
         <Stack.Screen name="Partner_Apply" component={Partner_apply} options={{headerShown : false}}/>
+        <Stack.Screen name="Partner_Waiting" component={Partner_waiting} options={{headerShown : false}}/>
+        <Stack.Screen name="Partner_Page" component={Partner_page} options={{headerShown : false}}/>
       </Stack.Navigator>
     </NavigationContainer>
 
