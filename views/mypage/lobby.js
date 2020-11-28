@@ -21,7 +21,7 @@ class MypageScreen extends Component {
     myGroup:'',
     myImage:'',
     loading: false,
-    refreshing : '',
+    refreshing : false,
     show_popover : false,
     isCompany: false,
     company_id:-1,

@@ -15,7 +15,7 @@ class AskIndex extends Component{
   state = {
     token : '',
     posts : [],
-    refreshing: '',
+    refreshing: false,
     id:0,
   }
 
