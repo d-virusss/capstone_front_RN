@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity, Alert} from 'react-native';
 import {Container, Card, CardItem, Thumbnail, Content,
-     Header, Left, Right, Icon, Body, Title, Image, Spinner} from 'native-base';
+     Header, Left, Right, Icon, Body, Title, Spinner} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
+import {AirbnbRating, } from 'react-native-elements'
+import IconM from 'react-native-vector-icons/Ionicons'
+IconM.loadFont();
 
 var reviewList = []
 
@@ -15,8 +18,16 @@ class ReviewScreen extends Component {
 
     }
 
-    componentDidMount(){
+    onRefresh(){
+        console.log("상태 refresh")
+        this.setState({loading : true});
         this.getReviewRequest();
+    }
+
+    componentDidMount(){
+        this.getToken().then(() => {
+            this.getReviewRequest();
+        })
     }
 
     getToken = async () => {
@@ -27,18 +38,16 @@ class ReviewScreen extends Component {
     }
 
     getReviewRequest(){
-        this.getToken().then(() => {
-            api.get(`/reviews?user_id=${this.state.id}`, {
-                headers: {
-                    Authorization: this.state.token,
-                },
-            }).then((res)=> {
-                console.log(res);
-                reviewList = res.data;
-                this.setState({loading : false})
-            }).catch((err) => {
-                Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}]) 
-            })
+        api.get(`/reviews?user_id=${this.state.id}`, {
+            headers: {
+                Authorization: this.state.token,
+            },
+        }).then((res)=> {
+            console.log(res);
+            reviewList = res.data;
+            this.setState({loading : false})
+        }).catch((err) => {
+            Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}]) 
         })
     }
 
@@ -47,25 +56,52 @@ class ReviewScreen extends Component {
             console.log(ele);
             return(
                 <Card style={{flex: 0}}>
-                    <CardItem>
-                        <Thumbnail source={{uri: '../../assets/chichken.jpeg'}} />
-                        <Body>
-                            <Text>글제목</Text>
-                            <Text note numberOfLines={2}>
-                                리뷰 작성ㅇ일
-                            </Text>
+                    <CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}
+                    button onPress={() => {this.changeReview(ele.review_info)}}>
+                        <Thumbnail source={{uri: ele.review_info.post_image}} />
+                        <Body style={{marginLeft : '5%'}}>
+                            <Title>{ele.review_info.post_title}</Title>
+                            <Text> {ele.review_info.created_at}</Text>
                         </Body>
+                        <Right>
+                        <AirbnbRating
+                            reviews={[]}
+                            size={10}
+                            defaultRating={ele.review_info.rating}/>
+                        </Right>
                     </CardItem>
+                    
                     <CardItem>
                         <Body>
-                            {/* <Image source={{uri: '../assets/chichken.jpeg'}} style={{height: 200, width: 200, flex: 1}}/> */}
-                            <Text>내가 작성한 리뷰 내용
-                            </Text>
+                            <Text>{ele.review_info.body}</Text>
                         </Body>
                     </CardItem>
                 </Card>
             );
         });
+    }
+
+    changeReview(review) {
+        console.log(review)
+        let posts = {
+            id :review.booking_id,
+            image : review.post_image,
+            title : review.post_title,
+            rating : review.rating,
+            body : review.body,
+            review_id : review.id,
+          }//for review request
+
+        Alert.alert("리뷰 수정", "리뷰를 수정하시겠습니까?",[
+            {
+                text: '리뷰 수정',
+                onPress: () => this.props.navigation.navigate('UpdateReview', {posts : posts})
+            },
+            {
+                text: '취소',
+                style: 'cancel',
+            }
+        ]) 
     }
 
     render(){
@@ -88,7 +124,11 @@ class ReviewScreen extends Component {
                             </TouchableOpacity>
                         </Left>
                         <Body><Title>작성한 리뷰</Title></Body>
-                        <Right></Right>
+                        <Right>
+                            <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
+                                <Icon name = 'refresh' type = 'Ionicons'/>
+                            </TouchableOpacity>
+                        </Right>
                     </Header>
     
                     <Content>

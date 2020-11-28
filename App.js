@@ -40,6 +40,7 @@ import ButtomTab from './views/shared/Tab'
 import Review from './views/mypage/review';
 import WriteReview from './views/mypage/write_review'
 import Partner_apply from './views/partner/partner_apply';
+import UpdateReview from './views/mypage/update_review'
 
 const Stack = createStackNavigator();
 
@@ -118,6 +119,8 @@ const App = () => {
         <Stack.Screen name="SettingMyInfo" component={SettingMyInfo} options={{headerShown : false}}/>
         <Stack.Screen name="Review" component={Review} options={{headerShown : false}}/>
         <Stack.Screen name="WriteReview" component={WriteReview} options={{headerShown : false}}/>
+        <Stack.Screen name="UpdateReview" component={UpdateReview} options={{headerShown : false}}/>
+
 
         <Stack.Screen name="Contract" component={Contract} options={{ headerShown : false }} />
         <Stack.Screen name="Sign" component={Sign} options={{ headerShown : false }} />

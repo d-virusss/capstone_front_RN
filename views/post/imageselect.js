@@ -17,7 +17,7 @@ class ImageSelect extends Component{
   doPickImage = () => {
     ImagePicker.openPicker({
       width: 300,
-      height: 400,
+      height: 300,
       cropping: true
     }).then(image => {
       this.setState({ image: image.sourceURL })
