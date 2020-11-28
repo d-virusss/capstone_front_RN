@@ -173,9 +173,13 @@ class MypageScreen extends Component {
     else{
     return (
       <Container>
-        <Header>
+        <Header style={{
+          height: 60,
+          backgroundColor: '#f8f8f8',
+        }} androidStatusBarColor='black'>
+          <Left><Button transparent></Button></Left>
           <Body>
-            <Title>마이페이지</Title>
+            <Title style={{fontSize: 20, color: 'black', alignSelf: 'center'}}>마이페이지</Title>
           </Body>
           <Right>
             {this.renderPopover()}
@@ -206,21 +210,21 @@ class MypageScreen extends Component {
 
             <ListItem
               style={{flexDirection: 'row', justifyContent: 'center', height: 100, marginTop: '3%'}}>
-              <Button light style={styles.btn}
+              <Button transparent style={styles.btn}
                 onPress={() => {this.props.navigation.navigate('ProviderRentList')}}>
-                <Icon type="MaterialCommunityIcons" name="receipt" />
-                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 제공 목록</Text>
+                <Icon type="MaterialCommunityIcons" name="receipt" style={{color:'black'}}/>
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 제공 목록</Text>
               </Button>
 
-              <Button light style={styles.btn}
+              <Button transparent style={styles.btn}
                 onPress={() => {this.props.navigation.navigate('ConsumerRentList')}}>
-                <Icon type="Ionicons" name="basket-sharp" />
-                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 대여 목록</Text>
+                <Icon type="Ionicons" name="basket-sharp" style={{color:'black'}}/>
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 대여 목록</Text>
               </Button>
 
-              <Button light style={styles.btn} onPress={() => {this.props.navigation.navigate('Like_List')}}>
-                <Icon type="Feather" name="heart" />
-                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 관심 목록</Text>
+              <Button transparent style={styles.btn} onPress={() => {this.props.navigation.navigate('Like_List')}}>
+                <Icon type="Feather" name="heart" style={{color:'black'}}/>
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 관심 목록</Text>
               </Button>
             </ListItem>
 

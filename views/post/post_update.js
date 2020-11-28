@@ -134,7 +134,13 @@ class PostUpdate extends Component {
   render() {
     return (
       <ScrollView>
-        <Header>
+        <Header style = {{
+            height: 60,
+            backgroundColor: '#f8f8f8',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }} androidStatusBarColor='#000'
+        >
           <Left>
             <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='chevron-back' type='Ionicons' />

@@ -127,13 +127,18 @@ class SettingMyInfoScreen extends React.Component {
     if(this.state.loading){
         return(
         <Container>
-            <Header>
+            <Header style={{
+                height: 60,
+                backgroundColor: '#f8f8f8',
+                justifyContent:'space-between'}}
+                androidStatusBarColor='#000'
+            >
                 <Left>
                     <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
                     <Icon name = 'chevron-back' type = 'Ionicons'/>
                     </TouchableOpacity>
                 </Left>
-                <Body><Title>정보 수정</Title></Body>
+                <Body><Title style={{color:'black',alignSelf:'center'}}>정보 수정</Title></Body>
                 <Right></Right>
             </Header>
             <Spinner visible={this.state.loading} />
@@ -143,13 +148,18 @@ class SettingMyInfoScreen extends React.Component {
     else{
     return (
       <Container>
-        <Header>
+        <Header style={{
+            height: 60,
+            backgroundColor: '#f8f8f8',
+            justifyContent:'space-between'}}
+            androidStatusBarColor='#000'
+        >
           <Left>
             <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>정보 수정</Title></Body>
+          <Body><Title style={{color:'black',alignSelf:'center'}}>정보 수정</Title></Body>
           <Right></Right>
         </Header>
         <Content>
