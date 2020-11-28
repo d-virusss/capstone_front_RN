@@ -115,7 +115,9 @@ class Post_provide extends Component {
       })
       .catch((e) => {
         console.log('send post failed!!!!' + e)
-        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
+        Alert.alert("요청 실패", e.response.data.error,[
+          {text:'확인', style:'cancel', onPress: ()=> { this.props.navigation.goBack() }}
+        ])
       })
   }
 
