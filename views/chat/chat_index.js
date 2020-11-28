@@ -4,7 +4,7 @@ import {ActionSheetIOS, RefreshControl, ScrollView,} from 'react-native';
 import { 
   Container, Header, Content, List, ListItem, 
   Left, Body, Right, Thumbnail, Text,
-  Footer, FooterTab, Root, Button, Icon,
+  Title,
   Badge
 } from 'native-base';
 import BottomTab from '../shared/bottom_tab';
@@ -157,7 +157,7 @@ function ChatList ({ navigation }){
     <Container>
     <Header>
       <Body>
-        <Text style={{fontSize: 17}}>채팅</Text>
+        <Title style={{fontSize: 17}}>채팅</Title>
       </Body>
     </Header>
         <ScrollView  

@@ -1,7 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
-import {View, ScrollView, Image, StyleSheet, TouchableOpacity, Alert, DeviceEventEmitter} from 'react-native';
-import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, FooterTab, Header, Body, Container, Title} from 'native-base';
+import {View, ScrollView, Image, StyleSheet, TouchableOpacity, Alert,
+  DeviceEventEmitter, Dimensions} from 'react-native';
+import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, 
+  FooterTab, Header, Body, Container, Title, Tab, Tabs, TabHeading} from 'native-base';
 import Popover from 'react-native-popover-view';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../shared/server_address'
@@ -13,6 +15,7 @@ UserAgent.getUserAgent(); //synchronous
 
 let updateFlag = 0;
 var user_id;
+const windowHeight = Dimensions.get('window').height;
 
 class PostShow extends Component{
   params = this.props.route.params;
@@ -78,8 +81,10 @@ class PostShow extends Component{
     console.log('------- enter post_show -------');
     this.getToken().then(() => {
       this.setParams();
+      this.getReviewList();
     })
     this.eventListener = DeviceEventEmitter.addListener('updateContent', this.updateEventHandler);
+    
   }
 
   componentWillUnmount(){
@@ -129,6 +134,21 @@ class PostShow extends Component{
         console.log("err : ", err)
         Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
       })
+  }
+
+  getReviewList () {
+    api.get(`reviews?post_id=${this.state.post_id}`, {
+      headers : {'Authorization': this.state.token}
+    }).then((res) => {
+      console.log("get review ")
+      console.log(res);
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
+  makeReviewList() {
+    
   }
 
   likeRequest = () => {
@@ -288,31 +308,43 @@ class PostShow extends Component{
 
         <Content style={{flex : 1}}>
           <ScrollView style={styles.container}>
+            
             <View style = {styles.imageArea}>
               <Image source={{ uri : this.state.image || "empty" }} style={styles.imageView} />
             </View>
             <View>
-              <View>
-                <Form>
-                  <Item regular style={styles.providerBar}>
-                    <Image source={{ uri: this.state.provider_profile_image || "empty " }} style={styles.providerProfileiimage}></Image>
-                    <View style={styles.providerProfile}>
-                      <Text style={styles.providerName}>{this.state.provider_name}</Text>
-                      <Text style={styles.providerLocation}>{this.state.provider_location}</Text>
-                    </View>
-                  
-                    <Right style={styles.rentCountArea}>
-                        <Text style={styles.providerLocation}>지난 대여 {this.state.rent_count}</Text>
-                    </Right>
-                  </Item>
-                  <Item regular style={styles.postbody}>
+              <Form>
+                <Item regular style={styles.providerBar}>
+                  <Image source={{ uri: this.state.provider_profile_image || "empty " }} style={styles.providerProfileiimage}></Image>
+                  <View style={styles.providerProfile}>
+                    <Text style={styles.providerName}>{this.state.provider_name}</Text>
+                    <Text style={styles.providerLocation}>{this.state.provider_location}</Text>
+                  </View>
+                
+                  <Right style={styles.rentCountArea}>
+                    <Text style={styles.providerLocation}>지난 대여 {this.state.rent_count}</Text>
+                  </Right>
+                </Item>
+
+                <Tabs>
+                  <Tab heading={ <TabHeading style={{backgroundColor : 'white'}}><Text>상세 정보</Text></TabHeading>}>
+                    <Item regular style={styles.postbody}>
                       <Text style={styles.post_category}>{this.state.category}</Text>
                       <Text style={styles.post_title}>{this.state.title}</Text>
                       <Text style={styles.post_price}>{number_delimiter(this.state.price)}원 / 일</Text>
                       <Text style={styles.post_body}>{this.state.body}</Text>
-                  </Item>
-                </Form>
-              </View>
+                    </Item>
+                  </Tab>
+
+                  <Tab heading={ <TabHeading style={{backgroundColor : 'white'}}><Text>리뷰</Text></TabHeading>}>
+                    <Item regular style={styles.postbody}>
+                      <Text style={styles.post_title}>사용 후기</Text>
+                      <Text> 총평점</Text>
+                      {this.makeReviewList()}
+                    </Item>
+                  </Tab>
+                </Tabs>
+              </Form>
             </View>
           </ScrollView>
         </Content>
@@ -333,7 +365,7 @@ const styles = StyleSheet.create({
   },
   imageArea : {
     width: '100%',
-    height : '60%',
+    height : windowHeight * (0.4),
   },
   providerBar : {
     flexDirection : "row",
@@ -371,7 +403,7 @@ const styles = StyleSheet.create({
   },
   imageView : {
     width: '100%',
-    height: 350,
+    height: windowHeight * (0.4),
   },
   likeIcon : {
     color : 'red',

@@ -144,6 +144,7 @@ class receiveScreen extends Component{
 
   makeList() {
     return reservation_list.map((ele) => {
+      console.log(ele)
       return (
         <ListItem key={ele.booking_info.id}
           button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id,
@@ -153,6 +154,9 @@ class receiveScreen extends Component{
             <Text>{ele.booking_info.title}</Text>
             <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>
               {ele.booking_info.result}
+            </Text> 
+            <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>
+              {ele.booking_info.price}
             </Text> 
           </Body>
           <Right>
