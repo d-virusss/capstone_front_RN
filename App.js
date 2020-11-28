@@ -12,7 +12,7 @@ import Post_ask from './views/post/post_ask';
 import SearchBar from './views/post/search_bar';
 import PostShow from './views/post/post_show';
 import ChatRoom from './views/chat/chat_room2';
-import MyPage from './views/mypage/caller';
+import MyPage from './views/mypage/lobby';
 import KakaoLogin from './views/login/kakao';
 import MyPgae_Location from './views/mypage/location';
 import Mypage_Like_List from './views/mypage/likeList';
@@ -36,11 +36,13 @@ import ProviderRentList from './views/mypage/provider_rent_list';
 import ConsumerRentList from './views/mypage/consumer_rent_list';
 import ReportDetail from './views/post/post_report_detail'
 import PostUserReport from './views/post/post_user_report'
-import ButtomTab from './views/shared/Tab'
+import Keyword from './views/mypage/keyword'
 import Review from './views/mypage/review';
 import WriteReview from './views/mypage/write_review'
 import Partner_apply from './views/partner/partner_apply';
 import UpdateReview from './views/mypage/update_review'
+
+import ButtomTab from './views/shared/Tab'
 
 const Stack = createStackNavigator();
 
@@ -117,6 +119,7 @@ const App = () => {
         <Stack.Screen name="Reservation" component={ManageReservation} options={{ headerShown: false }} />
         <Stack.Screen name="LocationDetail" component={LocationDetail} options={{headerShown : false}}/>
         <Stack.Screen name="SettingMyInfo" component={SettingMyInfo} options={{headerShown : false}}/>
+        <Stack.Screen name="Keyword" component={Keyword} options={{headerShown : false}}/>
         <Stack.Screen name="Review" component={Review} options={{headerShown : false}}/>
         <Stack.Screen name="WriteReview" component={WriteReview} options={{headerShown : false}}/>
         <Stack.Screen name="UpdateReview" component={UpdateReview} options={{headerShown : false}}/>

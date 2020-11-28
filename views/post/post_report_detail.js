@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, TextInput, Alert,
+  TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
 import BottomTab from '../shared/bottom_tab';
 import {
   Container, Header, Left, Body, Right, Button, Icon, Title,
@@ -80,9 +81,14 @@ class ReportDetail extends Component {
 
       })
       .catch((e) => {
-        console.log('send post failed!!!!' + e)
-        this.setState({ loading: false })
-        Alert.alert("요청 실패", e.response.data.error, [{ text: '확인', style: 'cancel' }])
+        console.log(e.response)
+        Alert.alert("신고 실패", `${e.response.data.message}`,
+        [
+          {
+            text: '확인',
+            onPress: () => { this.setState({ loading: false }) }
+          },
+        ])
       })
   }
 
@@ -113,16 +119,18 @@ class ReportDetail extends Component {
 
         <Spinner visible={this.state.loading} />
 
-        <View style={styles.screen}>
-          <Text style={styles.reportreason}>{this.renderReason()}</Text>
-          <View style={styles.textareaContainer}>
-            <TextInput multiline={true} numberOfLines={10}
-              style={styles.textarea}
-              onChangeText={(text) => this.setState({ body: text })}
-              value={this.state.body}
-            ></TextInput>
-          </View>
-        </View>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <KeyboardAvoidingView style={styles.screen}>
+            <Text style={styles.reportreason}>{this.renderReason()}</Text>
+            <View style={styles.textareaContainer}>
+              <TextInput multiline={true} numberOfLines={10}
+                style={styles.textarea}
+                onChangeText={(text) => this.setState({ body: text })}
+                value={this.state.body}
+              ></TextInput>
+            </View>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
 
         <View style={styles.footer}>
           <Button transparent style={styles.footerbutton}

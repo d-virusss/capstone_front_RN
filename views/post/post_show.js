@@ -308,6 +308,7 @@ class PostShow extends Component{
 
         <Content style={{flex : 1}}>
           <ScrollView style={styles.container}>
+            
             <View style = {styles.imageArea}>
               <Image source={{ uri : this.state.image || "empty" }} style={styles.imageView} />
             </View>

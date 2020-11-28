@@ -18,7 +18,7 @@ class PostIndex extends Component {
         <View style={{ flex: 1 }} >
           <SearchBar navigation={this.props.navigation}></SearchBar>
         </View>
-        <ActionButton buttonColor="#ff3377" onPress={() => { console.log("hi")}}>
+        <ActionButton buttonColor="#ff3377" onPress={() => {  }}>
           <ActionButton.Item buttonColor='#9b59b6' title="물품 등록" onPress={() => {this.props.navigation.navigate('P_W_p');}}>
             <Icon name="md-create" style={styles.actionButtonIcon} />
           </ActionButton.Item>

@@ -9,12 +9,14 @@ import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import FormData from 'form-data'
+import _ from 'lodash'
 
-const image_info = {
+const thumb_image = {
   uri: '',
   type: '',
   name: '',
 }
+var multi_images = []
 var formdata = new FormData()
 class Post_provide extends Component {
   state = {
@@ -23,7 +25,7 @@ class Post_provide extends Component {
     category_id: "", // 잡화 의류 뷰티 전자제품 레져용품 생활용품 요리 자동차 유아용품
     price: "",
     body: "",
-    image: {},
+    images: {},
     token: "",
     contract:
 `제 1 조 본 계약에서 대여물건이라 함은 계약서 상단에 기재된 것을 말한다.\n
@@ -49,15 +51,21 @@ class Post_provide extends Component {
     console.log("component did mount --- providef qewt")
   }
 
-  setPostInfo = (data) => {
+  setPostInfo = () => {
     formdata = new FormData();
     formdata.append('post[title]', this.state.title)
     formdata.append('post[product]', this.state.product)
     formdata.append('post[category_id]', this.state.category_id)
     formdata.append('post[price]', this.state.price)
     formdata.append('post[body]', this.state.body)
-    if(image_info.uri != ''){
-      formdata.append('post[image]', image_info)
+    console.log('before formdata ---------')
+    console.log(formdata)
+    if(thumb_image.uri != ''){
+      _.each(multi_images, (image, index) => {
+        console.log(image)
+        formdata.append(`post[images_attributes][${index}][image]`, image)
+      })
+      formdata.append('post[image]', thumb_image)
     }
     formdata.append('post[post_type]', "provide")
     formdata.append('post[contract]', this.state.contract)
@@ -68,7 +76,6 @@ class Post_provide extends Component {
   makePostRequest() {
     console.log("Start create Post-provide")
     this.setPostInfo()
-    console.log(formdata)
     if(this.state.title.length ===  0){
       Alert.alert("제목을 입력해주세요");
       return;
@@ -89,9 +96,7 @@ class Post_provide extends Component {
       Alert.alert("물품 등록 실패", "게시글 내용이 너무 짧습니다.", [{ text: '확인', style: 'cancel' }])
       return;
     }
-
-    this.setState({loading : true});
-
+    this.setState({ loading: true })
     api
       .post('/posts', (formdata), {
         headers: {
@@ -116,7 +121,7 @@ class Post_provide extends Component {
       .catch((e) => {
         console.log('send post failed!!!!' + e)
         Alert.alert("요청 실패", e.response.data.error,[
-          {text:'확인', style:'cancel', onPress: ()=> { this.props.navigation.goBack() }}
+          {text:'확인', style:'cancel', onPress: () => {this.setState({loading: false})}}
         ])
       })
   }
@@ -157,11 +162,20 @@ class Post_provide extends Component {
 
   changeImage = (data) => {
     this.setState({
-      image: data
-    }, () => {console.log(this.state.image);})
-    image_info.uri = data.sourceURL;
-    image_info.type = data.mime;
-    image_info.name = data.filename;
+      images: data
+    })
+
+    _.each(this.state.images, (image, index) => {
+      multi_images.push(new Object)
+      multi_images[index].uri = image.sourceURL
+      multi_images[index].type = image.mime
+      multi_images[index].name = image.filename
+    })
+    
+    console.log(multi_images)
+    thumb_image.uri = data[0].sourceURL;
+    thumb_image.type = data[0].mime;
+    thumb_image.name = data[0].filename;
   }
 
   render() {
@@ -186,12 +200,12 @@ class Post_provide extends Component {
         <Spinner visible={this.state.loading} />
         <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
           <KeyboardAvoidingView>
-            <ScrollView style={{ marginTop : '5%' }}>
+            <ScrollView style={{  }}>
               <ImageSelect stateBus={this.changeImage} ></ImageSelect>
               <Container>
                 <Content>
                   <Form>
-                    <Item inlinelabel style={{ marginTop: '5%'}}>
+                    <Item inlinelabel style={{ marginTop: '1%'}}>
                       <Label style={{width:'15%'}}>제목</Label>
                       <Input autoCapitalize='none'
                         onChangeText={(text) => this.changedata(text, "title")} />
