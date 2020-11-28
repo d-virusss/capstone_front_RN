@@ -16,11 +16,7 @@ const thumb_image = {
   type: '',
   name: '',
 }
-var multi_image = {
-  uri: '',
-  type: '',
-  name: '',
-}
+var multi_images = []
 var formdata = new FormData()
 class Post_provide extends Component {
   state = {
@@ -55,19 +51,19 @@ class Post_provide extends Component {
     console.log("component did mount --- providef qewt")
   }
 
-  setPostInfo = (data) => {
+  setPostInfo = () => {
     formdata = new FormData();
     formdata.append('post[title]', this.state.title)
     formdata.append('post[product]', this.state.product)
     formdata.append('post[category_id]', this.state.category_id)
     formdata.append('post[price]', this.state.price)
     formdata.append('post[body]', this.state.body)
+    console.log('before formdata ---------')
+    console.log(formdata)
     if(thumb_image.uri != ''){
-      _.each(this.state.images, (image, index) => {
-        multi_image.uri = image.sourceURL;
-        multi_image.type = image.mime;
-        multi_image.name = image.filename;
-        formdata.append(`post[images_attributes][${index}][image]`, multi_image)
+      _.each(multi_images, (image, index) => {
+        console.log(image)
+        formdata.append(`post[images_attributes][${index}][image]`, image)
       })
       formdata.append('post[image]', thumb_image)
     }
@@ -80,7 +76,6 @@ class Post_provide extends Component {
   makePostRequest() {
     console.log("Start create Post-provide")
     this.setPostInfo()
-    console.log(formdata)
     if(this.state.title.length ===  0){
       Alert.alert("제목을 입력해주세요");
       return;
@@ -101,9 +96,7 @@ class Post_provide extends Component {
       Alert.alert("물품 등록 실패", "게시글 내용이 너무 짧습니다.", [{ text: '확인', style: 'cancel' }])
       return;
     }
-
-    this.setState({loading : true});
-
+    this.setState({ loading: true })
     api
       .post('/posts', (formdata), {
         headers: {
@@ -168,15 +161,18 @@ class Post_provide extends Component {
   }
 
   changeImage = (data) => {
-    console.log(data)
     this.setState({
       images: data
-    }, () => {console.log(this.state.images);})
-
-    _.each(this.state.images, (image) => {
-      console.log(image)
     })
 
+    _.each(this.state.images, (image, index) => {
+      multi_images.push(new Object)
+      multi_images[index].uri = image.sourceURL
+      multi_images[index].type = image.mime
+      multi_images[index].name = image.filename
+    })
+    
+    console.log(multi_images)
     thumb_image.uri = data[0].sourceURL;
     thumb_image.type = data[0].mime;
     thumb_image.name = data[0].filename;

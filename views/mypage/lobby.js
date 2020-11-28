@@ -130,6 +130,7 @@ class MypageScreen extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.setState({ show_popover: false }, () => {
+            this.props.navigation.navigate("Keyword",)
             console.log("menu popover pressed! --------")
           })}>
           <Text style={styles.popoverel}>키워드 알림</Text>

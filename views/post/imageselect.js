@@ -28,7 +28,7 @@ class ImageSelect extends Component{
       height: 300,
       multiple: true,
       sortOrder : 'desc',
-      maxFiles : 10,
+      maxFiles : 5,
       compressImageQuality : 0.1,
       
     }).then(images => {

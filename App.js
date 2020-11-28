@@ -35,6 +35,8 @@ import ProviderRentList from './views/mypage/provider_rent_list';
 import ConsumerRentList from './views/mypage/consumer_rent_list';
 import ReportDetail from './views/post/post_report_detail'
 import PostUserReport from './views/post/post_user_report'
+import Keyword from './views/mypage/keyword'
+
 import TestTab from './views/shared/Tab'
 
 const Stack = createStackNavigator();
@@ -109,6 +111,7 @@ const App = () => {
         <Stack.Screen name="Reservation" component={ManageReservation} options={{ headerShown: false }} />
         <Stack.Screen name="LocationDetail" component={LocationDetail} options={{headerShown : false}}/>
         <Stack.Screen name="SettingMyInfo" component={SettingMyInfo} options={{headerShown : false}}/>
+        <Stack.Screen name="Keyword" component={Keyword} options={{headerShown : false}}/>
 
         <Stack.Screen name="Contract" component={Contract} options={{ headerShown : false }} />
         <Stack.Screen name="Sign" component={Sign} options={{ headerShown : false }} />

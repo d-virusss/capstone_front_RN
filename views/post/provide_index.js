@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Icon } from 'native-base';
-import { ScrollView, RefreshControl, View} from "react-native";
+import { ScrollView, RefreshControl, DeviceEventEmitter, View} from "react-native";
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address';
 import number_delimiter from '../shared/number_delimiter'
-import { DeviceEventEmitter } from 'react-native';
 
 var searchModel= {
   id : '', // category_id
