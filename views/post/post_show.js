@@ -10,6 +10,8 @@ import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
 import number_delimiter from '../shared/number_delimiter'
 import { CommonActions, StackActions } from '@react-navigation/native';
+import { SliderBox } from "react-native-image-slider-box";
+
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
@@ -42,6 +44,7 @@ class PostShow extends Component{
     is_your_post:'',
     isBooked: null,
     contract: '',
+    images : [],
   };
 
   getToken = async () => {
@@ -114,8 +117,9 @@ class PostShow extends Component{
     this.state.rent_count = this.params.post.post_info.rent_count,
     this.state.isBooked = this.params.post.post_info.is_booked,
     this.state.contract = this.params.post.post_info.contract,
-
     this.state.is_your_post = this.params.post.user.user_info.id == parseInt(user_id) ? true : false;
+    this.state.images = this.params.post.post_info.image_detail
+
     this.setState({loading : false})
   }
 
@@ -310,9 +314,12 @@ class PostShow extends Component{
         <Content style={{flex : 1}}>
           <ScrollView style={styles.container}>
             
-            <View style = {styles.imageArea}>
-              <Image source={{ uri : this.state.image || "empty" }} style={styles.imageView} />
-            </View>
+            <SliderBox style={styles.swiper}
+              images={this.state.images}
+              onCurrentImagePressed={() => this.doPickImage()}
+              sliderBoxHeight={300}
+              inactiveDotColor="#ffccdd"
+              dotColor="#ff3377" />
             <View>
               <Form>
                 <Item regular style={styles.providerBar}>
@@ -436,7 +443,13 @@ const styles = StyleSheet.create({
   },
   post_body : {
     marginTop : '10%'
-  }
+  },
+  swiper: {
+    width: 300,
+    height: 300,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
 })
 
 export default PostShow;

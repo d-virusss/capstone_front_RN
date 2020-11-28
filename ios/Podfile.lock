@@ -720,7 +720,7 @@ SPEC CHECKSUMS:
   react-native-google-maps: 0a989abda71059db2caa98b9dacca7a8f38a47d0
   react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
   react-native-safe-area-context: 01158a92c300895d79dee447e980672dc3fb85a6
-  react-native-simple-toast: b986e6c1befdc211af3df1bae293278a44e32990
+  react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
   react-native-slider: b733e17fdd31186707146debf1f04b5d94aa1a93
   react-native-sqlite-storage: ce71689c5a73b79390a1ab213555ae80979a5dc7
   react-native-user-agent: 6ca9356042c87659876db9307109ebd653fd4429
@@ -753,4 +753,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: a4675e69b269a663194e38cd5602a81ffe2604e9
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.9.3
