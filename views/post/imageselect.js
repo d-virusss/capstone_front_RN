@@ -48,7 +48,8 @@ class ImageSelect extends Component{
   render(){
     return(
       <View>
-        <SliderBox images={this.state.images}
+        <SliderBox style={styles.swiper}
+          images={this.state.images}
           onCurrentImagePressed={ () => this.doPickImage() }
           sliderBoxHeight={300}
           inactiveDotColor="#ffccdd"
@@ -71,14 +72,11 @@ const styles = StyleSheet.create({
     alignSelf : 'center',
     marginTop : '3%'
   }, 
-  wrapper : {
-  },
-  slide: {
-    flex: 1,
-    width: '70%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#92BBD9'
+  swiper :{
+    width : 300,
+    height : 300,
+    justifyContent : 'center',
+    alignSelf : 'center',
   },
 })
 

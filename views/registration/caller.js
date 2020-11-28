@@ -3,7 +3,8 @@ import { StyleSheet, View, Alert, TouchableOpacity, } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, 
   Left, Right, Body, Title, Icon, Footer, Button, Text} from 'native-base';
-import api from '../shared/server_address'
+import api from '../shared/server_address';
+import Fire from '../shared/Fire';
 
 var user_obj = {
   user: {
@@ -33,37 +34,17 @@ export default class RegistrationScreen extends React.Component {
   },
  };
 
- checkInputVaule = () => {
-    if(this.state.user.email == ''){
-      Alert.alert("이메일을 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-    if(this.state.user.password == ''){
-      Alert.alert("비밀번호를 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-    if(this.state.user.nickname == ''){
-      Alert.alert("이름을 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-    //check pw
-    if(this.state.user.password_confirmation != this.state.user.password){
-      Alert.alert("비밀번호가 다릅니다", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-
-    user_obj.user = this.state.user;
-    return true;
-   }
-
   registrationRequest = async () => {
-    if(this.checkInputVaule()){
+    
+      user_obj.user = this.state.user;
       user_obj.user.device_token = await AsyncStorage.getItem('fcmToken');
       console.log("token")
       console.log(user_obj.user.device_token)
       api
       .post('/users/sign_up', user_obj)
-      .then((res) =>  {
+      .then(async (res) =>  {
+        console.log(res);
+        await Fire.createUser(user_obj.user);
         console.log('send data for registration');
         Alert.alert("모두나눔 가입 완료", "회원가입이 완료되었습니다.",[{text:'확인', style:'cancel'}])
         this.props.navigation.navigate("Logins")
@@ -73,7 +54,7 @@ export default class RegistrationScreen extends React.Component {
         console.log(err.response.data.error)
         Alert.alert("가입 실패", err.response.data.error,[{text:'확인', style:'cancel'}])       
       });
-    }
+    
   };
 
 
