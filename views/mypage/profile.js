@@ -9,6 +9,7 @@ import { CommonActions, StackActions } from '@react-navigation/native';
 import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
 import Fire from '../shared/Fire';
+import Spinner from 'react-native-loading-spinner-overlay';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import { Rating } from 'react-native-elements'
 
@@ -25,14 +26,15 @@ class ProfileShow extends Component {
     location: '',
     group: '',
     profile_image: '',
-    loading: false,
+    loading: true,
     refreshing: '',
     show_popover: false,
     isCompany: false,
     company_id: -1,
     avg_rating : undefined,
-    review_count : undefined,
-    is_my_profile : undefined
+    received_reviews_count : undefined,
+    is_my_profile : undefined,
+    like_check : undefined,
   };
 
   getToken = async () => {
@@ -66,7 +68,9 @@ class ProfileShow extends Component {
         this.state.profile_image = res.data.user_info.image
         this.state.isCompany = res.data.user_info.is_company
         this.state.avg_rating = res.data.user_info.avg
-        this.setState({ loading: true })
+        this.state.received_reviews_count = res.data.user_info.received_reviews_count
+        this.state.like_check = res.data.user_info.like_check
+        this.setState({ loading: false })
       })
       .catch((err) => {
         console.log("my page err")
@@ -106,12 +110,50 @@ class ProfileShow extends Component {
       return
     }
     else{
-      <Button bordered style={{
-        position: 'absolute', right: '10%', backgroundColor: 'white',
-        borderColor: 'black'
-      }}>
-        <Text style={{ fontWeight: 'bold', color: 'black' }}>관심유저 등록</Text>
-      </Button>
+      if(this.state.like_check){
+        return(
+          <Button small style={{
+            position: 'absolute', right: '10%', backgroundColor: '#ff3377', borderColor: 'black',
+            width:100, justifyContent:'center'
+          }}>
+            <Text style={{ color: 'white', fontWeight: 'bold',  }}>팔로우</Text>
+          </Button>
+        )
+      }
+      else {
+        return (
+          <Button small bordered style={{
+            position: 'absolute', right: '10%', backgroundColor: 'white', borderColor: 'black',
+            width: 100, justifyContent: 'center'
+          }}>
+            <Text style={{ color: 'black', fontWeight: 'bold' }}>팔로우</Text>
+          </Button>
+        )
+      }
+    }
+  }
+
+  renderReviewScore(){
+    if(this.state.received_reviews_count === 0){
+      return(
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Icon type="MaterialIcons" name="sick" style={{ marginTop: '3%' }}></Icon>
+          <Text style={styles.no_review_text}>{"  "}받은 리뷰가 없습니다.</Text>
+        </View>
+      )
+    }
+    else{
+      return(
+        <View>
+          <Text style={{ fontSize:20, fontWeight: 'bold', marginVertical: '1%' }}>{this.state.avg_rating}</Text>
+          <Rating
+            readonly
+            fractions={1}
+            startingValue={this.state.avg_rating}
+            ratingCount={5}
+            imageSize={20} />
+        </View>
+      )
     }
   }
 
@@ -131,7 +173,7 @@ class ProfileShow extends Component {
             {this.renderPopover()}
           </Right>
         </Header>
-
+        <Spinner visible={this.state.loading} />
         <ScrollView refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} />}>
           <Content>
             <List>
@@ -145,6 +187,7 @@ class ProfileShow extends Component {
                     <Text note numberOfLines={1}>
                       {this.state.group}
                     </Text>
+                    {this.renderFollowButton()}
                   </View>
                   <View sylte={{ flexDirection: 'row' }}>
                     <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
@@ -156,22 +199,16 @@ class ProfileShow extends Component {
 
               <ListItem
                 style={{ flexDirection: 'column', justifyContent: 'center', height: 100, marginTop: '1%' }}>
-                  <Text style={{ marginBottom : '1%' }}>리뷰 평점</Text>
-                  <Text>{this.state.avg_rating}</Text>
-                  <Rating
-                    readonly
-                    fractions={1}
-                    startingValue={this.state.avg_rating}
-                    ratingCount={5}
-                    imageSize={20} />
+                  <Text style={{ marginBottom : '1%' }}>받은 리뷰 평점</Text>
+                  {this.renderReviewScore()}
               </ListItem>
 
               <Separator bordered style={{ height: '1%' }}></Separator>
 
               <ListItem onPress={() => { { this.props.navigation.navigate('MyPage_Location') } }}>
                 <Left>
-                  <Icon type="Ionicons" name="location-sharp" />
-                  <Text style={styles.listText}> 제공 상품</Text>
+                  <Icon type="MaterialCommunityIcons" name="receipt" />
+                  <Text style={styles.listText}>등록 상품</Text>
                 </Left>
                 <Right>
                   <Icon type="AntDesign" name="right" />
@@ -180,8 +217,18 @@ class ProfileShow extends Component {
 
               <ListItem button onPress={() => { this.partnerCheckNavigate() }}>
                 <Left>
-                  <Icon type="AntDesign" name="addusergroup" />
+                  <Icon type="Ionicons" name="hand-left-outline" />
                   <Text style={styles.listText}>요청 상품</Text>
+                </Left>
+                <Right>
+                  <Icon type="AntDesign" name="right" />
+                </Right>
+              </ListItem>
+
+              <ListItem button onPress={() => { this.partnerCheckNavigate() }}>
+                <Left>
+                  <Icon type="MaterialCommunityIcons" name="comment-text-multiple-outline" />
+                  <Text style={styles.listText}>받은 리뷰 확인하기</Text>
                 </Left>
                 <Right>
                   <Icon type="AntDesign" name="right" />
@@ -204,6 +251,8 @@ const styles = StyleSheet.create({
   },
   listText: {
     marginLeft: '3%',
+    marginVertical : '1%',
+    fontSize : 16,
   },
   popoverel: {
     paddingVertical: 10,
@@ -228,6 +277,11 @@ const styles = StyleSheet.create({
   textFollowed : {
     fontWeight : 'bold',
     color: 'white',
+  },
+  no_review_text : {
+    fontSize : 20,
+    fontWeight : 'bold',
+    marginTop : '3%',
   }
 });
 export default ProfileShow;

@@ -76,7 +76,7 @@ class ProviderRentList extends Component {
                 }])
               }}}>
                 <Badge style={{ backgroundColor: booking.booking_info.has_review  ? '#dddddd' : '#fcf11e', height : 30}}>
-                  <Text style={styles.returnbutton}>{booking.booking_info.has_review ? "작성 완료" : "작성 하기"}</Text>
+                  <Text style={styles.returnbutton}>{booking.booking_info.has_review ? "작성 완료" : "리뷰 작성"}</Text>
                 </Badge>
               </TouchableOpacity>
             </Right>

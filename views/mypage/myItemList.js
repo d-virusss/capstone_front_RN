@@ -94,8 +94,8 @@ class myItemListScreen extends Component{
           <Right></Right>
         </Header>
 
-        <Tabs>
-          <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
+        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#ff3377' }}>
+          <Tab heading="제공" activeTextStyle={{ color:'#ff3377' }}>
             <Content>
               <List>
                 {this.makeIndexList(this.state.posts1)}
@@ -103,7 +103,7 @@ class myItemListScreen extends Component{
             </Content>
           </Tab>
 
-          <Tab heading={ <TabHeading transparent><Text>요청</Text></TabHeading>}>
+          <Tab heading="요청" activeTextStyle={{ color: '#ff3377' }}>
             <Content>
               <List>
                 {this.makeIndexList(this.state.posts2)}

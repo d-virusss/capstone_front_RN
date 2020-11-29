@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {Text, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Header, ListItem, View, Left, Thumbnail, Body, Right, Spinner, Container, Content} from 'native-base';
+import { Header, ListItem, View, Left, Thumbnail, Body, Right, 
+  Spinner, Container, Content, Badge
+} from 'native-base';
 import api from '../shared/server_address'
 
 var like_user = [];
@@ -17,7 +19,9 @@ class LikeListUserScreen extends Component {
     return like_user.map((ele) => {
       return (
         <ListItem thumbnail key = {ele.like_info.id} button
-        onPress = {() => this.props.navigation.navigate("ProfileShow", { profile_id: ele.like_info.target_id})}>
+        onPress = {() => this.props.navigation.navigate("ProfileShow", { user_id: ele.like_info.target_id})}
+        // onPress={() => console.log(ele.like_info.target_id)}
+        >
           <Left>
             <Thumbnail square source={{uri: ele.like_info.image}} />
           </Left>
@@ -28,7 +32,9 @@ class LikeListUserScreen extends Component {
             </Text>
           </Body>
           <Right>
-            <Text>보기</Text>
+            <Badge style={{ backgroundColor: '#ff3377', width: 50 }}>
+              <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>보기</Text>
+            </Badge>
           </Right>
         </ListItem>
       );
@@ -54,14 +60,14 @@ class LikeListUserScreen extends Component {
             Authorization: this.state.token,
           },
         })
-        .then(
-          function (response) {
+        .then((response)=>{
             console.log('request success!!');
+            console.log(response)
             like_user = response.data;
             this.setState({loading: false});
-          }.bind(this), // for this.setState
+          } // for this.setState
         )
-        .catch(function (error) {
+        .catch((error) => {
           console.log('failed: ' + error);
           Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         });

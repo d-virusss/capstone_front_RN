@@ -232,6 +232,12 @@ class MypageScreen extends Component {
 
               <ListItem
                 style={{flexDirection: 'row', justifyContent: 'center', height: 100, marginTop: '3%'}}>
+
+                <Button transparent style={styles.btn} onPress={() => { this.props.navigation.navigate('MyItemList') }}>
+                  <Icon type="Ionicons" name="file-tray-stacked-outline" style={{ color: 'black' }} />
+                  <Text style={{ paddingVertical: '8%', marginBottom: '4%', color: 'black' }}> 내 글</Text>
+                </Button>
+
                 <Button transparent style={styles.btn}
                   onPress={() => {this.props.navigation.navigate('ProviderRentList')}}>
                   <Icon type="MaterialCommunityIcons" name="receipt" style={{color:'black'}}/>
@@ -244,10 +250,6 @@ class MypageScreen extends Component {
                   <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 소비자</Text>
                 </Button>
 
-                <Button transparent style={styles.btn} onPress={() => {this.props.navigation.navigate('MyItemList')}}>
-                    <Icon type="Ionicons" name="file-tray-stacked-outline" style={{ color:'black' }} />
-                    <Text style={{ paddingVertical: '8%', marginBottom: '4%',color:'black' }}> 내 글</Text>
-                </Button>
               </ListItem>
 
               <Separator bordered style={{ height: '1%'}}></Separator>
@@ -265,7 +267,7 @@ class MypageScreen extends Component {
               <ListItem button onPress={() => { this.props.navigation.navigate('Like_List') }}>
                 <Left>
                   <Icon type="Ionicons" name="heart" style={{ color: 'black' }} />
-                  <Text style={styles.listText}> 찜 목록</Text>
+                  <Text style={styles.listText}> 관심 목록</Text>
                 </Left>
                 <Right>
                   <Icon type="AntDesign" name="right" />
