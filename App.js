@@ -54,20 +54,22 @@ import * as RootNavigation from './RootNavigation';
 
 const Stack = createStackNavigator();
 var token = '';
-var enterence = "Logins"
 
 const App = () => {
   const [loading, setLoading] = useState();
-
+  var [enterence,setEnterence] = useState("Logins")
   useEffect(() => {
 
     setLoading(loading => true)
-    token = AsyncStorage.getItem('token')
-    console.log(token)
-    if(token){
-      enterence= "Chat"
+    //token = AsyncStorage.getItem('token')
+    const asyncFunction=async()=>{
+      token = await AsyncStorage.getItem('token')
+      console.log(token)
+      if(token){
+        setEnterence("Main")
+      }
     }
-
+    asyncFunction();
     setTimeout(() => {
 			SplashScreen.hide();
       setLoading(loading => false)
@@ -78,11 +80,6 @@ const App = () => {
     fcmService.register(onRegister, onNotification, onOpenNotification)
     localNotificationService.configure(onOpenNotification)
     //openDB();
-    const asyncFunction=async()=>{
-      let tok = await AsyncStorage.getItem('token')
-      console.log('----------------'+JSON.stringify(tok))
-    }
-    asyncFunction();
 
     function openDB(){
       db.transaction(tx=>{
