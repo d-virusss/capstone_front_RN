@@ -60,7 +60,7 @@ class ReviewScreen extends Component {
                     button onPress={() => {this.changeReview(ele.review_info)}}>
                         <Thumbnail source={{uri: ele.review_info.post_image}} />
                         <Body style={{marginLeft : '5%'}}>
-                            <Title>{ele.review_info.post_title}</Title>
+                            <Title style={{color:'black'}}>{ele.review_info.post_title}</Title>
                             <Text> {ele.review_info.created_at}</Text>
                         </Body>
                         <Right>
@@ -117,13 +117,18 @@ class ReviewScreen extends Component {
         }else{
             return(
                 <Container>
-                    <Header>
+                    <Header style={{
+            height: 60,
+            backgroundColor: '#f8f8f8',
+            justifyContent:'space-between'}}
+            androidStatusBarColor='#000'
+        >
                         <Left>
                             <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
                             <Icon name = 'chevron-back' type = 'Ionicons'/>
                             </TouchableOpacity>
                         </Left>
-                        <Body><Title>작성한 리뷰</Title></Body>
+                        <Body><Title style={{color:'black',alignSelf:'center'}}>작성한 리뷰</Title></Body>
                         <Right>
                             <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
                                 <Icon name = 'refresh' type = 'Ionicons'/>

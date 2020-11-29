@@ -100,13 +100,16 @@ class Partner_page extends Component{
   render(){
     return(
       <Container>
-        <Header>
+        <Header style={{
+          height: 60,
+          backgroundColor: '#f8f8f8',
+        }} androidStatusBarColor='black'>
           <Left>
             <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>파트너 페이지</Title></Body>
+          <Body><Title style={{color:'black', alignSelf:'center'}}>파트너 페이지</Title></Body>
           <Right></Right>
         </Header>
         <Card style={{width:'95%', alignSelf:'center'}}>

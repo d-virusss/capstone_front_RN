@@ -180,16 +180,16 @@ class bookingScreen extends Component{
   render(){
     return(
       <Container>
-        <Header>
+        <Header style={{backgroundColor:'#f8f8f8'}} androidStatusBarColor='#000'>
           <Left style={{flex: 1}}>
             <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body style={{flex:8}}><Title>{this.state.post_title}</Title></Body>
+          <Body style={{flex:8}}><Title style={{color:'black', alignSelf:'center'}}>{this.state.post_title}</Title></Body>
           <Right style={{flex:1}}></Right>
         </Header>
-        <Header style = {{height: 100}}>
+        <Header style = {{height: 100, backgroundColor:'white'}} androidStatusBarColor='#000'>
           <View style = {{width : '30%', justifyContent : 'center', alignItems: 'flex-start'}}>
           <Image source={{ uri : this.state.image_info || "empty" }} style={{width: 100, height: 100}} />
           </View>

@@ -45,13 +45,18 @@ class Partner_waiting extends Component{
   render(){
     return(
       <Container>
-        <Header>
+        <Header style = {{
+            backgroundColor: '#f8f8f8',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }} androidStatusBarColor='#000'
+        >
           <Left>
             <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>파트너 인증</Title></Body>
+          <Body><Title style={{color:'black',alignSelf:'center'}}>파트너 인증</Title></Body>
           <Right></Right>
         </Header>
         <Button transparent bordered dark
