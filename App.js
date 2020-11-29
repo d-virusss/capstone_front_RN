@@ -1,6 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen'
 import {Alert, View, Text, InputAccessoryView} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import React, { useEffect, useState } from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from './views/login/caller';
@@ -12,7 +13,6 @@ import Post_ask from './views/post/post_ask';
 import SearchBar from './views/post/search_bar';
 import PostShow from './views/post/post_show';
 import ChatRoom from './views/chat/chat_room2';
-import AsyncStorage from '@react-native-community/async-storage';
 import KakaoLogin from './views/login/kakao';
 import MyPgae_Location from './views/mypage/location';
 import Mypage_Like_List from './views/mypage/likeList';
@@ -63,7 +63,7 @@ const App = () => {
     token = AsyncStorage.getItem('token')
     console.log(token)
     if(token){
-      enterence= "Chat"
+      enterence= "Main"
     }
 
     setTimeout(() => {
