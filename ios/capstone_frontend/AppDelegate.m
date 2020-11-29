@@ -9,6 +9,7 @@
 #import <RNCPushNotificationIOS.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import <FlipperKit/FlipperClient.h>
+#import "RNSplashScreen.h"
 
 #ifdef FB_SONARKIT_ENABLED
 #import <GoogleMaps/GoogleMaps.h>
@@ -59,7 +60,7 @@ static void InitializeFlipper(UIApplication *application) {
   // Define UNUserNotificationCenter
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
-  
+  [RNSplashScreen show];  // splash
   return YES;
 }
 
