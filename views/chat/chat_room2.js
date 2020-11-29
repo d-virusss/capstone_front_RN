@@ -17,13 +17,12 @@ import Fire from '../shared/Fire';
 import api from '../shared/server_address';
 
 let myID;
-let token;
+let token='';
 let myName;
 let postID;
 let postInfo;
 let userID = 1;
 let avatar='';
-let nickname='';
 
 function renderBubble (props) {
   return (
@@ -74,7 +73,7 @@ function renderMessage(props){
 }
 //ChatRoom view function
 function chat_room2 ({route, navigation}){
-  const {chat_id, post_id} = route.params;
+  const {chat_id, post_id, nickname, avatar} = route.params;
   const [show_popover, setShowPopover] = useState(false);
   const [post_title, setPostTitle] = useState('');
   const [post_img, setPostImg] = useState('');
@@ -93,8 +92,7 @@ function chat_room2 ({route, navigation}){
             .then((response)=>{
               postInfo = response.data;
               console.log(postInfo);
-              nickname=response.data.user.user_info.nickname;
-              avatar=response.data.user.user_info.image;
+              //avatar=response.data.user.user_info.image;
               setPostTitle(response.data.post_info.title);
               setPostImg(response.data.post_info.image);
             })
@@ -166,10 +164,10 @@ function chat_room2 ({route, navigation}){
 
   useEffect(()=>{
     async function inEffect(){
-      getToken();
-      getMyInfo();
-      getPostInfo();
-      messageGetRequest();
+      await getToken();
+      await getMyInfo();
+      await getPostInfo();
+      await messageGetRequest();
       Fire.getChatID(chat_id);
       Fire.get(message=>{
         console.log(message)

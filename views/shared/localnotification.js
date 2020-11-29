@@ -22,6 +22,7 @@ class LocalNotificationService {
           // (required) Called when a remote is received or opened, or local notification is opened
           notification.finish(PushNotificationIOS.FetchResult.NoData)
         }
+        console.log(notification)
       },
       
       // IOS ONLY (optional): default: all - Permissions to register.

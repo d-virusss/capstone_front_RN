@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {Text, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Header, ListItem, List, Container, Content, Body, Right, Spinner, Thumbnail, Left } from 'native-base';
+import { Header, ListItem, List, Container, Content, Body, Right, Spinner, 
+  Thumbnail, Left, Badge
+} from 'native-base';
 import api from '../shared/server_address'
 
 var like_item = [];
@@ -12,27 +14,6 @@ class LikeListItemScreen extends Component {
     user_id: '',
     loading_item: true,
   };
-
-  makeList() {
-    return like_item.map((ele) => {
-      console.log(ele)
-      return (
-        <ListItem thumbnail key = {ele.like_info.id} button
-        onPress = {() => this.showPostRequset(ele.like_info.target_id)}>
-          <Left>
-              <Thumbnail square source={{ uri: ele.like_info.post_image }} />
-          </Left>
-          <Body>
-            <Text>{ele.like_info.title}</Text>
-            <Text note numberOfLines={1}>{ele.like_info.price} </Text>
-          </Body>
-          <Right>
-            <Text>보기</Text>
-          </Right>
-        </ListItem>
-      );
-    });
-  }
 
   showPostRequset(id){
     api
@@ -68,29 +49,52 @@ class LikeListItemScreen extends Component {
             Authorization: this.state.token,
           },
         })
-        .then(
-          function (response) {
-            console.log('request success!!');
-            like_item = response.data;
-            this.setState({loading_item: false});
-          }.bind(this), // for this.setState
+        .then((res)=>{
+          console.log('request success!!');
+          console.log(res)
+          like_item = res.data;
+          this.setState({loading_item: false});
+        }// for this.setState
         )
-        .catch(function (error) {
+        .catch((error)=>{
           console.log('failed: ' + error);
           Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         });
     });
   };
 
+
+  makeList() {
+    return like_item.map((ele) => {
+      return (
+        <ListItem thumbnail key={ele.like_info.id} button
+          onPress={() => this.props.navigation.navigate('PostShow', { post_id : ele.like_info.target_id })}>
+          <Left>
+            <Thumbnail square source={{ uri: ele.like_info.post_image }} />
+          </Left>
+          <Body>
+            <Text>{ele.like_info.title}</Text>
+            <Text note numberOfLines={1}>{ele.like_info.price} </Text>
+          </Body>
+          <Right>
+            <Badge style={{ backgroundColor : '#ff3377', width: 50 }}>
+              <Text style={{ color:'white', textAlign: 'center', fontWeight: 'bold' }}>보기</Text>
+            </Badge>
+          </Right>
+        </ListItem>
+      );
+    });
+  }
+
   render() {
     if (this.state.loading_item) {
       return (
         <Container>
-        <Header />
-        <Content>
-          <Spinner color='#ff3377' />
-        </Content>
-      </Container>
+          <Header />
+          <Content>
+            <Spinner color='#ff3377' />
+          </Content>
+        </Container>
       );
     } else {
       return <ScrollView>{this.makeList()}</ScrollView>

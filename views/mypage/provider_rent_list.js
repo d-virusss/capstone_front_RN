@@ -1,16 +1,31 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, ScrollView, View, Alert } from 'react-native';
 import { Container, Content, Header, Left, Right, Body, Icon,
-  Title, Text, List, ListItem, Tabs, Tab, TabHeading, Thumbnail, Badge
+  Title, Text, List, ListItem, Tabs, Tab, TabHeading, Thumbnail, Badge,
+  FooterTab, Footer
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
+import ReceiveList from './reservationReceive'
 
 class ProviderRentList extends Component {
   state = {
     token: '',
     myId: '',
     after_booking : [],
+  }
+
+  getToken = async () => {
+    const value = await AsyncStorage.getItem("token")
+    this.state.token = value
+    console.log(value)
+    this.beforeRequest();
+    this.afterRequest();
+  }
+
+  componentDidMount() {
+    this.getToken()
+    console.log('component did mount -------------')
   }
 
   makeRentList(bookings) {
@@ -115,18 +130,6 @@ class ProviderRentList extends Component {
       })
   }
 
-  getToken = async () => {
-    const value = await AsyncStorage.getItem("token")
-    this.state.token = value
-    console.log(value)
-    this.afterRequest();
-  }
-
-  componentDidMount() {
-    this.getToken()
-    console.log('component did mount -------------')
-  }
-
   render() {
     return (
       <Container>
@@ -141,19 +144,24 @@ class ProviderRentList extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>제공 목록</Title></Body>
+          <Body><Title>등록한 물품</Title></Body>
           <Right></Right>
         </Header>
 
-        <Tabs tabBarUnderlineStyle={{backgroundColor:'#007aff'}}>
-          <Tab heading={<TabHeading transparent><Text>대여 중</Text></TabHeading>}>
+        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#ff3377' }}>
+          <Tab heading="받은 예약" activeTextStyle={{ color: '#ff3377' }}>
+            <FooterTab scrollEnabled={false}>
+              <ReceiveList navigation={this.props.navigation}></ReceiveList>
+            </FooterTab>
+          </Tab>
+          <Tab heading="대여 중" activeTextStyle={{ color : '#ff3377' }}>
             <Content>
               <List>
                 {this.makeRentList(this.state.after_booking)}
               </List>
             </Content>
           </Tab>
-          <Tab heading={<TabHeading transparent><Text>지난 대여</Text></TabHeading>}>
+          <Tab heading="지난 대여" activeTextStyle={{ color: '#ff3377' }}>
             <Content>
               <List>
                 {this.makeCompletedList(this.state.after_booking)}

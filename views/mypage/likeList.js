@@ -21,14 +21,14 @@ class LikeListScreen extends Component {
         </Header>
 
         
-        <Tabs>
-          <Tab heading={ <TabHeading transparent><Text>품목</Text></TabHeading>}>
-              <LikeList_Item navigation={this.props.navigation}></LikeList_Item>
-            </Tab>
+        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#ff3377' }}>
+          <Tab heading="물품" activeTextStyle={{ color : '#ff3377' }}>
+            <LikeList_Item navigation={this.props.navigation}></LikeList_Item>
+          </Tab>
 
-            <Tab heading={ <TabHeading transparent><Text>유저</Text></TabHeading>}>
-              <LikeListUserScreen navigation={this.props.navigation}></LikeListUserScreen>
-            </Tab>
+          <Tab heading="사용자" activeTextStyle={{ color: '#ff3377' }}>
+            <LikeListUserScreen navigation={this.props.navigation}></LikeListUserScreen>
+          </Tab>
         </Tabs>
       </Container>
     );
