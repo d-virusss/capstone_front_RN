@@ -6,7 +6,7 @@ import { Item, Input, Toast, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../shared/server_address';
 import { CommonActions } from '@react-navigation/native';
-import Fire from '../shared/Fire';
+import db from '../shared/chat_db';
 
 Icon.loadFont();
 
@@ -42,10 +42,15 @@ class LoginScreen extends Component {
     console.log('enter senddata');
   }
 
+  saveUserData(user_id, user_location, user_token){
+    db.transaction(tx=>{
+      tx.executeSql('insert into user (user_id, location, token) VALUE(?,?,?)',[user_id, user_location, user_token],
+      (tx,results)=>{console.log(results)},(err)=>console.log(err))
+    })
+  }
+
   getToken = async() =>{
     myL = await AsyncStorage.getItem('my_location');
-    let iiiiid = await AsyncStorage.getItem('user_id');
-    console.log(iiiiid)
   }
   makeRequest = async()=>{
     if (userinfo.user.email == ''){
@@ -58,6 +63,7 @@ class LoginScreen extends Component {
         .post('/users/sign_in', userinfo)
         .then(async(response) => {
           console.log(response);
+          this.saveUserData(response.data.id,response.data.location_auth,response.data.token)
           AsyncStorage.setItem('token', response.data.token);
           AsyncStorage.setItem('user_id', String(response.data.id));
           AsyncStorage.setItem('my_location',String(response.data.location_auth));

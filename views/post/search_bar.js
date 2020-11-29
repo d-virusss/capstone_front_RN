@@ -30,7 +30,19 @@ class Search_Bar extends React.Component {
 
   componentDidMount(){
     this.getMyInfo();
+    this.eventListener = DeviceEventEmitter.addListener('updateMypage', this.updateEventHandler);
   }
+
+  updateEventHandler = (e) => {
+		console.log("listen update mypage event")
+		this.setState({location : e.location})
+	}
+
+  componentWillUnmount() {
+    //remove listener
+    this.eventListener.remove();
+  }
+
 
   makeCategoryRequest(id){
     this.setState({category_id : id});
