@@ -3,9 +3,11 @@ import { StyleSheet, TouchableOpacity, ScrollView, ActionSheetIOS, Alert } from 
 import {
   Container, Content, Header, Left, Right, Body, Icon, Badge,
   Title, Text, List, ListItem, Tabs, Tab, TabHeading, Thumbnail,
+  Footer
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
+import SendList from './reservationSend'
 
 let BUTTONS = ["상품 리뷰", "", "취소"];
 let CANCEL_INDEX = 2;
@@ -61,7 +63,7 @@ class ProviderRentList extends Component {
               <TouchableOpacity 
               onPress={() => { this.showOptionModal(booking.booking_info)}}>
                 <Badge style={{ backgroundColor: booking.booking_info.has_review  ? '#dddddd' : '#fcf11e', height : 30}}>
-                  <Text style={styles.returnbutton}>{booking.booking_info.has_review ? "작성 완료" : "작성 하기"}</Text>
+                  <Text style={styles.returnbutton}>{booking.booking_info.has_review ? "작성 완료" : "리뷰 작성"}</Text>
                 </Badge>
               </TouchableOpacity>
             </Right>
@@ -136,19 +138,24 @@ class ProviderRentList extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>대여 목록</Title></Body>
+          <Body><Title>빌린 물품</Title></Body>
           <Right></Right>
         </Header>
 
-        <Tabs>
-          <Tab heading={<TabHeading transparent><Text>대여 중</Text></TabHeading>}>
+        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#ff3377' }}>
+          <Tab heading="신청한 예약" activeTextStyle={{ color: '#ff3377' }}>
+            <Footer>
+              <SendList navigation={this.props.navigation}></SendList>
+            </Footer>
+          </Tab>
+          <Tab heading="대여 중" activeTextStyle={{ color: '#ff3377' }}>
             <ScrollView>
               <List>
                 {this.makeRentList(this.state.after_booking)}
               </List>
             </ScrollView>
           </Tab>
-          <Tab heading={<TabHeading transparent><Text>지난 대여</Text></TabHeading>}>
+          <Tab heading="지난 대여" activeTextStyle={{ color: '#ff3377' }}>
             <ScrollView>
               <List>
                 {this.makeCompletedList(this.state.after_booking)}

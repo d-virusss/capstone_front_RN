@@ -13,15 +13,16 @@ class myItemListScreen extends Component{
   state = {
     token : '',
     myId:'',
-    posts1 : [], //user's providing list
-    posts2 : [], //user's asking list
+    provide_post : [], //user's providing list
+    ask_post : [], //user's asking list
   }
 
   makeIndexList(posts){
     return posts.map((post) => {
+      console.log(post)
       return(
         <ListItem thumbnail key={post.post_info.id} button
-        onPress={() =>  this.props.navigation.navigate('PostShow', { post: post })}>
+        onPress={() =>  this.props.navigation.navigate('PostShow', { post_id: post.post_info.id })}>
           <Left>
             <Thumbnail square source={{ uri: post.post_info.image }} />
           </Left>
@@ -43,7 +44,7 @@ class myItemListScreen extends Component{
       })
       .then((res) => {
         
-        this.setState({posts1:res.data}, ()=> { })
+        this.setState({provide_post:res.data}, ()=> { })
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
@@ -60,7 +61,7 @@ class myItemListScreen extends Component{
       })
       .then((res) => {
         console.log(res)
-        this.setState({posts2:res.data}, ()=> { })
+        this.setState({ask_post:res.data}, ()=> { })
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
@@ -94,19 +95,19 @@ class myItemListScreen extends Component{
           <Right></Right>
         </Header>
 
-        <Tabs>
-          <Tab heading={ <TabHeading transparent><Text>제공</Text></TabHeading>}>
+        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#ff3377' }}>
+          <Tab heading="제공" activeTextStyle={{ color:'#ff3377' }}>
             <Content>
               <List>
-                {this.makeIndexList(this.state.posts1)}
+                {this.makeIndexList(this.state.provide_post)}
               </List>
             </Content>
           </Tab>
 
-          <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
+          <Tab heading="요청" activeTextStyle={{ color: '#ff3377' }}>
             <Content>
               <List>
-                {this.makeIndexList(this.state.posts2)}
+                {this.makeIndexList(this.state.ask_post)}
               </List>
             </Content>
           </Tab>
