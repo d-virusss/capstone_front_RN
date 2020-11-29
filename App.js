@@ -116,12 +116,11 @@ const App = () => {
     function onOpenNotification(notify, data){
       console.log("[App] onOpenNotification: ", notify)
       if(data.type=='keyword'){
-        RootNavigation.navigate('PostShow',{post_id:data.post_id})
+        RootNavigation.navigate('PostShow',{post_id:Number(data.post_id)})
       }
       if(data.type=='message'){
-        RootNavigation.navigate('ChatRoom',{chat_id:data.chat_id,post_id:data.post_id})
+        RootNavigation.navigate('ChatRoom',{chat_id:Number(data.chat_id),post_id:Number(data.post_id),nickname:data.user_nickname,avatar:''})
       }
-      Alert.alert(notify.title, notify.body,[{text:'확인', style:'cancel'}])
 
       return () =>{
         console.log("[App] unregister")
