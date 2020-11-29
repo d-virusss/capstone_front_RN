@@ -48,6 +48,8 @@ import PwInputCode from './views/findpw/pw_input_code'
 
 import ButtomTab from './views/shared/Tab'
 
+import db from './views/shared/chat_db'
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -55,12 +57,19 @@ const App = () => {
     fcmService.registerAppWithFCM()
     fcmService.register(onRegister, onNotification, onOpenNotification)
     localNotificationService.configure(onOpenNotification)
+    openDB();
+
+    function openDB(){
+      db.transaction(tx=>{
+        tx.executeSql('create table if not exists user (user_id, location, token)')
+      },(tx,results)=>{console.log(results)},(err)=>console.log(err))
+    }
 
     function onRegister(token){
       console.log("[App] onRegister : ", token)
     }
 
-    function onNotification(notify){
+    function onNotification(notify, data){
       console.log("[App] onNotification: ", notify)
       const options = {
         soundName: 'default',
@@ -71,8 +80,11 @@ const App = () => {
       )
     }
 
-    function onOpenNotification(notify){
+    function onOpenNotification(notify, data){
       console.log("[App] onOpenNotification: ", notify)
+      if(data.type=='keyword'){
+        NavigationService.navigate('')
+      }
       Alert.alert(notify.title, notify.body,[{text:'확인', style:'cancel'}])
 
       return () =>{

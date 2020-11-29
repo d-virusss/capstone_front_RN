@@ -22,6 +22,8 @@ let myName;
 let postID;
 let postInfo;
 let userID = 1;
+let avatar='';
+let nickname='';
 
 function renderBubble (props) {
   return (
@@ -72,7 +74,7 @@ function renderMessage(props){
 }
 //ChatRoom view function
 function chat_room2 ({route, navigation}){
-  const {chat_id, post_id, nickname, avatar} = route.params;
+  const {chat_id, post_id} = route.params;
   const [show_popover, setShowPopover] = useState(false);
   const [post_title, setPostTitle] = useState('');
   const [post_img, setPostImg] = useState('');
@@ -90,7 +92,9 @@ function chat_room2 ({route, navigation}){
             })
             .then((response)=>{
               postInfo = response.data;
-              console.log(postInfo)
+              console.log(postInfo);
+              nickname=response.data.user.user_info.nickname;
+              avatar=response.data.user.user_info.image;
               setPostTitle(response.data.post_info.title);
               setPostImg(response.data.post_info.image);
             })
