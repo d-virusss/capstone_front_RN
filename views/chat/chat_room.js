@@ -328,7 +328,7 @@ function ChatRoom ({route , navigation}) {
         renderMessage = {renderMessage}
         messages={messages}
         onSend={messages => onSend(messages)}
-        onPressAvatar={()=> navigation.navigate('ProfileShow',{other_id : other_id})}
+        onPressAvatar={()=> navigation.navigate('ProfileShow',{profile_id : other_id})}
         user={{
           _id: 1,
         }}

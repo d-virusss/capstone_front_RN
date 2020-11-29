@@ -28,7 +28,6 @@ class MypageScreen extends Component {
   };
 
   _onRefresh = () => {
-  
     console.log("refresh")
     this.setState({refreshing: true});
     this.getMyInfo();
@@ -42,9 +41,7 @@ class MypageScreen extends Component {
         index: 1,
         routes: [{ name: 'Logins' },],
       })
-    );
-
-    // pop everything in stack navigation
+    ); // pop everything in stack navigation
   }
 
   getToken = async () => {
@@ -148,12 +145,11 @@ class MypageScreen extends Component {
           onPress={() => this.setState({ show_popover: false }, () => {
             this.props.navigation.navigate("SettingMyInfo", {post: posts})
           })}>
-          <Text style={styles.popoverel}>내 정보 수정</Text>
+          <Text style={styles.popoverel}>프로필 수정</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.setState({ show_popover: false }, () => {
             this.props.navigation.navigate("Keyword",)
-            console.log("menu popover pressed! --------")
           })}>
           <Text style={styles.popoverel}>키워드 알림</Text>
         </TouchableOpacity>
@@ -192,21 +188,24 @@ class MypageScreen extends Component {
             <ListItem
               thumbnail
               style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop:'3%'}}>
-              <Thumbnail source={{uri: this.state.myImage}} />
-              <Body style={{ marginLeft : '5%' }}>
-                <View style={{ flexDirection : 'row' }}>
-                <Text>{this.state.myName}</Text>
-                <Text note numberOfLines={1}>
-                  {this.state.myGroup}
-                </Text>
-                </View>
-                <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
-                  {this.state.myLocation}
-                </Text>
-              </Body>
-              <View></View>
+              <TouchableOpacity style={{ flexDirection: 'row' }}
+                onPress={() => { this.props.navigation.navigate('ProfileShow'), { post : posts } }}>
+                <Thumbnail source={{uri: this.state.myImage}} />
+                <Body style={{ marginLeft : '5%' }}>
+                  <View style={{ flexDirection : 'row' }}>
+                    <Text>{this.state.myName}</Text>
+                    <Text note numberOfLines={1}>
+                      {this.state.myGroup}
+                    </Text>
+                  </View>
+                  <View sylte={{ flexDirection: 'row' }}>
+                    <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
+                      {this.state.myLocation}
+                    </Text>
+                  </View>
+                </Body>
+              </TouchableOpacity>
             </ListItem>
-
 
             <ListItem
               style={{flexDirection: 'row', justifyContent: 'center', height: 100, marginTop: '3%'}}>
