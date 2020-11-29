@@ -82,14 +82,14 @@ export default class FindPwShow extends Component {
               <Input
                 placeholder='비밀번호 확인'
                 secureTextEntry={true}
-                onChangeText={(text)=>{this.state.pw=text}}
+                onChangeText={(text)=>{this.state.pw_confirm=text}}
               />
             </Item>
           </Form>
         </Content>
         <Footer style={styles.footer}>
           <Button transparent style={styles.footerbutton}
-                onPress={() => this.props.navigation.navigate('Logins')}>
+                onPress={() => this.changePw()}>
             <Text style={styles.footerText}>로그인 하러 가기</Text>
           </Button>
         </Footer>
