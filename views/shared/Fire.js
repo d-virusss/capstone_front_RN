@@ -1,5 +1,7 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import dbS from './chat_db'; //database Sqlite
+import SQLite from 'react-native-sqlite-storage';
 
 class Fire{
   state = {
@@ -89,6 +91,9 @@ class Fire{
       user.avatar = this.state.avatar;
     }
     if(chat === this.state.chat_id){
+      /*dbS.transaction((tx)=>{
+        tx.executeSql(`insert into table chat${this.state.chat_id} (id, text, timestamp, user) VALUE(${_id},${text},${createdAt},${user._id})`)
+      })*/
       return{
         _id,
         createdAt,
@@ -111,7 +116,20 @@ class Fire{
     this.db.off()
   }
 
+  dropDBS(){
+    SQLite.deleteDatabase(
+      {name: 'test.db', location: '~www/test.db'},  
+      () => { console.log('second db deleted');  },
+      error => {
+          console.log("ERROR: " + error); 
+      }
+  );
+  }
+
   get db(){
+    /*dbS.transaction((tx)=>{
+      tx.executeSql(`create table if not exists chat${this.state.chat_id} (id,text,timestamp,user)`)
+    })*/
     return firebase.database().ref(`chat${this.state.chat_id}/messages`);
   }
 
