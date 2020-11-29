@@ -16,11 +16,11 @@ import MyPage from './views/mypage/lobby';
 import KakaoLogin from './views/login/kakao';
 import MyPgae_Location from './views/mypage/location';
 import Mypage_Like_List from './views/mypage/likeList';
-import ProfileShow from './views/profile/profile_show';
-import ProfileShowList from './views/profile/profile_show_list';
+import ProfileShow from './views/mypage/profile';
+import ProfileShowList from './views/profile/profile_show_list_dep';
 import SettingGroup from './views/mypage/setting_group'
 import Booking from './views/booking/booking';
-import{fcmService} from './views/shared/FCMService';
+import {fcmService} from './views/shared/FCMService';
 import {localNotificationService} from './views/shared/localnotification';
 import PostReport from './views/post/post_report'
 import MyItemList from './views/mypage/myItemList'
@@ -41,11 +41,15 @@ import WriteReview from './views/mypage/write_review'
 import Partner_apply from './views/partner/partner_apply';
 import Partner_waiting from './views/partner/partner_waiting';
 import Partner_page from './views/partner/partner_page';
+<<<<<<< HEAD
 import UpdateReview from './views/mypage/update_review';
 import FindIdShow from './views/findid/email_show';
 import FindPwShow from './views/findpw/pw_show';
 import PwInputCode from './views/findpw/pw_input_code'
 
+=======
+import UpdateReview from './views/mypage/update_review'
+>>>>>>> d17d0754ca09f0f150ff10e185b5c3f4fcd228df
 import ButtomTab from './views/shared/Tab'
 
 const Stack = createStackNavigator();

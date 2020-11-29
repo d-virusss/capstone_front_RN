@@ -81,15 +81,15 @@ class Post_ask extends Component {
       return;
     }
     if (this.state.price.length === 0) {
-      Alert.alert("가격을 입력해주세요")
+      Alert.alert("물품 등록 실패", "게시글 내용을 입력해주세요.", [{ text: '확인', style: 'cancel' }])
       return;
     }
     if (this.state.body.length === 0) {
-      Alert.alert("게시글내용을 입력해주세요")
+      Alert.alert("물품 등록 실패", "게시글 내용을 입력해주세요.", [{ text: '확인', style: 'cancel' }])
       return;
     }
     else if (this.state.body.length < 10) {
-      Alert.alert("게시글내용이 너무 짧습니다")
+      Alert.alert("물품 등록 실패", "게시글 내용이 너무 짧습니다.", [{ text: '확인', style: 'cancel' }])
       return;
     }
     this.setState({loading : true})
@@ -115,7 +115,9 @@ class Post_ask extends Component {
       })
       .catch(function (e) {
         console.log('send post failed!!!!' + e)
-        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
+        Alert.alert("요청 실패", e.response.data.error,[
+          {text:'확인', style:'cancel', onPrees: () => {this.setState({loading: false})}}
+        ])
       })
   }
 

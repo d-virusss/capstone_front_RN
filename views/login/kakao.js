@@ -14,6 +14,12 @@ class KakaoLoginScreen extends Component {
   onWebViewMessage = (e) => {
     //console.log(e.nativeEvent.data)
     let res = JSON.parse(e.nativeEvent.data);
+    
+    if(res.error){
+      this.props.navigation.goBack(); //back to login
+      return;
+    }
+
     AsyncStorage.setItem('token', res.token);
     AsyncStorage.setItem('user_id', String(res.id));
 
@@ -49,7 +55,7 @@ class KakaoLoginScreen extends Component {
     return (
       <WebView
         ref={(webview) => (this.webview = webview)}
-        source={{ uri: 'http://15.164.230.255/users/auth/kakao'}}
+        source={{ uri: 'https://www.applepink.ml/users/auth/kakao'}}
         // source={{html}}
         onMessage={this.onWebViewMessage}
         javaScriptEnabled={true}

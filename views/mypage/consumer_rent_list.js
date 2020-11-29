@@ -59,7 +59,7 @@ class ProviderRentList extends Component {
               <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원</Text>
             </Body>
             <Right>
-              <TouchableOpacity
+              <TouchableOpacity //for debug
               onPress={() => { if(booking.booking_info.has_review){Alert.alert("리뷰 관리에서 수정해 주세요")}
                 else{Alert.alert("리뷰 작성", "리뷰를 작성하시겠습니까?", [
                 {

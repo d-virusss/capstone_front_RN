@@ -1,4 +1,4 @@
-//have to delete
+//have to remove
 import React, { Component, } from "react";
 import {ActionSheetIOS} from 'react-native';
 import { Footer, FooterTab, Badge, Button, Text, Icon, Root } from 'native-base';

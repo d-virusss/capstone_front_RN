@@ -15,11 +15,16 @@ class ImageSelect extends Component{
   constructor(props){
     super(props)
     this.state={
-      image : this.props.existing_image===undefined ? "" : this.props.existing_image,
-      images: [
-      ],
+      images: this.props.existing_image === undefined ? [] : this.props.existing_image,
       isImage : false,
+      isProfile : this.props.isProfile === undefined ? false : this.props.isProfile,
     }
+  }
+  
+  componentDidMount(){
+    console.log('in imageselect ----------------')
+    console.log(this.state)
+    console.log(this.props)
   }
 
   doPickImage = () => {
@@ -28,7 +33,7 @@ class ImageSelect extends Component{
       height: 300,
       multiple: true,
       sortOrder : 'desc',
-      maxFiles : 5,
+      maxFiles : this.state.isProfile ? 1 : 5,
       compressImageQuality : 0.1,
       
     }).then(images => {
@@ -39,10 +44,6 @@ class ImageSelect extends Component{
       this.setState({ isImage: true })
       this.props.stateBus(images)
     });
-  }
-
-  testpress(){
-    console.log('pressed')
   }
 
   render(){
@@ -56,7 +57,7 @@ class ImageSelect extends Component{
           dotColor="#ff3377" />
         <TouchableOpacity style={styles.imageArea}
           onPress = { () => this.doPickImage() } >
-          {this.state.isImage == false && (
+          {this.state.images.length === 0 && (
             <IconM name = 'image-multiple' size = {100}/>
           )}
         </TouchableOpacity>
