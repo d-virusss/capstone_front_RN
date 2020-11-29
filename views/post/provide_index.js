@@ -75,7 +75,7 @@ class ProvideIndex extends Component {
         this.setState({posts: res.data});
       })
       .catch(function (e) {
-        console.log('send post failed!!!!' + e);
+        console.log('send post failed!!!!' + e.response.data);
         Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       });
 

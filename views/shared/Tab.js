@@ -14,7 +14,6 @@ function TabScreen() {
     <Tab.Navigator>
         <Tab.Screen name="Home" component={PostIndex}
           options={{
-            tabBarLabel: '',
             tabBarIcon: ({focused, color}) => {
               if(focused){
                 return(<Icon name="home" size={13}/>)
@@ -24,42 +23,34 @@ function TabScreen() {
             }} 
 
           tabBarOptions= {{
-            activeTintColor: '#000',
-            inactiveTintColor: '#fff',
+            showLabel: false 
           }}/>
-
-        <Tab.Screen name="Home1" component={PostIndex}
-          options={{
-            tabBarLabel: '',
-            tabBarIcon: ({focused, color}) => {
-              if(focused){
-                return(<Icon name="pencil" type="MaterialCommunityIcons" size={13}/>)
-              }else{
-                return(<Icon name="pencil-outline" type="MaterialCommunityIcons" size={13}/>)}
-              }
-            }} />
 
         <Tab.Screen name="Chat" component={chatIndex} 
           options={{
-            tabBarLabel: '',
             tabBarIcon: ({focused, color}) => {
               if(focused){
                 return(<Icon name="chat" type="MaterialCommunityIcons" size={13}/>)
               }else{
                 return(<Icon name="chat-outline" type="MaterialCommunityIcons" size={13}/>)}
               }
-           }}/>
+           }}
+           tabBarOptions={{
+            showLabel: false 
+          }}/>
 
         <Tab.Screen name="MyPage" component={MyPage}
           options={{
-            tabBarLabel: '',
             tabBarIcon: ({focused, color}) => {
               if(focused){
                 return(<Icon name="person" size={13}/>)
               }else{
                 return(<Icon name="person-outline" size={13}/> )}
               }
-            }} />
+            }} 
+            tabBarOptions={{
+              showLabel: false 
+            }}/>
     </Tab.Navigator>
   );
 }
