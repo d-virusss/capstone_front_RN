@@ -18,7 +18,7 @@ var user_obj = {
     number:'',
     name: '',
     birthday: '',
-    image : '',
+    image : [],
   },
 };
 
@@ -40,12 +40,34 @@ class SettingMyInfoScreen extends React.Component {
     name : "",
     birthday : "",
     loading : true,
-    image: '',
+    image: {},
     token:'',
     id:'',
     // password: '',
     // password_confirmation: '',
   };
+
+  componentDidMount() {
+    this.getToken();
+    console.log(this.params)
+  }
+
+  getToken = async () => {
+    let token = await AsyncStorage.getItem('token');
+    this.state.token = token;
+    this.initMyInfo();
+  }
+
+  initMyInfo() {
+    this.state.email = this.params.post.email;
+    this.state.nickname = this.params.post.nickname;
+    this.state.name = this.params.post.name;
+    this.state.number = this.params.post.number;
+    this.state.birthday = this.params.post.birthday;
+    this.state.image = this.params.post.image;
+    this.state.id = this.params.post.id;
+    this.setState({ loading: false }, () => {console.log(this.state)})
+  }
 
   saveMyInfo() {
     formdata = new FormData()
@@ -60,25 +82,26 @@ class SettingMyInfoScreen extends React.Component {
     console.log(formdata)
   }
 
-    changeImage = (data) => {
-      this.setState({ image: data })
-      image_info.uri = data.sourceURL;
-      image_info.type = data.mime;
-      image_info.name = data.filename;
-    }
+  changeImage = (data) => {
+    this.setState({ image: data })
+    image_info.uri = data[0].sourceURL;
+    image_info.type = data[0].mime;
+    image_info.name = data[0].filename;
+    console.log(image_info)
+  }
 
-    checkInputVaule = () => {
-      if(this.state.nickname == ''){
-        Alert.alert("이름을 입력해주세요", "",[{text:'확인', style:'cancel'}])
-        return false;
-      }
-      this.saveMyInfo();
-      return true;
+  checkInputVaule = () => {
+    if(this.state.nickname == ''){
+      Alert.alert("이름을 입력해주세요", "",[{text:'확인', style:'cancel'}])
+      return false;
     }
+    this.saveMyInfo();
+    return true;
+  }
 
   updateRequest = async () => {
     if(this.checkInputVaule()){
-      console.log(this.state.token)
+      this.setState({ loading : true })
       api
       .put(`/users/${this.state.id}`, (formdata),
       {
@@ -89,58 +112,23 @@ class SettingMyInfoScreen extends React.Component {
       .then((res) =>  {
         console.log('send data for registration');
         console.log(res)
-        Alert.alert("정보 수정 완료", "회원정보 수정이 완료되었습니다.",[{text:'확인', style:'cancel'}])
-        this.props.navigation.navigate('Main')
+        Alert.alert("정보 수정 완료", "회원정보 수정이 완료되었습니다.",[
+          {text:'확인', style:'cancel',
+            onPress: () => { this.props.navigation.navigate('Main') }}
+        ])
       })
       .catch((err) =>  {
         console.log('fail to register');
-        console.log(err.response.data.error)
-        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])       
+        console.log(err.response)
+        Alert.alert("요청 실패", err.response.data.message || err.response.data.error,[
+          {text:'확인', style:'cancel',
+            onPress: () => {this.setState({ loading : false })}}
+        ])       
       });
     }
   };
 
-  componentDidMount() {
-    this.getToken();
-  }
-
-  getToken = async() => {
-    let token = await AsyncStorage.getItem('token');
-    this.state.token = token;
-    this.initMyInfo();
-  }
-
-  initMyInfo() {
-    this.state.email = this.params.post.email;
-    this.state.nickname = this.params.post.nickname;
-    this.state.name = this.params.post.name;
-    this.state.number = this.params.post.number;
-    this.state.birthday = this.params.post.birthday;
-    this.state.image = this.params.post.image;
-    this.state.id = this.params.post.id;
-    this.setState({loading : false})
-  }
-
- 
-
   render() {
-    if(this.state.loading){
-        return(
-        <Container>
-            <Header>
-                <Left>
-                    <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
-                    <Icon name = 'chevron-back' type = 'Ionicons'/>
-                    </TouchableOpacity>
-                </Left>
-                <Body><Title>정보 수정</Title></Body>
-                <Right></Right>
-            </Header>
-            <Spinner visible={this.state.loading} />
-        </Container>
-        )
-    }
-    else{
     return (
       <Container>
         <Header>
@@ -149,13 +137,17 @@ class SettingMyInfoScreen extends React.Component {
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>정보 수정</Title></Body>
+          <Body><Title>프로필 수정</Title></Body>
           <Right></Right>
         </Header>
+        <Spinner visible={this.state.loading} />
         <Content>
-          <Form style={{marginTop : '5%'}}> 
-          <ImageSelect stateBus={this.changeImage} existing_image={this.state.image}  ></ImageSelect>
-          <Item floatingLabel>
+          <Form> 
+            <ImageSelect stateBus={this.changeImage} existing_image={this.params.post.image}
+                isProfile={true}>
+            </ImageSelect>
+
+            <Item floatingLabel>
               <Label>이름(실명)</Label>
               <Input autoCapitalize="none"
                 onChangeText = {(text) => {this.setState({name : text}) }}
@@ -189,7 +181,6 @@ class SettingMyInfoScreen extends React.Component {
                 value = {this.state.birthday}
               />
             </Item>
-
           </Form>
         </Content>
         <View style={styles.footer}>
@@ -199,7 +190,7 @@ class SettingMyInfoScreen extends React.Component {
           </Button>
         </View>
       </Container>
-    );}
+    )
   }
 }
 

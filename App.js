@@ -16,11 +16,11 @@ import MyPage from './views/mypage/lobby';
 import KakaoLogin from './views/login/kakao';
 import MyPgae_Location from './views/mypage/location';
 import Mypage_Like_List from './views/mypage/likeList';
-import ProfileShow from './views/profile/profile_show';
-import ProfileShowList from './views/profile/profile_show_list';
+import ProfileShow from './views/mypage/profile';
+import ProfileShowList from './views/profile/profile_show_list_dep';
 import SettingGroup from './views/mypage/setting_group'
 import Booking from './views/booking/booking';
-import{fcmService} from './views/shared/FCMService';
+import {fcmService} from './views/shared/FCMService';
 import {localNotificationService} from './views/shared/localnotification';
 import PostReport from './views/post/post_report'
 import MyItemList from './views/mypage/myItemList'
