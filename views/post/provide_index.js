@@ -17,7 +17,7 @@ class ProvideIndex extends Component {
     this.state={
       token: '',
       posts: [],
-      refreshing: '',
+      refreshing: false,
     }
   }
 
@@ -44,6 +44,7 @@ class ProvideIndex extends Component {
                 <Text style={{ fontSize: 15, fontWeight:'300' }}>{post.user.user_info.nickname}</Text>
                 <Text note numberOfLines={1}>{post.location_info.title}  {post.post_info.created_at_ago}</Text>
               </View>
+              {post.user.user_info.is_company == true && <Text style={{margintTop:'3%'}} note numberOfLines={1}>파트너 게시글</Text>}
               <Text style={{ marginTop : 10 }}>{number_delimiter(post.post_info.price)}원 / 일</Text>
             </Body>
             <Right style={{ flexDirection:'row'}}>

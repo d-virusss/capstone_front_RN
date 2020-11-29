@@ -21,8 +21,10 @@ class MypageScreen extends Component {
     myGroup:'',
     myImage:'',
     loading: false,
-    refreshing : '',
+    refreshing : false,
     show_popover : false,
+    isCompany: false,
+    company_id:-1,
   };
 
   _onRefresh = () => {
@@ -63,11 +65,15 @@ class MypageScreen extends Component {
       },
     })
     .then((res) => {
+      console.log(res)
       this.state.myName = res.data.user_info.nickname;
       this.state.myLocation = res.data.user_info.location_title;
       this.state.myImage = res.data.user_info.image;
       this.state.myGroup = "ajou"
       posts = res.data.user_info;
+      if(res.data.user_info.company_id)
+        this.state.company_id = res.data.user_info.company_id;
+      this.state.isCompany = res.data.user_info.is_company;
       this.setState({loading: true})
     })
     .catch((err) => {
@@ -114,6 +120,20 @@ class MypageScreen extends Component {
     .then((error)=>console.log(error))
   }
 
+  partnerCheckNavigate() {
+    if(this.state.company_id != -1){
+      console.log(this.state.company_id)
+      if(this.state.isCompany){
+        //navigate to partner_page
+        this.props.navigation.navigate('Partner_Page',{company_id:this.state.company_id});
+      }
+      else{
+        this.props.navigation.navigate('Partner_Waiting',{company_id:this.state.company_id});
+      }
+    }
+    else this.props.navigation.navigate('Partner_Apply');
+  }
+
   renderPopover(){
     return(
       <Popover
@@ -153,9 +173,13 @@ class MypageScreen extends Component {
     else{
     return (
       <Container>
-        <Header>
+        <Header style={{
+          height: 60,
+          backgroundColor: '#f8f8f8',
+        }} androidStatusBarColor='black'>
+          <Left><Button transparent></Button></Left>
           <Body>
-            <Title>마이페이지</Title>
+            <Title style={{fontSize: 20, color: 'black', alignSelf: 'center'}}>마이페이지</Title>
           </Body>
           <Right>
             {this.renderPopover()}
@@ -186,21 +210,21 @@ class MypageScreen extends Component {
 
             <ListItem
               style={{flexDirection: 'row', justifyContent: 'center', height: 100, marginTop: '3%'}}>
-              <Button light style={styles.btn}
+              <Button transparent style={styles.btn}
                 onPress={() => {this.props.navigation.navigate('ProviderRentList')}}>
-                <Icon type="MaterialCommunityIcons" name="receipt" />
-                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 제공 목록</Text>
+                <Icon type="MaterialCommunityIcons" name="receipt" style={{color:'black'}}/>
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 제공 목록</Text>
               </Button>
 
-              <Button light style={styles.btn}
+              <Button transparent style={styles.btn}
                 onPress={() => {this.props.navigation.navigate('ConsumerRentList')}}>
-                <Icon type="Ionicons" name="basket-sharp" />
-                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 대여 목록</Text>
+                <Icon type="Ionicons" name="basket-sharp" style={{color:'black'}}/>
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 대여 목록</Text>
               </Button>
 
-              <Button light style={styles.btn} onPress={() => {this.props.navigation.navigate('Like_List')}}>
-                <Icon type="Feather" name="heart" />
-                <Text style={{ paddingVertical : '8%', marginBottom: '4%' }}> 관심 목록</Text>
+              <Button transparent style={styles.btn} onPress={() => {this.props.navigation.navigate('Like_List')}}>
+                <Icon type="Feather" name="heart" style={{color:'black'}}/>
+                <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 관심 목록</Text>
               </Button>
             </ListItem>
 
@@ -216,7 +240,7 @@ class MypageScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress = {()=>{this.props.navigation.navigate('Partner_Apply')}}>
+            <ListItem button onPress = {()=>{this.partnerCheckNavigate()}}>
               <Left>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text style={ styles.listText }> 파트너 인증</Text>

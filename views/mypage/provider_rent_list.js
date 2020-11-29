@@ -130,7 +130,12 @@ class ProviderRentList extends Component {
   render() {
     return (
       <Container>
-        <Header>
+        <Header style={{
+            height: 60,
+            backgroundColor: '#f8f8f8',
+            justifyContent:'space-between'}}
+            androidStatusBarColor='#000'
+        >
           <Left>
             <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='chevron-back' type='Ionicons' />
@@ -140,7 +145,7 @@ class ProviderRentList extends Component {
           <Right></Right>
         </Header>
 
-        <Tabs>
+        <Tabs tabBarUnderlineStyle={{backgroundColor:'#007aff'}}>
           <Tab heading={<TabHeading transparent><Text>대여 중</Text></TabHeading>}>
             <Content>
               <List>

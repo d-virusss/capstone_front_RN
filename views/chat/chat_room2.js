@@ -20,7 +20,7 @@ let myID;
 let token;
 let myName;
 let postID;
-let postInfo = [];
+let postInfo;
 let userID = 1;
 
 function renderBubble (props) {
@@ -29,7 +29,7 @@ function renderBubble (props) {
       {...props}
       wrapperStyle={{
         left:{
-      
+          
         },
         right: {
           backgroundColor: '#ff3377',
@@ -89,8 +89,8 @@ function chat_room2 ({route, navigation}){
               }
             })
             .then((response)=>{
-              console.log(response)
               postInfo = response.data;
+              console.log(postInfo)
               setPostTitle(response.data.post_info.title);
               setPostImg(response.data.post_info.image);
             })
@@ -195,7 +195,12 @@ function chat_room2 ({route, navigation}){
         enabled
       >
         <Container>
-          <Header style = {{height : 45}}>
+        <Header style={{
+            height: 60,
+            backgroundColor: '#f8f8f8',
+            justifyContent:'space-between'}}
+            androidStatusBarColor='#000'
+        >
             <Left>
               <Button transparent onPress = {() => {navigation.goBack()}}>
                 <Icon name = 'chevron-back'/>
@@ -206,18 +211,18 @@ function chat_room2 ({route, navigation}){
             </Body>
             <Right>
             <Popover
-                  isVisible = {show_popover}
-                  onRequestClose = {() => setShowPopover(false)}
-                  from={(
-                    <TouchableOpacity onPress={() => setShowPopover(true)}>
-                      <Icon name="menu" />
-                    </TouchableOpacity>
-                  )}>
-                  <TouchableOpacity
-                      onPress={() => {setShowPopover(false); navigation.navigate('PostReport')}}>
-                    <Text style={styles.popoverel}>신고하기</Text>
+                isVisible = {show_popover}
+                onRequestClose = {() => setShowPopover(false)}
+                from={(
+                  <TouchableOpacity onPress={() => setShowPopover(true)}>
+                    <Icon name="menu" />
                   </TouchableOpacity>
-                </Popover>
+                )}>
+                <TouchableOpacity
+                    onPress={() => {setShowPopover(false); navigation.navigate('PostReport',{onGoBack: () => {getPostInfo(); }, post: postInfo})}}>
+                  <Text style={styles.popoverel}>신고하기</Text>
+                </TouchableOpacity>
+              </Popover>
             </Right>
           </Header>
           <TouchableOpacity onPress ={()=>{navigation.navigate('PostShow',{post: postInfo})}}>
@@ -250,33 +255,37 @@ function chat_room2 ({route, navigation}){
   }
   return(
       <Container>
-        <Header style = {{height : 45}}>
+        <Header style={{
+            height: 60,
+            backgroundColor: '#f8f8f8',
+            justifyContent:'space-between'}}
+            androidStatusBarColor='#000'
+        >
           <Left>
-            <Button transparent onPress = {() => {navigation.goBack()}}>
-              <Icon name = 'chevron-back'/>
+            <Button dark transparent onPress = {() => {navigation.goBack()}} style={{paddingVertical : 10,
+              paddingHorizontal : 15,
+              margin : 5,}}
+            >
+              <Icon name = 'chevron-back' color='black'/>
             </Button>
           </Left>
           <Body>
-            <Text style = {{fontSize : 17,}}>{nickname}</Text>
+            <Text style={{fontSize: 17, color: 'black', alignSelf: 'center'}}>{nickname}</Text>
           </Body>
           <Right>
           <Popover
-                isVisible = {show_popover}
-                onRequestClose = {() => setShowPopover(false)}
-                from={(
-                  <TouchableOpacity onPress={() => setShowPopover(true)}>
-                    <Icon name="menu" />
-                  </TouchableOpacity>
-                )}>
-                <TouchableOpacity
-                    onPress={() => {setShowPopover(false); navigation.navigate('PostReport')}}>
-                  <Text style={styles.popoverel}>신고하기</Text>
+              isVisible = {show_popover}
+              onRequestClose = {() => setShowPopover(false)}
+              from={(
+                <TouchableOpacity onPress={() => setShowPopover(true)}>
+                  <Icon name="menu" />
                 </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {setShowPopover(false); messageGetRequest()}}>
-                  <Text style={styles.popoverel}>새로고침</Text>
-                </TouchableOpacity>
-              </Popover>
+              )}>
+              <TouchableOpacity
+                  onPress={() => {setShowPopover(false); navigation.navigate('PostReport',{onGoBack: () => {getPostInfo(); }, post: postInfo})}}>
+                <Text style={styles.popoverel}>신고하기</Text>
+              </TouchableOpacity>
+            </Popover>
           </Right>
         </Header>
         <TouchableOpacity onPress ={()=>{navigation.navigate('PostShow',{post: postInfo})}}>
@@ -285,7 +294,7 @@ function chat_room2 ({route, navigation}){
             alignItems: 'center',
             justifyContent: 'space-between',
             borderBottomColor: '#cccccc'
-          }}>
+          }} androidStatusBarColor='#000'>
             <Image source = {{uri: post_img || "https://applepink.s3.amazonaws.com/uploads/user/image/1/square_447087af-da95-4a04-94c4-2ccccc782c28applePink_logo.png"}} style={{
               width:50,
               height:50,

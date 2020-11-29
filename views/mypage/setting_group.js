@@ -124,13 +124,18 @@ render() {
     this.getToken();
     return (
     <Container>
-        <Header>
+        <Header style={{
+            height: 60,
+            backgroundColor: '#f8f8f8',
+            justifyContent:'space-between'}}
+            androidStatusBarColor='#000'
+        >
           <Left>
             <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>소속 인증</Title></Body>
+          <Body><Title style={{color:'black', alignSelf:'center'}}>소속 인증</Title></Body>
           <Right></Right>
         </Header>
 

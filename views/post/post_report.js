@@ -37,13 +37,18 @@ class PostReportScreen extends Component {
     return (
       <Container>
 
-        <Header>
+        <Header style = {{
+            backgroundColor: '#f8f8f8',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }} androidStatusBarColor='black'
+        >
           <Left>
             <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>신고하기</Title></Body>
+          <Body><Title style={{color:'black', alignSelf:'center'}}>신고하기</Title></Body>
           <Right></Right>
         </Header>
 

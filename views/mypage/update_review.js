@@ -150,13 +150,18 @@ class UpdateReviewScreen extends Component {
         if(this.state.loading){
             return(
                 <Container>
-                <Header>
+                <Header style={{
+                    height: 60,
+                    backgroundColor: '#f8f8f8',
+                    justifyContent:'space-between'}}
+                    androidStatusBarColor='#000'
+                >
                     <Left>
                         <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
                         <Icon name = 'chevron-back' type = 'Ionicons'/>
                         </TouchableOpacity>
                     </Left>
-                    <Body><Title>리뷰 수정</Title></Body>
+                    <Body><Title style={{color:'black', alignSelf:'center'}}>리뷰 수정</Title></Body>
                     <Right></Right>
                 </Header>
                 <Content>
@@ -168,13 +173,18 @@ class UpdateReviewScreen extends Component {
         else{
         return(
             <Container>
-                <Header>
+                <Header style={{
+                    height: 60,
+                    backgroundColor: '#f8f8f8',
+                    justifyContent:'space-between'}}
+                    androidStatusBarColor='#000'
+                >
                     <Left>
                         <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
                         <Icon name = 'chevron-back' type = 'Ionicons'/>
                         </TouchableOpacity>
                     </Left>
-                    <Body><Title>리뷰 수정</Title></Body>
+                    <Body><Title style={{color:'black', alignSelf:'center'}}>리뷰 수정</Title></Body>
                     <Right>
                     <Popover
                     isVisible = {this.state.show_popover}

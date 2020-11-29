@@ -12,7 +12,7 @@ Icon.loadFont();
 
 var user_obj = {
   user: {
-    email: 'tester4@test.com',
+    email: 'tester5@test.com',
     password: 'test123',
   },
 };
@@ -177,7 +177,7 @@ class LoginScreen extends Component {
                 borderRadius={5}
                 width="100%"
                 height="100%"
-                onPress={() => this.makeRequest()}
+                onPress={() => {console.log(userinfo); this.makeRequest()}}
               />
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>

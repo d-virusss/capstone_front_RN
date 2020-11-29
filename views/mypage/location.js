@@ -169,22 +169,32 @@ class MypageScreen extends Component{
   renderHeader(){
     if(myLocation == "null"){
       return(
-        <Header>
+        <Header style={{
+          height: 60,
+          backgroundColor: '#f8f8f8',
+          justifyContent:'space-between'}}
+          androidStatusBarColor='#000'
+        >
           <Left>
           </Left>
-          <Body><Title>동네 설정</Title></Body>
+          <Body><Title style={{color:'black',alignSelf:'center'}}>동네 설정</Title></Body>
           <Right></Right>
         </Header>
       )
     }else{ // already has location
       return(
-        <Header>
+        <Header style={{
+          height: 60,
+          backgroundColor: '#f8f8f8',
+          justifyContent:'space-between'}}
+          androidStatusBarColor='#000'
+        >
           <Left>
             <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
             <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>동네 설정</Title></Body>
+          <Body><Title style={{color:'black',alignItems:'center'}}>동네 설정</Title></Body>
           <Right></Right>
         </Header>
       )
@@ -209,7 +219,7 @@ class MypageScreen extends Component{
         <Content scrollEnabled={false}>
           <View style={{alignItems:'center', textAlign:'center'}}>
             <Text/>
-            <Title>현재 위치는 "{user_addr.location.title}" 입니다.</Title>
+            <Title style={{color:'black',alignSelf:'center'}}>현재 위치는 "{user_addr.location.title}" 입니다.</Title>
             <Text/>
             <Text onPress={() => this.showNearLocationList()} style={{textDecorationLine: 'underline'}}>
               {bodyContent[this.state.value]} {locationList[this.state.value].count}개</Text>
