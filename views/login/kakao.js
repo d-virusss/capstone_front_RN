@@ -49,7 +49,7 @@ class KakaoLoginScreen extends Component {
     return (
       <WebView
         ref={(webview) => (this.webview = webview)}
-        source={{ uri: 'http://15.164.230.255/users/auth/kakao'}}
+        source={{ uri: 'https://www.applepink.ml/users/auth/kakao'}}
         // source={{html}}
         onMessage={this.onWebViewMessage}
         javaScriptEnabled={true}
