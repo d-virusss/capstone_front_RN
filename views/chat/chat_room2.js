@@ -130,7 +130,7 @@ function chat_room2 ({route, navigation}){
       })
       .catch((err) => {
         console.log("err : ", err)
-        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+        //Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
 
