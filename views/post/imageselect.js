@@ -15,8 +15,7 @@ class ImageSelect extends Component{
   constructor(props){
     super(props)
     this.state={
-      image : this.props.existing_image===undefined ? "" : this.props.existing_image,
-      images: this.props.existing_image === undefined ? [] : [this.props.existing_image],
+      images: this.props.existing_image === undefined ? [] : this.props.existing_image,
       isImage : false,
       isProfile : this.props.isProfile === undefined ? false : this.props.isProfile,
     }

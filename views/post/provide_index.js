@@ -31,10 +31,9 @@ class ProvideIndex extends Component {
   }
 
   makeIndexList() {
-    console.log("make index list")
     return this.state.posts.map((post) => {
       return(
-        <TouchableOpacity onPress={() =>{this.props.navigation.navigate('PostShow', { post: post }) }}>
+        <TouchableOpacity onPress={() =>{this.props.navigation.navigate('PostShow', { post_id: post.post_info.id }) }}>
           <ListItem thumbnail key = {post.post_info.id}>
             <Left>
               <Thumbnail square source={{ uri: post.post_info.image }} />
@@ -61,8 +60,6 @@ class ProvideIndex extends Component {
   }
 
   sendIndexRequest() {
-    console.log("----------------")
-    console.log(searchModel)
     if(searchModel.id == 0){
       api
       .get('/posts?post_type=provide', {
@@ -74,7 +71,7 @@ class ProvideIndex extends Component {
         },
       })
       .then((res) => {
-        console.log(res);
+        console.log(res)
         this.setState({posts: res.data});
       })
       .catch(function (e) {
@@ -96,7 +93,7 @@ class ProvideIndex extends Component {
         },
       })
       .then((res) => {
-        console.log(res);
+        console.log(res)
         this.setState({posts: res.data});
       })
       .catch(function (e) {

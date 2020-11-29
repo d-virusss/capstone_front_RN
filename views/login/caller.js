@@ -12,7 +12,7 @@ Icon.loadFont();
 
 var user_obj = {
   user: {
-    email: 'tester5@test.com',
+    email: 'tester1@test.com',
     password: 'test123',
   },
 };
@@ -61,15 +61,13 @@ class LoginScreen extends Component {
           AsyncStorage.setItem('token', response.data.token);
           AsyncStorage.setItem('user_id', String(response.data.id));
           AsyncStorage.setItem('my_location',String(response.data.location_auth));
-          console.log(response.data.location_auth == null);
-          console.log("call gettioen-----------------")
-          
+    
           if (response.data.location_auth != null) {// already has location
-            //await Fire.signIn(userinfo.user); granting open db
+            //await Fire.signIn(userinfo.user);
             this.props.navigation.navigate('Main')
           }
           else {
-            //await Fire.signIn(userinfo.user); granting open db
+            //await Fire.signIn(userinfo.user);
             this.props.navigation.navigate('MyPage_Location')
           }
           //this.addUserIDtoDB(response.data.id);
@@ -92,9 +90,13 @@ class LoginScreen extends Component {
         AsyncStorage.setItem('my_location', String(response.data.location_auth));
      
         if ((response.data.location_auth) != null) {// already has location
+          console.log("dddd")
           this.props.navigation.navigate('Main')
+          return ;
         } else {
+          console.log("aaaa")
           this.props.navigation.navigate('MyPage_Location')
+          return ;
         }
       })
       .catch(function (error) {

@@ -5,7 +5,6 @@ import { Container, Content, Form, Item, Input, Label, Header,
   Left, Right, Body, Title, Icon, Footer, Button, Text} from 'native-base';
 import api from '../shared/server_address'
 import Spinner from 'react-native-loading-spinner-overlay';
-import { CommonActions, StackActions } from '@react-navigation/native';
 import ImageSelect from '../post/imageselect';
 import FormData from 'form-data'
 
@@ -66,6 +65,7 @@ class SettingMyInfoScreen extends React.Component {
     this.state.birthday = this.params.post.birthday;
     this.state.image = this.params.post.image;
     this.state.id = this.params.post.id;
+    console.log(this.state.image)
     this.setState({ loading: false }, () => {console.log(this.state)})
   }
 
@@ -129,73 +129,95 @@ class SettingMyInfoScreen extends React.Component {
   };
 
   render() {
-    return (
-      <Container>
+    if(this.state.loading){
+      return (
+        <Container>
         <Header style={{
-            height: 60,
-            backgroundColor: '#f8f8f8',
-            justifyContent:'space-between'}}
-            androidStatusBarColor='#000'
-        >
-          <Left>
-            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
-              <Icon name = 'chevron-back' type = 'Ionicons'/>
-            </TouchableOpacity>
-          </Left>
-          <Body><Title>프로필 수정</Title></Body>
-          <Right></Right>
-        </Header>
-        <Spinner visible={this.state.loading} />
-        <Content>
-          <Form> 
-            <ImageSelect stateBus={this.changeImage} existing_image={this.params.post.image}
-                isProfile={true}>
-            </ImageSelect>
-
-            <Item floatingLabel>
-              <Label>이름(실명)</Label>
-              <Input autoCapitalize="none"
-                onChangeText = {(text) => {this.setState({name : text}) }}
-                value = {this.state.name}
-              />
-            </Item>
-
-            {/* nickname */}
-            <Item floatingLabel>
-              <Label>닉네임</Label>
-              <Input autoCapitalize="none"
-                onChangeText = {(name) => {this.setState({nickname : name}) }}
-                value = {this.state.nickname}
-              />
-            </Item>
-
-            {/* phone */}
-            <Item floatingLabel>
-              <Label>연락처 ex) 01012345678</Label>
-              <Input autoCapitalize="none"
-                keyboardType="numeric"
-                onChangeText = {(text) => {this.setState({number : text}) }}
-                value = {this.state.number}
-              />
-            </Item>
-
-            <Item floatingLabel>
-              <Label>생일 ex) 19960827</Label>
-              <Input autoCapitalize="none"
-                onChangeText = {(birthday) => {this.setState({birthday : birthday}) }}
-                value = {this.state.birthday}
-              />
-            </Item>
-          </Form>
-        </Content>
-        <View style={styles.footer}>
-          <Button transparent style={ styles.footerbutton }
-            onPress={() => this.updateRequest()}>
-            <Text style={styles.footerText}>수정하기</Text>
-          </Button>
-        </View>
+          height: 60,
+          backgroundColor: '#f8f8f8',
+          justifyContent:'space-between'}}
+          androidStatusBarColor='#000'
+      >
+        <Left>
+          <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+            <Icon name = 'chevron-back' type = 'Ionicons'/>
+          </TouchableOpacity>
+        </Left>
+        <Body><Title>프로필 수정</Title></Body>
+        <Right></Right>
+      </Header>
+      <Spinner visible={this.state.loading} />
       </Container>
-    )
+      )
+    }else{
+      return (
+        <Container>
+          <Header style={{
+              height: 60,
+              backgroundColor: '#f8f8f8',
+              justifyContent:'space-between'}}
+              androidStatusBarColor='#000'
+          >
+            <Left>
+              <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+                <Icon name = 'chevron-back' type = 'Ionicons'/>
+              </TouchableOpacity>
+            </Left>
+            <Body><Title>프로필 수정</Title></Body>
+            <Right></Right>
+          </Header>
+
+          <Content>
+            <Form> 
+              <ImageSelect stateBus={this.changeImage} existing_image={[(this.state.image)]}
+                  isProfile={true}>
+              </ImageSelect>
+
+              <Item floatingLabel>
+                <Label>이름(실명)</Label>
+                <Input autoCapitalize="none"
+                  onChangeText = {(text) => {this.setState({name : text}) }}
+                  value = {this.state.name}
+                />
+              </Item>
+
+              {/* nickname */}
+              <Item floatingLabel>
+                <Label>닉네임</Label>
+                <Input autoCapitalize="none"
+                  onChangeText = {(name) => {this.setState({nickname : name}) }}
+                  value = {this.state.nickname}
+                />
+              </Item>
+
+              {/* phone */}
+              <Item floatingLabel>
+                <Label>연락처 ex) 01012345678</Label>
+                <Input autoCapitalize="none"
+                  keyboardType="numeric"
+                  onChangeText = {(text) => {this.setState({number : text}) }}
+                  value = {this.state.number}
+                />
+              </Item>
+
+              <Item floatingLabel>
+                <Label>생일 ex) 19960827</Label>
+                <Input autoCapitalize="none"
+                  onChangeText = {(birthday) => {this.setState({birthday : birthday}) }}
+                  value = {this.state.birthday}
+                />
+              </Item>
+            </Form>
+          </Content>
+          <View style={styles.footer}>
+            <Button transparent style={ styles.footerbutton }
+              onPress={() => this.updateRequest()}>
+              <Text style={styles.footerText}>수정하기</Text>
+            </Button>
+          </View>
+        </Container>
+      )
+    }
   }
 }
 

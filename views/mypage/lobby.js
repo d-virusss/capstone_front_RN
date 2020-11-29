@@ -8,7 +8,8 @@ import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
 import Fire from '../shared/Fire';
 import IconM from 'react-native-vector-icons/MaterialIcons';
-
+import IconFe from 'react-native-vector-icons/Feather';
+IconFe.loadFont();
 IconM.loadFont();
 
 var posts = [];
@@ -67,8 +68,11 @@ class MypageScreen extends Component {
       this.state.myName = res.data.user_info.nickname;
       this.state.myLocation = res.data.user_info.location_title;
       this.state.myImage = res.data.user_info.image;
-      this.state.myGroup = "ajou"
-      this.state.myId = res.data.user_info.id;
+      if(res.data.user_info.group != null){
+        this.state.myGroup = res.data.user_info.group;
+      }else{
+        this.state.myGroup = "소속 인증 필요"
+      }
       posts = res.data.user_info;
       console.log(posts)
       if(res.data.user_info.company_id)
@@ -285,7 +289,7 @@ class MypageScreen extends Component {
               <ListItem button onPress={() => {this.props.navigation.navigate('Review')}}>
                 <Left>
                   <Icon type="MaterialCommunityIcons" name="comment-outline" />
-                  <Text style={ styles.listText }> 작성한 리뷰</Text>
+                  <Text style={ styles.listText }> 리뷰 관리</Text>
                 </Left>
                 <Right>
                   <Icon type="AntDesign" name="right" />

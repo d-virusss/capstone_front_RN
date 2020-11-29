@@ -10,6 +10,7 @@ import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
 import Fire from '../shared/Fire';
 import IconM from 'react-native-vector-icons/MaterialIcons';
+import { Rating } from 'react-native-elements'
 
 IconM.loadFont();
 
@@ -30,15 +31,17 @@ class ProfileShow extends Component {
     isCompany: false,
     company_id: -1,
     avg_rating : undefined,
-    review_count : undefined
+    review_count : undefined,
+    is_my_profile : undefined
   };
 
   getToken = async () => {
     let value = await AsyncStorage.getItem("token")
     let id = await AsyncStorage.getItem('user_id')
-    this.state.my_id = id
+    this.state.my_id = parseInt(id)
     this.state.token = value
-    console.log(this.state)
+
+    this.setState({ is_my_profile : (this.profile_id === this.state.my_id ? true : false) }, () => console.log(this.state))
     this.getMyInfo();
   }
 
@@ -59,7 +62,7 @@ class ProfileShow extends Component {
         console.log(res)
         this.state.nickname = res.data.user_info.nickname
         this.state.location = res.data.user_info.location_title
-        this.state.group = res.data.user_info.group || "ajou"
+        this.state.group = res.data.user_info.group || "소속 없음"
         this.state.profile_image = res.data.user_info.image
         this.state.isCompany = res.data.user_info.is_company
         this.state.avg_rating = res.data.user_info.avg
@@ -82,12 +85,18 @@ class ProfileShow extends Component {
             <Icon name="menu" />
           </TouchableOpacity>
         )}>
-        <TouchableOpacity
+        {!this.state.is_my_profile && <TouchableOpacity
           onPress={() => this.setState({ show_popover: false }, () => {
             // this.props.navigation.navigate("SettingMyInfo", { post: posts })
           })}>
           <Text style={styles.popoverel}>신고하기</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
+        {this.state.is_my_profile && <TouchableOpacity
+          onPress={() => this.setState({ show_popover: false }, () => {
+            // this.props.navigation.navigate("SettingMyInfo", { post: posts })
+          })}>
+          <Text style={styles.popoverel}>회원탈퇴</Text>
+        </TouchableOpacity>}
       </Popover>
     )
   }
@@ -129,35 +138,37 @@ class ProfileShow extends Component {
               <ListItem
                 thumbnail
                 style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop: '3%' }}>
-                <TouchableOpacity style={{ flexDirection: 'row' }}
-                  onPress={() => { this.props.navigation.navigate('ProfileShow'), { post: posts } }}>
-                  <Thumbnail source={{ uri: this.state.profile_image }} />
-                  <Body style={{ marginLeft: '5%' }}>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text>{this.state.nickname}</Text>
-                      <Text note numberOfLines={1}>
-                        {this.state.group}
-                      </Text>
-                    </View>
-                    <View sylte={{ flexDirection: 'row' }}>
-                      <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
-                        {this.state.location}
-                      </Text>
-                    </View>
-                  </Body>
-                </TouchableOpacity>
+                <Thumbnail source={{ uri: this.state.profile_image }} />
+                <Body style={{ marginLeft: '5%' }}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text>{this.state.nickname}</Text>
+                    <Text note numberOfLines={1}>
+                      {this.state.group}
+                    </Text>
+                  </View>
+                  <View sylte={{ flexDirection: 'row' }}>
+                    <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
+                      {this.state.location}
+                    </Text>
+                  </View>
+                </Body>
               </ListItem>
 
               <ListItem
-                style={{ flexDirection: 'column', justifyContent: 'center', height: 100, marginTop: '3%' }}>
-                  <Text>사용자 리뷰 평점{'\n'}</Text>
-                  <Text>dfa</Text>
+                style={{ flexDirection: 'column', justifyContent: 'center', height: 100, marginTop: '1%' }}>
+                  <Text style={{ marginBottom : '1%' }}>리뷰 평점</Text>
+                  <Text>{this.state.avg_rating}</Text>
+                  <Rating
+                    readonly
+                    fractions={1}
+                    startingValue={this.state.avg_rating}
+                    ratingCount={5}
+                    imageSize={20} />
               </ListItem>
 
               <Separator bordered style={{ height: '1%' }}></Separator>
 
-              <ListItem button style={{ height: 75 }}
-                onPress={() => { { this.props.navigation.navigate('MyPage_Location') } }}>
+              <ListItem onPress={() => { { this.props.navigation.navigate('MyPage_Location') } }}>
                 <Left>
                   <Icon type="Ionicons" name="location-sharp" />
                   <Text style={styles.listText}> 제공 상품</Text>
