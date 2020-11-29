@@ -9,6 +9,7 @@ import api from '../shared/server_address';
 import Fire from '../shared/Fire';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import IconFe from 'react-native-vector-icons/Feather';
+import SQLite from 'react-native-sqlite-storage';
 IconFe.loadFont();
 IconM.loadFont();
 
@@ -161,6 +162,7 @@ class MypageScreen extends Component {
         <TouchableOpacity
           onPress={() => this.setState({ show_popover: false }, () => {
             Fire.off();
+            SQLite.deleteDatabase({name: 'testDB.db'})
             this.Logout()
           })}>
           <Text style={styles.popoverel}>로그아웃</Text>
