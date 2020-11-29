@@ -85,17 +85,14 @@ class Post_provide extends Component {
       return;
     }
     if(this.state.price.length === 0){
-      Alert.alert("물품 등록 실패", "게시글 내용을 입력해주세요.", [{ text: '확인', style: 'cancel' }])
+      Alert.alert("물품 등록 실패", "가격을 입력해주세요.", [{ text: '확인', style: 'cancel' }])
       return;
     }
     if(this.state.body.length === 0){
       Alert.alert("물품 등록 실패", "게시글 내용을 입력해주세요.", [{ text: '확인', style: 'cancel' }])
       return;
     }
-    else if(this.state.body.length < 10){
-      Alert.alert("물품 등록 실패", "게시글 내용이 너무 짧습니다.", [{ text: '확인', style: 'cancel' }])
-      return;
-    }
+    
     this.setState({ loading: true })
     api
       .post('/posts', (formdata), {
