@@ -45,7 +45,6 @@ import UpdateReview from './views/mypage/update_review'
 import ProfileProvide from './views/profile/profile_provide'
 import ProfileAsk from './views/profile/profile_ask'
 import ReceivedReview from './views/profile/received_review'
-import UpdateReview from './views/mypage/update_review';
 import FindIdShow from './views/findid/email_show';
 import FindPwShow from './views/findpw/pw_show';
 import PwInputCode from './views/findpw/pw_input_code'

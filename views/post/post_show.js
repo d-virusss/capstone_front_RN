@@ -161,6 +161,8 @@ class PostShow extends Component{
     if(reviewList.length == 0)
       return(<Card><CardItem><Title>등록된 리뷰가 없습니다.</Title></CardItem></Card>)
     return reviewList.map((ele) => {
+      console.log('ele-------------')
+      console.log(ele)
       let year = ele.review_info.created_at.substr(0, 4);
       let month =ele.review_info.created_at.substr(6, 2) ;
       let day=ele.review_info.created_at.substr(10, 2) ;
@@ -169,7 +171,7 @@ class PostShow extends Component{
         <Card style={{margin:30}}>
           <CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}
           button onPress={() => { /*link to user profile show*/}}>
-            <TouchableOpacity onPress={() => {this.props.navigation.navigate("ProfileShow", {} )}}>
+            <TouchableOpacity onPress={() => {this.props.navigation.push("ProfileShow", {user_id: ele.review_info.user_id} )}}>
               <Thumbnail source={{uri: ele.review_info.user_image}} />
             </TouchableOpacity>
             <Body style={{marginLeft : '5%'}} >
@@ -363,7 +365,7 @@ class PostShow extends Component{
                 <Form>
                   <Item regular style={styles.providerBar}>
                     <TouchableOpacity style={{ marginLeft: '3%' }}
-                    onPress={() => { this.props.navigation.navigate("ProfileShow", { user_id : this.state.provider_id }) } }>
+                    onPress={() => { this.props.navigation.push("ProfileShow", { user_id : this.state.provider_id }) } }>
                       <Image source={{ uri: this.state.provider_profile_image || "empty " }} style={styles.providerProfileiimage}></Image>
                     </TouchableOpacity>
                     <View style={styles.providerProfile}>

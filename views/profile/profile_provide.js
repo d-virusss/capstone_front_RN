@@ -117,7 +117,7 @@ class ProfileProvide extends Component {
       console.log(post)
       return (
         <ListItem thumbnail key={post.post_info.id} button
-          onPress={() => this.props.navigation.navigate('PostShow', { post_id: post.post_info.id })}>
+          onPress={() => this.props.navigation.push('PostShow', { post_id: post.post_info.id })}>
           <Left>
             <Thumbnail square source={{ uri: post.post_info.image }} />
           </Left>
