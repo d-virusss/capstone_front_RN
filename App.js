@@ -42,7 +42,6 @@ import Partner_apply from './views/partner/partner_apply';
 import Partner_waiting from './views/partner/partner_waiting';
 import Partner_page from './views/partner/partner_page';
 import UpdateReview from './views/mypage/update_review'
-
 import ButtomTab from './views/shared/Tab'
 
 const Stack = createStackNavigator();

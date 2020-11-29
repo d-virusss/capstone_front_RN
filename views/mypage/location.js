@@ -24,7 +24,7 @@ var user_addr = {
   },
 };
 
-var bodyContent = ["일단계", "이단계", "삼단계", "사단계~~"]
+var bodyContent = ["내 동네만", "옆동네도", "먼 동네도", "전부"]
 
 class MypageScreen extends Component{
   constructor(props) {
@@ -128,6 +128,8 @@ class MypageScreen extends Component{
 
   componentDidMount () {
     this.requestPermission().then((res) => {
+      console.log("checking permission..............")
+      console.log(res)
       if (res === 'granted') {
         Geolocation.getCurrentPosition(
           (pos) => {
@@ -149,6 +151,17 @@ class MypageScreen extends Component{
           console.log('watching current pos');
           this.setState({location:pos.coords});
         });
+      }else{
+        Alert.alert("요청 실패", "위치 접근 권한이 없습니다.",[
+          {
+              text: '확인',
+              onPress: () => this.props.navigation.goBack()
+          },
+          {
+              text: '취소',
+              style: 'cancel',
+          }
+      ]) 
       }
     });
   }
@@ -198,6 +211,7 @@ class MypageScreen extends Component{
   }
 
   render(){
+    console.log("enter location setting")
     if (this.state.loading == true) {
       return (
         <Container>

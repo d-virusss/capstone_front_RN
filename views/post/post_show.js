@@ -2,21 +2,24 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
 import {View, ScrollView, Image, StyleSheet, TouchableOpacity, Alert,
   DeviceEventEmitter, Dimensions} from 'react-native';
-import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, 
-  FooterTab, Header, Body, Container, Title, Tab, Tabs, TabHeading} from 'native-base';
+import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, Card,
+  FooterTab, Header, Body, Container, Title, Tab, Tabs, TabHeading, CardItem, Thumbnail} from 'native-base';
 import Popover from 'react-native-popover-view';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
 import number_delimiter from '../shared/number_delimiter'
-import { CommonActions, StackActions } from '@react-navigation/native';
+import {Rating} from 'react-native-elements'
 import { SliderBox } from "react-native-image-slider-box";
 
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
-let updateFlag = 0;
+
 var user_id;
+var reviewList = [];
+var postForm = {}; // for navigation props
+
 const windowHeight = Dimensions.get('window').height;
 
 class PostShow extends Component{
@@ -31,7 +34,7 @@ class PostShow extends Component{
     price : 0,
     body : "",
     category : "",
-    image : "",
+    category_id : '',
     provider_name : "",
     provider_location : "",
     provider_id : "",
@@ -44,7 +47,8 @@ class PostShow extends Component{
     is_your_post:'',
     isBooked: null,
     contract: '',
-    images : [],
+		rating : 0,
+		images : [],
   };
 
   getToken = async () => {
@@ -65,95 +69,129 @@ class PostShow extends Component{
         }
       })
       .then((response)=>{
-        this.setState({
-          title: response.data.post_info.title,
-          price: response.data.post_info.price,
-          body: response.data.post_info.body,
-          category: response.data.post_info.category,
-          icon: response.data.post_info.like_check ? "heart" : "heart-outline",
-          image: response.data.post_info.image,
-          provider_location:response.data.post_info.location_title,
-          rent_count : response.data.post_info.rent_count,
-          isBooked: response.data.post_info.is_booked,
-          contract : response.data.post_info.contract,
-        }, () => {console.log(this.state); console.log("update하기 위해 getPostinfo Call ---------")})
+        //post info
+        console.log(response)
+				this.state.title = response.data.post_info.title
+				this.state.price = response.data.post_info.price
+				this.state.body = response.data.post_info.body
+				this.state.category = response.data.post_info.category
+				this.state.like_check = response.data.post_info.like_check
+				this.state.icon = response.data.post_info.like_check ? "heart" : "heart-outline"
+				this.state.contract = response.data.post_info.contract
+				this.state.rating = response.data.post_info.rating
+        this.state.rent_count = response.data.post_info.rent_count
+        if(response.data.post_info.image_detail.length === 0){
+          this.state.images = [response.data.post_info.image];
+        }
+        else{
+          this.state.images = response.data.post_info.image_detail
+        }
+        this.state.isBooked = response.data.post_info.is_booked
+        this.state.category_id = response.data.post_info.category_id
+        
+				//writer info
+				this.state.provider_name = response.data.user.user_info.nickname,
+				this.state.provider_location = response.data.user.user_info.location_title,
+				this.state.provider_id = response.data.user.user_info.id,
+				this.state.provider_profile_image = response.data.user.user_info.image
+				this.state.is_your_post = response.data.user.user_info.id == parseInt(user_id) ? true : false;
+        this.setState({loading : false})
+        
+        //fill postForm
+        postForm = response.data;
+        
+
+      }).catch((err) => {
+				console.log(err);
       })
   }
 
   componentDidMount() {
-    console.log('------- enter post_show -------');
-    console.log(this.params)
+		console.log('------- enter post_show -------');
+		this.state.post_id = this.params.post_id
     this.getToken().then(() => {
-      this.setParams();
-      this.getReviewList();
+			//순서 지키기 rendering 속도
+			this.getReviewList();
+			this.getPostInfo();
+			//
     })
     this.eventListener = DeviceEventEmitter.addListener('updateContent', this.updateEventHandler);
-    
   }
 
   componentWillUnmount(){
     //remove listener
     this.eventListener.remove();
-}
+	}
 
-  updateEventHandler = (e) => {
-    console.log("update event handler333")
-    this.getPostInfo();
-  }
+	updateEventHandler = (e) => {
+		console.log("update event handler333")
+		this.getPostInfo();
+	}
 
-  setParams() {
-    this.state.title = this.params.post.post_info.title,
-    this.state.price = this.params.post.post_info.price,
-    this.state.body = this.params.post.post_info.body,
-    this.state.category = this.params.post.post_info.category,
-    this.state.post_id = this.params.post.post_info.id,
-    this.state.like_check = this.params.post.post_info.like_check,
-    this.state.image = this.params.post.post_info.image,
-    this.state.icon = this.params.post.post_info.like_check ? "heart" : "heart-outline",
-    this.state.provider_name = this.params.post.user.user_info.nickname,
-    this.state.provider_location = this.params.post.user.user_info.location_title,
-    this.state.provider_id = this.params.post.user.user_info.id,
-    this.state.provider_profile_image = this.params.post.user.user_info.image,
-    this.state.rent_count = this.params.post.post_info.rent_count,
-    this.state.isBooked = this.params.post.post_info.is_booked,
-    this.state.contract = this.params.post.post_info.contract,
-    this.state.is_your_post = this.params.post.user.user_info.id == parseInt(user_id) ? true : false;
-    this.state.images = this.params.post.post_info.image_detail
+	chatCreateRequset = async()=> {
+		await api
+			.post(`/chats?post_id=${this.state.post_id}`, null,
+			{ 
+				headers : {'Authorization': this.state.token}
+			})
+			.then((response) => {
+				console.log('success');
+				this.state.chat_id = response.data.chat_info.id;
+				this.setState({val:0})
+			})
+			.catch((err) => {
+				this.setState({val:1})
+				console.log("err : ", err)
+				Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+			})
+	}
 
-    this.setState({loading : false})
-  }
-
-  chatCreateRequset = async()=> {
-    await api
-      .post(`/chats?post_id=${this.state.post_id}`, null,
-      { 
-        headers : {'Authorization': this.state.token}
-      })
-      .then((response) => {
-        console.log('success');
-        this.state.chat_id = response.data.chat_info.id;
-        this.setState({val:0})
-      })
-      .catch((err) => {
-        this.setState({val:1})
-        console.log("err : ", err)
-        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
-      })
-  }
-
-  getReviewList () {
-    api.get(`reviews?post_id=${this.state.post_id}`, {
-      headers : {'Authorization': this.state.token}
-    }).then((res) => {
-      console.log("get review ")
-      console.log(res);
-    }).catch((err) => {
-      console.log(err)
-    })
-  }
-
+	getReviewList () {
+		api.get(`reviews?post_id=${this.state.post_id}`, {
+			headers : {'Authorization': this.state.token}
+		}).then((res) => {
+			reviewList = res.data;
+		}).catch((err) => {
+			console.log(err)
+		})
+	}
+  //make review list
   makeReviewList() {
-    
+    if(reviewList.length == 0)
+      return(<Card><CardItem><Title>등록된 리뷰가 없습니다.</Title></CardItem></Card>)
+    return reviewList.map((ele) => {
+      let year = ele.review_info.created_at.substr(0, 4);
+      let month =ele.review_info.created_at.substr(6, 2) ;
+      let day=ele.review_info.created_at.substr(10, 2) ;
+      let date = year+"."+month+"."+day
+      return (
+        <Card style={{flex: 0}}>
+          <CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}
+          button onPress={() => { /*link to user profile show*/}}>
+              <Thumbnail source={{uri: ele.review_info.user_image}} />
+              <Body style={{marginLeft : '5%'}} >
+             <View style={{flexDirection: 'row'}}>
+              <Rating readonly
+                startingValue={ele.review_info.rating}
+                ratingCount={5}
+                imageSize={18}
+                style={{ paddingVertical: 10 }}/>
+              <Title style={{margin : '3%'}}> {ele.review_info.rating}</Title>
+              </View>
+              <View>
+                <Text style={styles.post_category}>{ele.review_info.user_nickname} / {date}</Text>
+                </View>
+              </Body>
+          </CardItem>
+          
+          <CardItem>
+              <Body>
+                  <Text>{ele.review_info.body}</Text>
+              </Body>
+          </CardItem>
+        </Card>
+      );
+    });
   }
 
   likeRequest = () => {
@@ -168,8 +206,7 @@ class PostShow extends Component{
         }
       })
       .then((res) => {
-        console.log(res)
-        // state 변경해서 icon 변경
+        
       })
       .catch((e) => {
         console.log(e)
@@ -185,7 +222,6 @@ class PostShow extends Component{
   
   checkNavigate(){
     if(this.state.val === 0){
-      updateFlag = 1;
       this.props.navigation.navigate('ChatRoom', {chat_id: this.state.chat_id, post_id: this.state.post_id,nickname:this.state.provider_name,avatar:this.state.provider_profile_image});
     }
     if(this.state.val === 1) {
@@ -206,7 +242,6 @@ class PostShow extends Component{
       .then((res) => {
         console.log(res)
         Alert.alert("삭제 완료", "", [{text:'확인', style:'cancel'}])
-        updateFlag = 1;
         this.props.navigation.navigate('Main')
       })
       .catch((e) => {
@@ -221,7 +256,7 @@ class PostShow extends Component{
         <View>
           <TouchableOpacity
             onPress={() => this.setState({ show_popover: false },
-              () => { updateFlag = 1; this.props.navigation.navigate("PostUpdate", { my_post: this.params.post.post_info }) })}>
+              () => { this.props.navigation.navigate("PostUpdate", { my_post: postForm }) })}>
             <Text style={styles.popoverel}>수정</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -236,9 +271,9 @@ class PostShow extends Component{
         <View>
           <TouchableOpacity
             onPress={() => this.setState({ show_popover: false }, () => {
-              updateFlag = 1; this.props.navigation.navigate('PostReport', {
+                this.props.navigation.navigate('PostReport', {
                 onGoBack: () => { this.getPostInfo(); },
-                post: this.params.post
+                post: postForm.post
               })
             })}>
             <Text style={styles.popoverel}>신고하기</Text>
@@ -253,11 +288,11 @@ class PostShow extends Component{
     if(this.state.is_your_post){
       return (
         <FooterTab style={{backgroundColor:'#F8F8F8'}}>
-          <Button transparent onPress={() => { updateFlag = 1; this.props.navigation.navigate("Contract", { my_post : this.state, onGoBack: ()=>{this.getPostInfo();} }) }}>
+          <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.state, onGoBack: ()=>{this.getPostInfo();} }) }}>
             <Text style={{ color: '#ff0055', fontWeight: 'bold', fontSize: 17, paddingVertical: 5}}>계약서 수정</Text>
           </Button>
           <Button transparent
-            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Reservation',{ onGoBack: ()=>{this.getPostInfo();} }) }} >
+            onPress={() => { this.props.navigation.navigate('Reservation',{ onGoBack: ()=>{this.getPostInfo();} }) }} >
             <Text style={{ fontWeight: 'bold', fontSize: 17, paddingVertical: 5 }}>예약 목록 확인</Text>
           </Button>
         </FooterTab>
@@ -273,11 +308,11 @@ class PostShow extends Component{
             <Text style={{color: 'orange', fontWeight : 'bold', fontSize:14}}>채팅</Text>
           </Button>
           {this.state.isBooked == false && (<Button vertical transparent
-            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Booking', { post_info: this.params.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
+            onPress={() => { this.props.navigation.navigate('Booking', { post_info: postForm.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize:14}}>예약</Text>
           </Button>)}
           {this.state.isBooked == true && (<Button vertical transparent
-            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Booking', { post_info: this.params.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
+            onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold',}}>예약취소</Text>
           </Button>)}
         </FooterTab>
@@ -288,38 +323,38 @@ class PostShow extends Component{
   render(){
     if(this.state.loading) return null;
     else{
-    return(
-      <Container>
-        <Header style={{
-          height: 60,
-          backgroundColor: '#f8f8f8',
-        }} androidStatusBarColor='black'>
-          <Left style={{flex : 1}}>
-            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
-              <Icon name = 'chevron-back' type = 'Ionicons'/>
-            </TouchableOpacity>
-          </Left>
-          <Body style={{flex : 8}}><Title style={{color:'black', alignSelf:'center'}}>{this.state.title}</Title></Body>
-          <Right style={{flex : 1}}>
-            <Popover
-              isVisible = {this.state.show_popover}
-              onRequestClose = {() => this.setState({ show_popover: false })}
-              from={(
-                <TouchableOpacity onPress={() => this.setState({ show_popover: true })}>
-                  <Icon name="menu" />
-                </TouchableOpacity>
-              )}>
-              {this.renderUpdateandDelete()}
-            </Popover>
-          </Right>
-        </Header>
+      console.log("render start")
+      return(
+        <Container>
+          <Header style={{
+            height: 60,
+            backgroundColor: '#f8f8f8',
+          }} androidStatusBarColor='black'>
+            <Left style={{flex : 1}}>
+              <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+                <Icon name = 'chevron-back' type = 'Ionicons'/>
+              </TouchableOpacity>
+            </Left>
+            <Body style={{flex : 8}}><Title style={{color:'black', alignSelf:'center'}}>{this.state.title}</Title></Body>
+            <Right style={{flex : 1}}>
+              <Popover
+                isVisible = {this.state.show_popover}
+                onRequestClose = {() => this.setState({ show_popover: false })}
+                from={(
+                  <TouchableOpacity onPress={() => this.setState({ show_popover: true })}>
+                    <Icon name="menu" />
+                  </TouchableOpacity>
+                )}>
+                {this.renderUpdateandDelete()}
+              </Popover>
+            </Right>
+          </Header>
 
         <Content style={{flex : 1}}>
           <ScrollView style={styles.container}>
             
             <SliderBox style={styles.swiper}
               images={this.state.images}
-              onCurrentImagePressed={() => this.doPickImage()}
               sliderBoxHeight={300}
               inactiveDotColor="#ffccdd"
               dotColor="#ff3377" />
@@ -347,12 +382,20 @@ class PostShow extends Component{
                     </Item>
                   </Tab>
 
-                  <Tab heading={ <TabHeading transparent style={{backgroundColor : 'white'}}><Text style={{color:'black'}}>리뷰</Text></TabHeading>}>
-                    <Item regular style={styles.postbody}>
-                      <Text style={styles.post_title}>사용 후기</Text>
-                      <Text> 총평점</Text>
-                      {this.makeReviewList()}
+                  <Tab heading={ <TabHeading style={{backgroundColor : 'white'}}><Text>리뷰</Text></TabHeading>}>
+                    <Item regular style={styles.review_header}>
+                    <Title>사용자 총 평점</Title>
+                    <Title></Title>
+                    <Text style={{fontSize : 30}}>{this.state.rating}</Text>
+                    <Rating
+                      readonly
+                      startingValue={this.state.rating}
+                      ratingCount={5}
+                      imageSize={30}
+                      style={{ paddingVertical: 10 }}
+                      />
                     </Item>
+                    {this.makeReviewList()}
                   </Tab>
                 </Tabs>
               </Form>
@@ -360,11 +403,11 @@ class PostShow extends Component{
           </ScrollView>
         </Content>
 
-        <View>
-          <Footer style={{}}>
-            {this.renderFooter()}
-          </Footer>
-        </View>
+
+				<Footer style={{}}>
+					{this.renderFooter()}
+				</Footer>
+		
       </Container>
     );}
   }
@@ -430,6 +473,13 @@ const styles = StyleSheet.create({
     paddingHorizontal : '5%',
     flexDirection: 'column',
     alignItems : 'flex-start'
+  },
+  review_header: {
+    paddingVertical : '5%',
+    paddingHorizontal : '5%',
+    flexDirection: 'column',
+    alignItems : 'center',
+
   },
   post_title :{
     fontSize : 25,

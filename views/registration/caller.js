@@ -44,15 +44,30 @@ export default class RegistrationScreen extends React.Component {
       .post('/users/sign_up', user_obj)
       .then(async (res) =>  {
         console.log(res);
-        //await Fire.createUser(user_obj.user); granting open db
+        //await Fire.createUser(user_obj.user);
         console.log('send data for registration');
-        Alert.alert("모두나눔 가입 완료", "회원가입이 완료되었습니다.",[{text:'확인', style:'cancel'}])
-        this.props.navigation.navigate("Logins")
+        Alert.alert("모두나눔 가입 완료", "회원가입이 완료되었습니다.",[
+          {
+            text:'확인', 
+            onPress: () => {this.props.navigation.goBack()}
+          },
+          {
+            style:'cancel'
+          }
+        ])
       })
       .catch((err) =>  {
         console.log('fail to register');
         console.log(err.response.data.error)
-        Alert.alert("가입 실패", err.response.data.error,[{text:'확인', style:'cancel'}])       
+        Alert.alert("가입 실패", err.response.data.error,[
+          {
+            text:'확인', 
+            onPress: () => {}
+          },
+          {
+            style:'cancel'
+          }
+        ])       
       });
     
   };
@@ -85,7 +100,7 @@ export default class RegistrationScreen extends React.Component {
             <Item floatingLabel>
               <Label>비밀번호</Label>
               <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
-                onChangeText = {(pw) => {this.state.user.password = pw}}/>
+                onChangeText = {(pw) => {this.state.user.password = pw; console.log(this.state.user.password)}}/>
             </Item>
 
             <Item floatingLabel>
