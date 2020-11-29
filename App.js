@@ -45,11 +45,10 @@ import UpdateReview from './views/mypage/update_review'
 import ProfileProvide from './views/profile/profile_provide'
 import ProfileAsk from './views/profile/profile_ask'
 import ReceivedReview from './views/profile/received_review'
-import UpdateReview from './views/mypage/update_review';
 import FindIdShow from './views/findid/email_show';
 import FindPwShow from './views/findpw/pw_show';
 import PwInputCode from './views/findpw/pw_input_code'
-
+import AppleLogin from './views/login/appleLogin'
 import ButtomTab from './views/shared/Tab'
 
 import db from './views/shared/chat_db'
@@ -140,6 +139,7 @@ const App = () => {
         <Stack.Navigator initialRouteName={enterence}>
           <Stack.Screen name="Logins" component={LoginScreen} options={{headerShown: false, gestureEnabled : false, }} />
           <Stack.Screen name="KakaoLogin" component={KakaoLogin} options={{ gestureEnabled : false, headerTitle: "카카오 로그인", headerBackTitle: '뒤로'}} />
+          <Stack.Screen name="AppleLogin" component={AppleLogin} options={{ gestureEnabled : false, headerTitle: "Apple 로그인", headerBackTitle: '뒤로'}} />
           <Stack.Screen name="Register" component={Register_form} options={{headerShown: false}} />
           <Stack.Screen name="Find_id" component={FindId} options={{headerShown: false}} />
           <Stack.Screen name="FindIdShow" component={FindIdShow} options={{headerShown: false}} />
