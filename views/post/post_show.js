@@ -354,7 +354,6 @@ class PostShow extends Component{
           <ScrollView style={styles.container}>
             
             <SliderBox style={styles.swiper}
-              disableOnPress = "false"
               images={this.state.images}
               sliderBoxHeight={300}
               inactiveDotColor="#ffccdd"

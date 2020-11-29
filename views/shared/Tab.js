@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import React, { useEffect, ReactElement } from 'react';
-import {Icon} from 'native-base'
+import {Icon, Text} from 'native-base'
 import MyPage from '../mypage/lobby';
 import PostIndex from '../post/index'
 import chatIndex from '../chat/chat_index';
@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 
 function TabScreen() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator tabBarOptions= {{showLabel: false }}>
         <Tab.Screen name="Home" component={PostIndex}
           options={{
             tabBarIcon: ({focused, color}) => {
@@ -21,10 +21,7 @@ function TabScreen() {
                 return(<Icon name="home-outline" size={13}/>)}
               }
             }} 
-
-          tabBarOptions= {{
-            showLabel: false 
-          }}/>
+          />
 
         <Tab.Screen name="Chat" component={chatIndex} 
           options={{
@@ -34,10 +31,7 @@ function TabScreen() {
               }else{
                 return(<Icon name="chat-outline" type="MaterialCommunityIcons" size={13}/>)}
               }
-           }}
-           tabBarOptions={{
-            showLabel: false 
-          }}/>
+           }}/>
 
         <Tab.Screen name="MyPage" component={MyPage}
           options={{
@@ -47,10 +41,7 @@ function TabScreen() {
               }else{
                 return(<Icon name="person-outline" size={13}/> )}
               }
-            }} 
-            tabBarOptions={{
-              showLabel: false 
-            }}/>
+            }} />
     </Tab.Navigator>
   );
 }

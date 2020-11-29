@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView, View, Alert } from 'react-native';
+import { StyleSheet, TouchableOpacity, ScrollView, ActionSheetIOS, Alert } from 'react-native';
 import {
   Container, Content, Header, Left, Right, Body, Icon, Badge,
   Title, Text, List, ListItem, Tabs, Tab, TabHeading, Thumbnail,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
+
+let BUTTONS = ["상품 리뷰", "", "취소"];
+let CANCEL_INDEX = 2;
 
 class ProviderRentList extends Component {
   state = {
@@ -17,8 +20,6 @@ class ProviderRentList extends Component {
 
   makeRentList(bookings) {
     return bookings.map((booking) => {
-      console.log("----------make")
-      console.log(booking.booking_info)
       if (booking.booking_info.acceptance === "rent") {
         return (
           <ListItem thumbnail key={booking.booking_info.id} button
@@ -42,8 +43,6 @@ class ProviderRentList extends Component {
 
   makeCompletedList(bookings) {
     return bookings.map((booking) => {
-      console.log('in completed list --------')
-      console.log(booking.booking_info.title)
       if (booking.booking_info.acceptance === "completed") {
         return (
           <ListItem thumbnail key={booking.booking_info.id}>
@@ -59,20 +58,8 @@ class ProviderRentList extends Component {
               <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원</Text>
             </Body>
             <Right>
-              <TouchableOpacity //for debug
-              onPress={() => { if(booking.booking_info.has_review){Alert.alert("리뷰 관리에서 수정해 주세요")}
-                else{Alert.alert("리뷰 작성", "리뷰를 작성하시겠습니까?", [
-                {
-                  text: '확인',
-                  onPress: () => { this.writeReviewRequest(booking.booking_info.post_image, 
-                    booking.booking_info.title, booking.booking_info.id) }
-                    //post_id, image, title, booking_id
-                },
-                {
-                  text: '취소',
-                  style: 'cancel'
-                }])
-              }}}>
+              <TouchableOpacity 
+              onPress={() => { this.showOptionModal(booking.booking_info)}}>
                 <Badge style={{ backgroundColor: booking.booking_info.has_review  ? '#dddddd' : '#fcf11e', height : 30}}>
                   <Text style={styles.returnbutton}>{booking.booking_info.has_review ? "작성 완료" : "작성 하기"}</Text>
                 </Badge>
@@ -82,6 +69,23 @@ class ProviderRentList extends Component {
         )
       }
     })
+  }
+
+  showOptionModal(info) {
+    if(info.has_review){
+      Alert.alert("리뷰 관리에서 수정해 주세요")
+    }
+    else{
+      Alert.alert("리뷰 작성", "리뷰를 작성하시겠습니까?", [
+    {
+      text: '확인',
+      onPress: () => {this.writeReviewRequest(info.post_image,info.title, info.id)} //post_id, image, title, booking_id
+    },
+    {
+      text: '취소',
+      style: 'cancel'
+    }])
+    }
   }
 
   writeReviewRequest(image, title, booking_id){
@@ -126,8 +130,7 @@ class ProviderRentList extends Component {
             height: 60,
             backgroundColor: '#f8f8f8',
             justifyContent:'space-between'}}
-            androidStatusBarColor='#000'
-        >
+            androidStatusBarColor='#000' >
           <Left>
             <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='chevron-back' type='Ionicons' />
