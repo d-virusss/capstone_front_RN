@@ -66,34 +66,34 @@ class Search_Bar extends React.Component {
 
   render() {
     return (
-        <Container>
-          <Header style={styles.header}>
-              <Title style={{fontSize: 20, color: 'black',alignSelf: 'center', fontWeight: '500'}}>{this.state.location}</Title>
-          </Header>
+      <Container>
+        <Header style={styles.header}>
+            <Title style={{fontSize: 20, color: 'black',alignSelf: 'center', fontWeight: '500'}}>{this.state.location}</Title>
+        </Header>
 
-          <Item style={{backgroundColor:'#ffffff',borderColor: 'transparent' }}>
-            <Item style={{width : DEVICE_WIDTH*0.7, marginLeft: '4%', borderColor: 'transparent'}}>
-              <Icon name="ios-search"/>
-              <Input placeholder="Search" onChangeText = {(content) => this.state.search = content}
-              onSubmitEditing={() => this.searchRequest()}
-              ref={input => { this.textInput = input }}/>
-              <Icon name="close" type="Ionicons" onPress={() => this.clear()}/>
-            </Item>
-            <Item style={{ marginLeft: '3%', borderColor: 'transparent'}}>
-            <Category parentReference = {this.makeCategoryRequest.bind(this)}/>
-            </Item>
+        <Item style={{backgroundColor:'#ffffff',borderColor: '#aaaaaa' }}>
+          <Item style={{width : DEVICE_WIDTH*0.7, marginLeft: '4%', borderColor: 'transparent'}}>
+            <Icon name="ios-search"/>
+            <Input placeholder="Search" onChangeText = {(content) => this.state.search = content}
+            onSubmitEditing={() => this.searchRequest()}
+            ref={input => { this.textInput = input }}/>
+            <Icon name="close" type="Ionicons" onPress={() => this.clear()}/>
           </Item>
-        
+          <Item style={{ marginLeft: '3%', borderColor: 'transparent'}}>
+          <Category parentReference = {this.makeCategoryRequest.bind(this)}/>
+          </Item>
+        </Item>
+      
 
-          <Tabs tabBarUnderlineStyle={{backgroundColor:'#ff3377'}} style={{marginTop : '0%',}}>
-            <Tab heading="대여" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor:'white' }}>
-              <ProvideIndex navigation = {this.props.navigation}/>
-            </Tab>
-            <Tab heading="요청" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor: 'white' }}>
-              <AskIndex navigation={this.props.navigation}></AskIndex>
-            </Tab>
-          </Tabs>
-        </Container>
+        <Tabs tabBarUnderlineStyle={{backgroundColor:'#ff3377'}} style={{marginTop : '0%',}}>
+          <Tab heading="대여" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor:'white' }}>
+            <ProvideIndex navigation = {this.props.navigation}/>
+          </Tab>
+          <Tab heading="요청" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor: 'white' }}>
+            <AskIndex navigation={this.props.navigation}></AskIndex>
+          </Tab>
+        </Tabs>
+      </Container>
 
     );
   }
@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
   header: {
     width: DEVICE_WIDTH,
     height: 60,
-    backgroundColor: 'white',
-    borderBottomColor: 'transparent',
+    backgroundColor: '#f8f8f8f8',
+    borderBottomColor: '#aaaaaa',
     borderTopColor: 'transparent'
   },
 });

@@ -63,7 +63,7 @@ class TabScreen extends Component {
       return (
         <Tab.Navigator tabBarOptions={{ 
           activeTintColor : "black", labelStyle:{ fontSize: 13,  },
-          iconStyle:{height:25}, tabStyle:{paddingTop: '1%'}
+          iconStyle: { height: 25 }, tabStyle: { paddingTop: '1%', backgroundColor:'##F8F8F8'}
         }}>
           <Tab.Screen name="Home" component={PostIndex}
             options={{

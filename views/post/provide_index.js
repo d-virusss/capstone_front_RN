@@ -3,6 +3,7 @@ import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Ic
 import { ScrollView, RefreshControl, DeviceEventEmitter, View, Alert} from "react-native";
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-community/async-storage';
+import Spinner from 'react-native-loading-spinner-overlay';
 import api from '../shared/server_address';
 import number_delimiter from '../shared/number_delimiter'
 
@@ -18,6 +19,7 @@ class ProvideIndex extends Component {
       token: '',
       posts: [],
       refreshing: false,
+      loading : true,
     }
   }
 
@@ -35,16 +37,23 @@ class ProvideIndex extends Component {
       return(
         <TouchableOpacity onPress={() =>{this.props.navigation.navigate('PostShow', { post_id: post.post_info.id }) }}>
           <ListItem thumbnail key = {post.post_info.id}>
-            <Left>
-              <Thumbnail square source={{ uri: post.post_info.image }} />
+            <Left style={{ flex: 3, marginLeft: '-2%' }}>
+              <Thumbnail square style={{ width: 90, height: 90, borderRadius: 5 }} source={{ uri: post.post_info.image }} />
             </Left>
-            <Body>
-              <Text style={{ marginBottom : 5, fontWeight:'bold' }}>{post.post_info.title}</Text>
+            <Body style={{ flex: 9 }}>
               <View style={{ flexDirection: 'row' }}>
-                <Text style={{ fontSize: 15, fontWeight:'300' }}>{post.user.user_info.nickname}</Text>
-                <Text note numberOfLines={1}>{post.location_info.title}  {post.post_info.created_at_ago}</Text>
+                <Text style={{ marginBottom : 5, fontWeight:'bold' }}>{post.post_info.title}</Text>
+                {post.user.user_info.is_company && 
+                <Button small disabled style={{ backgroundColor: '#ff3377', 
+                    position:'absolute', right:'5%', bottom: '5%', }}>
+                  <Text style={{ fontWeight:'bold' }}>파트너</Text>
+                </Button>}
+                <Text style={{ position:'absolute', right: '-18%' }} note numberOfLines={1}>{post.post_info.created_at_ago}</Text>
               </View>
-              {post.user.user_info.is_company == true && <Text style={{margintTop:'3%'}} note numberOfLines={1}>파트너 게시글</Text>}
+              <View style={{ flexDirection: 'row', alignItems:'center' }}>
+                <Text style={{ fontSize: 15, fontWeight:'300' }}>{post.user.user_info.nickname}</Text>
+                <Text note numberOfLines={1} style={{ }}>{post.location_info.title} </Text>
+              </View>
               <Text style={{ marginTop : 10, fontWeight: '500' }}>{number_delimiter(post.post_info.price)}원 / 일</Text>
             </Body>
             <Right style={{ flexDirection:'row'}}>
@@ -72,7 +81,7 @@ class ProvideIndex extends Component {
       })
       .then((res) => {
         console.log(res)
-        this.setState({posts: res.data});
+        this.setState({posts: res.data, loading: false});
       })
       .catch(function (e) {
         console.log(e.response);
@@ -146,6 +155,7 @@ class ProvideIndex extends Component {
           <RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh}/>}>
+        <Spinner visible={this.state.loading} color="#ff3377"></Spinner>
         <Content>
           <List>{this.makeIndexList()}</List>
         </Content>

@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     width: '70%',
     alignItems: 'center',
     alignSelf : 'center',
-    marginTop : '3%'
+    marginVertical : '15%'
   }, 
   swiper :{
     width : 300,
