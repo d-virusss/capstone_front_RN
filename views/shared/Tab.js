@@ -13,32 +13,44 @@ function TabScreen() {
   return (
     <Tab.Navigator>
         <Tab.Screen name="Home" component={PostIndex}
-         options={{
-            tabBarLabel: '홈',
+          options={{
             tabBarIcon: ({focused, color}) => {
-                return(<Icon name="home-outline" size={13} style={{color: focused ?  color : 'black'}} />);}}} 
-        tabBarOptions= {{
-            activeTintColor: '#000',
-            inactiveTintColor: '#fff',
+              if(focused){
+                return(<Icon name="home" size={13}/>)
+              }else{
+                return(<Icon name="home-outline" size={13}/>)}
+              }
+            }} 
+
+          tabBarOptions= {{
+            showLabel: false 
           }}/>
 
-        <Tab.Screen name="Home1" component={PostIndex}
-        options={{
-            tabBarLabel: '지역/소속 게시판',
-            tabBarIcon: ({focused, color}) => {
-                return(<Icon name="pencil-outline" type="MaterialCommunityIcons" size={13} style={{color: focused ?  color : 'black'}}/>);}}} />
-
         <Tab.Screen name="Chat" component={chatIndex} 
-        options={{
-            tabBarLabel: '채팅',
+          options={{
             tabBarIcon: ({focused, color}) => {
-                return(<Icon name="chat-outline" type="MaterialCommunityIcons" size={13} style={{color: focused ?  color : 'black'}}/>);} }}/>
+              if(focused){
+                return(<Icon name="chat" type="MaterialCommunityIcons" size={13}/>)
+              }else{
+                return(<Icon name="chat-outline" type="MaterialCommunityIcons" size={13}/>)}
+              }
+           }}
+           tabBarOptions={{
+            showLabel: false 
+          }}/>
 
         <Tab.Screen name="MyPage" component={MyPage}
-        options={{
-            tabBarLabel: '마이페이지',
+          options={{
             tabBarIcon: ({focused, color}) => {
-                return(<Icon name="person-outline" size={13} style={{color: focused ?  color : 'black'}}/> );}}} />
+              if(focused){
+                return(<Icon name="person" size={13}/>)
+              }else{
+                return(<Icon name="person-outline" size={13}/> )}
+              }
+            }} 
+            tabBarOptions={{
+              showLabel: false 
+            }}/>
     </Tab.Navigator>
   );
 }

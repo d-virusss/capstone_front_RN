@@ -51,8 +51,6 @@ class LoginScreen extends Component {
 
   getToken = async() =>{
     myL = await AsyncStorage.getItem('my_location');
-    let iiiiid = await AsyncStorage.getItem('user_id');
-    console.log(iiiiid)
   }
   makeRequest = async()=>{
     if (userinfo.user.email == ''){

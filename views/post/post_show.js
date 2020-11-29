@@ -354,6 +354,7 @@ class PostShow extends Component{
           <ScrollView style={styles.container}>
             
             <SliderBox style={styles.swiper}
+              disableOnPress = "false"
               images={this.state.images}
               sliderBoxHeight={300}
               inactiveDotColor="#ffccdd"
@@ -361,7 +362,7 @@ class PostShow extends Component{
             <View>
               <Form>
                 <Item regular style={styles.providerBar}>
-                  <Image source={{ uri: this.state.provider_profile_image || "empty " }} style={styles.providerProfileiimage}></Image>
+                  <Image source={{ uri: this.state.provider_profile_image || "empty " }} style={styles.providerProfileiimage}/>
                   <View style={styles.providerProfile}>
                     <Text style={styles.providerName}>{this.state.provider_name}</Text>
                     <Text style={styles.providerLocation}>{this.state.provider_location}</Text>
