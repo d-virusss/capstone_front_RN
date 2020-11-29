@@ -17,7 +17,7 @@ class LikeListUserScreen extends Component {
     return like_user.map((ele) => {
       return (
         <ListItem thumbnail key = {ele.like_info.id} button
-        onPress = {() => this.props.navigation.navigate("ProfileShow", { other_id: ele.like_info.target_id})}>
+        onPress = {() => this.props.navigation.navigate("ProfileShow", { profile_id: ele.like_info.target_id})}>
           <Left>
             <Thumbnail square source={{uri: ele.like_info.image}} />
           </Left>
