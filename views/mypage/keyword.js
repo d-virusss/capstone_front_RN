@@ -120,6 +120,23 @@ class Keyword extends Component {
     })
   }
 
+  renderSubmitButton(){
+    if(this.is_input_idle()){
+      return (
+        <NativeButton bordered style={{ borderColor: '#aaaaaa' }}>
+          <Text style={{ color: '#aaaaaa' }}>등록</Text>
+        </NativeButton>
+      )
+    }
+    else{
+      return(
+        <NativeButton NativeButton style={{ backgroundColor: '#ff3377' }}>
+          <Text style={{ color: 'white', fontWeight:'bold' }}>등록</Text>
+        </NativeButton>
+      )
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -146,11 +163,7 @@ class Keyword extends Component {
               placeholder='키워드'
               autoCapitalize='none'
               onChangeText={(text) => this.changedata(text)}/>
-            <Button style={StyleSheet.submitButton}
-              title="등록" color="#ff3377"
-              disabled={this.is_input_idle()}
-              onPress={() => {this.createKeywordRequest()}}
-            />
+            {this.renderSubmitButton()}
           </View>
           <Text style={styles.keywordList}>등록된 키워드 ({this.state.keywordCount}/20)</Text>
           <View style={styles.keywordContainer}>
@@ -179,7 +192,6 @@ const styles = StyleSheet.create({
     alignItems : 'center',
   },
   submitButton : {
-    marginLeft : '3%',
   },
   keywordArea : {
     width : '80%',

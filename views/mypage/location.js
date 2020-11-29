@@ -1,7 +1,7 @@
 import axios from 'axios' // for kakao
 import React, {Component} from 'react';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
-import {StyleSheet, Dimensions, View, Platform, TouchableOpacity, Alert} from 'react-native';
+import {StyleSheet, Dimensions, View, Platform, TouchableOpacity, Alert, DeviceEventEmitter} from 'react-native';
 import {Button, Container, Content, Left, Right, Header, Body, Title, Icon, Spinner, FooterTab, Footer} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
@@ -24,7 +24,7 @@ var user_addr = {
   },
 };
 
-var bodyContent = ["내 동네만", "옆동네도", "먼 동네도", "전부"]
+var bodyContent = ["내 동네만", "옆 동네도", "먼 동네도", "모두"]
 
 class MypageScreen extends Component{
   constructor(props) {
@@ -109,9 +109,8 @@ class MypageScreen extends Component{
       })
       .then(() => {
         Alert.alert("동네 인증 완료", "동네 인증이 완료되었습니다.",[{text:'확인', style:'cancel'}])
-        console.log("-------------------------")
-        console.log("myLocation is")
-        console.log(myLocation == "null")
+        DeviceEventEmitter.emit('updateMypage', {location : user_addr.location.title});
+ 
         AsyncStorage.setItem('my_location', user_addr.location.title);
         if(myLocation == "null"){ // first location auth
           this.props.navigation.navigate('Main')
@@ -160,6 +159,7 @@ class MypageScreen extends Component{
           {
               text: '취소',
               style: 'cancel',
+              onPress: () => this.props.navigation.goBack()
           }
       ]) 
       }

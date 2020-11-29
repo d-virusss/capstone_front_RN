@@ -30,7 +30,19 @@ class Search_Bar extends React.Component {
 
   componentDidMount(){
     this.getMyInfo();
+    this.eventListener = DeviceEventEmitter.addListener('updateMypage', this.updateEventHandler);
   }
+
+  updateEventHandler = (e) => {
+		console.log("listen update mypage event")
+		this.setState({location : e.location})
+	}
+
+  componentWillUnmount() {
+    //remove listener
+    this.eventListener.remove();
+  }
+
 
   makeCategoryRequest(id){
     this.setState({category_id : id});
@@ -56,7 +68,7 @@ class Search_Bar extends React.Component {
     return (
         <Container>
           <Header style={styles.header}>
-              <Title style={{fontSize: 20, color: 'white',alignSelf: 'center', fontWeight: '500'}}>{this.state.location}</Title>
+              <Title style={{fontSize: 20, color: 'black',alignSelf: 'center', fontWeight: '500'}}>{this.state.location}</Title>
           </Header>
 
           <Item style={{backgroundColor:'#ffffff',borderColor: 'transparent' }}>
@@ -73,12 +85,11 @@ class Search_Bar extends React.Component {
           </Item>
         
 
-          <Tabs tabBarUnderlineStyle={{backgroundColor:'#007aff'}} style={{marginTop : '0%',}}>
-            <Tab heading={ <TabHeading transparent style={{backgroundColor:'#F8F8F8'}}><Text>제공</Text></TabHeading>}
-            style={{ color: '#ff3377' }}>
+          <Tabs tabBarUnderlineStyle={{backgroundColor:'#ff3377'}} style={{marginTop : '0%',}}>
+            <Tab heading="대여" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor:'white' }}>
               <ProvideIndex navigation = {this.props.navigation}/>
             </Tab>
-            <Tab heading={ <TabHeading transparent style={{backgroundColor:'#F8F8F8'}}><Text>대여</Text></TabHeading>}>
+            <Tab heading="요청" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor: 'white' }}>
               <AskIndex navigation={this.props.navigation}></AskIndex>
             </Tab>
           </Tabs>
@@ -93,7 +104,7 @@ const styles = StyleSheet.create({
   header: {
     width: DEVICE_WIDTH,
     height: 60,
-    backgroundColor: '#ff3377',
+    backgroundColor: 'white',
     borderBottomColor: 'transparent',
     borderTopColor: 'transparent'
   },

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Icon } from 'native-base';
-import { ScrollView, RefreshControl, DeviceEventEmitter, View} from "react-native";
+import { ScrollView, RefreshControl, DeviceEventEmitter, View, Alert} from "react-native";
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address';
@@ -67,7 +67,7 @@ class ProvideIndex extends Component {
           Authorization: this.state.token,
         },
         params: {
-          "q[title_or_body_cont]" : searchModel.content,
+          "q[title_or_body_or_user_nickname_cont]" : searchModel.content,
         },
       })
       .then((res) => {
@@ -75,9 +75,17 @@ class ProvideIndex extends Component {
         this.setState({posts: res.data});
       })
       .catch(function (e) {
-        console.log('send post failed!!!!' + e.response.data);
-        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
-      });
+        console.log(e.response);
+        if(e.response.data.error == "expired"){
+          console.log(this)
+          Alert.alert("세션 만료", "로그인을 다시해주세요",
+          [{text:'확인', onPress : () => this.props.navigation.navigate("Logins")}, 
+          {style:'cancel'}])
+        }else{
+          Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
+        }
+        
+      }.bind(this));
 
       return;
     }
@@ -88,7 +96,8 @@ class ProvideIndex extends Component {
         },
         params: {
           "q[category_id_eq]" : searchModel.id,
-          "q[title_or_body_cont]" : searchModel.content,
+          "q[title_or_body_or_user_nickname_cont]" : searchModel.content,
+          "user": searchModel.content,
         },
       })
       .then((res) => {
