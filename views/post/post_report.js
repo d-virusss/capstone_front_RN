@@ -24,9 +24,10 @@ class PostReportScreen extends Component {
   }
 
   componentDidMount() {
-    this.getToken()
-    console.log(this.post)
     console.log("component did mount --- report")
+    this.getToken()
+    
+   
   }
   
   postReportRequest(){
@@ -36,7 +37,6 @@ class PostReportScreen extends Component {
   render() {
     return (
       <Container>
-
         <Header style = {{
             backgroundColor: '#f8f8f8',
             alignItems: 'center',

@@ -95,11 +95,11 @@ class PostShow extends Component{
 				this.state.provider_id = response.data.user.user_info.id,
 				this.state.provider_profile_image = response.data.user.user_info.image
 				this.state.is_your_post = response.data.user.user_info.id == parseInt(user_id) ? true : false;
-        this.setState({loading : false})
+        
         
         //fill postForm
         postForm = response.data;
-        
+        this.setState({loading : false})
 
       }).catch((err) => {
 				console.log(err);
@@ -278,7 +278,7 @@ class PostShow extends Component{
             onPress={() => this.setState({ show_popover: false }, () => {
                 this.props.navigation.navigate('PostReport', {
                 onGoBack: () => { this.getPostInfo(); },
-                post: postForm.post
+                post: postForm
               })
             })}>
             <Text style={styles.popoverel}>신고하기</Text>
@@ -290,6 +290,8 @@ class PostShow extends Component{
   }
 
   renderFooter(){
+    console.log("------------------")
+    console.log(postForm)
     if(this.state.is_your_post){
       return (
         <FooterTab style={{backgroundColor:'#F8F8F8'}}>
@@ -313,11 +315,11 @@ class PostShow extends Component{
             <Text style={{color: 'orange', fontWeight : 'bold', fontSize:17}}>채팅</Text>
           </Button>
           {this.state.isBooked == false && (<Button vertical transparent
-            onPress={() => { this.props.navigation.navigate('Booking', { post_info: postForm.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
+            onPress={() => { this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize:17}}>예약</Text>
           </Button>)}
           {this.state.isBooked == true && (<Button vertical transparent
-            onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
+            onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize:17}}>예약 취소</Text>
           </Button>)}
         </FooterTab>
@@ -457,7 +459,7 @@ const styles = StyleSheet.create({
   rentCountArea : {
     width: '30%',
     marginRight : '8%',
-    marginTop : '10%',
+    marginTop : '7%',
   },
   fontView : {
     fontSize : 17,
