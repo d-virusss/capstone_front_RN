@@ -329,7 +329,7 @@ class PostShow extends Component{
       console.log("render start")
       return(
         <Container>
-          <Header style={{height: 60, backgroundColor: '#f8f8f8',}} androidStatusBarColor='black'>
+          <Header style={{height: 60, backgroundColor: '#f8f8f8',}} androidStatusBarColor='#000'>
             <Left style={{flex : 1}}>
               <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
                 <Icon name = 'chevron-back' type = 'Ionicons'/>
@@ -377,7 +377,8 @@ class PostShow extends Component{
                   </Item>
 
                   <Tabs tabBarUnderlineStyle={{backgroundColor:'#ff3377'}}>
-                    <Tab heading="상세 정보" activeTextStyle={{ color:'#ff3377' }} tabStyle={{ backgroundColor:'white' }}>
+                    <Tab heading="상세 정보" activeTextStyle={{ color:'#ff3377' }} tabStyle={{ backgroundColor:'white' }}
+                    activeTabStyle={{ backgroundColor:'#f8f8f8' }}>
                       <Item regular style={styles.postbody}>
                         <Text style={styles.post_category}>{this.state.category}</Text>
                         <Text style={styles.post_title}>{this.state.title}</Text>
@@ -386,7 +387,8 @@ class PostShow extends Component{
                       </Item>
                     </Tab>
 
-                    <Tab heading="리뷰" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor: 'white' }}>
+                    <Tab heading="리뷰" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor: 'white' }}
+                    activeTabStyle={{ backgroundColor:'#f8f8f8' }}>
                       <Item style={styles.review_header}>
                         <Title>사용자 총 평점</Title>
                         <Text style={styles.reviewNumberRating}>{this.state.rating}</Text>

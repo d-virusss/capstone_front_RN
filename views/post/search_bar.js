@@ -86,10 +86,12 @@ class Search_Bar extends React.Component {
         
 
           <Tabs tabBarUnderlineStyle={{backgroundColor:'#ff3377'}} style={{marginTop : '0%',}}>
-            <Tab heading="대여" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor:'white' }}>
+            <Tab heading="대여" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor:'white' }}
+             activeTabStyle={{ backgroundColor:'#f8f8f8' }}>
               <ProvideIndex navigation = {this.props.navigation}/>
             </Tab>
-            <Tab heading="요청" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor: 'white' }}>
+            <Tab heading="요청" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor: 'white' }}
+            activeTabStyle={{ backgroundColor:'#f8f8f8' }}>
               <AskIndex navigation={this.props.navigation}></AskIndex>
             </Tab>
           </Tabs>

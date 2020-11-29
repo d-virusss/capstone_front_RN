@@ -74,7 +74,7 @@ class TabScreen extends Component {
               }}/>
     
     
-          <Tab.Screen name="Chat" children={()=><ChatIndex chat_data={chats}/>}
+          <Tab.Screen name="Chat" children={()=><ChatIndex navigation={this.props.navigation} chat_data={chats}/>}
             options={{
               tabBarLabel:"채팅",
               tabBarIcon: ({focused, color}) => {
