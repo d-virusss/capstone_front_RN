@@ -65,7 +65,7 @@ class LoginScreen extends Component {
         .post('/users/sign_in', userinfo)
         .then(async(response) => {
           console.log(response);
-          this.saveUserData(response.data.id,response.data.location_auth,response.data.token)
+          //this.saveUserData(response.data.id,response.data.location_auth,response.data.token)
           AsyncStorage.setItem('token', response.data.token);
           AsyncStorage.setItem('user_id', String(response.data.id));
           AsyncStorage.setItem('my_location',String(response.data.location_auth));

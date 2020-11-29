@@ -49,6 +49,9 @@ import PwInputCode from './views/findpw/pw_input_code'
 import ButtomTab from './views/shared/Tab'
 
 import db from './views/shared/chat_db'
+import AsyncStorage from '@react-native-community/async-storage';
+import { navigationRef } from './RootNavigation';
+import * as RootNavigation from './RootNavigation';
 
 const Stack = createStackNavigator();
 
@@ -57,7 +60,12 @@ const App = () => {
     fcmService.registerAppWithFCM()
     fcmService.register(onRegister, onNotification, onOpenNotification)
     localNotificationService.configure(onOpenNotification)
-    openDB();
+    //openDB();
+    const asyncFunction=async()=>{
+      let tok = await AsyncStorage.getItem('token')
+      console.log('----------------'+JSON.stringify(tok))
+    }
+    asyncFunction();
 
     function openDB(){
       db.transaction(tx=>{
@@ -71,10 +79,18 @@ const App = () => {
 
     function onNotification(notify, data){
       console.log("[App] onNotification: ", notify)
+      console.log("dkdkdkdkdkdkdkdkdkdkdkdkdk"+JSON.stringify(data))
       const options = {
         soundName: 'default',
         playSound: true
       }
+      /*if(data.type=='keyword'){
+        NavigationService.navigate('PostShow',{post_id:data.post_id})
+      }
+      if(data.type=='chat'){
+        NavigationService.navigate('ChatRoom',{chat_id:data.chat_id,post_id:data.post_id})
+      }*/
+      
       localNotificationService.showNotification(
         0, notify.title, notify.body, notify, options
       )
@@ -83,7 +99,10 @@ const App = () => {
     function onOpenNotification(notify, data){
       console.log("[App] onOpenNotification: ", notify)
       if(data.type=='keyword'){
-        NavigationService.navigate('')
+        RootNavigation.navigate('PostShow',{post_id:data.post_id})
+      }
+      if(data.type=='message'){
+        RootNavigation.navigate('ChatRoom',{chat_id:data.chat_id,post_id:data.post_id})
       }
       Alert.alert(notify.title, notify.body,[{text:'확인', style:'cancel'}])
 
@@ -96,7 +115,7 @@ const App = () => {
   }, []);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator initialRouteName="Logins">
         <Stack.Screen name="Logins" component={LoginScreen} options={{headerShown: false, gestureEnabled : false, }} />
         <Stack.Screen name="KakaoLogin" component={KakaoLogin} options={{ gestureEnabled : false, headerTitle: "카카오 로그인", headerBackTitle: '뒤로'}} />

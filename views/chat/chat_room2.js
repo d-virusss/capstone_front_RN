@@ -17,7 +17,7 @@ import Fire from '../shared/Fire';
 import api from '../shared/server_address';
 
 let myID;
-let token;
+let token='';
 let myName;
 let postID;
 let postInfo;
@@ -166,10 +166,10 @@ function chat_room2 ({route, navigation}){
 
   useEffect(()=>{
     async function inEffect(){
-      getToken();
-      getMyInfo();
-      getPostInfo();
-      messageGetRequest();
+      await getToken();
+      await getMyInfo();
+      await getPostInfo();
+      await messageGetRequest();
       Fire.getChatID(chat_id);
       Fire.get(message=>{
         console.log(message)
