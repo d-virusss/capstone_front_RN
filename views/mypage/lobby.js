@@ -39,7 +39,8 @@ class MypageScreen extends Component {
 
   Logout() {
     //this.dropFCMToken();
-    Alert.alert("로그아웃", "성공적으로 로그아웃 됐습니다.",[{text:'확인' },{style:'cancel'}])
+    AsyncStorage.clear();
+    Alert.alert('로그아웃',"정상적으로 로그아웃 됐습니다.",[{text: '확인', style:'cancel'}])
     this.props.navigation.dispatch(
       CommonActions.reset({
         index: 1,
