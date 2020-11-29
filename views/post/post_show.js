@@ -161,6 +161,8 @@ class PostShow extends Component{
     if(reviewList.length == 0)
       return(<Card><CardItem><Title>등록된 리뷰가 없습니다.</Title></CardItem></Card>)
     return reviewList.map((ele) => {
+      console.log('ele-------------')
+      console.log(ele)
       let year = ele.review_info.created_at.substr(0, 4);
       let month =ele.review_info.created_at.substr(6, 2) ;
       let day=ele.review_info.created_at.substr(10, 2) ;
@@ -169,7 +171,7 @@ class PostShow extends Component{
         <Card style={{margin:30}}>
           <CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}
           button onPress={() => { /*link to user profile show*/}}>
-            <TouchableOpacity onPress={() => {this.props.navigation.navigate("ProfileShow", {} )}}>
+            <TouchableOpacity onPress={() => {this.props.navigation.push("ProfileShow", {user_id: ele.review_info.user_id} )}}>
               <Thumbnail source={{uri: ele.review_info.user_image}} />
             </TouchableOpacity>
             <Body style={{marginLeft : '5%'}} >
@@ -331,7 +333,7 @@ class PostShow extends Component{
       console.log("render start")
       return(
         <Container>
-          <Header style={{height: 60, backgroundColor: '#f8f8f8',}} androidStatusBarColor='black'>
+          <Header style={{height: 60, backgroundColor: '#f8f8f8',}} androidStatusBarColor='#000'>
             <Left style={{flex : 1}}>
               <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
                 <Icon name = 'chevron-back' type = 'Ionicons'/>
@@ -365,7 +367,7 @@ class PostShow extends Component{
                 <Form>
                   <Item regular style={styles.providerBar}>
                     <TouchableOpacity style={{ marginLeft: '3%' }}
-                    onPress={() => { this.props.navigation.navigate("ProfileShow", { user_id : this.state.provider_id }) } }>
+                    onPress={() => { this.props.navigation.push("ProfileShow", { user_id : this.state.provider_id }) } }>
                       <Image source={{ uri: this.state.provider_profile_image || "empty " }} style={styles.providerProfileiimage}></Image>
                     </TouchableOpacity>
                     <View style={styles.providerProfile}>
@@ -379,7 +381,8 @@ class PostShow extends Component{
                   </Item>
 
                   <Tabs tabBarUnderlineStyle={{backgroundColor:'#ff3377'}}>
-                    <Tab heading="상세 정보" activeTextStyle={{ color:'#ff3377' }} tabStyle={{ backgroundColor:'white' }}>
+                    <Tab heading="상세 정보" activeTextStyle={{ color:'#ff3377' }} tabStyle={{ backgroundColor:'white' }}
+                    activeTabStyle={{ backgroundColor:'#f8f8f8' }}>
                       <Item regular style={styles.postbody}>
                         <Text style={styles.post_category}>{this.state.category}</Text>
                         <Text style={styles.post_title}>{this.state.title}</Text>
@@ -388,7 +391,8 @@ class PostShow extends Component{
                       </Item>
                     </Tab>
 
-                    <Tab heading="리뷰" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor: 'white' }}>
+                    <Tab heading="리뷰" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor: 'white' }}
+                    activeTabStyle={{ backgroundColor:'#f8f8f8' }}>
                       <Item style={styles.review_header}>
                         <Title>사용자 총 평점</Title>
                         <Text style={styles.reviewNumberRating}>{this.state.rating}</Text>
