@@ -1,20 +1,26 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity, Alert, StyleSheet, View} from 'react-native';
 import {Container, Button, ListItem, Thumbnail, Content,
-     Header, Left, Right, Icon, Body, Title, Textarea, Spinner, Form} from 'native-base';
+     Header, Left, Right, Icon, Body, Title, Textarea, CardItem, Card} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import {AirbnbRating, } from 'react-native-elements'
 import Popover from 'react-native-popover-view';
+import _ from 'lodash';
+import { ScrollView } from 'react-native-gesture-handler';
+import ImageSelect from '../post/imageselect';
+import FormData from 'form-data'
+import Spinner from 'react-native-loading-spinner-overlay';
 
-
-var reviewForm = {
-    review : {
-        body : '',
-        rating : '',
-        booking_id : '',
-    }
+const thumb_image = {
+    uri: '',
+    type: '',
+    name: '',
 }
+
+var multi_images = []
+var formdata = new FormData();
+var rating =''; //for rating component
 
 class UpdateReviewScreen extends Component {
     params = this.props.route.params;
@@ -26,8 +32,10 @@ class UpdateReviewScreen extends Component {
         body : '',
         rate : '',
         review_id : 0,
+        booking_id : '',
         loading : true,
         show_popover : false,
+
     }
 
     getToken = async() => {
@@ -36,14 +44,29 @@ class UpdateReviewScreen extends Component {
         this.setState({loading : false})
     }
 
+    setInfo = () => {
+        formdata = new FormData()
+        formdata.append('review[body]', this.state.body)
+        formdata.append('review[rating]', rating)
+        formdata.append('review[booking_id]', this.state.booking_id)
+      
+        if (thumb_image != '') {
+          _.each(multi_images, (image, index) => {
+            formdata.append(`review[images_attributes][${index}][image]`, image)
+          })
+          formdata.append('review[image]', thumb_image)
+        }
+    }
+
     putWriteReviewRequest(){ 
-        reviewForm.review.body = this.state.body;
-        api.put(`/reviews/${this.state.review_id}`, reviewForm, {
+        this.setState({loading : true})
+        this.setInfo();
+        api.put(`/reviews/${this.state.review_id}`, formdata, {
             headers: {
                 Authorization: this.state.token,
             },
         }).then((res)=> {
-            console.log(res)
+ 
             Alert.alert("수정 완료", "리뷰가 정상적으로 수정됐습니다",[
                 {
                     text: '확인',
@@ -60,8 +83,24 @@ class UpdateReviewScreen extends Component {
     }
 
     raitingCompleted(rate){
-        reviewForm.review.rating = rate;
+        rating = rate;
     }
+
+    changeImage = (data) => {
+
+        this.setState({images: data})
+    
+        _.each(this.state.images, (image, index) => {
+          multi_images.push(new Object)
+          multi_images[index].uri = image.sourceURL
+          multi_images[index].type = image.mime
+          multi_images[index].name = image.filename
+        })
+    
+        thumb_image.uri = data[0].sourceURL;
+        thumb_image.type = data[0].mime;
+        thumb_image.name = data[0].filename;
+      }
 
     componentDidMount(){
         //init params
@@ -70,7 +109,7 @@ class UpdateReviewScreen extends Component {
         this.state.review_id = this.params.posts.review_id;
         this.state.post_title = this.params.posts.title;
         this.state.post_image = this.params.posts.image;
-        reviewForm.review.booking_id = this.params.posts.id;
+        this.state.booking_id = this.params.posts.id;
         this.getToken();
     }
 
@@ -95,7 +134,7 @@ class UpdateReviewScreen extends Component {
             Alert.alert("삭제 완료", "리뷰가 정상적으로 삭제됐습니다",[
                 {
                     text: '확인',
-                    onPress: () => this.props.navigation.goBack()
+                    onPress: () => this.props.navigation.goBack(),
                 },
                 {
                     text: '취소',
@@ -121,7 +160,7 @@ class UpdateReviewScreen extends Component {
                     <Right></Right>
                 </Header>
                 <Content>
-                <Spinner color='#ff3377' />
+                <Spinner visible={this.state.loading}/>
               </Content>
               </Container>
             )
@@ -149,32 +188,38 @@ class UpdateReviewScreen extends Component {
                     </Popover>
                     </Right>
                 </Header>
-                
-                <Content style={{marginTop : '5%'}}>
-               
-                    <ListItem thumbnail key={reviewForm.review.booking_id}>
-                        <Left>
-                        <Thumbnail square source={{ uri: this.state.post_image }} />
-                        </Left>
-                        <Body>
-                        <Text>{this.state.post_title}</Text>
-                        </Body>
-                    </ListItem>
+                <Spinner visible={this.state.loading}/>
 
-                    <AirbnbRating
-                        reviews={[]}
-                        count={5}
-                        size={30}
-                        onFinishRating={this.raitingCompleted}
-                        defaultRating={this.state.rate}/>
+                <ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
+                    <Left>
+                    <Thumbnail square source={{ uri: this.state.post_image }} />
+                    </Left>
+                    <Body>
+                    <Text>{this.state.post_title}</Text>
+                    </Body>
+                </ListItem>
+                <ImageSelect stateBus={this.changeImage}></ImageSelect>
+                <AirbnbRating
+                    reviews={[]}
+                    count={5}
+                    size={30}
+                    onFinishRating={this.raitingCompleted}
+                    defaultRating={this.state.rate}/>
 
-                    <Textarea rowSpan={8} autoCapitalize='none'
-                    onChangeText={(text) => {this.setState({body : text}, () =>{})}}
-                    value={this.state.body}
-                    style={styles.textAreaContainer}
-                   />
+                <Card>
+                    <CardItem>
+                        <ScrollView>
+                            <Body>
+                                <Textarea rowSpan={8} autoCapitalize='none'
+                                onChangeText={(text) => {this.setState({body : text}, () =>{})}}
+                                value={this.state.body}
+                                style={styles.textAreaContainer}
+                                />
+                            </Body>
+                        </ScrollView>
+                    </CardItem>
+                </Card>
                
-                </Content>
 
                 <View style = {styles.footer}>
                     <Button transparent style = {styles.footerbutton} onPress={() => {this.putWriteReviewRequest()}}>
@@ -219,6 +264,10 @@ const styles = StyleSheet.create({
         paddingVertical : 10,
         paddingHorizontal : 15,
         margin : 5,
-      },
+    },
+    textAreaContainer: {
+        marginHorizontal: '2%',
+        marginTop: '5%'
+    },
 })
 export default UpdateReviewScreen;

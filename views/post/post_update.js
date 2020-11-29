@@ -7,7 +7,6 @@ import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import FormData from 'form-data'
-import { CommonActions, StackActions } from '@react-navigation/native';
 
 const image_info = {
   uri: '',
@@ -34,12 +33,10 @@ class PostUpdate extends Component {
   getToken = async () => {
     let value = await AsyncStorage.getItem("token")
     this.state.token = value
-    console.log(this.state.token)
   }
 
   componentDidMount() {
     this.getToken()
-    console.log(this.params)
     // this.setState({image: formdata}, () => {console.log(this.state.image)})
   }
 
@@ -55,10 +52,9 @@ class PostUpdate extends Component {
   }
 
   makeUpdateRequest() {
-    console.log("Start create Post-provide")
     this.setState({loading : true})
     this.setPostInfo(this.state)
-    console.log(formdata)
+
     api
       .put(`/posts/${this.state.post_id}`, (formdata), {
         headers: {

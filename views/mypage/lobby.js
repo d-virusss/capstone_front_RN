@@ -259,7 +259,7 @@ class MypageScreen extends Component {
             <ListItem button onPress={() => {this.props.navigation.navigate('Review')}}>
               <Left>
                 <Icon type="MaterialCommunityIcons" name="comment-outline" />
-                <Text style={ styles.listText }> 작성한 리뷰</Text>
+                <Text style={ styles.listText }> 리뷰 관리</Text>
               </Left>
               <Right>
                 <Icon type="AntDesign" name="right" />

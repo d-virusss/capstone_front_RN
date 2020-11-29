@@ -2,19 +2,19 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
 import {View, ScrollView, Image, StyleSheet, TouchableOpacity, Alert,
   DeviceEventEmitter, Dimensions} from 'react-native';
-import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, 
-  FooterTab, Header, Body, Container, Title, Tab, Tabs, TabHeading} from 'native-base';
+import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, Card,
+  FooterTab, Header, Body, Container, Title, Tab, Tabs, TabHeading, CardItem, Thumbnail} from 'native-base';
 import Popover from 'react-native-popover-view';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../shared/server_address'
 import UserAgent from 'react-native-user-agent';
 import number_delimiter from '../shared/number_delimiter'
-import { CommonActions, StackActions } from '@react-navigation/native';
+import {Rating} from 'react-native-elements'
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
-let updateFlag = 0;
 var user_id;
+var reviewList = [];
 const windowHeight = Dimensions.get('window').height;
 
 class PostShow extends Component{
@@ -42,6 +42,8 @@ class PostShow extends Component{
     is_your_post:'',
     isBooked: null,
     contract: '',
+		rating : 0,
+		images : [],
   };
 
   getToken = async () => {
@@ -62,93 +64,120 @@ class PostShow extends Component{
         }
       })
       .then((response)=>{
-        this.setState({
-          title: response.data.post_info.title,
-          price: response.data.post_info.price,
-          body: response.data.post_info.body,
-          category: response.data.post_info.category,
-          icon: response.data.post_info.like_check ? "heart" : "heart-outline",
-          image: response.data.post_info.image,
-          provider_location:response.data.post_info.location_title,
-          rent_count : response.data.post_info.rent_count,
-          isBooked: response.data.post_info.is_booked,
-          contract : response.data.post_info.contract,
-        }, () => {console.log(this.state); console.log("update하기 위해 getPostinfo Call ---------")})
+				console.log(response)
+				//post info
+				this.state.title = response.data.post_info.title,
+				this.state.price = response.data.post_info.price,
+				this.state.body = response.data.post_info.body,
+				this.state.category = response.data.post_info.category,
+				this.state.like_check = response.data.post_info.like_check,
+				this.state.image = response.data.post_info.image,
+				this.state.icon = response.data.post_info.like_check ? "heart" : "heart-outline",
+				this.state.contract = response.data.post_info.contract,
+				this.state.rating = response.data.post_info.rating
+				this.state.rent_count = response.data.post_info.rent_count,
+				this.state.images = response.data.post_info.image_detail,
+				this.state.isBooked = response.data.post_info.is_booked,
+
+				//writer info
+				this.state.provider_name = response.data.user.user_info.nickname,
+				this.state.provider_location = response.data.user.user_info.location_title,
+				this.state.provider_id = response.data.user.user_info.id,
+				this.state.provider_profile_image = response.data.user.user_info.image
+				this.state.is_your_post = response.data.user.user_info.id == parseInt(user_id) ? true : false;
+				this.setState({loading : false})
+				
+      }).catch((err) => {
+				console.log(err);
       })
   }
 
   componentDidMount() {
-    console.log('------- enter post_show -------');
+		console.log('------- enter post_show -------');
+		this.state.post_id = this.params.post_id
     this.getToken().then(() => {
-      this.setParams();
-      this.getReviewList();
+			//순서 지키기 rendering 속도
+			this.getReviewList();
+			this.getPostInfo();
+			//
     })
     this.eventListener = DeviceEventEmitter.addListener('updateContent', this.updateEventHandler);
-    
   }
 
   componentWillUnmount(){
     //remove listener
     this.eventListener.remove();
-}
+	}
 
-  updateEventHandler = (e) => {
-    console.log("update event handler333")
-    this.getPostInfo();
-  }
+	updateEventHandler = (e) => {
+		console.log("update event handler333")
+		this.getPostInfo();
+	}
 
-  setParams() {
-    this.state.title = this.params.post.post_info.title,
-    this.state.price = this.params.post.post_info.price,
-    this.state.body = this.params.post.post_info.body,
-    this.state.category = this.params.post.post_info.category,
-    this.state.post_id = this.params.post.post_info.id,
-    this.state.like_check = this.params.post.post_info.like_check,
-    this.state.image = this.params.post.post_info.image,
-    this.state.icon = this.params.post.post_info.like_check ? "heart" : "heart-outline",
-    this.state.provider_name = this.params.post.user.user_info.nickname,
-    this.state.provider_location = this.params.post.user.user_info.location_title,
-    this.state.provider_id = this.params.post.user.user_info.id,
-    this.state.provider_profile_image = this.params.post.user.user_info.image,
-    this.state.rent_count = this.params.post.post_info.rent_count,
-    this.state.isBooked = this.params.post.post_info.is_booked,
-    this.state.contract = this.params.post.post_info.contract,
+	chatCreateRequset = async()=> {
+		await api
+			.post(`/chats?post_id=${this.state.post_id}`, null,
+			{ 
+				headers : {'Authorization': this.state.token}
+			})
+			.then((response) => {
+				console.log('success');
+				this.state.chat_id = response.data.chat_info.id;
+				this.setState({val:0})
+			})
+			.catch((err) => {
+				this.setState({val:1})
+				console.log("err : ", err)
+				Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+			})
+	}
 
-    this.state.is_your_post = this.params.post.user.user_info.id == parseInt(user_id) ? true : false;
-    this.setState({loading : false})
-  }
-
-  chatCreateRequset = async()=> {
-    await api
-      .post(`/chats?post_id=${this.state.post_id}`, null,
-      { 
-        headers : {'Authorization': this.state.token}
-      })
-      .then((response) => {
-        console.log('success');
-        this.state.chat_id = response.data.chat_info.id;
-        this.setState({val:0})
-      })
-      .catch((err) => {
-        this.setState({val:1})
-        console.log("err : ", err)
-        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
-      })
-  }
-
-  getReviewList () {
-    api.get(`reviews?post_id=${this.state.post_id}`, {
-      headers : {'Authorization': this.state.token}
-    }).then((res) => {
-      console.log("get review ")
-      console.log(res);
-    }).catch((err) => {
-      console.log(err)
-    })
-  }
-
+	getReviewList () {
+		api.get(`reviews?post_id=${this.state.post_id}`, {
+			headers : {'Authorization': this.state.token}
+		}).then((res) => {
+			reviewList = res.data;
+		}).catch((err) => {
+			console.log(err)
+		})
+	}
+  //make review list
   makeReviewList() {
-    
+    if(reviewList.length == 0)
+      return(<Card><CardItem><Title>등록된 리뷰가 없습니다.</Title></CardItem></Card>)
+    return reviewList.map((ele) => {
+      let year = ele.review_info.created_at.substr(0, 4);
+      let month =ele.review_info.created_at.substr(6, 2) ;
+      let day=ele.review_info.created_at.substr(10, 2) ;
+      let date = year+"."+month+"."+day
+      return (
+        <Card style={{flex: 0}}>
+          <CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}
+          button onPress={() => { /*link to user profile show*/}}>
+              <Thumbnail source={{uri: ele.review_info.user_image}} />
+              <Body style={{marginLeft : '5%'}} >
+             <View style={{flexDirection: 'row'}}>
+              <Rating readonly
+                startingValue={ele.review_info.rating}
+                ratingCount={5}
+                imageSize={18}
+                style={{ paddingVertical: 10 }}/>
+              <Title style={{margin : '3%'}}> {ele.review_info.rating}</Title>
+              </View>
+              <View>
+                <Text style={styles.post_category}>{ele.review_info.user_nickname} / {date}</Text>
+                </View>
+              </Body>
+          </CardItem>
+          
+          <CardItem>
+              <Body>
+                  <Text>{ele.review_info.body}</Text>
+              </Body>
+          </CardItem>
+        </Card>
+      );
+    });
   }
 
   likeRequest = () => {
@@ -337,11 +366,19 @@ class PostShow extends Component{
                   </Tab>
 
                   <Tab heading={ <TabHeading style={{backgroundColor : 'white'}}><Text>리뷰</Text></TabHeading>}>
-                    <Item regular style={styles.postbody}>
-                      <Text style={styles.post_title}>사용 후기</Text>
-                      <Text> 총평점</Text>
-                      {this.makeReviewList()}
+                    <Item regular style={styles.review_header}>
+                    <Title>사용자 총 평점</Title>
+                    <Title></Title>
+                    <Text style={{fontSize : 30}}>{this.state.rating}</Text>
+                    <Rating
+                      readonly
+                      startingValue={this.state.rating}
+                      ratingCount={5}
+                      imageSize={30}
+                      style={{ paddingVertical: 10 }}
+                      />
                     </Item>
+                    {this.makeReviewList()}
                   </Tab>
                 </Tabs>
               </Form>
@@ -349,11 +386,11 @@ class PostShow extends Component{
           </ScrollView>
         </Content>
 
-        <View>
-          <Footer style={{}}>
-            {this.renderFooter()}
-          </Footer>
-        </View>
+
+				<Footer style={{}}>
+					{this.renderFooter()}
+				</Footer>
+		
       </Container>
     );}
   }
@@ -419,6 +456,13 @@ const styles = StyleSheet.create({
     paddingHorizontal : '5%',
     flexDirection: 'column',
     alignItems : 'flex-start'
+  },
+  review_header: {
+    paddingVertical : '5%',
+    paddingHorizontal : '5%',
+    flexDirection: 'column',
+    alignItems : 'center',
+
   },
   post_title :{
     fontSize : 25,
