@@ -1,6 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen'
 import {Alert, View, Text, InputAccessoryView} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import React, { useEffect, useState } from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from './views/login/caller';
@@ -12,7 +13,6 @@ import Post_ask from './views/post/post_ask';
 import SearchBar from './views/post/search_bar';
 import PostShow from './views/post/post_show';
 import ChatRoom from './views/chat/chat_room2';
-import AsyncStorage from '@react-native-community/async-storage';
 import KakaoLogin from './views/login/kakao';
 import MyPgae_Location from './views/mypage/location';
 import Mypage_Like_List from './views/mypage/likeList';
@@ -52,6 +52,8 @@ import PwInputCode from './views/findpw/pw_input_code'
 import ButtomTab from './views/shared/Tab'
 
 import db from './views/shared/chat_db'
+import { navigationRef } from './RootNavigation';
+import * as RootNavigation from './RootNavigation';
 
 const Stack = createStackNavigator();
 var token = '';
@@ -66,7 +68,7 @@ const App = () => {
     token = AsyncStorage.getItem('token')
     console.log(token)
     if(token){
-      enterence= "Chat"
+      enterence= "Main"
     }
 
     setTimeout(() => {
@@ -78,7 +80,12 @@ const App = () => {
     fcmService.registerAppWithFCM()
     fcmService.register(onRegister, onNotification, onOpenNotification)
     localNotificationService.configure(onOpenNotification)
-    openDB();
+    //openDB();
+    const asyncFunction=async()=>{
+      let tok = await AsyncStorage.getItem('token')
+      console.log('----------------'+JSON.stringify(tok))
+    }
+    asyncFunction();
 
     function openDB(){
       db.transaction(tx=>{
@@ -92,10 +99,18 @@ const App = () => {
 
     function onNotification(notify, data){
       console.log("[App] onNotification: ", notify)
+      console.log("dkdkdkdkdkdkdkdkdkdkdkdkdk"+JSON.stringify(data))
       const options = {
         soundName: 'default',
         playSound: true
       }
+      /*if(data.type=='keyword'){
+        NavigationService.navigate('PostShow',{post_id:data.post_id})
+      }
+      if(data.type=='chat'){
+        NavigationService.navigate('ChatRoom',{chat_id:data.chat_id,post_id:data.post_id})
+      }*/
+      
       localNotificationService.showNotification(
         0, notify.title, notify.body, notify, options
       )
@@ -104,9 +119,11 @@ const App = () => {
     function onOpenNotification(notify, data){
       console.log("[App] onOpenNotification: ", notify)
       if(data.type=='keyword'){
-        NavigationService.navigate('')
+        RootNavigation.navigate('PostShow',{post_id:Number(data.post_id)})
       }
-      Alert.alert(notify.title, notify.body,[{text:'확인', style:'cancel'}])
+      if(data.type=='message'){
+        RootNavigation.navigate('ChatRoom',{chat_id:Number(data.chat_id),post_id:Number(data.post_id),nickname:data.user_nickname,avatar:''})
+      }
 
       return () =>{
         console.log("[App] unregister")
@@ -118,7 +135,7 @@ const App = () => {
 
   if(!loading){
     return (
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <Stack.Navigator initialRouteName={enterence}>
           <Stack.Screen name="Logins" component={LoginScreen} options={{headerShown: false, gestureEnabled : false, }} />
           <Stack.Screen name="KakaoLogin" component={KakaoLogin} options={{ gestureEnabled : false, headerTitle: "카카오 로그인", headerBackTitle: '뒤로'}} />

@@ -24,7 +24,7 @@ var user_addr = {
   },
 };
 
-var bodyContent = ["내동네만", "옆동네도", "먼동네도", "전부"]
+var bodyContent = ["내 동네만", "옆 동네도", "먼 동네도", "모두"]
 
 class MypageScreen extends Component{
   constructor(props) {
