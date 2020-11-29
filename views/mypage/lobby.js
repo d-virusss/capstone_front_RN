@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView, Alert} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView, Alert, DeviceEventEmitter} from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbnail,
        Footer, FooterTab, Content, ListItem, List, Separator } from 'native-base';
-import { CommonActions, StackActions } from '@react-navigation/native';
+import { CommonActions, } from '@react-navigation/native';
 import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
 import Fire from '../shared/Fire';
@@ -38,7 +38,7 @@ class MypageScreen extends Component {
 
   Logout() {
     //this.dropFCMToken();
-    Alert.alert('로그아웃',"정상적으로 로그아웃 됐습니다.",[{text: '확인', style:'cancel'}])
+    Alert.alert("로그아웃", "성공적으로 로그아웃 됐습니다.",[{text:'확인' },{style:'cancel'}])
     this.props.navigation.dispatch(
       CommonActions.reset({
         index: 1,
@@ -54,8 +54,18 @@ class MypageScreen extends Component {
   }
 
   componentDidMount() {
-    console.log("---------------------------------")
     this.getToken();
+    this.eventListener = DeviceEventEmitter.addListener('updateMypage', this.updateEventHandler);
+  }
+
+  updateEventHandler = (e) => {
+		console.log("listen update mypage event")
+		this.setState({myLocation : e.location})
+	}
+
+  componentWillUnmount() {
+    //remove listener
+    this.eventListener.remove();
   }
 
   getMyInfo = () => {
@@ -77,6 +87,7 @@ class MypageScreen extends Component {
       posts = res.data.user_info;
       if(res.data.user_info.company_id)
         this.state.company_id = res.data.user_info.company_id;
+
       this.state.isCompany = res.data.user_info.is_company;
       this.setState({loading: true})
     })
@@ -168,6 +179,7 @@ class MypageScreen extends Component {
           })}>
           <Text style={styles.popoverel}>로그아웃</Text>
         </TouchableOpacity>
+        
       </Popover>
     )
   }

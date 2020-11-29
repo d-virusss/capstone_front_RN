@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import React, { useEffect, ReactElement } from 'react';
-import {Icon} from 'native-base'
+import {Icon, Text} from 'native-base'
 import MyPage from '../mypage/lobby';
 import PostIndex from '../post/index'
 import chatIndex from '../chat/chat_index';
