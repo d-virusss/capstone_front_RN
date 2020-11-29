@@ -162,9 +162,9 @@ function chat_room2 ({route, navigation}){
 
   useEffect(()=>{
     async function inEffect(){
-      await getToken();
-      await getMyInfo();
-      await getPostInfo();
+      getToken();
+      getMyInfo();
+      getPostInfo();
       messageGetRequest();
       Fire.getChatID(chat_id);
       Fire.get(message=>{
