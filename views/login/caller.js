@@ -62,7 +62,7 @@ class LoginScreen extends Component {
       await api
         .post('/users/sign_in', userinfo)
         .then(async(response) => {
-          this.addDevice();
+          this.addDevice(response.data.token);
           console.log(response);
           //this.saveUserData(response.data.id,response.data.location_auth,response.data.token)
           AsyncStorage.setItem('token', response.data.token);
@@ -90,7 +90,7 @@ class LoginScreen extends Component {
     api
       .post('/users/sign_in', user_obj)
       .then((response) => {
-        this.addDevice();
+        this.addDevice(response.data.token);
         console.log(response);
         console.log(response.data.location_auth)
         AsyncStorage.setItem('token', response.data.token);
@@ -127,12 +127,16 @@ class LoginScreen extends Component {
     }
   };
 
-  addDevice = async()=>{
+  addDevice = async(tok)=>{
     let fcmToken = await AsyncStorage.getItem('fcmToken');
     await api
             .post('/users/add_device',{
               user:{
                 device_token: fcmToken
+              }
+            },{
+              headers:{
+                'Authorization': tok
               }
             })
             .then(response=>{
