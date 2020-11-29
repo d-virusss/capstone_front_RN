@@ -7,6 +7,7 @@ import ImageSelect from './imageselect';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import FormData from 'form-data'
+import _ from 'lodash';
 
 const image_info = {
   uri: '',
@@ -14,20 +15,21 @@ const image_info = {
   name: ''
 }
 var formdata = new FormData();
+var multi_images = []
 
 class PostUpdate extends Component {
 
   params = this.props.route.params
 
   state = {
-    post_id: this.params.my_post.id,
-    title: this.params.my_post.title,
-    category_id: String(this.params.my_post.category_id), // 잡화 의류 뷰티 전자제품 레져용품 생활용품 요리 자동차 유아용품
-    price: String(this.params.my_post.price),
-    body: this.params.my_post.body,
-    image: this.params.my_post.image,
+    post_id:'',
+    title: '',
+    category_id: '', // 잡화 의류 뷰티 전자제품 레져용품 생활용품 요리 자동차 유아용품
+    price: '',
+    body: '',
+    images : '',
     token: "",
-    loading : false,
+    loading : true,
   }
 
   getToken = async () => {
@@ -36,24 +38,45 @@ class PostUpdate extends Component {
   }
 
   componentDidMount() {
+    this.initInfo();
     this.getToken()
-    // this.setState({image: formdata}, () => {console.log(this.state.image)})
   }
 
-  setPostInfo = (data) => {
+  initInfo() {
+    this.state.post_id = this.params.my_post.post_info.id;
+    this.state.title= this.params.my_post.post_info.title;
+    this.state.category_id= String(this.params.my_post.post_info.category_id); // 잡화 의류 뷰티 전자제품 레져용품 생활용품 요리 자동차 유아용품
+    this.state.price= String(this.params.my_post.post_info.price);
+    this.state.body= this.params.my_post.post_info.body;
+    if(this.params.my_post.post_info.image_detail.length === 0){
+      this.state.images = [this.params.my_post.post_info.image];
+    }
+    else{
+      this.state.images = this.params.my_post.post_info.image_detail
+    }
+    this.setState({loading : false})
+  
+  }
+
+  setPostInfo = () => {
     formdata = new FormData();
     formdata.append('post[title]', this.state.title)
     formdata.append('post[category_id]', this.state.category_id)
     formdata.append('post[price]', this.state.price)
     formdata.append('post[body]', this.state.body)
-    if(image_info.uri != ''){
-      formdata.append('post[image]', image_info)
+
+    if (image_info.uri != '') {
+			_.each(multi_images, (image, index) => {
+				formdata.append(`post[images_attributes][${index}][image]`, image)
+			})
+			formdata.append('post[image]', image_info)
     }
+    console.log(formdata)
   }
 
   makeUpdateRequest() {
     this.setState({loading : true})
-    this.setPostInfo(this.state)
+    this.setPostInfo()
 
     api
       .put(`/posts/${this.state.post_id}`, (formdata), {
@@ -102,8 +125,8 @@ class PostUpdate extends Component {
     }
     else if (type === "image") {
       this.setState({
-        image: text,
-      }, () => { console.log(this.state.image) })
+        images: text,
+      }, () => { console.log(this.state.images) })
     }
   }
 
@@ -114,9 +137,13 @@ class PostUpdate extends Component {
   }
 
   changeImage = (data) => {
-    this.setState({
-      image: data
-    }, () => { console.log(this.state.image); })
+    this.setState({images: data})
+    _.each(this.state.images, (image, index) => {
+			multi_images.push(new Object)
+			multi_images[index].uri = image.sourceURL
+			multi_images[index].type = image.mime
+			multi_images[index].name = image.filename
+		})
     image_info.uri = data.sourceURL;
     image_info.type = data.mime;
     image_info.name = data.filename;
@@ -128,6 +155,27 @@ class PostUpdate extends Component {
   }
 
   render() {
+    if(this.state.loading){
+      return(
+        <ScrollView>
+          <Header style = {{
+            height: 60,
+            backgroundColor: '#f8f8f8',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }} androidStatusBarColor='#000'>
+            <Left>
+              <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
+                <Icon name='chevron-back' type='Ionicons' />
+              </TouchableOpacity>
+            </Left>
+            <Body><Title>물품 정보 수정</Title></Body>
+            <Right></Right>
+          </Header>
+          <Content><Spinner visible={this.state.loading}/></Content>
+        </ScrollView>
+      )
+    }else{
     return (
       <ScrollView>
         <Header style = {{
@@ -135,8 +183,7 @@ class PostUpdate extends Component {
             backgroundColor: '#f8f8f8',
             alignItems: 'center',
             justifyContent: 'space-between',
-          }} androidStatusBarColor='#000'
-        >
+          }} androidStatusBarColor='#000'    >
           <Left>
             <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='chevron-back' type='Ionicons' />
@@ -163,11 +210,11 @@ class PostUpdate extends Component {
             </TouchableOpacity>
           </Right>
         </Header>
-        <Spinner visible={this.state.loading}/>
+        
         <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
           <KeyboardAvoidingView>
         <View style={styles.imageArea}>
-          <ImageSelect stateBus={this.changeImage} existing_image={this.state.image} ></ImageSelect>
+          <ImageSelect stateBus={this.changeImage} existing_image={this.state.images} />
         </View>
         <Container>
           <TouchableOpacity onPress={this.shownowstate()} style={{ padding: 10 }}>
@@ -198,7 +245,7 @@ class PostUpdate extends Component {
         </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
       </ScrollView>
-    );
+    );}
   }
 }
 const styles = StyleSheet.create({

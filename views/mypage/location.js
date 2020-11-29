@@ -152,7 +152,16 @@ class MypageScreen extends Component{
           this.setState({location:pos.coords});
         });
       }else{
-        this.props.navigation.goBack();
+        Alert.alert("요청 실패", "위치 접근 권한이 없습니다.",[
+          {
+              text: '확인',
+              onPress: () => this.props.navigation.goBack()
+          },
+          {
+              text: '취소',
+              style: 'cancel',
+          }
+      ]) 
       }
     });
   }

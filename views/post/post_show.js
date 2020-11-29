@@ -15,8 +15,11 @@ import { SliderBox } from "react-native-image-slider-box";
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
+
 var user_id;
 var reviewList = [];
+var postForm = {}; // for navigation props
+
 const windowHeight = Dimensions.get('window').height;
 
 class PostShow extends Component{
@@ -31,7 +34,7 @@ class PostShow extends Component{
     price : 0,
     body : "",
     category : "",
-    image : "",
+    category_id : '',
     provider_name : "",
     provider_location : "",
     provider_id : "",
@@ -66,29 +69,38 @@ class PostShow extends Component{
         }
       })
       .then((response)=>{
-				console.log(response)
-				//post info
-				this.state.title = response.data.post_info.title,
-				this.state.price = response.data.post_info.price,
-				this.state.body = response.data.post_info.body,
-				this.state.category = response.data.post_info.category,
-				this.state.like_check = response.data.post_info.like_check,
-				this.state.image = response.data.post_info.image,
-				this.state.icon = response.data.post_info.like_check ? "heart" : "heart-outline",
-				this.state.contract = response.data.post_info.contract,
+        //post info
+        console.log(response)
+				this.state.title = response.data.post_info.title
+				this.state.price = response.data.post_info.price
+				this.state.body = response.data.post_info.body
+				this.state.category = response.data.post_info.category
+				this.state.like_check = response.data.post_info.like_check
+				this.state.icon = response.data.post_info.like_check ? "heart" : "heart-outline"
+				this.state.contract = response.data.post_info.contract
 				this.state.rating = response.data.post_info.rating
-				this.state.rent_count = response.data.post_info.rent_count,
-				this.state.images = response.data.post_info.image_detail,
-				this.state.isBooked = response.data.post_info.is_booked,
-
+        this.state.rent_count = response.data.post_info.rent_count
+        if(response.data.post_info.image_detail.length === 0){
+          this.state.images = [response.data.post_info.image];
+        }
+        else{
+          this.state.images = response.data.post_info.image_detail
+        }
+        this.state.isBooked = response.data.post_info.is_booked
+        this.state.category_id = response.data.post_info.category_id
+        
 				//writer info
 				this.state.provider_name = response.data.user.user_info.nickname,
 				this.state.provider_location = response.data.user.user_info.location_title,
 				this.state.provider_id = response.data.user.user_info.id,
 				this.state.provider_profile_image = response.data.user.user_info.image
 				this.state.is_your_post = response.data.user.user_info.id == parseInt(user_id) ? true : false;
-				this.setState({loading : false})
-				
+        this.setState({loading : false})
+        
+        //fill postForm
+        postForm = response.data;
+        
+
       }).catch((err) => {
 				console.log(err);
       })
@@ -194,8 +206,7 @@ class PostShow extends Component{
         }
       })
       .then((res) => {
-        console.log(res)
-        // state 변경해서 icon 변경
+        
       })
       .catch((e) => {
         console.log(e)
@@ -211,7 +222,6 @@ class PostShow extends Component{
   
   checkNavigate(){
     if(this.state.val === 0){
-      updateFlag = 1;
       this.props.navigation.navigate('ChatRoom', {chat_id: this.state.chat_id, post_id: this.state.post_id,nickname:this.state.provider_name,avatar:this.state.provider_profile_image});
     }
     if(this.state.val === 1) {
@@ -232,7 +242,6 @@ class PostShow extends Component{
       .then((res) => {
         console.log(res)
         Alert.alert("삭제 완료", "", [{text:'확인', style:'cancel'}])
-        updateFlag = 1;
         this.props.navigation.navigate('Main')
       })
       .catch((e) => {
@@ -247,7 +256,7 @@ class PostShow extends Component{
         <View>
           <TouchableOpacity
             onPress={() => this.setState({ show_popover: false },
-              () => { updateFlag = 1; this.props.navigation.navigate("PostUpdate", { my_post: this.params.post.post_info }) })}>
+              () => { this.props.navigation.navigate("PostUpdate", { my_post: postForm }) })}>
             <Text style={styles.popoverel}>수정</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -262,9 +271,9 @@ class PostShow extends Component{
         <View>
           <TouchableOpacity
             onPress={() => this.setState({ show_popover: false }, () => {
-              updateFlag = 1; this.props.navigation.navigate('PostReport', {
+                this.props.navigation.navigate('PostReport', {
                 onGoBack: () => { this.getPostInfo(); },
-                post: this.params.post
+                post: postForm.post
               })
             })}>
             <Text style={styles.popoverel}>신고하기</Text>
@@ -279,11 +288,11 @@ class PostShow extends Component{
     if(this.state.is_your_post){
       return (
         <FooterTab style={{backgroundColor:'#F8F8F8'}}>
-          <Button transparent onPress={() => { updateFlag = 1; this.props.navigation.navigate("Contract", { my_post : this.state, onGoBack: ()=>{this.getPostInfo();} }) }}>
+          <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.state, onGoBack: ()=>{this.getPostInfo();} }) }}>
             <Text style={{ color: '#ff0055', fontWeight: 'bold', fontSize: 17, paddingVertical: 5}}>계약서 수정</Text>
           </Button>
           <Button transparent
-            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Reservation',{ onGoBack: ()=>{this.getPostInfo();} }) }} >
+            onPress={() => { this.props.navigation.navigate('Reservation',{ onGoBack: ()=>{this.getPostInfo();} }) }} >
             <Text style={{ fontWeight: 'bold', fontSize: 17, paddingVertical: 5 }}>예약 목록 확인</Text>
           </Button>
         </FooterTab>
@@ -299,11 +308,11 @@ class PostShow extends Component{
             <Text style={{color: 'orange', fontWeight : 'bold', fontSize:14}}>채팅</Text>
           </Button>
           {this.state.isBooked == false && (<Button vertical transparent
-            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Booking', { post_info: this.params.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
+            onPress={() => { this.props.navigation.navigate('Booking', { post_info: postForm.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize:14}}>예약</Text>
           </Button>)}
           {this.state.isBooked == true && (<Button vertical transparent
-            onPress={() => { updateFlag = 1; this.props.navigation.navigate('Booking', { post_info: this.params.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
+            onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold',}}>예약취소</Text>
           </Button>)}
         </FooterTab>
@@ -314,38 +323,38 @@ class PostShow extends Component{
   render(){
     if(this.state.loading) return null;
     else{
-    return(
-      <Container>
-        <Header style={{
-          height: 60,
-          backgroundColor: '#f8f8f8',
-        }} androidStatusBarColor='black'>
-          <Left style={{flex : 1}}>
-            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
-              <Icon name = 'chevron-back' type = 'Ionicons'/>
-            </TouchableOpacity>
-          </Left>
-          <Body style={{flex : 8}}><Title style={{color:'black', alignSelf:'center'}}>{this.state.title}</Title></Body>
-          <Right style={{flex : 1}}>
-            <Popover
-              isVisible = {this.state.show_popover}
-              onRequestClose = {() => this.setState({ show_popover: false })}
-              from={(
-                <TouchableOpacity onPress={() => this.setState({ show_popover: true })}>
-                  <Icon name="menu" />
-                </TouchableOpacity>
-              )}>
-              {this.renderUpdateandDelete()}
-            </Popover>
-          </Right>
-        </Header>
+      console.log("render start")
+      return(
+        <Container>
+          <Header style={{
+            height: 60,
+            backgroundColor: '#f8f8f8',
+          }} androidStatusBarColor='black'>
+            <Left style={{flex : 1}}>
+              <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+                <Icon name = 'chevron-back' type = 'Ionicons'/>
+              </TouchableOpacity>
+            </Left>
+            <Body style={{flex : 8}}><Title style={{color:'black', alignSelf:'center'}}>{this.state.title}</Title></Body>
+            <Right style={{flex : 1}}>
+              <Popover
+                isVisible = {this.state.show_popover}
+                onRequestClose = {() => this.setState({ show_popover: false })}
+                from={(
+                  <TouchableOpacity onPress={() => this.setState({ show_popover: true })}>
+                    <Icon name="menu" />
+                  </TouchableOpacity>
+                )}>
+                {this.renderUpdateandDelete()}
+              </Popover>
+            </Right>
+          </Header>
 
         <Content style={{flex : 1}}>
           <ScrollView style={styles.container}>
             
             <SliderBox style={styles.swiper}
               images={this.state.images}
-              onCurrentImagePressed={() => this.doPickImage()}
               sliderBoxHeight={300}
               inactiveDotColor="#ffccdd"
               dotColor="#ff3377" />

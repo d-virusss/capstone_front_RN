@@ -71,7 +71,7 @@ class ProvideIndex extends Component {
         },
       })
       .then((res) => {
-      
+        console.log(res)
         this.setState({posts: res.data});
       })
       .catch(function (e) {
@@ -92,7 +92,7 @@ class ProvideIndex extends Component {
         },
       })
       .then((res) => {
-        
+        console.log(res)
         this.setState({posts: res.data});
       })
       .catch(function (e) {
