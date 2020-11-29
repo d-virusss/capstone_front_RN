@@ -22,7 +22,7 @@ class LikeListItemScreen extends Component {
       }})
       .then(function(response) {
         console.log('success');
-        this.props.navigation.navigate('PostShow', { post: response.data })
+        this.props.navigation.push('PostShow', { post: response.data })
       }.bind(this))
       .catch((err) => {
         console.log("err : ", err)
@@ -68,7 +68,7 @@ class LikeListItemScreen extends Component {
     return like_item.map((ele) => {
       return (
         <ListItem thumbnail key={ele.like_info.id} button
-          onPress={() => this.props.navigation.navigate('PostShow', { post_id : ele.like_info.target_id })}>
+          onPress={() => this.props.navigation.push('PostShow', { post_id : ele.like_info.target_id })}>
           <Left>
             <Thumbnail square source={{ uri: ele.like_info.post_image }} />
           </Left>
