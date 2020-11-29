@@ -49,14 +49,14 @@ class LikeListItemScreen extends Component {
             Authorization: this.state.token,
           },
         })
-        .then(
-          function (response) {
-            console.log('request success!!');
-            like_item = response.data;
-            this.setState({loading_item: false});
-          }.bind(this), // for this.setState
+        .then((res)=>{
+          console.log('request success!!');
+          console.log(res)
+          like_item = res.data;
+          this.setState({loading_item: false});
+        }// for this.setState
         )
-        .catch(function (error) {
+        .catch((error)=>{
           console.log('failed: ' + error);
           Alert.alert("요청 실패", error.response.data.error,[{text:'확인', style:'cancel'}])
         });
@@ -66,10 +66,9 @@ class LikeListItemScreen extends Component {
 
   makeList() {
     return like_item.map((ele) => {
-      console.log(ele)
       return (
         <ListItem thumbnail key={ele.like_info.id} button
-          onPress={() => this.showPostRequset(ele.like_info.target_id)}>
+          onPress={() => this.props.navigation.navigate('PostShow', { post_id : ele.like_info.target_id })}>
           <Left>
             <Thumbnail square source={{ uri: ele.like_info.post_image }} />
           </Left>

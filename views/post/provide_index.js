@@ -67,7 +67,7 @@ class ProvideIndex extends Component {
           Authorization: this.state.token,
         },
         params: {
-          "q[title_or_body_or_nickname_cont]" : searchModel.content,
+          "q[title_or_body_or_user_nickname_cont]" : searchModel.content,
         },
       })
       .then((res) => {
@@ -88,7 +88,7 @@ class ProvideIndex extends Component {
         },
         params: {
           "q[category_id_eq]" : searchModel.id,
-          "q[title_or_body_or_nickname_cont]" : searchModel.content,
+          "q[title_or_body_or_user_nickname_cont]" : searchModel.content,
           "user": searchModel.content,
         },
       })

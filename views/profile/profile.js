@@ -105,6 +105,30 @@ class ProfileShow extends Component {
     )
   }
 
+  userLikeRequest(){
+    if(this.state.like_check) this.setState({ like_check: false, loading: true })
+    else this.setState({ like_check: true })
+    api
+      .post('/users/like', {
+        like:{
+          target_id: this.profile_id,
+          target_type: 'user'
+        }
+      },{
+        headers: {
+          'Authorization': this.state.token
+        }
+      })
+      .then((res) => {
+        this.setState({ loading: false })
+        console.log(res)
+      })
+      .catch((e) => {
+        this.setState({ loading: false })
+        console.log(e.response)
+      })
+  }
+
   renderFollowButton(){
     if(this.state.my_id === this.profile_id){
       return
@@ -114,8 +138,9 @@ class ProfileShow extends Component {
         return(
           <Button small style={{
             position: 'absolute', right: '10%', backgroundColor: '#ff3377', borderColor: 'black',
-            width:100, justifyContent:'center'
-          }}>
+            width:100, justifyContent:'center'}}
+            onPress={() => {this.userLikeRequest()}}
+          >
             <Text style={{ color: 'white', fontWeight: 'bold',  }}>팔로우</Text>
           </Button>
         )
@@ -124,8 +149,9 @@ class ProfileShow extends Component {
         return (
           <Button small bordered style={{
             position: 'absolute', right: '10%', backgroundColor: 'white', borderColor: 'black',
-            width: 100, justifyContent: 'center'
-          }}>
+            width: 100, justifyContent: 'center'}}
+            onPress={() => {this.userLikeRequest()}}
+          >
             <Text style={{ color: 'black', fontWeight: 'bold' }}>팔로우</Text>
           </Button>
         )
@@ -205,7 +231,7 @@ class ProfileShow extends Component {
 
               <Separator bordered style={{ height: '1%' }}></Separator>
 
-              <ListItem onPress={() => { { this.props.navigation.navigate('MyPage_Location') } }}>
+              <ListItem onPress={() => { { this.props.navigation.navigate('ProfileProvide', {user_id: this.profile_id}) } }}>
                 <Left>
                   <Icon type="MaterialCommunityIcons" name="receipt" />
                   <Text style={styles.listText}>등록 상품</Text>
@@ -215,7 +241,7 @@ class ProfileShow extends Component {
                 </Right>
               </ListItem>
 
-              <ListItem button onPress={() => { this.partnerCheckNavigate() }}>
+              <ListItem onPress={() => { this.props.navigation.navigate('ProfileAsk', { user_id: this.profile_id }) }}>
                 <Left>
                   <Icon type="Ionicons" name="hand-left-outline" />
                   <Text style={styles.listText}>요청 상품</Text>
@@ -225,7 +251,7 @@ class ProfileShow extends Component {
                 </Right>
               </ListItem>
 
-              <ListItem button onPress={() => { this.partnerCheckNavigate() }}>
+              <ListItem onPress={() => { this.props.navigation.navigate('ReceivedReview', {user_id: this.profile_id}) }}>
                 <Left>
                   <Icon type="MaterialCommunityIcons" name="comment-text-multiple-outline" />
                   <Text style={styles.listText}>받은 리뷰 확인하기</Text>
