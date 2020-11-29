@@ -67,7 +67,9 @@ class ListProfile extends Component {
   }
 }
 
-function ChatList ({ navigation }){
+function ChatList ({ navigation, chat_data }){
+  console.log("enter chatlist -----------------")
+  console.log(chat_data)
   const [chats, setChats] = useState([]);
   const [refreshing, setRefresh] = useState();
   const [unchecked, setUnchecked] = useState();
@@ -106,6 +108,7 @@ function ChatList ({ navigation }){
           total_unchecked += chat.chat_info.num_unchecked;
         })
         setUnchecked(total_unchecked)
+        
         console.log(JSON.stringify(response.data)+ " response data");
         if(JSON.stringify(response.data) === '[]') {
           console.log("111111111111111");
