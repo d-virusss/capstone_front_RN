@@ -103,7 +103,7 @@ class myItemListScreen extends Component{
             </Content>
           </Tab>
 
-          <Tab heading={ <TabHeading transparent><Text>대여</Text></TabHeading>}>
+          <Tab heading={ <TabHeading transparent><Text>요청</Text></TabHeading>}>
             <Content>
               <List>
                 {this.makeIndexList(this.state.posts2)}

@@ -154,12 +154,28 @@ class MypageScreen extends Component {
           })}>
           <Text style={styles.popoverel}>프로필 수정</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           onPress={() => this.setState({ show_popover: false }, () => {
-            this.props.navigation.navigate("Keyword",)
+            this.props.navigation.navigate('SettingGroup')
           })}>
-          <Text style={styles.popoverel}>키워드 알림</Text>
+          <Text style={styles.popoverel}>소속 인증</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => this.setState({ show_popover: false }, () => {
+            this.getFCMToken()
+          })}>
+          <Text style={styles.popoverel}>기기 인증 </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => this.setState({ show_popover: false }, () => {
+            this.partnerCheckNavigate()
+          })}>
+          <Text style={styles.popoverel}>파트너 인증</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           onPress={() => this.setState({ show_popover: false }, () => {
             Fire.off();
@@ -219,18 +235,18 @@ class MypageScreen extends Component {
                 <Button transparent style={styles.btn}
                   onPress={() => {this.props.navigation.navigate('ProviderRentList')}}>
                   <Icon type="MaterialCommunityIcons" name="receipt" style={{color:'black'}}/>
-                  <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 제공 목록</Text>
+                  <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 제공자</Text>
                 </Button>
 
                 <Button transparent style={styles.btn}
                   onPress={() => {this.props.navigation.navigate('ConsumerRentList')}}>
                   <Icon type="Ionicons" name="basket-sharp" style={{color:'black'}}/>
-                  <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 대여 목록</Text>
+                  <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 소비자</Text>
                 </Button>
 
-                <Button transparent style={styles.btn} onPress={() => {this.props.navigation.navigate('Like_List')}}>
-                    <Icon type="Ionicons" name="heart" style={{color:'black'}}/>
-                  <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 관심 목록</Text>
+                <Button transparent style={styles.btn} onPress={() => {this.props.navigation.navigate('MyItemList')}}>
+                    <Icon type="Ionicons" name="file-tray-stacked-outline" style={{ color:'black' }} />
+                    <Text style={{ paddingVertical: '8%', marginBottom: '4%',color:'black' }}> 내 글</Text>
                 </Button>
               </ListItem>
 
@@ -246,40 +262,20 @@ class MypageScreen extends Component {
                 </Right>
               </ListItem>
 
-              <ListItem button onPress = {()=>{this.partnerCheckNavigate()}}>
+              <ListItem button onPress={() => { this.props.navigation.navigate('Like_List') }}>
                 <Left>
-                  <Icon type="AntDesign" name="addusergroup" />
-                  <Text style={ styles.listText }> 파트너 인증</Text>
+                  <Icon type="Ionicons" name="heart" style={{ color: 'black' }} />
+                  <Text style={styles.listText}> 찜 목록</Text>
                 </Left>
                 <Right>
                   <Icon type="AntDesign" name="right" />
                 </Right>
               </ListItem>
 
-              <ListItem button onPress = {()=>{this.getFCMToken();}}>
+              <ListItem button onPress={() => { this.props.navigation.navigate("Keyword") }}>
                 <Left>
-                  <Icon type="MaterialIcons" name="perm-device-info" />
-                  <Text style={ styles.listText }> 기기 인증</Text>
-                </Left>
-                <Right>
-                  <Icon type="AntDesign" name="right" />
-                </Right>
-              </ListItem>
-
-              <ListItem button onPress={() => {this.props.navigation.navigate('SettingGroup')}}>
-                <Left>
-                  <Icon type="AntDesign" name="addusergroup" />
-                  <Text style={ styles.listText }> 소속 인증</Text>
-                </Left>
-                <Right>
-                  <Icon type="AntDesign" name="right" />
-                </Right>
-              </ListItem>
-
-              <ListItem button onPress={() => {this.props.navigation.navigate('MyItemList')}}>
-                <Left>
-                  <Icon type="Ionicons" name="file-tray-stacked-outline" />
-                  <Text style={ styles.listText }> 내 글 관리</Text>
+                  <Icon type="Feather" name="bell" />
+                  <Text style={styles.listText}> 키워드 알림</Text>
                 </Left>
                 <Right>
                   <Icon type="AntDesign" name="right" />
@@ -290,16 +286,6 @@ class MypageScreen extends Component {
                 <Left>
                   <Icon type="MaterialCommunityIcons" name="comment-outline" />
                   <Text style={ styles.listText }> 리뷰 관리</Text>
-                </Left>
-                <Right>
-                  <Icon type="AntDesign" name="right" />
-                </Right>
-              </ListItem>
-
-              <ListItem button onPress={() => {this.props.navigation.navigate('Reservation')}}>
-                <Left>
-                  <Icon type="AntDesign" name="calendar" />
-                  <Text style={ styles.listText }> 예약 관리</Text>
                 </Left>
                 <Right>
                   <Icon type="AntDesign" name="right" />

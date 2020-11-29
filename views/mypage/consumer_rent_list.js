@@ -3,9 +3,11 @@ import { StyleSheet, TouchableOpacity, ScrollView, View, Alert } from 'react-nat
 import {
   Container, Content, Header, Left, Right, Body, Icon, Badge,
   Title, Text, List, ListItem, Tabs, Tab, TabHeading, Thumbnail,
+  Footer
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
+import SendList from './reservationSend'
 
 class ProviderRentList extends Component {
   state = {
@@ -133,19 +135,24 @@ class ProviderRentList extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>대여 목록</Title></Body>
+          <Body><Title>빌린 물품</Title></Body>
           <Right></Right>
         </Header>
 
-        <Tabs>
-          <Tab heading={<TabHeading transparent><Text>대여 중</Text></TabHeading>}>
+        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#ff3377' }}>
+          <Tab heading="신청한 예약" activeTextStyle={{ color: '#ff3377' }}>
+            <Footer>
+              <SendList navigation={this.props.navigation}></SendList>
+            </Footer>
+          </Tab>
+          <Tab heading="대여 중" activeTextStyle={{ color: '#ff3377' }}>
             <ScrollView>
               <List>
                 {this.makeRentList(this.state.after_booking)}
               </List>
             </ScrollView>
           </Tab>
-          <Tab heading={<TabHeading transparent><Text>지난 대여</Text></TabHeading>}>
+          <Tab heading="지난 대여" activeTextStyle={{ color: '#ff3377' }}>
             <ScrollView>
               <List>
                 {this.makeCompletedList(this.state.after_booking)}
