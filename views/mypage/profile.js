@@ -16,53 +16,59 @@ IconM.loadFont();
 var posts = [];
 
 class ProfileShow extends Component {
+  profile_id = this.props.route.params.user_id
   state = {
+    my_id: '',
     token: '',
-    myName: '',
-    myLocation: '',
-    myGroup: '',
-    myImage: '',
+    nickname: '',
+    location: '',
+    group: '',
+    profile_image: '',
     loading: false,
     refreshing: '',
     show_popover: false,
     isCompany: false,
     company_id: -1,
+    avg_rating : undefined,
+    review_count : undefined
   };
 
   getToken = async () => {
     let value = await AsyncStorage.getItem("token")
+    let id = await AsyncStorage.getItem('user_id')
+    this.state.my_id = id
     this.state.token = value
-    // this.getMyInfo();
+    console.log(this.state)
+    this.getMyInfo();
   }
 
   componentDidMount() {
     console.log("profile show--------------------")
-    console.log(this.props.route.params)
-    console.log(this)
+    console.log(this.profile_id)
     this.getToken();
   }
 
   getMyInfo = () => {
-    api.get(`/users/`, {
-      headers: {
-        Authorization: this.state.token,
-      },
-    })
+    api
+      .get(`/users/${this.profile_id}`, {
+        headers: {
+          Authorization: this.state.token,
+        },
+      })
       .then((res) => {
-        //console.log(res)
-        this.state.myName = res.data.user_info.nickname;
-        this.state.myLocation = res.data.user_info.location_title;
-        this.state.myImage = res.data.user_info.image;
-        this.state.myGroup = "ajou"
-        posts = res.data.user_info;
-        if (res.data.user_info.company_id)
-          this.state.company_id = res.data.user_info.company_id;
-        this.state.isCompany = res.data.user_info.is_company;
+        console.log(res)
+        this.state.nickname = res.data.user_info.nickname
+        this.state.location = res.data.user_info.location_title
+        this.state.group = res.data.user_info.group || "ajou"
+        this.state.profile_image = res.data.user_info.image
+        this.state.isCompany = res.data.user_info.is_company
+        this.state.avg_rating = res.data.user_info.avg
         this.setState({ loading: true })
       })
       .catch((err) => {
         console.log("my page err")
-        Alert.alert("요청 실패", err.response.data.error, [{ text: '확인', style: 'cancel' }])
+        Alert.alert("요청 실패", err.response.data.error || err.response.data.message, [
+          { text: '확인', style: 'cancel' }])
       })
   }
 
@@ -84,6 +90,20 @@ class ProfileShow extends Component {
         </TouchableOpacity>
       </Popover>
     )
+  }
+
+  renderFollowButton(){
+    if(this.state.my_id === this.profile_id){
+      return
+    }
+    else{
+      <Button bordered style={{
+        position: 'absolute', right: '10%', backgroundColor: 'white',
+        borderColor: 'black'
+      }}>
+        <Text style={{ fontWeight: 'bold', color: 'black' }}>관심유저 등록</Text>
+      </Button>
+    }
   }
 
   render() {
@@ -111,20 +131,17 @@ class ProfileShow extends Component {
                 style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop: '3%' }}>
                 <TouchableOpacity style={{ flexDirection: 'row' }}
                   onPress={() => { this.props.navigation.navigate('ProfileShow'), { post: posts } }}>
-                  <Thumbnail source={{ uri: this.state.myImage }} />
+                  <Thumbnail source={{ uri: this.state.profile_image }} />
                   <Body style={{ marginLeft: '5%' }}>
                     <View style={{ flexDirection: 'row' }}>
-                      <Text>{this.state.myName}</Text>
+                      <Text>{this.state.nickname}</Text>
                       <Text note numberOfLines={1}>
-                        {this.state.myGroup}
+                        {this.state.group}
                       </Text>
-                      <Button style={{ position : 'absolute', right: '10%' }}>
-                        <Text>관심유저 등록</Text>
-                      </Button>
                     </View>
                     <View sylte={{ flexDirection: 'row' }}>
                       <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
-                        {this.state.myLocation}
+                        {this.state.location}
                       </Text>
                     </View>
                   </Body>
@@ -132,13 +149,15 @@ class ProfileShow extends Component {
               </ListItem>
 
               <ListItem
-                style={{ flexDirection: 'row', justifyContent: 'center', height: 100, marginTop: '3%' }}>
-                  <Text>사용자 리뷰 평점</Text>
+                style={{ flexDirection: 'column', justifyContent: 'center', height: 100, marginTop: '3%' }}>
+                  <Text>사용자 리뷰 평점{'\n'}</Text>
+                  <Text>dfa</Text>
               </ListItem>
 
               <Separator bordered style={{ height: '1%' }}></Separator>
 
-              <ListItem button onPress={() => { { this.props.navigation.navigate('MyPage_Location') } }}>
+              <ListItem button style={{ height: 75 }}
+                onPress={() => { { this.props.navigation.navigate('MyPage_Location') } }}>
                 <Left>
                   <Icon type="Ionicons" name="location-sharp" />
                   <Text style={styles.listText}> 제공 상품</Text>
@@ -180,5 +199,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     margin: 5,
   },
+  buttonFollow :{
+    position: 'absolute', 
+    right: '10%', 
+    backgroundColor: 'white',
+    borderColor: 'black',
+  },
+  buttonFollowed : {
+    position: 'absolute',
+    right: '10%',
+    backgroundColor: '#ff3377',
+  },
+  textFollow : {
+    fontWeight: 'bold', 
+    color: 'black',
+  },
+  textFollowed : {
+    fontWeight : 'bold',
+    color: 'white',
+  }
 });
 export default ProfileShow;

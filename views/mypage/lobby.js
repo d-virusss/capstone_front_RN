@@ -70,6 +70,7 @@ class MypageScreen extends Component {
       this.state.myGroup = "ajou"
       this.state.myId = res.data.user_info.id;
       posts = res.data.user_info;
+      console.log(posts)
       if(res.data.user_info.company_id)
         this.state.company_id = res.data.user_info.company_id;
       this.state.isCompany = res.data.user_info.is_company;
@@ -191,7 +192,7 @@ class MypageScreen extends Component {
                 thumbnail
                 style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop:'3%'}}>
                 <TouchableOpacity style={{ flexDirection: 'row' }}
-                    onPress={() => { this.props.navigation.navigate('ProfileShow', {post : posts}) }}>
+                    onPress={() => { this.props.navigation.navigate('ProfileShow', {user_id : posts.id}) }}>
                   <Thumbnail source={{uri: this.state.myImage}} />
                   <Body style={{ marginLeft : '5%' }}>
                     <View style={{ flexDirection : 'row' }}>
