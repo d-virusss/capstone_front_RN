@@ -1,41 +1,59 @@
 import React, {Component} from 'react';
 import {StyleSheet, Platform, View, Alert} from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { Container, Header, Content, Form, Item, Input, Label, 
-  Button, Text, Right, Body, Footer, Left, Icon, Title } from 'native-base';
+import { Container, Header, Content, Form, ListItem, Input, Label, 
+  Button, Text, Right, Body, Footer, Left, Icon, Title, Item } from 'native-base';
 import api from '../shared/server_address';
 
 //import getLoginClient from '../../apiAuth/loggedInClient';
 //Import the file if you are logged in
 
-export default class FindIdScreen extends Component {
+export default class PwInputCode extends Component {
   state = {
-    for:'email',
-    email: '',
-    myInfo: [],
-    name: '',
-    birthday: '',
-    number: '',
+    for:'',
+    email:'',
+    name:'',
+    birthday:'',
+    number:'',
+    code:''
   };
 
-  findId = async()=>{
+  checkCodeInput=async()=>{
+    if(this.state.code=='') {
+      console.log(code)
+      return Alert.alert('코드오류','코드를 입력해주세요',[({text:'확인',style:'cancel'})])
+      
+    }
     await api
-            .post(`/users/find`,{
+            .post('/users/find',{
               user:{
-                for:'email',
+                for:'password',
+                email:this.state.email,
                 name:this.state.name,
                 birthday:this.state.birthday,
-                number:this.state.number
+                number:this.state.number,
+                code:this.state.code
               }
             })
-            .then(async(response)=>{
-              this.state.myInfo=response.data.emails
-              this.props.navigation.navigate('FindIdShow',{myInfo:this.state.myInfo})
+            .then(response=>{
+              console.log(response)
+              this.props.navigation.navigate('FindPwShow',{for:'email',
+                email:this.state.email, name:this.state.name,
+                birthday:this.state.birthday, number:this.state.number,
+                code:this.state.code
+              })
             })
             .catch(error=>{
               console.log(error.response)
-              Alert.alert('찾기 오류',error.response.data.error,[{text:'확인',style:'cancel'}])
+              Alert.alert('인증 실패',error.response.data.error,[{text:'확인',style:'cancel'}])
             })
+  }
+
+  componentDidMount(){
+    this.state.email=this.props.route.params.email
+    this.state.name=this.props.route.params.name
+    this.state.birthday=this.props.route.params.birthday
+    this.state.number=this.props.route.params.number
   }
 
   render() {
@@ -50,38 +68,24 @@ export default class FindIdScreen extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title style={{color:'black',alignSelf:'center'}}>아이디 찾기</Title></Body>
+          <Body><Title style={{color:'black',alignSelf:'center'}}>비밀번호 찾기</Title></Body>
           <Right></Right>
         </Header>
         <Content>
           <Form>
             <Item floatingLabel>
-              <Label>이름</Label>
-              <Input autoCapitalize='none'
-                placeholder="본명을 입력하세요"
-                onChangeText={(text)=>{this.state.name=text}}
-              />
-            </Item>
-            <Item floatingLabel>
-              <Label>생일 ex)20200101</Label>
-              <Input keyboardType='numeric'
-                placeholder="생일을 입력하세요"
-                onChangeText={(text)=>{this.state.birthday=text}}
-              />
-            </Item>
-            <Item floatingLabel>
-              <Label>연락처 ex)01012345678</Label>
-              <Input keyboardType='numeric'
-                placeholder="가입한 핸드폰 번호를 입력하세요"
-                onChangeText={(text)=>{this.state.number=text}}
+              <Label>이메일로 전송된 코드를 입력하세요</Label>
+              <Input
+                placeholder='코드를 입력하세요'
+                onChangeText={(text)=>this.state.code=text}
               />
             </Item>
           </Form>
         </Content>
         <Footer style={styles.footer}>
           <Button transparent style={styles.footerbutton}
-                onPress={() => this.findId()}>
-            <Text style={styles.footerText}>찾기</Text>
+                onPress={() => this.checkCodeInput()}>
+            <Text style={styles.footerText}>코드확인</Text>
           </Button>
         </Footer>
       </Container>

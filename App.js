@@ -41,7 +41,10 @@ import WriteReview from './views/mypage/write_review'
 import Partner_apply from './views/partner/partner_apply';
 import Partner_waiting from './views/partner/partner_waiting';
 import Partner_page from './views/partner/partner_page';
-import UpdateReview from './views/mypage/update_review'
+import UpdateReview from './views/mypage/update_review';
+import FindIdShow from './views/findid/email_show';
+import FindPwShow from './views/findpw/pw_show';
+import PwInputCode from './views/findpw/pw_input_code'
 
 import ButtomTab from './views/shared/Tab'
 
@@ -87,7 +90,10 @@ const App = () => {
         <Stack.Screen name="KakaoLogin" component={KakaoLogin} options={{ gestureEnabled : false, headerTitle: "카카오 로그인", headerBackTitle: '뒤로'}} />
         <Stack.Screen name="Register" component={Register_form} options={{headerShown: false}} />
         <Stack.Screen name="Find_id" component={FindId} options={{headerShown: false}} />
+        <Stack.Screen name="FindIdShow" component={FindIdShow} options={{headerShown: false}} />
         <Stack.Screen name="Find_pw" component={FindPw} options={{headerShown: false}} />
+        <Stack.Screen name="FindPwShow" component={FindPwShow} options={{headerShown: false}} />
+        <Stack.Screen name="PwInputCode" component={PwInputCode} options={{headerShown: false}} />
         <Stack.Screen name="Main" component={ButtomTab} options={{headerShown : false, gestureEnabled : false, }}/>
 
         {/* post */}
