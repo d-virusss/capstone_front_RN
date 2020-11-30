@@ -198,7 +198,7 @@ class receiveScreen extends Component{
               <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>{ele.booking_info.consumer.nickname}</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
-              <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>{ele.booking_info.price}</Text>
+              <Text note numberOfLines={1} style={{ paddingTop: '2%' }}>{ele.booking_info.price.toLocaleString() + '원 ('}{ele.booking_info.lent_day + "일)"}</Text>
             </View>
           </Body>
           <Right>

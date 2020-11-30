@@ -62,7 +62,7 @@ class WriteReviewScreen extends Component {
 					Authorization: this.state.token,
 				},
 			}).then((res)=> {
-				Alert.alert("작성 완료", "리뷰가 정상적으로 등록됐습니다",[
+				Alert.alert("작성 완료", "리뷰가 정상적으로 등록되었습니다.",[
 					{
 						text: '확인',
 						onPress: () => this.props.navigation.goBack(),

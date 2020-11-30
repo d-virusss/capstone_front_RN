@@ -105,15 +105,15 @@ class SettingMyInfoScreen extends React.Component {
       Alert.alert("수정 실패", "실명은 6자까지 가능합니다.", [{ text: '확인', style: 'cancel' }])
       return true;
     }
-    else if(this.state.nickname > 11){
+    else if(this.state.nickname.length > 11){
       Alert.alert("수정 실패", "닉네임은 10자까지 가능합니다.", [{ text: '확인', style: 'cancel' }])
       return true;
     }
-    else if(this.state.number > 12){
+    else if(this.state.number.length > 12){
       Alert.alert("수정 실패", "연락처 형식을 확인해주세요.", [{ text: '확인', style: 'cancel' }])
       return true;
     }
-    else if(this.state.birthday > 9){
+    else if(this.state.birthday.length > 9){
       Alert.alert("수정 실패", "생년월일 형식을 확인해주세요.", [{ text: '확인', style: 'cancel' }])
       return true;
     }
