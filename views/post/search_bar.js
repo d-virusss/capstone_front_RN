@@ -71,7 +71,7 @@ class Search_Bar extends React.Component {
             <Title style={{fontSize: 20, color: 'black',alignSelf: 'center', fontWeight: '500'}}>{this.state.location}</Title>
         </Header>
 
-        <Item style={{backgroundColor:'#f8f8f8',borderwidth : 0 }}>
+        <Item style={{backgroundColor:'#ffffff',borderwidth : 0 }}>
           <Item style={{width : DEVICE_WIDTH*0.7, marginLeft: '4%', borderColor: 'transparent'}}>
             <Icon name="ios-search"/>
             <Input placeholder="Search" onChangeText = {(content) => this.state.search = content}
