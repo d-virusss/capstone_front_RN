@@ -24,9 +24,7 @@ class ProvideIndex extends Component {
   }
 
   _onRefresh = () => {
-   
     console.log("제공 게시물 refresh")
-    
     this.setState({refreshing: true});
     this.sendIndexRequest();
     this.setState({refreshing: false});
@@ -34,31 +32,31 @@ class ProvideIndex extends Component {
 
   makeIndexList() {
     return this.state.posts.map((post) => {
+      console.log(post)
       return(
-        <TouchableOpacity onPress={() =>{this.props.navigation.navigate('PostShow', { post_id: post.post_info.id }) }}>
+        <TouchableOpacity onPress={() =>{this.props.navigation.navigate('PostShow', { post_id: post.post_info.id })}}
+          key={post.post_info.id}>
           <ListItem thumbnail key = {post.post_info.id}>
             <Left style={{ marginLeft: '-2%' }}>
               <Thumbnail square style={{ width: 100, height: 100, borderRadius: 5 }} source={{ uri: post.post_info.image }} />
             </Left>
             <Body style={{}}>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ marginBottom : 5, fontWeight:'bold' }}>{post.post_info.title}</Text>
-
+              <View style={{ flexDirection: 'row', width:'70%' }}>
+                <Text numberOfLines={1} style={{ marginBottom : 5, fontWeight:'bold'}}>{post.post_info.title}</Text>
                 <Text style={{  }} note numberOfLines={1}>{post.post_info.created_at_ago}</Text>
               </View>
-              <View style={{ flexDirection: 'row', alignItems:'center' }}>
-                <Text style={{ fontSize: 15, fontWeight:'300' }}>{post.user.user_info.nickname}</Text>
+              <View style={{ flexDirection: 'row', alignItems:'center', width:'50%' }}>
+                <Text numberOfLines={1} style={{ fontSize: 15, fontWeight:'300' }}>{post.user.user_info.nickname}</Text>
                 <Text note numberOfLines={1} style={{ }}>{post.location_info.title} </Text>
               </View>
               <Text style={{ marginTop : 10, fontWeight: '500' }}>{number_delimiter(post.post_info.price)}원 / 일</Text>
             </Body>
             <Right style={{ flexDirection:'row',}}>
+              {post.post_info.status === "unable" &&
+              <Badge style={{ backgroundColor: '#ff9a00', position: 'absolute', right: '40%', bottom: '90%' }}>
+                <Text style={{ fontWeight: 'bold', fontSize: 12 }}>대여중</Text>
+              </Badge>}
               {post.user.user_info.is_company &&
-                // <Button small disabled style={{
-                //   backgroundColor: '#ff3377', marginRight: '5%', marginBottom: '-5%', width: 60
-                // }}>
-                //   <Text style={{ fontWeight: 'bold' }}>파트너</Text>
-                // </Button>
                 <Badge style={{ backgroundColor: '#ff3377', marginRight: '5%', marginBottom: '-5%', }}>
                   <Text style={{ fontWeight: 'bold' }} >파트너</Text>
                 </Badge>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StyleSheet, View, Alert, TextInput, Button } from 'react-native';
+import { TouchableOpacity, StyleSheet, View, Alert, TextInput, Button,
+  TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Header, Text, Form, Item, Input, Label, Left, 
   Right, Icon, Body, Title, Content, Badge, Button as NativeButton } from 'native-base';
@@ -155,6 +156,7 @@ class Keyword extends Component {
           <Right></Right>
         </Header>
         <Content style={styles.screen}>
+          <TouchableWithoutFeedback>
           <Text style={styles.title}>키워드 알림</Text>
           <Text>키워드를 등록해 두면 키워드가 포함된 게시글이 올라올 때 푸시 알람을 받을 수 있어요!</Text>
           <View style={styles.inputForm}>
@@ -169,6 +171,7 @@ class Keyword extends Component {
           <View style={styles.keywordContainer}>
             {this.makeKeywordBadge()}
           </View>
+          </TouchableWithoutFeedback>
         </Content>
       </Container>
     );
