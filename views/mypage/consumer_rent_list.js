@@ -171,7 +171,7 @@ class ProviderRentList extends Component {
 const styles = StyleSheet.create({
   returnbutton : {
     fontSize : 13,
-    fontWeight : '400',
+    fontWeight : 'bold',
     color : 'black'
   }
 });

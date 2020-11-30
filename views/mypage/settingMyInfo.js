@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Alert, TouchableOpacity, } from 'react-native';
+import { StyleSheet, View, Alert, TouchableOpacity,
+  TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, 
   Left, Right, Body, Title, Icon, Footer, Button, Text} from 'native-base';
@@ -69,6 +70,14 @@ class SettingMyInfoScreen extends React.Component {
     this.setState({ loading: false }, () => {console.log(this.state)})
   }
 
+  changeImage = (data) => {
+    this.setState({ image: data })
+    image_info.uri = data[0].sourceURL;
+    image_info.type = data[0].mime;
+    image_info.name = data[0].filename;
+    console.log(image_info)
+  }
+  
   saveMyInfo() {
     formdata = new FormData()
     formdata.append('user[email]', this.state.email)
@@ -76,18 +85,10 @@ class SettingMyInfoScreen extends React.Component {
     formdata.append('user[number]', this.state.number)
     formdata.append('user[name]', this.state.name)
     formdata.append('user[birthday]', this.state.birthday)
-    if(image_info.uri != ''){
+    if (image_info.uri != '') {
       formdata.append('user[image]', image_info)
     }
     console.log(formdata)
-  }
-
-  changeImage = (data) => {
-    this.setState({ image: data })
-    image_info.uri = data[0].sourceURL;
-    image_info.type = data[0].mime;
-    image_info.name = data[0].filename;
-    console.log(image_info)
   }
 
   checkInputVaule = () => {
@@ -100,6 +101,7 @@ class SettingMyInfoScreen extends React.Component {
   }
 
   updateRequest = async () => {
+
     if(this.checkInputVaule()){
       this.setState({ loading : true })
       api
@@ -168,46 +170,51 @@ class SettingMyInfoScreen extends React.Component {
           </Header>
 
           <Content>
-            <Form> 
-              <ImageSelect stateBus={this.changeImage} existing_image={[(this.state.image)]}
-                  isProfile={true}>
-              </ImageSelect>
+            <TouchableWithoutFeedback>
+              <KeyboardAvoidingView>
+                <Form> 
+                  <ImageSelect stateBus={this.changeImage} existing_image={[(this.state.image)]}
+                      isProfile={true}>
+                  </ImageSelect>
 
-              <Item floatingLabel>
-                <Label>이름(실명)</Label>
-                <Input autoCapitalize="none"
-                  onChangeText = {(text) => {this.setState({name : text}) }}
-                  value = {this.state.name}
-                />
-              </Item>
 
-              {/* nickname */}
-              <Item floatingLabel>
-                <Label>닉네임</Label>
-                <Input autoCapitalize="none"
-                  onChangeText = {(name) => {this.setState({nickname : name}) }}
-                  value = {this.state.nickname}
-                />
-              </Item>
+                  <Item floatingLabel>
+                    <Label>이름(실명)</Label>
+                    <Input autoCapitalize="none"
+                      onChangeText = {(text) => {this.setState({name : text}) }}
+                      value = {this.state.name}
+                    />
+                  </Item>
 
-              {/* phone */}
-              <Item floatingLabel>
-                <Label>연락처 ex) 01012345678</Label>
-                <Input autoCapitalize="none"
-                  keyboardType="numeric"
-                  onChangeText = {(text) => {this.setState({number : text}) }}
-                  value = {this.state.number}
-                />
-              </Item>
+                  {/* nickname */}
+                  <Item floatingLabel>
+                    <Label>닉네임</Label>
+                    <Input autoCapitalize="none"
+                      onChangeText = {(name) => {this.setState({nickname : name}) }}
+                      value = {this.state.nickname}
+                    />
+                  </Item>
 
-              <Item floatingLabel>
-                <Label>생일 ex) 19960827</Label>
-                <Input autoCapitalize="none"
-                  onChangeText = {(birthday) => {this.setState({birthday : birthday}) }}
-                  value = {this.state.birthday}
-                />
-              </Item>
-            </Form>
+                  {/* phone */}
+                  <Item floatingLabel>
+                    <Label>연락처 ex) 01012345678</Label>
+                    <Input autoCapitalize="none"
+                      keyboardType="numeric"
+                      onChangeText = {(text) => {this.setState({number : text}) }}
+                      value = {this.state.number}
+                    />
+                  </Item>
+
+                  <Item floatingLabel>
+                    <Label>생일 ex) 19960827</Label>
+                    <Input autoCapitalize="none"
+                      onChangeText = {(birthday) => {this.setState({birthday : birthday}) }}
+                      value = {this.state.birthday}
+                    />
+                  </Item>
+                </Form>
+              </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
           </Content>
           <View style={styles.footer}>
             <Button transparent style={ styles.footerbutton }

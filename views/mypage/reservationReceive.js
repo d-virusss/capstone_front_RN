@@ -203,7 +203,7 @@ class receiveScreen extends Component{
           </Body>
           <Right>
             <Badge style={{ backgroundColor : this.setBadgeColor(ele.booking_info.result) }}>
-              <Text numberOfLines={1} >
+              <Text numberOfLines={1} style={{ fontWeight: 'bold' }} >
                 {ele.booking_info.result}
               </Text>
             </Badge>

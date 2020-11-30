@@ -102,7 +102,7 @@ class PostShow extends Component{
         this.setState({loading : false})
 
       }).catch((err) => {
-				console.log(err);
+				console.log(err.response);
       })
   }
 
@@ -153,7 +153,7 @@ class PostShow extends Component{
 		}).then((res) => {
 			reviewList = res.data;
 		}).catch((err) => {
-			console.log(err)
+			console.log(err.response)
 		})
 	}
   //make review list
