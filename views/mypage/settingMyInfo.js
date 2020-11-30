@@ -197,7 +197,7 @@ class SettingMyInfoScreen extends React.Component {
 
                   {/* phone */}
                   <Item floatingLabel>
-                    <Label>연락처 ex) 01012345678</Label>
+                    <Label>연락처{" ('-'을 제외하고 입력해주세요)"}</Label>
                     <Input autoCapitalize="none"
                       keyboardType="numeric"
                       onChangeText = {(text) => {this.setState({number : text}) }}
@@ -206,7 +206,7 @@ class SettingMyInfoScreen extends React.Component {
                   </Item>
 
                   <Item floatingLabel>
-                    <Label>생일 ex) 19960827</Label>
+                    <Label>생년월일{" ('-' 제외, YYYYMMDD)"}</Label>
                     <Input autoCapitalize="none"
                       onChangeText = {(birthday) => {this.setState({birthday : birthday}) }}
                       value = {this.state.birthday}
