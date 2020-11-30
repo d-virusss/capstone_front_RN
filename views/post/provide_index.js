@@ -97,7 +97,7 @@ class ProvideIndex extends Component {
           [{text:'확인', onPress : () => this.props.navigation.navigate("Logins")}, 
           {style:'cancel'}])
         }else{
-          Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
+          Alert.alert("요청 실패", e.response.data.error,[{text:'확인', onPress : () => this.props.navigation.navigate("Logins"),style:'cancel'}])
         }
         
       }.bind(this));

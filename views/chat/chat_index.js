@@ -67,7 +67,7 @@ class ListProfile extends Component {
   }
 }
 
-function ChatList ({ navigation, chat_data }){
+function ChatList ({ navigation, chat_data, getTotalChat }){
   
   console.log("enter chatlist -----------------")
   console.log(chat_data)
@@ -81,6 +81,7 @@ function ChatList ({ navigation, chat_data }){
     
     setRefresh(true);
     chatGetRequest();
+    getTotalChat();
     setRefresh(false);
   }
   
@@ -157,7 +158,8 @@ function ChatList ({ navigation, chat_data }){
     }
     inEffect();
     const unsubscribe = navigation.addListener('focus', () => {
-      chatGetRequest()
+      chatGetRequest();
+      getTotalChat();
     });
 
     return unsubscribe;

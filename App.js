@@ -77,18 +77,10 @@ const App = () => {
 			SplashScreen.hide();
       setLoading(loading => false)
     }, 1000);
-    
 
     fcmService.registerAppWithFCM()
     fcmService.register(onRegister, onNotification, onOpenNotification)
     localNotificationService.configure(onOpenNotification)
-    //openDB();
-
-    function openDB(){
-      db.transaction(tx=>{
-        tx.executeSql('create table if not exists user (user_id, location, token)')
-      },(tx,results)=>{console.log(results)},(err)=>console.log(err))
-    }
 
     function onRegister(token){
       console.log("[App] onRegister : ", token)
@@ -101,12 +93,6 @@ const App = () => {
         soundName: 'default',
         playSound: true
       }
-      /*if(data.type=='keyword'){
-        NavigationService.navigate('PostShow',{post_id:data.post_id})
-      }
-      if(data.type=='chat'){
-        NavigationService.navigate('ChatRoom',{chat_id:data.chat_id,post_id:data.post_id})
-      }*/
       
       localNotificationService.showNotification(
         0, notify.title, notify.body, notify, options

@@ -59,7 +59,7 @@ class MypageScreen extends Component {
     this.getToken();
     this.eventListener = DeviceEventEmitter.addListener('updateMypage', this.updateEventHandler);
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
-      this.getMyInfo();
+      this.getToken();
     });
   }
 

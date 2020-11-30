@@ -9,7 +9,7 @@ class LocalNotificationService {
       onRegister: function (token) {
         console.log("[LocalNotificationService] onRegister:", token);
       },
-      onNotification: function (notification) {
+      onNotification: function (notification, data) {
         console.log("[LocalNotificationService] onNotification:", notification);
         if (!notification?.data) {
           return
@@ -23,6 +23,7 @@ class LocalNotificationService {
           notification.finish(PushNotificationIOS.FetchResult.NoData)
         }
         console.log(notification)
+        console.log('[local]: '+JSON.stringify(data))
       },
       
       // IOS ONLY (optional): default: all - Permissions to register.
