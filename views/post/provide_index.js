@@ -89,32 +89,35 @@ class ProvideIndex extends Component {
       })
       .catch(function (e) {
         console.log(e.response);
+     
         Alert.alert("자동 로그인 실패", "로그인을 먼저해주세요",
           [{text:'확인', onPress : () => this.props.navigation.navigate("Logins")}, 
           {style:'cancel'}])
       }.bind(this));
-
-      return;
-    }
-    api
-      .get('/posts?post_type=provide', {
-        headers: {
-          Authorization: this.state.token,
-        },
-        params: {
-          "q[category_id_eq]" : searchModel.id,
-          "q[title_or_body_or_user_nickname_cont]" : searchModel.content,
-          "user": searchModel.content,
-        },
-      })
-      .then((res) => {
-        console.log(res)
-        this.setState({posts: res.data});
-      })
-      .catch(function (e) {
-        console.log('send post failed!!!!' + e);
-        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
-      });
+      
+    }else{
+      api
+        .get('/posts?post_type=provide', {
+          headers: {
+            Authorization: this.state.token,
+          },
+          params: {
+            "q[category_id_eq]" : searchModel.id,
+            "q[title_or_body_or_user_nickname_cont]" : searchModel.content,
+            "user": searchModel.content,
+          },
+        })
+        .then((res) => {
+          console.log(res)
+          this.setState({posts: res.data, loading : false});
+        })
+        .catch(function (e) {
+          console.log('send post failed!!!!' + e);
+          Alert.alert("자동 로그인 실패", "로그인을 먼저해주세요",
+          [{text:'확인', onPress : () => this.props.navigation.navigate("Logins")}, 
+          {style:'cancel'}])
+        }.bind(this));
+      }
   }
 
   getToken = async () => {
