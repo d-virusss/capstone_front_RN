@@ -279,7 +279,7 @@ class MypageScreen extends Component {
                 <Right>
                   <Icon type="AntDesign" name="right" />
                 </Right>
-              </ListItem>
+                </ListItem>
 
               <ListItem button onPress={() => { this.props.navigation.navigate('Like_List') }}>
                 <Left>

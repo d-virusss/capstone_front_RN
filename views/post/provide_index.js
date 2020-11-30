@@ -33,6 +33,9 @@ class ProvideIndex extends Component {
     this.getToken()
     this.eventListener = DeviceEventEmitter.addListener('categoryId', this.catetoryEventHandler);
     this.eventListener = DeviceEventEmitter.addListener('searchContent', this.searchEventHandler);
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this._onRefresh()
+    });
   }
 
   _onRefresh = () => {
