@@ -58,6 +58,9 @@ class MypageScreen extends Component {
   componentDidMount() {
     this.getToken();
     this.eventListener = DeviceEventEmitter.addListener('updateMypage', this.updateEventHandler);
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this.getMyInfo();
+    });
   }
 
   updateEventHandler = (e) => {
@@ -68,6 +71,7 @@ class MypageScreen extends Component {
   componentWillUnmount() {
     //remove listener
     this.eventListener.remove();
+    this._unsubscribe();
   }
 
   getMyInfo = () => {

@@ -33,7 +33,7 @@ class AskIndex extends Component{
   makeIndexList() {
     return this.state.posts.map((post) => {
       return (
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('PostShow', { post: post })} key={post.post_info.id}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('PostShow', { post_id: post.post_info.id })} key={post.post_info.id}>
           <ListItem thumbnail>
             <Left>
               <Thumbnail square source={{ uri: post.post_info.image }} />
