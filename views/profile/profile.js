@@ -121,6 +121,7 @@ class ProfileShow extends Component {
       })
       .then((res) => {
         this.setState({ loading: false })
+        console.log('click 좋아요--------')
         console.log(res)
       })
       .catch((e) => {
@@ -136,23 +137,23 @@ class ProfileShow extends Component {
     else{
       if(this.state.like_check){
         return(
-          <Button small style={{
-            position: 'absolute', right: '10%', backgroundColor: '#ff3377', borderColor: 'black',
+          <Button small bordered style={{
+            position: 'absolute', right: '10%', backgroundColor: 'white', borderColor: 'black',
             width:100, justifyContent:'center'}}
             onPress={() => {this.userLikeRequest()}}
           >
-            <Text style={{ color: 'white', fontWeight: 'bold',  }}>팔로우</Text>
+            <Text style={{ color: 'black', fontWeight: 'bold',  }}>팔로우 취소</Text>
           </Button>
         )
       }
       else {
         return (
-          <Button small bordered style={{
-            position: 'absolute', right: '10%', backgroundColor: 'white', borderColor: 'black',
+          <Button small style={{
+            position: 'absolute', right: '10%', backgroundColor: '#ff3377', borderColor: 'black',
             width: 100, justifyContent: 'center'}}
             onPress={() => {this.userLikeRequest()}}
           >
-            <Text style={{ color: 'black', fontWeight: 'bold' }}>팔로우</Text>
+            <Text style={{ color: 'white', fontWeight: 'bold' }}>팔로우</Text>
           </Button>
         )
       }
@@ -210,11 +211,11 @@ class ProfileShow extends Component {
                 <Body style={{ marginLeft: '5%' }}>
                   <View style={{ flexDirection: 'row' }}>
                     <Text>{this.state.nickname}</Text>
-                    <Text note numberOfLines={1}>
-                      {this.state.group}
-                    </Text>
                     {this.renderFollowButton()}
                   </View>
+                  <Text note numberOfLines={1} style={{ marginTop: '1%' }}>
+                    {this.state.group}
+                  </Text>
                   <View sylte={{ flexDirection: 'row' }}>
                     <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
                       {this.state.location}
