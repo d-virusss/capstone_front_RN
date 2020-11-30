@@ -202,12 +202,13 @@ class LoginScreen extends Component {
             <View style={{marginTop: '10%', height: '10%'}}>
               <CustomButton
                 title="이메일로 로그인"
-                titleColor="black"
-                buttonColor="white"
+                titleColor="white"
+                buttonColor="#ff3377"
                 borderWidth={5}
                 borderRadius={5}
                 width="100%"
                 height="100%"
+                fontWeight="bold"
                 onPress={() => {console.log(userinfo); this.makeRequest()}}
               />
             </View>
@@ -242,8 +243,8 @@ class LoginScreen extends Component {
             <View style={{marginTop: '3%', height: '10%'}}>
               <CustomButton
                 title="회원가입"
-                titleColor="#fff"
-                buttonColor="#ff3377"
+                titleColor="black"
+                buttonColor="white"
                 width="100%"
                 height="100%"
                 onPress={() => this.props.navigation.navigate('Register')}

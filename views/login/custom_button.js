@@ -47,7 +47,8 @@ export default class CustomButton extends Component{
         <Text style={[
             {   
                 color: this.props.titleColor,
-                fontSize : this.props.fontSize
+                fontSize : this.props.fontSize,
+                fontWeight : this.props.fontWeight,
             }
         ]}> <Icon name={this.props.icon_name} type={this.props.icon_type} size={17} ></Icon> {this.props.title}</Text>
       </TouchableOpacity>
