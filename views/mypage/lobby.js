@@ -231,8 +231,8 @@ class MypageScreen extends Component {
                     onPress={() => { this.props.navigation.navigate('ProfileShow', {user_id : posts.id}) }}>
                   <Thumbnail source={{uri: this.state.myImage}} />
                   <Body style={{ marginLeft : '5%' }}>
-                    <View style={{ flexDirection : 'row' }}>
-                      <Text>{this.state.myName}</Text>
+                    <View style={{ flexDirection : 'row', width:'60%' }}>
+                      <Text style={{}} numberOfLines={1}>{this.state.myName}</Text>
                       <Text note numberOfLines={1}>
                         {this.state.myGroup}
                       </Text>

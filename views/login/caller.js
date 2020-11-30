@@ -155,7 +155,7 @@ class LoginScreen extends Component {
         <View style={{flex: 1}}></View>
         <View style={{flex: 4, width: '70%', alignSelf: 'center'}}>
           <TouchableOpacity style={{ flex: 1,}} onPress={() => this.testLoginRequest()}>
-            <Text style={{ color: 'black', fontSize: 40, textAlign: 'center',}}>
+            <Text style={{ color: 'black', fontSize: 40, textAlign: 'center', fontWeight: 'bold'}}>
               모두나눔
             </Text>
           </TouchableOpacity>
@@ -257,14 +257,15 @@ class LoginScreen extends Component {
                   flexDirection: 'row',
                   alignSelf: 'center',
                 }}>
-                <View style={{width: '49%', marginRight : '3%'}}>
+                <View style={{width: '49%', marginRight : '2%'}}>
                   <CustomButton
-                    title="ID 찾기"
+                    title="이메일 찾기"
                     titleColor="#fff"
                     buttonColor="#aaaaaa"
                     width="100%"
                     height="100%"
                     fontSize={15}
+                    fontWeight="bold"
                     onPress={() => this.props.navigation.navigate('Find_id')}
                   />
                 </View>
@@ -276,6 +277,7 @@ class LoginScreen extends Component {
                     width="100%"
                     height="100%"
                     fontSize={15}
+                    fontWeight="bold"
                     onPress={() => this.props.navigation.navigate('Find_pw')}
                   />
                 </View>

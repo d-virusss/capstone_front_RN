@@ -46,11 +46,11 @@ export default class CustomButton extends Component{
       onPress={this.props.onPress}>
         <Text style={[
             {   
-                color: this.props.titleColor,
-                fontSize : this.props.fontSize,
-                fontWeight : this.props.fontWeight,
+              color: this.props.titleColor,
+              fontSize : this.props.fontSize,
+              fontWeight : this.props.fontWeight,
             }
-        ]}> <Icon name={this.props.icon_name} type={this.props.icon_type} size={17} ></Icon> {this.props.title}</Text>
+        ]}> <Icon name={this.props.icon_name} type={this.props.icon_type} size={17} ></Icon>{this.props.title}</Text>
       </TouchableOpacity>
     )
   }
