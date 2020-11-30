@@ -144,6 +144,7 @@ class LoginScreen extends Component {
               }
             })
             .then(response=>{
+              console.log('fcm add device success')
               console.log(response)
             })
             .catch(err=>console.log(err))
