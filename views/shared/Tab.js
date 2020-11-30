@@ -25,6 +25,23 @@ class TabScreen extends Component {
     loading : true,
   }
 
+  addDeviceToken = async()=>{
+    let tok = await AsyncStorage.getItem('token');
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    await api
+            .post('/users/add_device',{
+              user:{
+                device_token:fcmToken
+              }
+            },{
+              headers:{
+                'Authorization': tok
+              }
+            })
+            .then(res=>console.log(res))
+            .catch(err=>console.log(err))
+  }
+
   getTotalChat = async () => {
     total_unchecked = 0
     console.log('chat index request ---------------')
@@ -62,6 +79,7 @@ class TabScreen extends Component {
   }
 
   componentDidMount() {
+    this.addDeviceToken();
     this.getTotalChat();
   }
   

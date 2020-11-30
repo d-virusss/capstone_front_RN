@@ -227,7 +227,7 @@ function chat_room2 ({route, navigation}){
               </Popover>
             </Right>
           </Header>
-          <TouchableOpacity onPress ={()=>{navigation.navigate('PostShow',{post: postInfo})}}>
+          <TouchableOpacity onPress ={()=>{navigation.navigate('PostShow',{post_id: post_id})}}>
             <Header style = {{
               backgroundColor: '#ffffff',
               alignItems: 'center',
@@ -290,7 +290,7 @@ function chat_room2 ({route, navigation}){
             </Popover>
           </Right>
         </Header>
-        <TouchableOpacity onPress ={()=>{navigation.navigate('PostShow',{post: postInfo})}}>
+        <TouchableOpacity onPress ={()=>{navigation.navigate('PostShow',{post_id: post_id})}}>
           <Header style = {{
             backgroundColor: '#ffffff',
             alignItems: 'center',
