@@ -76,15 +76,9 @@ class ProvideIndex extends Component {
       })
       .catch(function (e) {
         console.log(e.response);
-        if(e.response.data.error == "expired"){
-          console.log(this)
-          Alert.alert("세션 만료", "로그인을 다시해주세요",
+        Alert.alert("자동 로그인 실패", "로그인을 먼저해주세요",
           [{text:'확인', onPress : () => this.props.navigation.navigate("Logins")}, 
           {style:'cancel'}])
-        }else{
-          Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
-        }
-        
       }.bind(this));
 
       return;

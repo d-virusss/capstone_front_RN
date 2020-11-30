@@ -1,17 +1,16 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableOpacity, Button } from 'react-native';
 import CustomButton from './custom_button';
-import { Item, Input, Toast, Button} from 'native-base';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Item, Input} from 'native-base';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconA from 'react-native-vector-icons/MaterialIcons';
 import api from '../shared/server_address';
-import { CommonActions } from '@react-navigation/native';
 import db from '../shared/chat_db';
 import  {
 	AppleButton 
   } from '@invertase/react-native-apple-authentication';
 
-Icon.loadFont();
 
 var user_obj = {
   user: {
@@ -134,19 +133,19 @@ class LoginScreen extends Component {
   addDevice = async(tok)=>{
     let fcmToken = await AsyncStorage.getItem('fcmToken');
     await api
-            .post('/users/add_device',{
-              user:{
-                device_token: fcmToken
-              }
-            },{
-              headers:{
-                'Authorization': tok
-              }
-            })
-            .then(response=>{
-              console.log(response)
-            })
-            .catch(err=>console.log(err))
+        .post('/users/add_device',{
+          user:{
+            device_token: fcmToken
+          }
+        },{
+          headers:{
+            'Authorization': tok
+          }
+        })
+        .then(response=>{
+          console.log(response)
+        })
+        .catch(err=>console.log(err))
   }
 
   render() {
@@ -154,11 +153,12 @@ class LoginScreen extends Component {
       <View style={{flex: 1}}>
         <View style={{flex: 1}}></View>
         <View style={{flex: 4, width: '70%', alignSelf: 'center'}}>
-          <TouchableOpacity style={{ flex: 1.5,}} onPress={() => this.testLoginRequest()}>
+          <TouchableOpacity style={{ flex: 1,}} onPress={() => this.testLoginRequest()}>
             <Text style={{ color: 'black', fontSize: 40, textAlign: 'center',}}>
               모두나눔
             </Text>
           </TouchableOpacity>
+
           <View style={{flex: 1 }}>
             <View
               style={{
@@ -166,7 +166,7 @@ class LoginScreen extends Component {
                 height: '50%',
                 alignItems: 'center',
               }}>
-              <Icon name="ios-person-outline" size={30} color="black" style={{flex: 1}}></Icon>
+              <IconA name="person" type="MaterialIcons" size={30} color="black" style={{flex: 1}}/>
               <Item style={{flex: 4, marginLeft: -10}}>
                 <Input
                   keyboardType="email-address"
@@ -176,7 +176,7 @@ class LoginScreen extends Component {
                   onChangeText={(text) => this.changeUsername(text, 'email')}
                 />
               </Item>
-            </View>
+            </View> 
             <View
               style={{
                 flexDirection: 'row',
@@ -196,11 +196,11 @@ class LoginScreen extends Component {
               </Item>
             </View>
           </View>
-          <View style={{ flex : 0.1}}></View>
+          
           <View name="buttons" style={{flex: 3}}>
             <View style={{marginTop: '10%', height: '10%'}}>
               <CustomButton
-                title="로그인"
+                title="이메일로 로그인"
                 titleColor="black"
                 buttonColor="white"
                 borderWidth={5}
@@ -211,9 +211,23 @@ class LoginScreen extends Component {
               />
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>
-              <CustomButton
-                title="카카오 로그인"
-                icon_name="chatbubble-sharp"
+            <AppleButton
+                buttonStyle={AppleButton.Style.BLACK}
+                buttonType={AppleButton.Type.SIGN_IN}
+                style={{
+                  width: 290, // You must specify a width
+                  height: 45, // You must specify a height
+                }}
+                onPress={() => this.props.navigation.navigate('AppleLogin')}
+              />
+              
+            </View>
+            
+            <View style={{marginTop: '3%', height: '10%'}}>
+            <CustomButton
+                title="카카오로 로그인"
+                icon_name="chat"
+                icon_type="MaterialCommunityIcons"
                 titleColor="black"
                 buttonColor="#fae100"
                 borderWidth={5}
@@ -221,19 +235,7 @@ class LoginScreen extends Component {
                 width="100%"
                 height="100%"
                 onPress={() => this.props.navigation.navigate('KakaoLogin')}
-              />
-            </View>
-            
-            <View>
-              <AppleButton
-                buttonStyle={AppleButton.Style.WHITE}
-                buttonType={AppleButton.Type.SIGN_IN}
-                style={{
-                  width: 160, // You must specify a width
-                  height: 45, // You must specify a height
-                }}
-                onPress={() => this.props.navigation.navigate('AppleLogin')}
-              />
+              /> 
             </View>
 
             <View style={{marginTop: '3%', height: '10%'}}>
@@ -253,7 +255,7 @@ class LoginScreen extends Component {
                   flexDirection: 'row',
                   alignSelf: 'center',
                 }}>
-                <View style={{width: '47%', marginRight: '3%'}}>
+                <View style={{width: '49%', marginRight : '3%'}}>
                   <CustomButton
                     title="ID 찾기"
                     titleColor="#fff"
@@ -264,7 +266,7 @@ class LoginScreen extends Component {
                     onPress={() => this.props.navigation.navigate('Find_id')}
                   />
                 </View>
-                <View style={{width: '47%', marginLeft: '3%'}}>
+                <View style={{width: '49%',}}>
                   <CustomButton
                     title="PW 찾기"
                     titleColor="#fff"

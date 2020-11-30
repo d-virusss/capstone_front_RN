@@ -38,15 +38,10 @@ class MypageScreen extends Component {
   }
 
   Logout() {
+    Fire.off();
+    SQLite.deleteDatabase({name: 'testDB.db'})
     this.dropFCMToken();
     AsyncStorage.clear();
-    Alert.alert('로그아웃',"정상적으로 로그아웃 됐습니다.",[{text: '확인', style:'cancel'}])
-    this.props.navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{ name: 'Logins' },],
-      })
-    ); // pop everything in stack navigation
   }
 
   getToken = async () => {
@@ -77,7 +72,6 @@ class MypageScreen extends Component {
       },
     })
     .then((res) => {
-      console.log(res)
       this.state.myName = res.data.user_info.nickname;
       this.state.myLocation = res.data.user_info.location_title;
       this.state.myImage = res.data.user_info.image;
@@ -87,12 +81,12 @@ class MypageScreen extends Component {
         this.state.myGroup = "소속 인증 필요"
       }
       posts = res.data.user_info;
-      console.log(posts)
+
       if(res.data.user_info.company_id)
         this.state.company_id = res.data.user_info.company_id;
 
       this.state.isCompany = res.data.user_info.is_company;
-      this.setState({loading: true},()=> console.log(this.state))
+      this.setState({loading: true})
     })
     .catch((err) => {
       console.log("my page err")
@@ -140,7 +134,6 @@ class MypageScreen extends Component {
 
   partnerCheckNavigate() {
     if(this.state.company_id != -1){
-      console.log(this.state.company_id)
       if(this.state.isCompany){
         //navigate to partner_page
         this.props.navigation.navigate('Partner_Page',{company_id:this.state.company_id});
@@ -192,9 +185,17 @@ class MypageScreen extends Component {
 
         <TouchableOpacity
           onPress={() => this.setState({ show_popover: false }, () => {
-            Fire.off();
-            SQLite.deleteDatabase({name: 'testDB.db'})
-            this.Logout()
+            this.props.navigation.navigate("Logins")
+            Alert.alert("로그아웃", "정상적으로 로그아웃 됐습니다.",[
+              {
+                text: '확인',
+                onPress: () => {this.Logout()}// pop everything in stack navigation
+              },
+              {
+                text : "취소",
+                style: 'cancel'
+              }
+            ])
           })}>
           <Text style={styles.popoverel}>로그아웃</Text>
         </TouchableOpacity>
