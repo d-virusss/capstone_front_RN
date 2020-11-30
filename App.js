@@ -57,6 +57,7 @@ import * as RootNavigation from './RootNavigation';
 
 const Stack = createStackNavigator();
 var token = '';
+let dataNotify={};
 
 const App = () => {
   const [loading, setLoading] = useState();
@@ -81,14 +82,7 @@ const App = () => {
 
     fcmService.registerAppWithFCM()
     fcmService.register(onRegister, onNotification, onOpenNotification)
-    localNotificationService.configure(onOpenNotification)
-    //openDB();
-
-    function openDB(){
-      db.transaction(tx=>{
-        tx.executeSql('create table if not exists user (user_id, location, token)')
-      },(tx,results)=>{console.log(results)},(err)=>console.log(err))
-    }
+    localNotificationService.configure(onOpenNotification,dataNotify)
 
     function onRegister(token){
       console.log("[App] onRegister : ", token)
@@ -96,17 +90,12 @@ const App = () => {
 
     function onNotification(notify, data){
       console.log("[App] onNotification: ", notify)
-      console.log("dkdkdkdkdkdkdkdkdkdkdkdkdk"+JSON.stringify(data))
+      dataNotify=data;
+      console.log(dataNotify)
       const options = {
         soundName: 'default',
         playSound: true
       }
-      /*if(data.type=='keyword'){
-        NavigationService.navigate('PostShow',{post_id:data.post_id})
-      }
-      if(data.type=='chat'){
-        NavigationService.navigate('ChatRoom',{chat_id:data.chat_id,post_id:data.post_id})
-      }*/
       
       localNotificationService.showNotification(
         0, notify.title, notify.body, notify, options
