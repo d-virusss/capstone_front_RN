@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default class CustomButton extends Component{
   static defaultProps = {
@@ -15,7 +15,7 @@ export default class CustomButton extends Component{
     justifyContent : 'center',
     margintBottom : null,
     borderRadius : 5,
-    fontSize : 20,
+    fontSize : 18,
     flex : null,
     width : null,
     height : null,
@@ -49,7 +49,7 @@ export default class CustomButton extends Component{
                 color: this.props.titleColor,
                 fontSize : this.props.fontSize
             }
-        ]}> <Icon name={this.props.icon_name} size={20} ></Icon> {this.props.title}</Text>
+        ]}> <Icon name={this.props.icon_name} type={this.props.icon_type} size={17} ></Icon> {this.props.title}</Text>
       </TouchableOpacity>
     )
   }

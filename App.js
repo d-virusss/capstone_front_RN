@@ -76,7 +76,8 @@ const App = () => {
     setTimeout(() => {
 			SplashScreen.hide();
       setLoading(loading => false)
-    }, 1000);
+    }, 800);
+    
 
     fcmService.registerAppWithFCM()
     fcmService.register(onRegister, onNotification, onOpenNotification)
