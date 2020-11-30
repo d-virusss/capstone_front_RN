@@ -16,7 +16,7 @@ class ImageSelect extends Component{
     super(props)
     this.state={
       images: this.props.existing_image === undefined ? [] : this.props.existing_image,
-      isImage : false,
+      isImage : this.props.existing_image === undefined ? false : true,
       isProfile : this.props.isProfile === undefined ? false : this.props.isProfile,
     }
   }
@@ -55,12 +55,14 @@ class ImageSelect extends Component{
           sliderBoxHeight={300}
           inactiveDotColor="#ffccdd"
           dotColor="#ff3377" />
-        <TouchableOpacity style={styles.imageArea}
+        
+        {!this.state.isImage &&
+          <TouchableOpacity style={styles.imageArea}
           onPress = { () => this.doPickImage() } >
           {this.state.images.length === 0 && (
             <IconM name = 'image-multiple' size = {100}/>
           )}
-        </TouchableOpacity>
+        </TouchableOpacity>}
       </View>
     )
   }

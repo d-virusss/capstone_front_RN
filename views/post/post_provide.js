@@ -126,28 +126,23 @@ class Post_provide extends Component {
   changedata = (text, type) => {
     if (type === "title") {
       this.setState({
-        title: text,
-      }, () => { console.log(this.state.title) })
+        title: text })
     }
     else if (type === "product") {
       this.setState({
-        product: text,
-      }, () => { console.log(this.state.product) })
+        product: text,})
     }
     else if (type === "body") {
       this.setState({
-        body: text,
-      }, () => { console.log(this.state.body) })
+        body: text, })
     }
     else if (type === "price") {
       this.setState({
-        price: text,
-      }, () => { console.log(this.state.price) })
+        price: text, })
     }
     else if (type === "image") {
       this.setState({
-        image: text,
-      }, () => { console.log(this.state.image) })
+        image: text, })
     }
   }
 
@@ -194,7 +189,7 @@ class Post_provide extends Component {
             </TouchableOpacity>
           </Right>
         </Header>
-        <Spinner visible={this.state.loading} />
+        <Spinner visible={this.state.loading} color="#ff3377" />
         <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
           <KeyboardAvoidingView>
             <ScrollView style={{  }}>
