@@ -100,7 +100,7 @@ class MypageScreen extends Component{
 
   putRequest = async() =>  {  
     user_addr.location.range = this.state.value;
-    console.log("puterquest")
+    console.log("puterquest-------------------------")
     api
       .put('/locations/certificate', user_addr, {
         headers: {
@@ -113,9 +113,9 @@ class MypageScreen extends Component{
  
         AsyncStorage.setItem('my_location', user_addr.location.title);
         if(myLocation == "null"){ // first location auth
-          this.props.navigation.navigate('Main')
+          this.props.navigation.push('Main')
         }else{ //already has location
-          this.props.navigation.navigate('Main')
+          this.props.navigation.goBack();
         }
       })
       .catch((err) => {
