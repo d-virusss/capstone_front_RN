@@ -52,7 +52,7 @@ class ReviewScreen extends Component {
 	makeReviewList() {
 		if(reviewList.length == 0){
 			return(
-				<Title style={{marginTop : '50%', fontSize : 20}}>작성된 리뷰가 없습니다.</Title>
+				<Title style={{marginTop : '70%', fontSize : 17}}>작성된 리뷰가 없습니다.</Title>
 			)
 		}else{
 		return reviewList.map((ele) => {

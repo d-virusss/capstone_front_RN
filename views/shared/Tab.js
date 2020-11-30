@@ -16,7 +16,7 @@ IconM.loadFont();
 
 const Tab = createBottomTabNavigator();
 var total_unchecked = 0;
-var token = '';
+let token = '';
 var chats = []
 
 class TabScreen extends Component {
@@ -26,7 +26,7 @@ class TabScreen extends Component {
   }
 
   getTotalChat = async () => {
-    
+    total_unchecked = 0
     console.log('chat index request ---------------')
     token = await AsyncStorage.getItem('token');
     await api
@@ -87,7 +87,7 @@ class TabScreen extends Component {
               }}/>
     
     
-          <Tab.Screen name="Chat" children={()=><ChatIndex navigation={this.props.navigation} chat_data={chats}/>}
+          <Tab.Screen name="Chat" children={()=><ChatIndex navigation={this.props.navigation} chat_data={chats} getTotalChat={this.getTotalChat}/>}
             options={{
               tabBarLabel:"채팅",
               tabBarIcon: ({focused, color}) => {

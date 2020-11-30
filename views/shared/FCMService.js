@@ -102,18 +102,14 @@ class FCMService {
         // Foreground state messages
         this.messageListener = messaging().onMessage(async remoteMessage => {
             console.log('[FCMService] A new FCM message arrived!', remoteMessage);
-            if (remoteMessage) {
-                let notification = null;
-                let data = null;
-                if (Platform.OS === 'ios') {
-                    notification = remoteMessage.notification;
-                    data = remoteMessage.data;
-                } else {
-                    notification = remoteMessage.notification;
-                    data = remoteMessage.data;
-                }
-                onNotification(notification, data)
-            }
+            
+            let notification = null;
+            let data = null;
+            notification = remoteMessage.notification;
+            data = remoteMessage.data;
+            console.log('[fcmsss] : '+ JSON.stringify(data))
+            onNotification(notification, data)
+            
         });
 
         // Triggered when have new token

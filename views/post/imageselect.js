@@ -32,7 +32,7 @@ class ImageSelect extends Component{
       width: 300,
       height: 300,
       multiple: true,
-      sortOrder : 'desc',
+      sortOrder : 'asc',
       maxFiles : this.state.isProfile ? 1 : 5,
       compressImageQuality : 0.1,
       
