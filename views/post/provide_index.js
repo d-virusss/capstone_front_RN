@@ -57,10 +57,9 @@ class ProvideIndex extends Component {
                 <Text style={{ fontWeight: 'bold', fontSize: 12 }}>대여중</Text>
               </Badge>}
               {post.user.user_info.is_company &&
-                <Badge style={{ backgroundColor: '#ff3377', marginRight: '5%', marginBottom: '-5%', }}>
-                  <Text style={{ fontWeight: 'bold' }} >파트너</Text>
-                </Badge>
-              }
+                <Badge style={{ backgroundColor: '#ff3377', position: 'absolute', right: '40%', bottom: '90%' }}>
+                  <Text style={{ fontWeight: 'bold', fontSize: 12 }} >파트너</Text>
+                </Badge>}
               <Icon name='heart-outline' type='MaterialCommunityIcons' style={{ fontSize:20 }}/>
               <Text style={{ marginLeft : 5 }}>
                 {post.post_info.likes_count}
