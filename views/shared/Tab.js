@@ -80,9 +80,9 @@ class TabScreen extends Component {
               tabBarLabel:"홈",
               tabBarIcon: ({focused, color}) => {
                 if(focused){
-                  return(<Icon name="home" size={11} style={{}}/>)
+                  return (<Icon name="home" type="MaterialCommunityIcons" size={11} style={{}}/>)
                 }else{
-                  return(<Icon name="home-outline" size={11}/>)}
+                  return (<Icon name="home-outline" type="MaterialCommunityIcons" size={11}/>)}
                 }
               }}/>
     
@@ -92,9 +92,9 @@ class TabScreen extends Component {
               tabBarLabel:"채팅",
               tabBarIcon: ({focused, color}) => {
                 if(focused){
-                  return (<Icon name="chat" type="MaterialCommunityIcons" size={11} style={{}}/>)
+                  return (<Icon name="chatbox-sharp" type="Ionicons" size={9} />)
                 }else{
-                  return(<Icon name="chat-outline" type="MaterialCommunityIcons" size={11}/>)}
+                  return (<Icon name="chatbox-outline" type="Ionicons" size={9}/>)}
                 },
               tabBarBadge: total_unchecked === 0 ? null : total_unchecked,
               }}/>
@@ -105,9 +105,9 @@ class TabScreen extends Component {
               tabBarLabel:"마이페이지",
               tabBarIcon: ({focused, color}) => {
                 if(focused){
-                  return(<Icon name="person" size={11} style={{}}/>)
+                  return (<Icon name="person" type="MaterialIcons" size={11} style={{}}/>)
               1}else{
-                  return(<Icon name="person-outline" size={11}/> )}
+                  return (<Icon name="person-outline" type="MaterialIcons" size={11}/> )}
                 }
               }} />
         </Tab.Navigator>
