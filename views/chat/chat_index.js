@@ -46,7 +46,7 @@ class ListProfile extends Component {
         borderColor:'#cccccc'
       }}>
         <Left>
-          <TouchableOpacity style = {{paddingBottom:14}} onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI})}>
+          <TouchableOpacity style = {{paddingBottom:14}} onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI,})}>
             <Thumbnail source={{ uri: this.props.imgURI||'https://applepink.s3.amazonaws.com/uploads/user/image/1/square_447087af-da95-4a04-94c4-2ccccc782c28applePink_logo.png'}} style={{ width : 60, height: 60, }} />
           </TouchableOpacity>
         </Left>
@@ -68,6 +68,7 @@ class ListProfile extends Component {
 }
 
 function ChatList ({ navigation, chat_data }){
+  
   console.log("enter chatlist -----------------")
   console.log(chat_data)
   const [chats, setChats] = useState([]);
@@ -155,7 +156,12 @@ function ChatList ({ navigation, chat_data }){
       console.log("--------------------")
     }
     inEffect();
-  },[])
+    const unsubscribe = navigation.addListener('focus', () => {
+      chatGetRequest()
+    });
+
+    return unsubscribe;
+  },[navigation])
   return(
     <Container>
     <Header style={{height: 60,
