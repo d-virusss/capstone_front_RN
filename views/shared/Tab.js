@@ -50,10 +50,7 @@ class TabScreen extends Component {
           [
             {
             text:'확인', 
-            onPress : () => 
-            CommonActions.reset({
-              index: 1,
-            routes: [{ name: 'Logins' }]})
+            onPress : () => this.props.navigation.navigate("Logins")
             }, 
             {
               style:'cancel'

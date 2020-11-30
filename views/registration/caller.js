@@ -30,6 +30,8 @@ export default class RegistrationScreen extends React.Component {
   name : "",
   birthday : "",
   number : '',
+  auth : false,
+  code:'',
  };
 
   authRequest(){
@@ -44,8 +46,26 @@ export default class RegistrationScreen extends React.Component {
   .then((res) => {
     console.log(res.data);
     Alert.alert("전송 완료", res.data.message, [{text:'확인'},{style:'cancel'}])
+    this.setState({auth : true})
   }).catch((err) => {
     Alert.alert("전송 실패", e.response.data.error, [{text:'확인'},{style:'cancel'}])
+  })
+}
+
+authCodeRequest(){
+  console.log("call code request---------------")
+  let auth = {
+    user : {
+      code : this.state.code
+    }
+  };
+
+  api.post('/users/sms_auth', auth)
+  .then((res) => {
+    console.log(res.data);
+    Alert.alert("인증 완료", res.data.message, [{text:'확인'},{style:'cancel'}])
+  }).catch((err) => {
+    Alert.alert("인증 실패", "인증번호를 다시 확인해주세요", [{text:'확인'},{style:'cancel'}])
   })
 }
 
@@ -80,6 +100,28 @@ makeForm() {
   user_obj.user.device_token = this.state.device_token;
   user_obj.user.name = this.state.name;
   user_obj.user.birthday = this.state.birthday;
+}
+
+renderAuthCodeForm(){
+  if(this.state.auth){
+    return(
+      <View style={{flexDirection: 'row', alignItems: 'center',}}>
+        <Item floatingLabel style={{width : '80%'}}>
+          <Label>인증 번호</Label>
+          <Input autoCapitalize="none"
+            keyboardType="numeric"
+            onChangeText = {(text) => {this.setState({code : text}) }}
+          />
+        </Item>
+        <Button NativeButton style={{ backgroundColor: '#ff3377', marginTop : '3%' }} onPress={() => this.authCodeRequest()}>
+          <Text style={{ color: 'white', fontWeight:'bold' }}>확인</Text>
+        </Button>
+      </View>
+    )
+  }else{
+    console.log("fail")
+    return null;
+  }
 }
 
   registrationRequest = async () => {
@@ -182,9 +224,8 @@ makeForm() {
                 />
               </Item>
               {this.renderSubmitButton()}
-              {this.renderAuthCodeForm()}
             </View>
-            
+            {this.renderAuthCodeForm()}
             
 
             <Item floatingLabel>
