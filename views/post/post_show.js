@@ -95,11 +95,11 @@ class PostShow extends Component{
 				this.state.provider_id = response.data.user.user_info.id,
 				this.state.provider_profile_image = response.data.user.user_info.image
 				this.state.is_your_post = response.data.user.user_info.id == parseInt(user_id) ? true : false;
-        this.setState({loading : false})
+        
         
         //fill postForm
         postForm = response.data;
-        
+        this.setState({loading : false})
 
       }).catch((err) => {
 				console.log(err);
@@ -278,7 +278,7 @@ class PostShow extends Component{
             onPress={() => this.setState({ show_popover: false }, () => {
                 this.props.navigation.navigate('PostReport', {
                 onGoBack: () => { this.getPostInfo(); },
-                post: postForm.post
+                post: postForm
               })
             })}>
             <Text style={styles.popoverel}>신고하기</Text>
@@ -290,6 +290,8 @@ class PostShow extends Component{
   }
 
   renderFooter(){
+    console.log("------------------")
+    console.log(postForm)
     if(this.state.is_your_post){
       return (
         <FooterTab style={{backgroundColor:'#F8F8F8'}}>
@@ -313,11 +315,11 @@ class PostShow extends Component{
             <Text style={{color: 'orange', fontWeight : 'bold', fontSize:17}}>채팅</Text>
           </Button>
           {this.state.isBooked == false && (<Button vertical transparent
-            onPress={() => { this.props.navigation.navigate('Booking', { post_info: postForm.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
+            onPress={() => { this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize:17}}>예약</Text>
           </Button>)}
           {this.state.isBooked == true && (<Button vertical transparent
-            onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
+            onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize:17}}>예약 취소</Text>
           </Button>)}
         </FooterTab>
@@ -331,7 +333,7 @@ class PostShow extends Component{
       console.log("render start")
       return(
         <Container>
-          <Header style={{height: 60, backgroundColor: '#f8f8f8',}} androidStatusBarColor='black'>
+          <Header style={{height: 60, backgroundColor: '#f8f8f8',}} androidStatusBarColor='#000'>
             <Left style={{flex : 1}}>
               <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
                 <Icon name = 'chevron-back' type = 'Ionicons'/>
@@ -378,9 +380,9 @@ class PostShow extends Component{
                     </Right>
                   </Item>
 
-                  <Tabs tabBarUnderlineStyle={{backgroundColor:'#ff3377'}}
-                    style={{ borderTopWidth: 1, borderTopColor:'#e8e8e8' }}>
-                    <Tab heading="상세 정보" activeTextStyle={{ color:'#ff3377' }} tabStyle={{ backgroundColor:'white' }}>
+                  <Tabs tabBarUnderlineStyle={{backgroundColor:'#ff3377'}}>
+                    <Tab heading="상세 정보" activeTextStyle={{ color:'#ff3377' }} tabStyle={{ backgroundColor:'white' }}
+                    activeTabStyle={{ backgroundColor:'#f8f8f8' }}>
                       <Item regular style={styles.postbody}>
                         <Text style={styles.post_category}>{this.state.category}</Text>
                         <Text style={styles.post_title}>{this.state.title}</Text>
@@ -389,7 +391,8 @@ class PostShow extends Component{
                       </Item>
                     </Tab>
 
-                    <Tab heading="리뷰" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor: 'white' }}>
+                    <Tab heading="리뷰" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor: 'white' }}
+                    activeTabStyle={{ backgroundColor:'#f8f8f8' }}>
                       <Item style={styles.review_header}>
                         <Title>사용자 총 평점</Title>
                         <Text style={styles.reviewNumberRating}>{this.state.rating}</Text>
@@ -456,7 +459,7 @@ const styles = StyleSheet.create({
   rentCountArea : {
     width: '30%',
     marginRight : '8%',
-    marginTop : '10%',
+    marginTop : '7%',
   },
   fontView : {
     fontSize : 17,

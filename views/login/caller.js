@@ -7,6 +7,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import api from '../shared/server_address';
 import { CommonActions } from '@react-navigation/native';
 import db from '../shared/chat_db';
+import  {
+	AppleButton 
+  } from '@invertase/react-native-apple-authentication';
 
 Icon.loadFont();
 
@@ -23,6 +26,7 @@ var userinfo = {
     password: '',
   },
 };
+
 
 class LoginScreen extends Component {
   constructor(props){
@@ -62,6 +66,7 @@ class LoginScreen extends Component {
       await api
         .post('/users/sign_in', userinfo)
         .then(async(response) => {
+          this.addDevice(response.data.token);
           console.log(response);
           //this.saveUserData(response.data.id,response.data.location_auth,response.data.token)
           AsyncStorage.setItem('token', response.data.token);
@@ -89,6 +94,7 @@ class LoginScreen extends Component {
     api
       .post('/users/sign_in', user_obj)
       .then((response) => {
+        this.addDevice(response.data.token);
         console.log(response);
         console.log(response.data.location_auth)
         AsyncStorage.setItem('token', response.data.token);
@@ -124,6 +130,24 @@ class LoginScreen extends Component {
       console.log(userinfo.user.password);
     }
   };
+
+  addDevice = async(tok)=>{
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    await api
+            .post('/users/add_device',{
+              user:{
+                device_token: fcmToken
+              }
+            },{
+              headers:{
+                'Authorization': tok
+              }
+            })
+            .then(response=>{
+              console.log(response)
+            })
+            .catch(err=>console.log(err))
+  }
 
   render() {
     return (
@@ -196,9 +220,22 @@ class LoginScreen extends Component {
                 borderRadius={5}
                 width="100%"
                 height="100%"
-                onPress={() => this.redirectKakaoLogin()}
+                onPress={() => this.props.navigation.navigate('KakaoLogin')}
               />
             </View>
+            
+            <View>
+              <AppleButton
+                buttonStyle={AppleButton.Style.WHITE}
+                buttonType={AppleButton.Type.SIGN_IN}
+                style={{
+                  width: 160, // You must specify a width
+                  height: 45, // You must specify a height
+                }}
+                onPress={() => this.props.navigation.navigate('AppleLogin')}
+              />
+            </View>
+
             <View style={{marginTop: '3%', height: '10%'}}>
               <CustomButton
                 title="회원가입"
