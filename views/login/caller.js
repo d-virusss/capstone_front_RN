@@ -219,6 +219,7 @@ class LoginScreen extends Component {
                 style={{
                   width: 290, // You must specify a width
                   height: 45, // You must specify a height
+                  fontWeight: 'bold'
                 }}
                 onPress={() => this.props.navigation.navigate('AppleLogin')}
               />
@@ -227,7 +228,7 @@ class LoginScreen extends Component {
             
             <View style={{marginTop: '3%', height: '10%'}}>
             <CustomButton
-                title="카카오로 로그인"
+                title=" 카카오로 로그인"
                 icon_name="chat"
                 icon_type="MaterialCommunityIcons"
                 titleColor="black"
@@ -236,6 +237,7 @@ class LoginScreen extends Component {
                 borderRadius={5}
                 width="100%"
                 height="100%"
+                fontWeight="bold"
                 onPress={() => this.props.navigation.navigate('KakaoLogin')}
               /> 
             </View>
@@ -247,6 +249,7 @@ class LoginScreen extends Component {
                 buttonColor="white"
                 width="100%"
                 height="100%"
+                fontWeight="bold"
                 onPress={() => this.props.navigation.navigate('Register')}
               />
             </View>

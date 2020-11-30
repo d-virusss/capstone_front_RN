@@ -50,7 +50,7 @@ export default class CustomButton extends Component{
               fontSize : this.props.fontSize,
               fontWeight : this.props.fontWeight,
             }
-        ]}> <Icon name={this.props.icon_name} type={this.props.icon_type} size={17} ></Icon>{this.props.title}</Text>
+        ]}><Icon name={this.props.icon_name} type={this.props.icon_type} size={17} ></Icon>{this.props.title}</Text>
       </TouchableOpacity>
     )
   }
