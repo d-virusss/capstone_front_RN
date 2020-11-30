@@ -38,10 +38,9 @@ class MypageScreen extends Component {
   }
 
   Logout() {
-    Fire.off();
     SQLite.deleteDatabase({name: 'testDB.db'})
     this.dropFCMToken();
-    AsyncStorage.clear();
+    AsyncStorage.removeItem('token');
     Alert.alert("로그아웃", "정상적으로 로그아웃 됐습니다.",[
       {text:'확인',
       onPress : () => {
@@ -312,8 +311,6 @@ class MypageScreen extends Component {
               </ListItem>
 
                 <ListItem button onPress={() => {
-                    Fire.off();
-                    SQLite.deleteDatabase({ name: 'testDB.db' })
                     this.Logout()
                    }}>
                 <Left>
