@@ -90,9 +90,19 @@ class ProvideIndex extends Component {
       .catch(function (e) {
         console.log(e.response);
      
-        Alert.alert("자동 로그인 실패", "로그인을 먼저해주세요",
-          [{text:'확인', onPress : () => this.props.navigation.navigate("Logins")}, 
-          {style:'cancel'}])
+        Alert.alert("접근 실패", "로그인 정보를 확인해주세요.",
+          [
+            {
+            text:'확인', 
+            onPress : () => 
+            CommonActions.reset({
+              index: 1,
+            routes: [{ name: 'Logins' }]})
+            }, 
+            {
+              style:'cancel'
+            }
+          ])
       }.bind(this));
       
     }else{
@@ -113,9 +123,19 @@ class ProvideIndex extends Component {
         })
         .catch(function (e) {
           console.log('send post failed!!!!' + e);
-          Alert.alert("자동 로그인 실패", "로그인을 먼저해주세요",
-          [{text:'확인', onPress : () => this.props.navigation.navigate("Logins")}, 
-          {style:'cancel'}])
+          Alert.alert("접근 실패", "로그인 정보를 확인해주세요.",
+          [
+            {
+            text:'확인', 
+            onPress : () => 
+            CommonActions.reset({
+              index: 1,
+            routes: [{ name: 'Logins' }]})
+            }, 
+            {
+              style:'cancel'
+            }
+          ])
         }.bind(this));
       }
   }

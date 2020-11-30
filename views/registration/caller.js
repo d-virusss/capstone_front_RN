@@ -22,17 +22,32 @@ var user_obj = {
 
 export default class RegistrationScreen extends React.Component {
  state = {
-  user: {
-    email: '',
-    nickname: '',
-    password: '',
-    password_confirmation: '',
-    number:'',
-    device_token:'',
-    name : "",
-    birthday : "",
-  },
+  email: '',
+  nickname: '',
+  password: '',
+  password_confirmation: '',
+  device_token:'',
+  name : "",
+  birthday : "",
+  number : '',
  };
+
+  authRequest(){
+  console.log("call request---------------")
+  let auth = {
+    user : {
+      phone : this.state.number
+    }
+  };
+
+  api.post('/users/sms_auth', auth)
+  .then((res) => {
+    console.log(res.data);
+    Alert.alert("전송 완료", res.data.message, [{text:'확인'},{style:'cancel'}])
+  }).catch((err) => {
+    Alert.alert("전송 실패", e.response.data.error, [{text:'확인'},{style:'cancel'}])
+  })
+}
 
  is_input_idle(){
   if(this.state.number === '') return true
@@ -42,23 +57,33 @@ export default class RegistrationScreen extends React.Component {
  renderSubmitButton(){
   if(this.is_input_idle()){
     return (
-      <NativeButton bordered style={{ borderColor: '#aaaaaa' }} disabled>
-        <Text style={{ color: '#aaaaaa' }}>등록</Text>
-      </NativeButton>
+      <Button bordered style={{ borderColor: '#aaaaaa', marginTop : '3%'}} disabled>
+        <Text style={{ color: '#aaaaaa' }}>인증</Text>
+      </Button>
     )
   }
   else{
     return(
-      <NativeButton NativeButton style={{ backgroundColor: '#ff3377' }} onPress={() => this.createKeywordRequest()}>
-        <Text style={{ color: 'white', fontWeight:'bold' }}>등록</Text>
-      </NativeButton>
+      <Button NativeButton style={{ backgroundColor: '#ff3377', marginTop : '3%' }} onPress={() => this.authRequest()}>
+        <Text style={{ color: 'white', fontWeight:'bold' }}>인증</Text>
+      </Button>
     )
   }
 }
 
+makeForm() {
+  user_obj.user.email = this.state.email;
+  user_obj.user.nickname = this.state.nickname;
+  user_obj.user.password = this.state.password;
+  user_obj.user.password_confirmation = this.state.password_confirmation;
+  user_obj.user.number = this.state.number;
+  user_obj.user.device_token = this.state.device_token;
+  user_obj.user.name = this.state.name;
+  user_obj.user.birthday = this.state.birthday;
+}
+
   registrationRequest = async () => {
-    
-      user_obj.user = this.state.user;
+      this.makeForm()
       user_obj.user.device_token = await AsyncStorage.getItem('fcmToken');
       console.log("token")
       console.log(user_obj.user.device_token)
@@ -115,27 +140,27 @@ export default class RegistrationScreen extends React.Component {
                 <Input
                 keyboardType="email-address"
                 autoCapitalize="none"
-                onChangeText = {(eMail) => { this.state.user.email = eMail}}/>
+                onChangeText = {(eMail) => { this.state.email = eMail}}/>
             </Item>
 
               {/* pw */}
             <Item floatingLabel>
               <Label>비밀번호</Label>
               <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
-                onChangeText = {(pw) => {this.state.user.password = pw; console.log(this.state.user.password)}}/>
+                onChangeText = {(pw) => {this.state.password = pw;}}/>
             </Item>
 
             <Item floatingLabel>
               <Label>비밀번호 확인</Label>
               <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
-                onChangeText={(pw_confirmation) => {this.state.user.password_confirmation = pw_confirmation}}/>
+                onChangeText={(pw_confirmation) => {this.state.password_confirmation = pw_confirmation}}/>
             </Item>
 
 
             <Item floatingLabel>
               <Label>이름(실명)</Label>
               <Input autoCapitalize="none"
-                onChangeText = {(text) => {this.state.user.name = text }}
+                onChangeText = {(text) => {this.state.name = text }}
               />
             </Item>
 
@@ -143,7 +168,7 @@ export default class RegistrationScreen extends React.Component {
             <Item floatingLabel>
               <Label>닉네임</Label>
               <Input autoCapitalize="none"
-                onChangeText = {(name) => {this.state.user.nickname = name }}
+                onChangeText = {(name) => {this.state.nickname = name }}
               />
             </Item>
 
@@ -153,13 +178,11 @@ export default class RegistrationScreen extends React.Component {
                 <Label>연락처 ex) 01012345678</Label>
                 <Input autoCapitalize="none"
                   keyboardType="numeric"
-                  onChangeText = {(text) => {this.state.user.number = text }}
+                  onChangeText = {(text) => {this.setState({number : text}) }}
                 />
-                
               </Item>
-              <Button success transparent style={{alignItems: 'flex-end',}}>
-                <Text>인증</Text>
-              </Button>
+              {this.renderSubmitButton()}
+              {this.renderAuthCodeForm()}
             </View>
             
             
@@ -167,7 +190,7 @@ export default class RegistrationScreen extends React.Component {
             <Item floatingLabel>
               <Label>생일 ex) 19960827</Label>
               <Input autoCapitalize="none"
-                onChangeText = {(birthday) => {this.state.user.birthday = birthday }}
+                onChangeText = {(birthday) => {this.state.birthday = birthday }}
               />
             </Item>
 
