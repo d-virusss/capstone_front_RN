@@ -205,7 +205,7 @@ export default class RegistrationScreen extends React.Component {
         <View style={styles.footer}>
           <Button transparent style={ styles.footerbutton }
             onPress={() => this.registrationRequest()}>
-            <Text style={styles.footerText}>파트너 신청</Text>
+            <Text style={styles.footerText}>신청하기</Text>
           </Button>
         </View>
       </Container>

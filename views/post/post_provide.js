@@ -202,7 +202,7 @@ class Post_provide extends Component {
               <Container>
                 <Content>
                   <Form>
-                    <Item inlinelabel style={{ marginTop: '1%'}}>
+                    <Item inlinelabel style={{ marginTop: '5%', borderTopWidth: 1}}>
                       <Label style={{width:'15%'}}>제목</Label>
                       <Input autoCapitalize='none'
                         onChangeText={(text) => this.changedata(text, "title")} />
