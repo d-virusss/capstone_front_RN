@@ -161,7 +161,7 @@ class receiveScreen extends Component{
           </Body>
           <Right>
             <Badge style={{ backgroundColor : this.setBadgeColor(ele.booking_info.result) }}>{/* 승인 success, 대기 회색, 거절 진홍색 */}
-              <Text>{ele.booking_info.result}</Text>
+              <Text style={{ fontWeight: 'bold' }}>{ele.booking_info.result}</Text>
             </Badge>
           </Right>
         </ListItem>

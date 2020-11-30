@@ -94,6 +94,7 @@ class MypageScreen extends Component {
     })
     .catch((err) => {
       console.log("my page err")
+      console.log(err.response)
       Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
     })
   }
@@ -185,23 +186,6 @@ class MypageScreen extends Component {
             this.partnerCheckNavigate()
           })}>
           <Text style={styles.popoverel}>파트너 신청</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => this.setState({ show_popover: false }, () => {
-            this.props.navigation.navigate("Logins")
-            Alert.alert("로그아웃", "정상적으로 로그아웃 됐습니다.",[
-              {
-                text: '확인',
-                onPress: () => {this.Logout()}// pop everything in stack navigation
-              },
-              {
-                text : "취소",
-                style: 'cancel'
-              }
-            ])
-          })}>
-          <Text style={styles.popoverel}>로그아웃</Text>
         </TouchableOpacity>
         
       </Popover>
@@ -305,10 +289,24 @@ class MypageScreen extends Component {
                 </Right>
               </ListItem>
 
-              <ListItem button onPress={() => {this.props.navigation.navigate('Review')}}>
+              <ListItem button onPress={() => { this.props.navigation.navigate('Review') }}>
                 <Left>
                   <Icon type="MaterialCommunityIcons" name="comment-outline" />
-                  <Text style={ styles.listText }> 리뷰 관리</Text>
+                  <Text style={styles.listText}> 리뷰 관리</Text>
+                </Left>
+                <Right>
+                  <Icon type="AntDesign" name="right" />
+                </Right>
+              </ListItem>
+
+                <ListItem button onPress={() => {
+                    Fire.off();
+                    SQLite.deleteDatabase({ name: 'testDB.db' })
+                    this.Logout()
+                   }}>
+                <Left>
+                  <Icon type="Ionicons" name="power-sharp" />
+                  <Text style={styles.listText}> 로그아웃</Text>
                 </Left>
                 <Right>
                   <Icon type="AntDesign" name="right" />
