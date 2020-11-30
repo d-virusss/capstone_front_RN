@@ -45,9 +45,19 @@ class TabScreen extends Component {
         })
         this.setState({loading : false})
       })
-      .catch((err) => {
-        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
-      })
+      .catch(function(e) {
+        Alert.alert("접근 실패", "로그인 정보를 확인해주세요.",
+          [
+            {
+            text:'확인', 
+            onPress : () => this.props.navigation.navigate("Logins")
+            }, 
+            {
+              style:'cancel'
+            }
+          ]
+        )
+      }.bind(this));
   
   }
 

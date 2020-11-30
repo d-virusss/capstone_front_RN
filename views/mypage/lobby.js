@@ -42,6 +42,18 @@ class MypageScreen extends Component {
     SQLite.deleteDatabase({name: 'testDB.db'})
     this.dropFCMToken();
     AsyncStorage.clear();
+    Alert.alert("로그아웃", "정상적으로 로그아웃 됐습니다.",[
+      {text:'확인',
+      onPress : () => {
+        this.props.navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+           routes: [{ name: 'Logins' },],
+         })
+       ); // pop everything in stack navigation
+      }}, 
+      {style:'cancel'}
+    ])
   }
 
   getToken = async () => {
