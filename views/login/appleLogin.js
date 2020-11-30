@@ -56,7 +56,6 @@ class AppleLoginScreen extends Component {
       <WebView
         ref={(webview) => (this.webview = webview)}
         source={{ uri: 'https://www.applepink.ml/users/auth/apple'}}
-        // source={{html}}
         onMessage={this.onWebViewMessage}
         javaScriptEnabled={true}
         onLoadENd={() => {

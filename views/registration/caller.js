@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Alert, TouchableOpacity, } from 'react-native';
+import { StyleSheet, View, Alert, TouchableOpacity, Button as NativeButton} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, 
-  Left, Right, Body, Title, Icon, Footer, Button, Text} from 'native-base';
+  Left, Right, Body, Title, Icon, Button, Text} from 'native-base';
 import api from '../shared/server_address';
 import Fire from '../shared/Fire';
 
@@ -33,6 +33,28 @@ export default class RegistrationScreen extends React.Component {
     birthday : "",
   },
  };
+
+ is_input_idle(){
+  if(this.state.number === '') return true
+  else return false
+}
+
+ renderSubmitButton(){
+  if(this.is_input_idle()){
+    return (
+      <NativeButton bordered style={{ borderColor: '#aaaaaa' }} disabled>
+        <Text style={{ color: '#aaaaaa' }}>등록</Text>
+      </NativeButton>
+    )
+  }
+  else{
+    return(
+      <NativeButton NativeButton style={{ backgroundColor: '#ff3377' }} onPress={() => this.createKeywordRequest()}>
+        <Text style={{ color: 'white', fontWeight:'bold' }}>등록</Text>
+      </NativeButton>
+    )
+  }
+}
 
   registrationRequest = async () => {
     
@@ -126,13 +148,21 @@ export default class RegistrationScreen extends React.Component {
             </Item>
 
             {/* phone */}
-            <Item floatingLabel>
-              <Label>연락처 ex) 01012345678</Label>
-              <Input autoCapitalize="none"
-                keyboardType="numeric"
-                onChangeText = {(text) => {this.state.user.number = text }}
-              />
-            </Item>
+            <View style={{flexDirection: 'row', alignItems: 'center',}}>
+              <Item floatingLabel style={{width : '80%'}}>
+                <Label>연락처 ex) 01012345678</Label>
+                <Input autoCapitalize="none"
+                  keyboardType="numeric"
+                  onChangeText = {(text) => {this.state.user.number = text }}
+                />
+                
+              </Item>
+              <Button success transparent style={{alignItems: 'flex-end',}}>
+                <Text>인증</Text>
+              </Button>
+            </View>
+            
+            
 
             <Item floatingLabel>
               <Label>생일 ex) 19960827</Label>

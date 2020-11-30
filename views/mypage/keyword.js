@@ -124,16 +124,16 @@ class Keyword extends Component {
   renderSubmitButton(){
     if(this.is_input_idle()){
       return (
-        <NativeButton bordered style={{ borderColor: '#aaaaaa' }} disabled>
+        <Button bordered style={{ borderColor: '#aaaaaa' }} disabled>
           <Text style={{ color: '#aaaaaa' }}>등록</Text>
-        </NativeButton>
+        </Button>
       )
     }
     else{
       return(
-        <NativeButton NativeButton style={{ backgroundColor: '#ff3377' }} onPress={() => this.createKeywordRequest()}>
+        <Button NativeButton style={{ backgroundColor: '#ff3377' }} onPress={() => this.createKeywordRequest()}>
           <Text style={{ color: 'white', fontWeight:'bold' }}>등록</Text>
-        </NativeButton>
+        </Button>
       )
     }
   }
