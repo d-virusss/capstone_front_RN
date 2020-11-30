@@ -180,7 +180,7 @@ class MypageScreen extends Component {
           onPress={() => this.setState({ show_popover: false }, () => {
             this.partnerCheckNavigate()
           })}>
-          <Text style={styles.popoverel}>파트너 인증</Text>
+          <Text style={styles.popoverel}>파트너 신청</Text>
         </TouchableOpacity>
 
         <TouchableOpacity

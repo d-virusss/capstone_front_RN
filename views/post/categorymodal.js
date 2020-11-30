@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   popoverel : {
     paddingVertical : 10,
     paddingHorizontal : 10,
-    marginLeft : 10
+    marginLeft : 20
   },
   container : {
     paddingVertical : 10,

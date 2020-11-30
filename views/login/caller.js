@@ -133,19 +133,20 @@ class LoginScreen extends Component {
   addDevice = async(tok)=>{
     let fcmToken = await AsyncStorage.getItem('fcmToken');
     await api
-        .post('/users/add_device',{
-          user:{
-            device_token: fcmToken
-          }
-        },{
-          headers:{
-            'Authorization': tok
-          }
-        })
-        .then(response=>{
-          console.log(response)
-        })
-        .catch(err=>console.log(err))
+            .post('/users/add_device',{
+              user:{
+                device_token: fcmToken
+              }
+            },{
+              headers:{
+                'Authorization': tok
+              }
+            })
+            .then(response=>{
+              console.log('fcm add device success')
+              console.log(response)
+            })
+            .catch(err=>console.log(err))
   }
 
   render() {

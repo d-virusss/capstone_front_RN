@@ -91,7 +91,7 @@ class myItemListScreen extends Component{
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>글 관리</Title></Body>
+          <Body><Title>내 글 관리</Title></Body>
           <Right></Right>
         </Header>
 

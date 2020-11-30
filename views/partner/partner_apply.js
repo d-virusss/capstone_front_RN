@@ -127,7 +127,7 @@ export default class RegistrationScreen extends React.Component {
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title style={{color:'black',alignSelf:'center'}}>파트너 인증</Title></Body>
+          <Body><Title style={{color:'black',alignSelf:'center'}}>파트너 신청</Title></Body>
           <Right></Right>
         </Header>
         <Content>
@@ -205,7 +205,7 @@ export default class RegistrationScreen extends React.Component {
         <View style={styles.footer}>
           <Button transparent style={ styles.footerbutton }
             onPress={() => this.registrationRequest()}>
-            <Text style={styles.footerText}>파트너 신청</Text>
+            <Text style={styles.footerText}>신청하기</Text>
           </Button>
         </View>
       </Container>
