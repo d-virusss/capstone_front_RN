@@ -380,7 +380,8 @@ class PostShow extends Component{
                     </Right>
                   </Item>
 
-                  <Tabs tabBarUnderlineStyle={{backgroundColor:'#ff3377'}}>
+                  <Tabs tabBarUnderlineStyle={{backgroundColor:'#ff3377'}} style={{ borderTopWidth: 1,
+                      borderTopColor: '#f8f8f8' }}>
                     <Tab heading="상세 정보" activeTextStyle={{ color:'#ff3377' }} tabStyle={{ backgroundColor:'white' }}
                     activeTabStyle={{ backgroundColor:'#f8f8f8' }}>
                       <Item regular style={styles.postbody}>
