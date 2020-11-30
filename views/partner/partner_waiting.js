@@ -56,7 +56,7 @@ class Partner_waiting extends Component{
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title style={{color:'black',alignSelf:'center'}}>파트너 인증</Title></Body>
+          <Body><Title style={{color:'black',alignSelf:'center'}}>파트너 신청</Title></Body>
           <Right></Right>
         </Header>
         <Button transparent bordered dark
