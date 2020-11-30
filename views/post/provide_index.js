@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Icon } from 'native-base';
+import { Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Icon, Badge } from 'native-base';
 import { ScrollView, RefreshControl, DeviceEventEmitter, View, Alert} from "react-native";
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-community/async-storage';
@@ -37,18 +37,14 @@ class ProvideIndex extends Component {
       return(
         <TouchableOpacity onPress={() =>{this.props.navigation.navigate('PostShow', { post_id: post.post_info.id }) }}>
           <ListItem thumbnail key = {post.post_info.id}>
-            <Left style={{ flex: 3, marginLeft: '-2%' }}>
-              <Thumbnail square style={{ width: 90, height: 90, borderRadius: 5 }} source={{ uri: post.post_info.image }} />
+            <Left style={{ marginLeft: '-2%' }}>
+              <Thumbnail square style={{ width: 100, height: 100, borderRadius: 5 }} source={{ uri: post.post_info.image }} />
             </Left>
-            <Body style={{ flex: 9 }}>
+            <Body style={{}}>
               <View style={{ flexDirection: 'row' }}>
                 <Text style={{ marginBottom : 5, fontWeight:'bold' }}>{post.post_info.title}</Text>
-                {post.user.user_info.is_company && 
-                <Button small disabled style={{ backgroundColor: '#ff3377', 
-                    position:'absolute', right:'5%', bottom: '5%', }}>
-                  <Text style={{ fontWeight:'bold' }}>파트너</Text>
-                </Button>}
-                <Text style={{ position:'absolute', right: '-18%' }} note numberOfLines={1}>{post.post_info.created_at_ago}</Text>
+
+                <Text style={{  }} note numberOfLines={1}>{post.post_info.created_at_ago}</Text>
               </View>
               <View style={{ flexDirection: 'row', alignItems:'center' }}>
                 <Text style={{ fontSize: 15, fontWeight:'300' }}>{post.user.user_info.nickname}</Text>
@@ -56,7 +52,17 @@ class ProvideIndex extends Component {
               </View>
               <Text style={{ marginTop : 10, fontWeight: '500' }}>{number_delimiter(post.post_info.price)}원 / 일</Text>
             </Body>
-            <Right style={{ flexDirection:'row'}}>
+            <Right style={{ flexDirection:'row',}}>
+              {post.user.user_info.is_company &&
+                // <Button small disabled style={{
+                //   backgroundColor: '#ff3377', marginRight: '5%', marginBottom: '-5%', width: 60
+                // }}>
+                //   <Text style={{ fontWeight: 'bold' }}>파트너</Text>
+                // </Button>
+                <Badge style={{ backgroundColor: '#ff3377', marginRight: '5%', marginBottom: '-5%', }}>
+                  <Text style={{ fontWeight: 'bold' }} >파트너</Text>
+                </Badge>
+              }
               <Icon name='heart-outline' type='MaterialCommunityIcons' style={{ fontSize:20 }}/>
               <Text style={{ marginLeft : 5 }}>
                 {post.post_info.likes_count}
