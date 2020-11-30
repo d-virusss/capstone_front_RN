@@ -92,9 +92,9 @@ class TabScreen extends Component {
               tabBarLabel:"채팅",
               tabBarIcon: ({focused, color}) => {
                 if(focused){
-                  return (<Icon name="chatbox-sharp" type="Ionicons" size={9} />)
+                  return (<Icon name="chat" type="MaterialCommunityIcons" size={9} />)
                 }else{
-                  return (<Icon name="chatbox-outline" type="Ionicons" size={9}/>)}
+                  return (<Icon name="chat-outline" type="MaterialCommunityIcons" size={9}/>)}
                 },
               tabBarBadge: total_unchecked === 0 ? null : total_unchecked,
               }}/>
