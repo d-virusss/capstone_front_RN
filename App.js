@@ -57,6 +57,7 @@ import * as RootNavigation from './RootNavigation';
 
 const Stack = createStackNavigator();
 var token = '';
+let dataNotify={};
 
 const App = () => {
   const [loading, setLoading] = useState();
@@ -81,7 +82,7 @@ const App = () => {
 
     fcmService.registerAppWithFCM()
     fcmService.register(onRegister, onNotification, onOpenNotification)
-    localNotificationService.configure(onOpenNotification)
+    localNotificationService.configure(onOpenNotification,dataNotify)
 
     function onRegister(token){
       console.log("[App] onRegister : ", token)
@@ -89,7 +90,8 @@ const App = () => {
 
     function onNotification(notify, data){
       console.log("[App] onNotification: ", notify)
-      console.log("dkdkdkdkdkdkdkdkdkdkdkdkdk"+JSON.stringify(data))
+      dataNotify=data;
+      console.log(dataNotify)
       const options = {
         soundName: 'default',
         playSound: true

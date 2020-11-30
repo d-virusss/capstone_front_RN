@@ -107,7 +107,7 @@ class FCMService {
             let data = null;
             notification = remoteMessage.notification;
             data = remoteMessage.data;
-            console.log('[fcmsss] : '+data)
+            console.log('[fcmsss] : '+ JSON.stringify(data))
             onNotification(notification, data)
             
         });

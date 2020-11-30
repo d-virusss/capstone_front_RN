@@ -4,7 +4,7 @@ import {Platform} from 'react-native';
 
 class LocalNotificationService {
 
-  configure = (onOpenNotification) => {
+  configure = (onOpenNotification, datas) => {
     PushNotification.configure({
       onRegister: function (token) {
         console.log("[LocalNotificationService] onRegister:", token);
@@ -23,7 +23,16 @@ class LocalNotificationService {
           notification.finish(PushNotificationIOS.FetchResult.NoData)
         }
         console.log(notification)
-        console.log('[local]: '+JSON.stringify(data))
+        console.log('[data] : '+JSON.stringify(data))
+        console.log('[datas] : '+JSON.stringify(datas))
+        /*if(data.type=='message'){
+          console.log('messsssssssssssssage')
+          onOpenNotification(notification,data)
+        }
+        if(data.type=='keyword'){
+          console.log('keywoooooooooooord')
+          onOpenNotification(notification,data)
+        }*/
       },
       
       // IOS ONLY (optional): default: all - Permissions to register.
