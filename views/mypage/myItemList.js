@@ -47,7 +47,7 @@ class myItemListScreen extends Component{
         this.setState({provide_post:res.data}, ()=> { })
       })
       .catch(function (e) {
-        console.log('send post failed!!!!' + e)
+        console.log(e.response)
         Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
       })
   }
