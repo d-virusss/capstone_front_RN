@@ -246,7 +246,7 @@ class PostShow extends Component{
       })
       .then((res) => {
         console.log(res)
-        Alert.alert("삭제 완료", "", [{text:'확인', style:'cancel'}])
+        Alert.alert("삭제 완료", "정상적으로 삭제했습니다.", [{text:'확인', style:'cancel'}])
         this.props.navigation.navigate('Main')
       })
       .catch((e) => {

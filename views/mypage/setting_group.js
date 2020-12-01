@@ -33,7 +33,7 @@ getAuthCodeRequest = async() => {
 		}
 	})
 	.then((res) =>  {
-		Alert.alert("코드를 발송했습니다", "",[{text:'확인', style:'cancel'}])
+		Alert.alert("코드 전송 완료", "이메일을 확인해주세요.",[{text:'확인', style:'cancel'}])
 		this.setState({auth: true});
 	})
 	.catch((err) =>  {
@@ -113,7 +113,7 @@ sendAuthCodeRequest = async() => {
 			}
 		})
 		.then((res) =>  {
-			Alert.alert("인증되었습니다", "",[{text:'확인', onPress : () => this.props.navigation.goBack()}, {style:'cancel'}])
+			Alert.alert("인증 성공", "정상적으로 등록됐습니다.",[{text:'확인', onPress : () => this.props.navigation.goBack()}, {style:'cancel'}])
 		})
 		.catch((err) =>  {
 			Alert.alert("인증 실패", err.response.data.error ,[{text:'확인', style:'cancel'}])

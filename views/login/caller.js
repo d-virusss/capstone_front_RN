@@ -57,10 +57,10 @@ class LoginScreen extends Component {
   }
   makeRequest = async()=>{
     if (userinfo.user.email == ''){
-      Alert.alert('로그인',"이메일을 입력해주세요",[{text: '확인', style:'cancel'}])
+      Alert.alert('로그인',"이메일을 입력해주세요.",[{text: '확인', style:'cancel'}])
     }
     if (userinfo.user.password == '')
-      Alert.alert("로그인", "비밀번호를 입력해주세요",[{text: '확인', style:'cancel'}])
+      Alert.alert("로그인", "비밀번호를 입력해주세요.",[{text: '확인', style:'cancel'}])
     if (!(userinfo.user.email == '') && !(userinfo.user.password == '')) {
       await api
         .post('/users/sign_in', userinfo)

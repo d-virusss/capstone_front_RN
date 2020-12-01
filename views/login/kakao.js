@@ -33,7 +33,7 @@ class KakaoLoginScreen extends Component {
         
       }).catch((err) => {
         console.log(err);
-        Alert.alert("기기 등록 실패", "등록된 기기가 없습니다",[{text:'확인', style:'cancel'}])
+        Alert.alert("기기 등록 실패", "등록된 기기가 없습니다.",[{text:'확인', style:'cancel'}])
       })
     })
 

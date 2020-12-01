@@ -68,7 +68,7 @@ authCodeRequest(){
     Alert.alert("인증 완료", res.data.message, [{text:'확인'},{style:'cancel'}])
     this.state.code = "success";
   }).catch((err) => {
-    Alert.alert("인증 실패", "인증번호를 다시 확인해주세요", [{text:'확인'},{style:'cancel'}])
+    Alert.alert("인증 실패", err.response.data.error, [{text:'확인'},{style:'cancel'}])
   })
 }
 

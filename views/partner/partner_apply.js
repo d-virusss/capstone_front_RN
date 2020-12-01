@@ -42,59 +42,11 @@ export default class RegistrationScreen extends React.Component {
   getToken = async() => {
     this.state.token = await AsyncStorage.getItem('token');
   }
-
- checkInputValue = () => {
-    if(this.state.company.name == ''){
-      Alert.alert("파트너 신청 실패","대표자 이름을 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-    if(this.state.company.business_registration == ''){
-      Alert.alert("파트너 신청 실패", "회사명을 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-    if(this.state.company.title == ''){
-      Alert.alert("파트너 신청 실패", "사업자 번호를 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
     
-    if(this.state.company.business_address == ''){
-      Alert.alert("파트너 신청 실패", "사업자 주소를 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-
-    if(this.state.company.phone == ''){
-      Alert.alert("파트너 신청 실패", "연락처를 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-
-    if(this.state.company.category == ''){
-      Alert.alert("파트너 신청 실패", "종목을 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-
-    if(this.state.company.biz_type == ''){
-      Alert.alert("파트너 신청 실패", "업태를 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-
-    if(this.state.company.message == ''){
-      Alert.alert("파트너 신청 실패", "한줄 소개를 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-
-    if(this.state.company.description == ''){
-      Alert.alert("파트너 신청 실패", "상세정보를 입력해주세요", "",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-
-    partner_obj.company = this.state.company;
-    return true;
-   }
 
   registrationRequest = async () => {
-    if(this.checkInputValue()){
-      console.log(this.state.token)
-      await api
+    partner_obj.company = this.state.company;
+    await api
       .post('/companies', partner_obj, {headers:{'Authorization':this.state.token}})
       .then(async (res) =>  {
         console.log(res);
@@ -107,7 +59,6 @@ export default class RegistrationScreen extends React.Component {
         console.log(err.response.data.error)
         Alert.alert("파트너 신청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])       
       });
-    }
   };
   componentDidMount(){
     this.getToken();

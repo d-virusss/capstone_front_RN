@@ -8,6 +8,7 @@ import api from '../shared/server_address'
 import moment from 'moment';
 import IconM from 'react-native-vector-icons/Ionicons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { registerVersion } from 'firebase';
 IconM.loadFont()
 
 var reservation_list = [];
@@ -19,7 +20,7 @@ var reservation_info = {
     acceptance: null,
   },
 };
-
+var booking_data;
 class receiveScreen extends Component{
   state = {
     marked: null,
@@ -29,6 +30,7 @@ class receiveScreen extends Component{
   };
 
   componentDidMount() {
+    reservation_info.item_id = '' //init
     this.getToken();
     this.eventListener = DeviceEventEmitter.addListener('refreshList', this.handleEvent);
   }
@@ -53,7 +55,8 @@ class receiveScreen extends Component{
 
   showBookingDate(info) {
     nextDay = [];
-    
+    booking_data = info; //for sign
+
     const start = moment(info.startDate);
     const end = moment(info.endDate);
     
@@ -89,42 +92,29 @@ class receiveScreen extends Component{
     this.setState({ marked : obj});
   }
 
-  accept() {
-    reservation_info.booking.acceptance = 'accepted'
-    api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
-      headers: {
-        Authorization: this.state.token,
-      },
-    }).then((res) => {
-      console.log(res)
-      this.props.navigation.navigate("Sign", { booking_info: res.data.booking_info, who: 'consumer' });
-    }).catch((err) => {
-      console.log(err)
-      Alert.alert("요청 실패", err.response.data.error, [{ text: '확인', style: 'cancel' }])
-    })
-  }
-
   showOptionButton(){
     console.log('showoption button ---------- ')
     console.log(reservation_info)
-    if(reservation_info.booking.acceptance){
-      return(
-        <View style={ styles.footer }>
-          <Button transparent style={styles.bottomButtons}
-            onPress={() => { this.accept() }}>
-            <Text style={styles.footerText}>서명하기</Text>
-          </Button>
-        </View>
-      )
-    }
-    else if(reservation_info.booking.acceptance === false){
-      return(
-        <View style={ styles.disabledfooter }>
-          <Button disabled transparent style={styles.bottomButtons} >
-            <Text style={styles.footerText}>서명하기</Text>
-          </Button>
-        </View>
-      )
+    if(reservation_info.item_id){
+      if(reservation_info.booking.acceptance){
+        return(
+          <View style={ styles.footer }>
+            <Button transparent style={styles.bottomButtons}
+              onPress={() => { this.props.navigation.navigate("Sign", { booking_info: booking_data, who: 'consumer' }); }}>
+              <Text style={styles.footerText}>서명하기</Text>
+            </Button>
+          </View>
+        )
+      }
+      else if(reservation_info.booking.acceptance === false){
+        return(
+          <View style={ styles.disabledfooter }>
+            <Button disabled transparent style={styles.bottomButtons} >
+              <Text style={styles.footerText}>서명하기</Text>
+            </Button>
+          </View>
+        )
+      }
     }
     else{
       return null
@@ -213,10 +203,10 @@ const styles = StyleSheet.create({
     flex:0.1,
     left: 0,
     right: 0,
-    top : height * 0.76,
+    top : height * 0.74,
     backgroundColor:'#ff3377',
     flexDirection:'row',
-    height:60,
+    height:80,
     alignItems:'center',
     paddingTop: 7
   },
@@ -236,10 +226,10 @@ const styles = StyleSheet.create({
     flex: 0.1,
     left: 0,
     right: 0,
-    top : height * 0.76,
+    top : height * 0.74,
     backgroundColor: '#dddddd',
     flexDirection: 'row',
-    height: 60,
+    height: 80,
     alignItems: 'center',
   }
  });

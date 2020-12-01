@@ -61,7 +61,6 @@ class receiveScreen extends Component{
     api.get('/bookings?received=true&status=before', {
         headers: {Authorization: this.state.token},
     }).then((res) => {
-        console.log(res)
         reservation_list = res.data;
         this.setState({loading: false});
     }).catch((err) => {
@@ -172,14 +171,14 @@ class receiveScreen extends Component{
   
   showBookingDate(info) {
     nextDay = [];
-
-    const start = moment(info.startDate);
-    const end = moment(info.endDate);
+    console.log(info)
+    const start = moment(info.start_at);
+    const end = moment(info.end_at);
 
     for (let m = moment(start); m.diff(end, 'days') <= 0; m.add(1, 'days')) {
       nextDay.push(m.format('YYYY-MM-DD'));
     }
-    booking_info = info.booking;
+    booking_info = info;
 
     reservation_info.item_id = info.id;
     reservation_info.booking.post_id = info.post_id;
@@ -189,6 +188,7 @@ class receiveScreen extends Component{
 
   makeList() {
     return reservation_list.map((ele) => {
+      //console.log(ele)
       return (
         <TouchableOpacity onPress={() => this.showBookingDate(ele.booking_info)}>
           <ListItem key={ele.booking_info.id}>
@@ -256,12 +256,12 @@ const styles = StyleSheet.create({
     flex : 0.1,
     left: 0,
     right: 0,
-    top:height*0.76,
+    top:height*0.74,
     backgroundColor:'#ff3377',
     flexDirection:'row',
-    height:60,
+    height:80,
     alignItems:'center',
-    paddingTop: 7
+ 
   },
   bottomButtons: {
     alignItems:'center',
@@ -279,10 +279,10 @@ const styles = StyleSheet.create({
     flex : 0.1,
     left: 0,
     right: 0,
-    top: height * 0.76,
+    top: height * 0.74,
     backgroundColor: '#dddddd',
     flexDirection: 'row',
-    height: 60,
+    height: 80,
     alignItems: 'center',
   }
  });

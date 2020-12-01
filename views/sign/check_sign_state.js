@@ -11,7 +11,11 @@ import api from '../shared/server_address'
 export default class SignState extends React.Component {
   booking_info = this.props.route.params.booking_info
   res = this.props.route.params.res
-  current_date = new Date()
+  current_date = new Date();
+  current_year = this.current_date.getFullYear();
+  current_month = this.current_date.getMonth()+1;
+  current_day = this.current_date.getDate() < 10 ? '0'+this.current_date.getDate() : this.current_date.getDate();
+
   start_date = this.booking_info.start_at.split("T")[0]
   end_date = this.booking_info.end_at.split("T")[0]
 
@@ -119,9 +123,9 @@ export default class SignState extends React.Component {
               </CardItem>
               <CardItem style={ styles.contractDate }>
                 <Text style={styles.dateText}>
-                  계약일 : {this.current_date.getFullYear()}-
-                  { this.current_date.getMonth()+1}-
-                  { this.current_date.getDate()}
+                  계약일 : {this.current_year} -
+                  { this.current_month}-
+                  { this.current_day}
                 </Text>
               </CardItem>
               <CardItem>
@@ -134,7 +138,7 @@ export default class SignState extends React.Component {
               </CardItem>
               <CardItem footer>
                 <Text>
-                  {this.current_date.getFullYear()}년 {this.current_date.getMonth()+1}월 {this.current_date.getDate()}일
+                  {this.current_year}년 {this.current_month}월 {this.current_day}일
                 </Text>
               </CardItem>
             </Card>
