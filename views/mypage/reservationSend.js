@@ -1,12 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions} from 'react-native';
+import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions, ScrollView} from 'react-native';
 import {Text, Header, Thumbnail, Body, Container, Content, ListItem, 
-  Spinner, Button, Right, Footer, FooterTab, Badge} from 'native-base';
+  Spinner, Button, Right, Footer, FooterTab, Badge, List} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
 import moment from 'moment';
 import IconM from 'react-native-vector-icons/Ionicons'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 IconM.loadFont()
 
 var reservation_list = [];
@@ -50,18 +51,18 @@ class receiveScreen extends Component{
     this.getReservationList()
   }
 
-  showBookingDate(id, post_id, startDate, endDate, acceptance) {
+  showBookingDate(info) {
     nextDay = [];
     
-    const start = moment(startDate);
-    const end = moment(endDate);
+    const start = moment(info.startDate);
+    const end = moment(info.endDate);
     
     for (let m = moment(start); m.diff(end, 'days') <= 0; m.add(1, 'days')) {
       nextDay.push(m.format('YYYY-MM-DD'));
     }
-    reservation_info.item_id = id;
-    reservation_info.booking.post_id = post_id;
-    if(acceptance === "accepted"){
+    reservation_info.item_id = info.id;
+    reservation_info.booking.post_id = info.post_id;
+    if(info.acceptance === "accepted"){
       reservation_info.booking.acceptance = true
     }
     else reservation_info.booking.acceptance = false
@@ -146,25 +147,27 @@ class receiveScreen extends Component{
     return reservation_list.map((ele) => {
       console.log(ele)
       return (
-        <ListItem key={ele.booking_info.id}
-          button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id,
-           ele.booking_info.start_at, ele.booking_info.end_at, ele.booking_info.acceptance)}>
-          <Thumbnail source={{ uri: ele.booking_info.post_image }} />
-          <Body>
-            <Text>{ele.booking_info.title}</Text>
-            <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>
-              {ele.booking_info.result}
-            </Text> 
-            <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>
-              {ele.booking_info.price}
-            </Text> 
-          </Body>
-          <Right>
-            <Badge style={{ backgroundColor : this.setBadgeColor(ele.booking_info.result) }}>{/* 승인 success, 대기 회색, 거절 진홍색 */}
-              <Text style={{ fontWeight: 'bold' }}>{ele.booking_info.result}</Text>
-            </Badge>
-          </Right>
-        </ListItem>
+        <TouchableOpacity onPress={() => this.showBookingDate(ele.booking_info)}>
+          <ListItem key={ele.booking_info.id}>
+            <Thumbnail source={{ uri: ele.booking_info.post_image }} />
+            <Body>
+              <Text>{ele.booking_info.title}</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>
+                  {ele.booking_info.result}
+                </Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+              <Text note numberOfLines={1} style={{ paddingTop: '2%' }}>{ele.booking_info.price.toLocaleString() + '원 ('}{ele.booking_info.lent_day + "일)"}</Text>
+              </View>
+            </Body>
+            <Right>
+              <Badge style={{ backgroundColor : this.setBadgeColor(ele.booking_info.result) }}>{/* 승인 success, 대기 회색, 거절 진홍색 */}
+                <Text style={{ fontWeight: 'bold' }}>{ele.booking_info.result}</Text>
+              </Badge>
+            </Right>
+          </ListItem>
+        </TouchableOpacity>
       );
     });
   }
@@ -182,18 +185,18 @@ class receiveScreen extends Component{
     }
     else{
       return(
-        <Container>
-          <View>
+        <View style={styles.container}>
+          <ScrollView style={{flex : 5}}>
             <Calendar
             markedDates={this.state.marked}
             markingType={'period'}
             />
-          </View>
-          <Content>
-            {this.makeList()}
-          </Content>
-            {this.showOptionButton()}
-        </Container>
+            <Content>
+              <List>{this.makeList()}</List>
+            </Content>
+          </ScrollView>
+          {this.showOptionButton()}
+        </View>
       )
     } 
   };
@@ -210,11 +213,12 @@ const styles = StyleSheet.create({
     flex:0.1,
     left: 0,
     right: 0,
-    top : height * 0.75,
+    top : height * 0.76,
     backgroundColor:'#ff3377',
     flexDirection:'row',
     height:60,
     alignItems:'center',
+    paddingTop: 7
   },
   bottomButtons: {
     alignItems:'center',
@@ -232,7 +236,7 @@ const styles = StyleSheet.create({
     flex: 0.1,
     left: 0,
     right: 0,
-    top : height * 0.75,
+    top : height * 0.76,
     backgroundColor: '#dddddd',
     flexDirection: 'row',
     height: 60,

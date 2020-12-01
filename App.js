@@ -49,7 +49,8 @@ import FindIdShow from './views/findid/email_show';
 import FindPwShow from './views/findpw/pw_show';
 import PwInputCode from './views/findpw/pw_input_code'
 import AppleLogin from './views/login/appleLogin'
-import ButtomTab from './views/shared/Tab'
+
+import BottomTab from './views/shared/Tab'
 
 import db from './views/shared/chat_db'
 import { navigationRef } from './RootNavigation';
@@ -132,7 +133,7 @@ const App = () => {
           <Stack.Screen name="Find_pw" component={FindPw} options={{headerShown: false}} />
           <Stack.Screen name="FindPwShow" component={FindPwShow} options={{headerShown: false}} />
           <Stack.Screen name="PwInputCode" component={PwInputCode} options={{headerShown: false}} />
-          <Stack.Screen name="Main" component={ButtomTab} options={{headerShown : false, gestureEnabled : false, }}/>
+          <Stack.Screen name="Main" component={BottomTab} options={{headerShown : false, gestureEnabled : false, }}/>
   
           {/* post */}
           <Stack.Screen name="P_W_p" component={Post_provide} options={{ headerShown : false }} />

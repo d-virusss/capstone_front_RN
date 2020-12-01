@@ -70,7 +70,7 @@ class UpdateReviewScreen extends Component {
 			},
 		}).then((res)=> {
 
-			Alert.alert("수정 완료", "리뷰가 정상적으로 수정됐습니다",[
+			Alert.alert("수정 완료", "리뷰가 정상적으로 수정되었습니다",[
 				{
 					text: '확인',
 					onPress: () => this.props.navigation.goBack()
@@ -135,7 +135,7 @@ class UpdateReviewScreen extends Component {
 				Authorization : this.state.token
 			}
 		}).then(()=> {
-			Alert.alert("삭제 완료", "리뷰가 정상적으로 삭제됐습니다",[
+			Alert.alert("삭제 완료", "리뷰가 정상적으로 삭제되었습니다.",[
 				{
 					text: '확인',
 					onPress: () => this.props.navigation.goBack(),

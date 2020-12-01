@@ -100,10 +100,35 @@ class SettingMyInfoScreen extends React.Component {
     return true;
   }
 
+  profileValidateCheck(){
+    if(this.state.name.length > 6){
+      Alert.alert("수정 실패", "실명은 6자까지 가능합니다.", [{ text: '확인', style: 'cancel' }])
+      return true;
+    }
+    else if(this.state.nickname.length > 11){
+      Alert.alert("수정 실패", "닉네임은 10자까지 가능합니다.", [{ text: '확인', style: 'cancel' }])
+      return true;
+    }
+    else if(this.state.number.length > 12){
+      Alert.alert("수정 실패", "연락처 형식을 확인해주세요.", [{ text: '확인', style: 'cancel' }])
+      return true;
+    }
+    else if(this.state.birthday.length > 9){
+      Alert.alert("수정 실패", "생년월일 형식을 확인해주세요.", [{ text: '확인', style: 'cancel' }])
+      return true;
+    }
+  }
+
   updateRequest = async () => {
 
     if(this.checkInputVaule()){
       this.setState({ loading : true })
+      if (this.profileValidateCheck()){
+        console.log('글자수 초과로 수정 실패')
+        this.setState({ loading : false })
+        return
+      }
+      
       api
       .put(`/users/${this.state.id}`, (formdata),
       {

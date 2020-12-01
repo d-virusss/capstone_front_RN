@@ -38,11 +38,10 @@ class MypageScreen extends Component {
   }
 
   Logout() {
-    Fire.off();
     SQLite.deleteDatabase({name: 'testDB.db'})
     this.dropFCMToken();
-    AsyncStorage.clear();
-    Alert.alert("로그아웃", "정상적으로 로그아웃 됐습니다.",[
+    AsyncStorage.removeItem('token');
+    Alert.alert("로그아웃", "정상적으로 로그아웃 되었습니다.",[
       {text:'확인',
       onPress : () => {
         this.props.navigation.dispatch(
@@ -232,8 +231,8 @@ class MypageScreen extends Component {
                     onPress={() => { this.props.navigation.navigate('ProfileShow', {user_id : posts.id}) }}>
                   <Thumbnail source={{uri: this.state.myImage}} />
                   <Body style={{ marginLeft : '5%' }}>
-                    <View style={{ flexDirection : 'row' }}>
-                      <Text>{this.state.myName}</Text>
+                    <View style={{ flexDirection : 'row', width:'60%' }}>
+                      <Text style={{}} numberOfLines={1}>{this.state.myName}</Text>
                       <Text note numberOfLines={1}>
                         {this.state.myGroup}
                       </Text>
@@ -279,7 +278,7 @@ class MypageScreen extends Component {
                 <Right>
                   <Icon type="AntDesign" name="right" />
                 </Right>
-              </ListItem>
+                </ListItem>
 
               <ListItem button onPress={() => { this.props.navigation.navigate('Like_List') }}>
                 <Left>
@@ -312,8 +311,6 @@ class MypageScreen extends Component {
               </ListItem>
 
                 <ListItem button onPress={() => {
-                    Fire.off();
-                    SQLite.deleteDatabase({ name: 'testDB.db' })
                     this.Logout()
                    }}>
                 <Left>

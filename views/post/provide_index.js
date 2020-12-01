@@ -22,6 +22,21 @@ class ProvideIndex extends Component {
       loading : true,
     }
   }
+  
+  getToken = async () => {
+    let value = await AsyncStorage.getItem('token');
+    this.state.token = value;
+    this.sendIndexRequest();
+  };
+
+  componentDidMount() {
+    this.getToken()
+    this.eventListener = DeviceEventEmitter.addListener('categoryId', this.catetoryEventHandler);
+    this.eventListener = DeviceEventEmitter.addListener('searchContent', this.searchEventHandler);
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this._onRefresh()
+    });
+  }
 
   _onRefresh = () => {
     console.log("제공 게시물 refresh")
@@ -32,9 +47,9 @@ class ProvideIndex extends Component {
 
   makeIndexList() {
     return this.state.posts.map((post) => {
-      console.log(post)
       return(
-        <TouchableOpacity onPress={() =>{this.props.navigation.navigate('PostShow', { post_id: post.post_info.id })}}
+        <TouchableOpacity onPress={() =>{this.props.navigation.navigate('PostShow', { 
+          post_id: post.post_info.id })}}
           key={post.post_info.id}>
           <ListItem thumbnail key = {post.post_info.id}>
             <Left style={{ marginLeft: '-2%' }}>
@@ -49,7 +64,7 @@ class ProvideIndex extends Component {
                 <Text numberOfLines={1} style={{ fontSize: 15, fontWeight:'300' }}>{post.user.user_info.nickname}</Text>
                 <Text note numberOfLines={1} style={{ }}>{post.location_info.title} </Text>
               </View>
-              <Text style={{ marginTop : 10, fontWeight: '500' }}>{number_delimiter(post.post_info.price)}원 / 일</Text>
+              <Text style={{ marginTop : 10, fontWeight: '300' }}>{number_delimiter(post.post_info.price)}원 / 일</Text>
             </Body>
             <Right style={{ flexDirection:'row',}}>
               {post.post_info.status === "unable" &&
@@ -131,18 +146,6 @@ class ProvideIndex extends Component {
           ])
         }.bind(this));
       }
-  }
-
-  getToken = async () => {
-    let value = await AsyncStorage.getItem('token');
-    this.state.token = value;
-    this.sendIndexRequest();
-  };
-
-  componentDidMount(){
-    this.getToken()
-    this.eventListener = DeviceEventEmitter.addListener('categoryId', this.catetoryEventHandler);
-    this.eventListener = DeviceEventEmitter.addListener('searchContent', this.searchEventHandler);
   }
 
   componentWillUnmount(){

@@ -209,8 +209,8 @@ class ProfileShow extends Component {
                 style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop: '3%' }}>
                 <Thumbnail source={{ uri: this.state.profile_image }} />
                 <Body style={{ marginLeft: '5%' }}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text>{this.state.nickname}</Text>
+                  <View style={{ flexDirection: 'row', width: '80%' }}>
+                    <Text numberOfLines={1}>{this.state.nickname}</Text>
                     {this.renderFollowButton()}
                   </View>
                   <Text note numberOfLines={1} style={{ marginTop: '1%' }}>

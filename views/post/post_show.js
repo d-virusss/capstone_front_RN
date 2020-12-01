@@ -307,7 +307,7 @@ class PostShow extends Component{
     }
     else{
       return(
-        <FooterTab style={{backgroundColor:'#F8F8F8',}}>
+        <FooterTab style={{backgroundColor:'#F8F8F8', height: '100%'}}>
           <Button vertical style={{ marginLeft: -30, width : '20%', }} onPress={() => this.likeRequest()}>
             <Icon name={this.state.icon || "heart-outline"} style={styles.likeIcon} />
           </Button>
@@ -318,9 +318,9 @@ class PostShow extends Component{
             onPress={() => { this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize:17}}>예약</Text>
           </Button>)}
-          {this.state.isBooked == true && (<Button vertical transparent
+          {this.state.isBooked == true && (<Button vertical transparent style={{ padding: 0 }}
             onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
-            <Text style={{ fontWeight: 'bold', fontSize:17}}>예약 취소</Text>
+            <Text style={{ fontWeight: 'bold', fontSize:16, padding: 0}}>예약 취소</Text>
           </Button>)}
         </FooterTab>
       )

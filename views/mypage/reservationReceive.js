@@ -1,12 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions} from 'react-native';
-import {Text, Header, Thumbnail, FooterTab, Body, Container, 
+import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions, ScrollView} from 'react-native';
+import {Text, Header, Thumbnail, List, Body, Container, 
   Content, ListItem, Spinner, Button, Footer, Badge, Right} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
 import moment from 'moment';
 import IconM from 'react-native-vector-icons/Ionicons'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 IconM.loadFont()
 
 var reservation_list = [];
@@ -168,47 +169,48 @@ class receiveScreen extends Component{
       return '#a1282c'
     }
   }
-  showBookingDate(id, post_id, startDate, endDate, acceptance, booking) {
+  
+  showBookingDate(info) {
     nextDay = [];
 
-    const start = moment(startDate);
-    const end = moment(endDate);
+    const start = moment(info.startDate);
+    const end = moment(info.endDate);
 
     for (let m = moment(start); m.diff(end, 'days') <= 0; m.add(1, 'days')) {
       nextDay.push(m.format('YYYY-MM-DD'));
     }
-    booking_info = booking;
+    booking_info = info.booking;
 
-    reservation_info.item_id = id;
-    reservation_info.booking.post_id = post_id;
-    reservation_info.booking.acceptance = acceptance;
+    reservation_info.item_id = info.id;
+    reservation_info.booking.post_id = info.post_id;
+    reservation_info.booking.acceptance = info.acceptance;
     this.markingDate();
   }
 
   makeList() {
     return reservation_list.map((ele) => {
       return (
-        <ListItem key={ele.booking_info.id}
-          button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id, 
-          ele.booking_info.start_at, ele.booking_info.end_at, ele.booking_info.acceptance, ele.booking_info)}>
-          <Thumbnail source={{ uri: ele.booking_info.post_image }} />
-          <Body>
-            <Text>{ele.booking_info.title}</Text>
-            <View style={{ flexDirection: 'row' }}>
-              <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>{ele.booking_info.consumer.nickname}</Text>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-              <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>{ele.booking_info.price}</Text>
-            </View>
-          </Body>
-          <Right>
-            <Badge style={{ backgroundColor : this.setBadgeColor(ele.booking_info.result) }}>
-              <Text numberOfLines={1} style={{ fontWeight: 'bold' }} >
-                {ele.booking_info.result}
-              </Text>
-            </Badge>
-          </Right>
-        </ListItem>
+        <TouchableOpacity onPress={() => this.showBookingDate(ele.booking_info)}>
+          <ListItem key={ele.booking_info.id}>
+            <Thumbnail source={{ uri: ele.booking_info.post_image }} />
+            <Body>
+              <Text>{ele.booking_info.title}</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>{ele.booking_info.consumer.nickname}</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text note numberOfLines={1} style={{ paddingTop: '2%' }}>{ele.booking_info.price.toLocaleString() + '원 ('}{ele.booking_info.lent_day + "일)"}</Text>
+              </View>
+            </Body>
+            <Right>
+              <Badge style={{ backgroundColor : this.setBadgeColor(ele.booking_info.result) }}>
+                <Text numberOfLines={1} style={{ fontWeight: 'bold' }} >
+                  {ele.booking_info.result}
+                </Text>
+              </Badge>
+            </Right>
+          </ListItem>
+        </TouchableOpacity>
       );
     });
   }
@@ -226,19 +228,19 @@ class receiveScreen extends Component{
     }
     else{
       return(
-        <Container>
-          <View>
-            <Calendar
-            markedDates={this.state.marked}
-            markingType={'period'}
-            />
-          </View>
-          <Content>
-          {this.makeList()}
-          </Content>
+        <View style={styles.container}>
+          <ScrollView style={{flex: 1}}>
+              <Calendar
+              markedDates={this.state.marked}
+              markingType={'period'}
+              />
+            <Content>
+              <List>{this.makeList()}</List>
+            </Content>
+          </ScrollView>
           {this.showOptionButton()}
-        </Container>
-        
+        </View>
+       
       )
     } 
   };
@@ -246,22 +248,25 @@ class receiveScreen extends Component{
 
 let {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
+  container : {
+    width : width
+  },
   footer: {
     position: 'absolute',
-    flex:0.1,
+    flex : 0.1,
     left: 0,
     right: 0,
-    top:height*0.75,
+    top:height*0.76,
     backgroundColor:'#ff3377',
     flexDirection:'row',
-    height:80,
+    height:60,
     alignItems:'center',
     paddingTop: 7
   },
   bottomButtons: {
     alignItems:'center',
     justifyContent: 'center',
-    flex:1,
+    flex : 1,
   },
   footerText: {
     color:'white',
@@ -271,10 +276,10 @@ const styles = StyleSheet.create({
   },
   disabledfooter: {
     position: 'absolute',
-    flex: 0.1,
+    flex : 0.1,
     left: 0,
     right: 0,
-    top: height * 0.75,
+    top: height * 0.76,
     backgroundColor: '#dddddd',
     flexDirection: 'row',
     height: 60,

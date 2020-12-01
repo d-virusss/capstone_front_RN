@@ -155,7 +155,7 @@ class LoginScreen extends Component {
         <View style={{flex: 1}}></View>
         <View style={{flex: 4, width: '70%', alignSelf: 'center'}}>
           <TouchableOpacity style={{ flex: 1,}} onPress={() => this.testLoginRequest()}>
-            <Text style={{ color: 'black', fontSize: 40, textAlign: 'center',}}>
+            <Text style={{ color: 'black', fontSize: 40, textAlign: 'center', fontWeight: 'bold'}}>
               모두나눔
             </Text>
           </TouchableOpacity>
@@ -202,12 +202,13 @@ class LoginScreen extends Component {
             <View style={{marginTop: '10%', height: '10%'}}>
               <CustomButton
                 title="이메일로 로그인"
-                titleColor="black"
-                buttonColor="white"
+                titleColor="white"
+                buttonColor="#ff3377"
                 borderWidth={5}
                 borderRadius={5}
                 width="100%"
                 height="100%"
+                fontWeight="bold"
                 onPress={() => {console.log(userinfo); this.makeRequest()}}
               />
             </View>
@@ -218,6 +219,7 @@ class LoginScreen extends Component {
                 style={{
                   width: '100%', // You must specify a width
                   height: 45, // You must specify a height
+                  fontWeight: 'bold'
                 }}
                 onPress={() => this.props.navigation.navigate('AppleLogin')}
               />
@@ -226,7 +228,7 @@ class LoginScreen extends Component {
             
             <View style={{marginTop: '3%', height: '10%'}}>
             <CustomButton
-                title="카카오로 로그인"
+                title=" 카카오로 로그인"
                 icon_name="chat"
                 icon_type="MaterialCommunityIcons"
                 titleColor="black"
@@ -235,6 +237,7 @@ class LoginScreen extends Component {
                 borderRadius={5}
                 width="100%"
                 height="100%"
+                fontWeight="bold"
                 onPress={() => this.props.navigation.navigate('KakaoLogin')}
               /> 
             </View>
@@ -242,10 +245,11 @@ class LoginScreen extends Component {
             <View style={{marginTop: '3%', height: '10%'}}>
               <CustomButton
                 title="회원가입"
-                titleColor="#fff"
-                buttonColor="#ff3377"
+                titleColor="black"
+                buttonColor="white"
                 width="100%"
                 height="100%"
+                fontWeight="bold"
                 onPress={() => this.props.navigation.navigate('Register')}
               />
             </View>
@@ -256,14 +260,15 @@ class LoginScreen extends Component {
                   flexDirection: 'row',
                   alignSelf: 'center',
                 }}>
-                <View style={{width: '49%', marginRight : '3%'}}>
+                <View style={{width: '49%', marginRight : '2%'}}>
                   <CustomButton
-                    title="ID 찾기"
+                    title="이메일 찾기"
                     titleColor="#fff"
                     buttonColor="#aaaaaa"
                     width="100%"
                     height="100%"
                     fontSize={15}
+                    fontWeight="bold"
                     onPress={() => this.props.navigation.navigate('Find_id')}
                   />
                 </View>
@@ -275,6 +280,7 @@ class LoginScreen extends Component {
                     width="100%"
                     height="100%"
                     fontSize={15}
+                    fontWeight="bold"
                     onPress={() => this.props.navigation.navigate('Find_pw')}
                   />
                 </View>

@@ -71,7 +71,7 @@ class Search_Bar extends React.Component {
             <Title style={{fontSize: 20, color: 'black',alignSelf: 'center', fontWeight: '500'}}>{this.state.location}</Title>
         </Header>
 
-        <Item style={{backgroundColor:'#ffffff',borderColor: '#aaaaaa' }}>
+        <Item style={{backgroundColor:'#ffffff',borderwidth : 0 }}>
           <Item style={{width : DEVICE_WIDTH*0.7, marginLeft: '4%', borderColor: 'transparent'}}>
             <Icon name="ios-search"/>
             <Input placeholder="Search" onChangeText = {(content) => this.state.search = content}
@@ -85,7 +85,8 @@ class Search_Bar extends React.Component {
         </Item>
       
       
-        <Tabs tabBarUnderlineStyle={{backgroundColor:'#ff3377'}} style={{marginTop : '0%',}}>
+        <Tabs tabBarUnderlineStyle={{backgroundColor:'#ff3377'}} style={{marginTop : '0%',
+          borderTopColor: '#f8f8f8', borderTopWidth : 1}}>
           <Tab heading="대여" activeTextStyle={{ color: '#ff3377' }} tabStyle={{ backgroundColor:'white' }}
             activeTabStyle={{ backgroundColor:'#f8f8f8' }}>
             <ProvideIndex navigation = {this.props.navigation}/>

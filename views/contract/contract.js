@@ -107,14 +107,16 @@ export default class Contract extends React.Component {
               </CardItem>
               <CardItem>
                 <Body>
-                  <View style={styles.textareaContainer}>
-                    <TextInput multiline={true} numberOfLines={10}
-                      style={styles.textarea}
-                      onChangeText={(text) => this.setState({ body : text })}
-                      value={this.state.body}
-
-                    ></TextInput>
-                  </View>
+                  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                    <KeyboardAvoidingView>
+                      <View style={styles.textareaContainer}>
+                        <TextInput multiline={true} numberOfLines={10}
+                          style={styles.textarea}
+                          onChangeText={(text) => this.setState({ body : text })}
+                          value={this.state.body}/>
+                      </View>
+                    </KeyboardAvoidingView>
+                  </TouchableWithoutFeedback>
                 </Body>
               </CardItem>
               <CardItem footer>

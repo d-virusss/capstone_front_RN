@@ -107,7 +107,9 @@ class Post_provide extends Component {
         [
           {
             text:'확인', 
-            onPress: () => this.props.navigation.navigate("Main")}
+            onPress: () => {
+              this.props.navigation.navigate("Main")
+            }}
           ,
           {
             style:'cancel'
@@ -116,7 +118,8 @@ class Post_provide extends Component {
         
       })
       .catch((e) => {
-        console.log('send post failed!!!!' + e)
+        console.log('send post failed!!!!')
+        console.log(e.response)
         Alert.alert("요청 실패", e.response.data.error,[
           {text:'확인', style:'cancel', onPress: () => {this.setState({loading: false})}}
         ])

@@ -33,14 +33,11 @@ getAuthCodeRequest = async() => {
 		}
 	})
 	.then((res) =>  {
-		console.log('success getAuthCodeRequest');
 		Alert.alert("코드를 발송했습니다", "",[{text:'확인', style:'cancel'}])
 		this.setState({auth: true});
 	})
 	.catch((err) =>  {
-		console.log('fail getAuthCodeRequest');
-		console.log(err)
-		Alert.alert("이메일을 다시 확인해주세요", "",[{text:'확인', style:'cancel'}])
+		Alert.alert("코드 전송 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
 	});
 }
 
@@ -108,20 +105,22 @@ showRequestButton() {
 }
 
 sendAuthCodeRequest = async() => {
-	api
-	.post('/users/email_auth', this.state, {
-		headers: {
-		'Authorization': this.state.token
-		}
-	})
-	.then((res) =>  {
-		console.log('success sendAuthCodeRequest ');
-		Alert.alert("인증되었습니다", "",[{text:'확인', style:'cancel'}])
-	})
-	.catch((err) =>  {
-		console.log('fail sendAuthCodeRequest ');
-		Alert.alert("인증 번호를 다시 확인해주세요", "",[{text:'확인', style:'cancel'}])
-	});
+	if(this.state.user.code){
+		api
+		.post('/users/email_auth', this.state, {
+			headers: {
+			'Authorization': this.state.token
+			}
+		})
+		.then((res) =>  {
+			Alert.alert("인증되었습니다", "",[{text:'확인', onPress : () => this.props.navigation.goBack()}, {style:'cancel'}])
+		})
+		.catch((err) =>  {
+			Alert.alert("인증 실패", err.response.data.error ,[{text:'확인', style:'cancel'}])
+		});
+	}else{
+		Alert.alert("인증 실패", "인증번호를 입력해주세요." ,[{text:'확인', style:'cancel'}])
+	}
 
 }
 
@@ -133,8 +132,7 @@ sendAuthCodeRequest = async() => {
 						height: 60,
 						backgroundColor: '#f8f8f8',
 						justifyContent:'space-between'}}
-						androidStatusBarColor='#000'
-					>
+						androidStatusBarColor='#000'>
 						<Left>
 						<TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
 							<Icon name = 'chevron-back' type = 'Ionicons'/>
