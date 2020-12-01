@@ -181,7 +181,7 @@ function ChatList ({ navigation, chat_data, getTotalChat }){
           <List>
             {noChat == true && 
               <View style = {{justifyContent : "center", alignItems: 'center', height : 500}}>
-                <Text>채팅이 없습니다</Text>
+                <Text>채팅이 없습니다.</Text>
               </View>
             }
             {noChat == false && makeIndexList()}

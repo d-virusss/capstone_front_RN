@@ -57,10 +57,10 @@ class LoginScreen extends Component {
   }
   makeRequest = async()=>{
     if (userinfo.user.email == ''){
-      Alert.alert('로그인',"이메일을 입력해주세요",[{text: '확인', style:'cancel'}])
+      Alert.alert('로그인',"이메일을 입력해주세요.",[{text: '확인', style:'cancel'}])
     }
     if (userinfo.user.password == '')
-      Alert.alert("로그인", "비밀번호를 입력해주세요",[{text: '확인', style:'cancel'}])
+      Alert.alert("로그인", "비밀번호를 입력해주세요.",[{text: '확인', style:'cancel'}])
     if (!(userinfo.user.email == '') && !(userinfo.user.password == '')) {
       await api
         .post('/users/sign_in', userinfo)
@@ -217,7 +217,7 @@ class LoginScreen extends Component {
                 buttonStyle={AppleButton.Style.BLACK}
                 buttonType={AppleButton.Type.SIGN_IN}
                 style={{
-                  width: 290, // You must specify a width
+                  width: '100%', // You must specify a width
                   height: 45, // You must specify a height
                   fontWeight: 'bold'
                 }}

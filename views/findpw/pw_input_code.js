@@ -21,7 +21,7 @@ export default class PwInputCode extends Component {
   checkCodeInput=async()=>{
     if(this.state.code=='') {
       console.log(this.state.code)
-      return Alert.alert('코드오류','코드를 입력해주세요',[({text:'확인',style:'cancel'})])
+      return Alert.alert('코드 오류','코드를 입력해주세요.',[({text:'확인',style:'cancel'})])
       
     }
     await api

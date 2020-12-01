@@ -68,7 +68,7 @@ class Search_Bar extends React.Component {
     return (
       <Container>
         <Header style={styles.header}>
-            <Title style={{fontSize: 20, color: 'black',alignSelf: 'center', fontWeight: '500'}}>{this.state.location}</Title>
+            <Title style={{fontSize: 20, color: 'black',alignSelf: 'center'}}>{this.state.location}</Title>
         </Header>
 
         <Item style={{backgroundColor:'#ffffff',borderwidth : 0 }}>

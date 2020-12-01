@@ -102,7 +102,7 @@ class ProviderRentList extends Component {
       })
       .then((res) => {
         console.log(res)
-        Alert.alert("반납 완료", "반납이 완료되었습니다", [{
+        Alert.alert("반납 완료", "반납이 완료되었습니다.", [{
           text: '확인', style: 'cancel'
         }])
         this.afterRequest()
