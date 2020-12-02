@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Alert, TouchableOpacity, Button as NativeButton, 
+import { StyleSheet, View, Alert, TouchableOpacity, Button as NativeButton,  Dimensions, TextInput,
   Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, 
   Left, Right, Body, Title, Icon, Button, Text} from 'native-base';
 import api from '../shared/server_address';
 import Fire from '../shared/Fire';
+
+
+var {Height, Width} = Dimensions.get('window');
 
 var user_obj = {
   user: {
@@ -55,6 +58,7 @@ export default class RegistrationScreen extends React.Component {
 
 authCodeRequest(){
   console.log("call code request---------------")
+
   let auth = {
     user : {
       phone : this.state.number,
@@ -72,26 +76,34 @@ authCodeRequest(){
   })
 }
 
- is_input_idle(){
-  if(this.state.number === '') return true
+ is_input_idle(text){
+  if(text === '') return true
   else return false
 }
 
  renderSubmitButton(){
-  if(this.is_input_idle()){
+  if(this.is_input_idle(this.state.number)){
     return (
-      <Button bordered style={{ borderColor: '#aaaaaa', marginTop : '3%'}} disabled>
-        <Text style={{ color: '#aaaaaa' }}>인증</Text>
+      <Button bordered style={{ borderColor: '#aaaaaa'}} disabled>
+        <Text style={{ color: '#aaaaaa', fontWeight:'bold'  }}>인증</Text>
       </Button>
     )
   }
   else{
-    return(
-      <Button NativeButton style={{ backgroundColor: '#ff3377', marginTop : '3%' }} onPress={() => this.authRequest()}
-      disabled={this.state.code == "success" ? "disable" : ""}>
-        <Text style={{ color: 'white', fontWeight:'bold' }}>인증</Text>
-      </Button>
-    )
+    if(this.state.code == "success"){
+      return(
+        <Button NativeButton style={{ backgroundColor: '#aaaaaa' }} disabled>
+          <Text style={{ color: 'white',fontWeight:'bold'}}>인증</Text>
+        </Button>
+      )
+    }else{
+      return(
+        <Button NativeButton style={{ backgroundColor: '#ff3377' }}
+          onPress={() => this.authRequest()}>
+          <Text style={{ color: 'white',fontWeight:'bold'}}>인증</Text>
+        </Button>
+      )
+    }
   }
 }
 
@@ -109,20 +121,17 @@ makeForm() {
 renderAuthCodeForm(){
   if(this.state.auth){
     return(
-      <View style={{flexDirection: 'row', alignItems: 'center',}}>
-        <Item floatingLabel style={{width : '80%'}}>
-          <Label>인증 번호</Label>
-          <Input autoCapitalize="none"
-            keyboardType="numeric"
-            onChangeText = {(text) => {this.state.code = text }}
-            disabled={this.state.code == "success" ? "disable" : ""}
-          />
-        </Item>
-        <Button NativeButton style={{ backgroundColor: '#ff3377', marginTop : '3%' }} 
-        disabled={this.state.code == "success" ? "disable" : ""}
-        onPress={() => this.authCodeRequest()}>
-          <Text style={{ color: 'white', fontWeight:'bold' }}>확인</Text>
-        </Button>
+      <View>
+        <Text style={styles.codeTextForm}>인증번호</Text>
+        <View style={styles.codeForm}>
+          <TextInput style={styles.keywordArea}
+            placeholder='인증번호를 입력해주세요.'
+            autoCapitalize='none'
+            onChangeText={(text) => this.setState({code : text})}
+            editable={this.state.code == "success" ? "false" : "true"}
+            />
+            {this.AuthCodeSubmit()}
+        </View>
       </View>
     )
   }else{
@@ -131,6 +140,31 @@ renderAuthCodeForm(){
   }
 }
 
+AuthCodeSubmit() {
+  if(this.is_input_idle(this.state.code)){
+    return (
+      <Button bordered style={{ borderColor: '#aaaaaa'}} disabled>
+        <Text style={{ color: '#aaaaaa', fontWeight:'bold'  }}>확인</Text>
+      </Button>
+    )
+  }else{
+    if(this.state.code == "success"){
+      return(
+        <Button NativeButton style={{ backgroundColor: '#aaaaaa' }} disabled>
+             <Text style={{ color: 'white', fontWeight:'bold' }}>확인</Text>
+        </Button>
+      )
+    }else{
+      return(
+        <Button NativeButton style={{ backgroundColor: '#ff3377' }} 
+          onPress={() => this.authCodeRequest()}>
+             <Text style={{ color: 'white', fontWeight:'bold' }}>확인</Text>
+        </Button>
+      )
+    }
+  }
+  
+}
   registrationRequest = async () => {
       if(this.state.code != "success"){
         Alert.alert("가입 실패", "핸드폰 인증이 필요합니다.", [{text:'확인'},{style:'cancel'}])
@@ -227,26 +261,27 @@ renderAuthCodeForm(){
                 />
               </Item>
 
-              {/* phone */}
-              <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                <Item floatingLabel style={{width : '80%'}}>
-                  <Label>연락처 ex) 01012345678</Label>
-                  <Input autoCapitalize="none"
-                    keyboardType="numeric"
-                    onChangeText = {(text) => {this.setState({number : text}) }}
-                    disabled={this.state.code == "success" ? "disable" : ""}
-                  />
-                </Item>
-                {this.renderSubmitButton()}
-              </View>
-              {this.renderAuthCodeForm()}
-            
               <Item floatingLabel>
                 <Label>생일 ex) 19960827</Label>
                 <Input autoCapitalize="none"
                   onChangeText = {(birthday) => {this.state.birthday = birthday }}
                 />
               </Item>
+
+              <Content>
+                <Text style={styles.textForm}>SMS 인증</Text>
+                <View style={styles.inputForm}>
+                  <TextInput style={styles.keywordArea}
+                    ref={(input) => { this.textInput = input }}
+                    placeholder='연락처 ex) 01012345678'
+                    autoCapitalize='none'
+                    onChangeText={(text) => this.setState({number : text})}
+                    editable={this.state.code == "success" ? "false" : "true"}
+                    />
+                    {this.renderSubmitButton()}
+                </View>
+                {this.renderAuthCodeForm()}
+              </Content>
 
             </Form>
             </KeyboardAvoidingView>
@@ -286,6 +321,46 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     alignItems:'center',
     fontSize: 20,
+  },
+  inputForm : {
+    marginLeft : 0,
+    width : '100%',
+    padding : '3%',
+    flexDirection : 'row',
+    alignItems : 'center',
+  },
+  textForm : {
+    width : '100%',
+    paddingHorizontal: '4%',
+    marginTop: '5%',
+    marginBottom: '-1%',
+    alignItems : 'center',
+    color :'#666666'
+  },
+  codeTextForm : {
+    width : '100%',
+    paddingHorizontal: '4%',
+    marginTop: '2%',
+    marginBottom: '-1%',
+    alignItems : 'center',
+    color :'#666666'
+  },
+  
+  codeForm : {
+    marginLeft : 0,
+    width : '100%',
+    flexDirection : 'row',
+    alignItems : 'center',
+    padding : '3%'
+  },
+  keywordArea : {
+    width : '83%',
+    fontSize : 17,
+    borderWidth : 1,
+    borderRadius : 5,
+    borderColor : '#aaaaaa',
+    padding: '3%',
+    marginRight : '3%'
   },
 });
 
