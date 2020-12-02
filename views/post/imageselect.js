@@ -37,7 +37,8 @@ class ImageSelect extends Component{
       compressImageQuality : 0.1,
       sortOrder : 'asc',
     }).then(images => {
-      this.state.images = []
+      console.log(images)
+      this.state.images = [];
       _.each(images, (image) => {
         this.state.images.push(`${image.sourceURL}`)
       })

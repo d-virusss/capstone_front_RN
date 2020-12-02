@@ -53,7 +53,8 @@ class ProvideIndex extends Component {
           key={post.post_info.id}>
           <ListItem thumbnail key = {post.post_info.id}>
             <Left style={{ marginLeft: '-2%' }}>
-              <Thumbnail square style={{ width: 100, height: 100, borderRadius: 5 }} source={{ uri: post.post_info.image }} />
+              <Thumbnail square style={{ width: 100, height: 100, borderRadius: 5 }} source={
+                (post.post_info.image == "/image/default.png" ? require("../../assets/default.png") : {uri : post.post_info.image}) } />
             </Left>
             <Body style={{}}>
               <View style={{ flexDirection: 'row', width:'70%' }}>

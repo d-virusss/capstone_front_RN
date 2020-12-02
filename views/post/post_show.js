@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import {View, ScrollView, Image, StyleSheet, TouchableOpacity, Alert,
   DeviceEventEmitter, Dimensions} from 'react-native';
 import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, Card,
-  FooterTab, Header, Body, Container, Title, Tab, Tabs, TabHeading, CardItem, Thumbnail} from 'native-base';
+  FooterTab, Header, Body, Container, Title, Tab, Tabs, TabHeading,
+  CardItem, Thumbnail, Badge} from 'native-base';
 import Popover from 'react-native-popover-view';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../shared/server_address'
@@ -48,7 +49,8 @@ class PostShow extends Component{
     isBooked: null,
     contract: '',
 		rating : 0,
-		images : [],
+    images : [],
+    status : "",
   };
 
   getToken = async () => {
@@ -80,6 +82,7 @@ class PostShow extends Component{
 				this.state.contract = response.data.post_info.contract
 				this.state.rating = response.data.post_info.rating
         this.state.rent_count = response.data.post_info.rent_count
+        this.state.status = response.data.post_info.status
         if(response.data.post_info.image_detail.length === 0){
           this.state.images = [response.data.post_info.image];
         }
@@ -159,7 +162,7 @@ class PostShow extends Component{
   //make review list
   makeReviewList() {
     if(reviewList.length == 0)
-      return(<Card><CardItem><Title>등록된 리뷰가 없습니다.</Title></CardItem></Card>)
+      return(<Title style={{ marginTop: '5%' }}>등록된 리뷰가 없습니다.</Title>)
     return reviewList.map((ele) => {
       console.log('ele-------------')
       console.log(ele)
@@ -312,15 +315,15 @@ class PostShow extends Component{
             <Icon name={this.state.icon || "heart-outline"} style={styles.likeIcon} />
           </Button>
           <Button vertical transparent onPress={() => { this.makeCallchat_navigate() }}>
-            <Text style={{color: 'orange', fontWeight : 'bold', fontSize:17}}>채팅</Text>
+            <Text style={{color: '#ffb805', fontWeight : 'bold', fontSize:17}}>채팅</Text>
           </Button>
           {this.state.isBooked == false && (<Button vertical transparent
             onPress={() => { this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
-            <Text style={{ fontWeight: 'bold', fontSize:17}}>예약</Text>
+            <Text style={{ fontWeight: 'bold', fontSize:17, color: '#ff3377'}}>예약</Text>
           </Button>)}
           {this.state.isBooked == true && (<Button vertical transparent style={{ padding: 0 }}
             onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
-            <Text style={{ fontWeight: 'bold', fontSize:16, padding: 0}}>예약 취소</Text>
+            <Text style={{ fontWeight: 'bold', fontSize:16, padding: 0, color: '#ff3377'}}>예약 취소</Text>
           </Button>)}
         </FooterTab>
       )
@@ -385,7 +388,13 @@ class PostShow extends Component{
                     <Tab heading="상세 정보" activeTextStyle={{ color:'#ff3377' }} tabStyle={{ backgroundColor:'white' }}
                     activeTabStyle={{ backgroundColor:'#f8f8f8' }}>
                       <Item regular style={styles.postbody}>
-                        <Text style={styles.post_category}>{this.state.category}</Text>
+                        <View style={{ flexDirection: 'row', borderWidth: 0 }}>
+                          <Text style={styles.post_category}>{this.state.category}</Text>
+                          {this.state.status == "unable" &&
+                          <Badge style={{ backgroundColor: '#ff9a00', position: 'absolute', left:'87%' }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 12 }}>대여중</Text>
+                          </Badge>}
+                        </View>
                         <Text style={styles.post_title}>{this.state.title}</Text>
                         <Text style={styles.post_price}>{number_delimiter(this.state.price)}원 / 일</Text>
                         <Text style={styles.post_body}>{this.state.body}</Text>
@@ -483,7 +492,10 @@ const styles = StyleSheet.create({
     paddingVertical : '5%',
     paddingHorizontal : '5%',
     flexDirection: 'column',
-    alignItems : 'flex-start'
+    alignItems : 'flex-start',
+    borderRightWidth : 0,
+    borderBottomWidth : 0,
+    borderLeftWidth : 0,
   },
   review_header: {
     paddingVertical : '5%',
