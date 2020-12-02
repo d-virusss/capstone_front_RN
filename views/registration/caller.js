@@ -268,7 +268,7 @@ AuthCodeSubmit() {
                 />
               </Item>
 
-              <Content>
+              <Content scrollEnabled={false}>
                 <Text style={styles.textForm}>SMS 인증</Text>
                 <View style={styles.inputForm}>
                   <TextInput style={styles.keywordArea}
