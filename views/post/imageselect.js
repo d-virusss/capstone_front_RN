@@ -28,6 +28,7 @@ class ImageSelect extends Component{
   }
 
   doPickImage = () => {
+    this.state.images=[]
     ImagePicker.openPicker({
       width: 300,
       height: 300,
@@ -39,11 +40,13 @@ class ImageSelect extends Component{
     }).then(images => {
       this.state.images = []
       _.each(images, (image) => {
-        this.state.images.push(`${image.sourceURL}`)
+        if(image!={})
+          this.state.images.push(`${image.sourceURL}`)
       })
       this.setState({ isImage: true })
       this.props.stateBus(images)
-    });
+      ImagePicker.clean()
+    }).catch(error=>{ImagePicker.clean()});
   }
 
   render(){
