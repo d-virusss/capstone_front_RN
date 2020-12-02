@@ -59,12 +59,12 @@ class SettingMyInfoScreen extends React.Component {
   }
 
   initMyInfo() {
-    this.state.email = this.params.post.email;
-    this.state.nickname = this.params.post.nickname;
-    this.state.name = this.params.post.name;
-    this.state.number = this.params.post.number;
-    this.state.birthday = this.params.post.birthday;
-    this.state.image = this.params.post.image;
+    this.state.email = this.params.post.email || "";
+    this.state.nickname = this.params.post.nickname || "";
+    this.state.name = this.params.post.name || "";
+    this.state.number = this.params.post.number || "";
+    this.state.birthday = this.params.post.birthday || "";
+    this.state.image = this.params.post.image || "";
     this.state.id = this.params.post.id;
     console.log(this.state.image)
     this.setState({ loading: false }, () => {console.log(this.state)})
@@ -91,44 +91,30 @@ class SettingMyInfoScreen extends React.Component {
     console.log(formdata)
   }
 
-  checkInputVaule = () => {
-    if(this.state.nickname == ''){
-      Alert.alert("수정 실패", "이름을 입력해주세요.",[{text:'확인', style:'cancel'}])
-      return false;
-    }
-    this.saveMyInfo();
-    return true;
-  }
-
   profileValidateCheck(){
     if(this.state.name.length > 6){
       Alert.alert("수정 실패", "실명은 6자까지 가능합니다.", [{ text: '확인', style: 'cancel' }])
-      return true;
+      return false;
     }
     else if(this.state.nickname.length > 11){
       Alert.alert("수정 실패", "닉네임은 10자까지 가능합니다.", [{ text: '확인', style: 'cancel' }])
-      return true;
+      return false;
     }
     else if(this.state.number.length > 12){
       Alert.alert("수정 실패", "연락처 형식을 확인해주세요.", [{ text: '확인', style: 'cancel' }])
-      return true;
+      return false;
     }
     else if(this.state.birthday.length > 9){
       Alert.alert("수정 실패", "생년월일 형식을 확인해주세요.", [{ text: '확인', style: 'cancel' }])
-      return true;
+      return false;
     }
+    this.saveMyInfo()
+    return true
   }
 
   updateRequest = async () => {
-
-    if(this.checkInputVaule()){
-      this.setState({ loading : true })
-      if (this.profileValidateCheck()){
-        console.log('글자수 초과로 수정 실패')
-        this.setState({ loading : false })
-        return
-      }
-      
+    this.setState({ loading : true })
+    if(this.profileValidateCheck()){
       api
       .put(`/users/${this.state.id}`, (formdata),
       {

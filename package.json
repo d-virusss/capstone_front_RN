@@ -33,6 +33,7 @@
         "react-native-action-button": "2.8.5",
         "react-native-calendario": "^2.1.1",
         "react-native-calendars": "1.403.0",
+        "react-native-dotenv": "^2.4.2",
         "react-native-elements": "^2.3.2",
         "react-native-geolocation-service": "5.0.0",
         "react-native-gesture-handler": "^1.8.0",

@@ -84,6 +84,7 @@ class MypageScreen extends Component {
       },
     })
     .then((res) => {
+      console.log(res)
       this.state.myName = res.data.user_info.nickname;
       this.state.myLocation = res.data.user_info.location_title;
       this.state.myImage = res.data.user_info.image;
@@ -248,19 +249,19 @@ class MypageScreen extends Component {
 
                 <Button transparent style={styles.btn} onPress={() => { this.props.navigation.navigate('MyItemList') }}>
                   <Icon type="Ionicons" name="file-tray-stacked-outline" style={{ color: 'black' }} />
-                  <Text style={{ paddingVertical: '8%', marginBottom: '4%', color: 'black' }}> 내 글</Text>
+                  <Text style={{ paddingVertical: '8%', marginBottom: '4%', color: 'black' }}>내 글</Text>
                 </Button>
 
                 <Button transparent style={styles.btn}
                   onPress={() => {this.props.navigation.navigate('ProviderRentList')}}>
                   <Icon type="MaterialCommunityIcons" name="receipt" style={{color:'black'}}/>
-                  <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 제공자</Text>
+                  <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}>제공자</Text>
                 </Button>
 
                 <Button transparent style={styles.btn}
                   onPress={() => {this.props.navigation.navigate('ConsumerRentList')}}>
                   <Icon type="Ionicons" name="basket-sharp" style={{color:'black'}}/>
-                  <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}> 소비자</Text>
+                  <Text style={{ paddingVertical : '8%', marginBottom: '4%',color:'black' }}>소비자</Text>
                 </Button>
 
               </ListItem>

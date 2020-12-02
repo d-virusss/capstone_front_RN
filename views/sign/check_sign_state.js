@@ -40,6 +40,7 @@ export default class SignState extends React.Component {
   }
 
   checkState(){
+    console.log(this.state.eSignState)
     if(this.state.eSignState === 0){
       Alert.alert("인증 대기", "인증을 완료해주세요.", [{ text: '확인', style: 'cancel' }])
     }
