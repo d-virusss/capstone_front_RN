@@ -181,7 +181,7 @@ class SettingMyInfoScreen extends React.Component {
           </Header>
 
           <Content>
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}>
               <KeyboardAvoidingView>
                 <Form> 
                   <ImageSelect stateBus={this.changeImage} existing_image={[(this.state.image)]}
