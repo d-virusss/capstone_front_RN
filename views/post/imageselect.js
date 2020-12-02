@@ -35,7 +35,7 @@ class ImageSelect extends Component{
       sortOrder : 'asc',
       maxFiles : this.state.isProfile ? 1 : 5,
       compressImageQuality : 0.1,
-      
+      sortOrder : 'asc',
     }).then(images => {
       this.state.images = []
       _.each(images, (image) => {

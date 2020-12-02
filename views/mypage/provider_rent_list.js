@@ -19,7 +19,7 @@ class ProviderRentList extends Component {
     const value = await AsyncStorage.getItem("token")
     this.state.token = value
     console.log(value)
-    this.beforeRequest();
+    
     this.afterRequest();
   }
 
@@ -31,7 +31,7 @@ class ProviderRentList extends Component {
   makeRentList(bookings) {
     return bookings.map((booking) => {
       console.log('in rent list------')
-      console.log(booking.booking_info.title)
+      console.log(booking)
       if(booking.booking_info.acceptance === "rent"){
         return (
           <ListItem thumbnail key={booking.booking_info.id} button
@@ -121,6 +121,7 @@ class ProviderRentList extends Component {
         }
       })
       .then((res) => {
+        console.log("---------------afterrequest--------------")
         console.log(res)
         this.setState({ after_booking: res.data }, () => { })
       })
@@ -155,18 +156,18 @@ class ProviderRentList extends Component {
             </FooterTab>
           </Tab>
           <Tab heading="대여 중" activeTextStyle={{ color : '#ff3377' }}>
-            <Content>
+            <ScrollView>
               <List>
                 {this.makeRentList(this.state.after_booking)}
               </List>
-            </Content>
+            </ScrollView>
           </Tab>
           <Tab heading="지난 대여" activeTextStyle={{ color: '#ff3377' }}>
-            <Content>
+            <ScrollView>
               <List>
                 {this.makeCompletedList(this.state.after_booking)}
               </List>
-            </Content>
+            </ScrollView>
           </Tab>
         </Tabs>
     

@@ -27,10 +27,11 @@ export default class Sign extends React.Component {
 
   componentDidMount() {
     this.getToken();
+    console.log('component did mount ----------------')
     console.log(this.state)
     console.log(this.booking_info)
     console.log(this.who)
-    console.log('component did mount ----------------')
+    
   }
 
   getToken = async () => {

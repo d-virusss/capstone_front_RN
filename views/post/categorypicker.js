@@ -44,6 +44,7 @@ export default class CategoryPicker extends Component {
             <Picker.Item label="요리" value="7" />
             <Picker.Item label="자동차" value="8" />
             <Picker.Item label="유아용품" value="9" />
+            <Picker.Item label="기타" value="10" />
           </Picker>
         </Item>
     );

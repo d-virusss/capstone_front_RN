@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, ScrollView, ActionSheetIOS, Alert } from 
 import {
   Container, Content, Header, Left, Right, Body, Icon, Badge,
   Title, Text, List, ListItem, Tabs, Tab, TabHeading, Thumbnail,
-  Footer
+  Footer, FooterTab,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
@@ -60,8 +60,8 @@ class ProviderRentList extends Component {
               <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원</Text>
             </Body>
             <Right>
-              <TouchableOpacity disabled = {!booking.booking_info.has_review ? "disabled" : ""}
-              onPress={() => { this.showOptionModal()}}>
+              <TouchableOpacity disabled = {booking.booking_info.has_review ? "disabled" : ""}
+              onPress={() => { this.showOptionModal(booking.booking_info)}}>
                 <Badge style={{ backgroundColor: booking.booking_info.has_review  ? '#dddddd' : '#fcf11e', height : 30}}>
                   <Text style={styles.returnbutton}>{booking.booking_info.has_review ? "작성 완료" : "리뷰 작성"}</Text>
                 </Badge>
@@ -73,7 +73,7 @@ class ProviderRentList extends Component {
     })
   }
 
-  showOptionModal() {
+  showOptionModal(info) {
    
       Alert.alert("리뷰 작성", "리뷰를 작성하시겠습니까?", [
     {
@@ -141,9 +141,9 @@ class ProviderRentList extends Component {
 
         <Tabs tabBarUnderlineStyle={{ backgroundColor: '#ff3377' }}>
           <Tab heading="신청한 예약" activeTextStyle={{ color: '#ff3377' }}>
-            <Footer>
+            <FooterTab scrollEnabled={false}>
               <SendList navigation={this.props.navigation}></SendList>
-            </Footer>
+            </FooterTab>
           </Tab>
           <Tab heading="대여 중" activeTextStyle={{ color: '#ff3377' }}>
             <ScrollView>
