@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Alert, TouchableOpacity, Button as NativeButton} from 'react-native';
+import { StyleSheet, View, Alert, TouchableOpacity, Button as NativeButton, 
+  Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, 
   Left, Right, Body, Title, Icon, Button, Text} from 'native-base';
@@ -56,6 +57,7 @@ authCodeRequest(){
   console.log("call code request---------------")
   let auth = {
     user : {
+      phone : this.state.number,
       code : this.state.code
     }
   };
@@ -64,8 +66,9 @@ authCodeRequest(){
   .then((res) => {
     console.log(res.data);
     Alert.alert("인증 완료", res.data.message, [{text:'확인'},{style:'cancel'}])
+    this.state.code = "success";
   }).catch((err) => {
-    Alert.alert("인증 실패", "인증번호를 다시 확인해주세요", [{text:'확인'},{style:'cancel'}])
+    Alert.alert("인증 실패", err.response.data.error, [{text:'확인'},{style:'cancel'}])
   })
 }
 
@@ -125,6 +128,10 @@ renderAuthCodeForm(){
 }
 
   registrationRequest = async () => {
+      if(this.state.code != "success"){
+        Alert.alert("가입 실패", "핸드폰 인증이 필요합니다.", [{text:'확인'},{style:'cancel'}])
+        return;
+      }
       this.makeForm()
       user_obj.user.device_token = await AsyncStorage.getItem('fcmToken');
       console.log("token")
@@ -174,7 +181,8 @@ renderAuthCodeForm(){
           <Body><Title>회원가입</Title></Body>
           <Right></Right>
         </Header>
-        <Content>
+        <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
+          <KeyboardAvoidingView>
           <Form>
           {/* email */}
             <Item floatingLabel>
@@ -236,7 +244,8 @@ renderAuthCodeForm(){
             </Item>
 
           </Form>
-        </Content>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
         <View style={styles.footer}>
           <Button transparent style={ styles.footerbutton }
             onPress={() => this.registrationRequest()}>

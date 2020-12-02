@@ -15,6 +15,9 @@ export default class Sign extends React.Component {
   booking_info = this.props.route.params.booking_info
   who = this.props.route.params.who
   current_date = new Date()
+  current_year = this.current_date.getFullYear();
+  current_month = this.current_date.getMonth()+1;
+  current_day = this.current_date.getDate() < 10 ? '0'+this.current_date.getDate() : this.current_date.getDate();
 
   state = {
     token: "",
@@ -81,7 +84,8 @@ export default class Sign extends React.Component {
   }
 
   finishContract(){
-    Alert.alert("계약이 성공적으로 체결되었습니다.")
+    Alert.alert("계약 성공", "계약이 성공적으로 체결되었습니다.",[{text:'확인', style:'cancel'}])
+
     // 대여중 목록화면으로 navigate
   }
 
@@ -127,7 +131,7 @@ export default class Sign extends React.Component {
                 </Body>
               </CardItem>
               <CardItem footer>
-                <Text>{this.current_date.getFullYear()}년 {this.current_date.getMonth()+1}월 {this.current_date.getDate()}일
+                <Text>{this.current_year}년 {this.current_month}월 {this.current_day}일
                 </Text>
               </CardItem>
             </Card>

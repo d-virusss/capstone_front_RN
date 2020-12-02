@@ -93,7 +93,7 @@ class SettingMyInfoScreen extends React.Component {
 
   checkInputVaule = () => {
     if(this.state.nickname == ''){
-      Alert.alert("이름을 입력해주세요", "",[{text:'확인', style:'cancel'}])
+      Alert.alert("수정 실패", "이름을 입력해주세요.",[{text:'확인', style:'cancel'}])
       return false;
     }
     this.saveMyInfo();

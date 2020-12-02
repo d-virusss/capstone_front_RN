@@ -77,11 +77,13 @@ class Post_provide extends Component {
     console.log("Start create Post-provide")
     this.setPostInfo()
     if(this.state.title.length ===  0){
-      Alert.alert("제목을 입력해주세요");
+      Alert.alert("물품 등록 실패", "제목을 입력해주세요.", [{ text: '확인', style: 'cancel' }])
+
       return;
     }
     if(this.state.category_id.length === 0){
-      Alert.alert("카테고리를 설정해주세요");
+      Alert.alert("물품 등록 실패", "카테고리를 설정해주세요.", [{ text: '확인', style: 'cancel' }])
+     
       return;
     }
     if(this.state.price.length === 0){

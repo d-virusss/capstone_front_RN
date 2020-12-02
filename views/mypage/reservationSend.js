@@ -1,12 +1,14 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions} from 'react-native';
+import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions, ScrollView} from 'react-native';
 import {Text, Header, Thumbnail, Body, Container, Content, ListItem, 
-  Spinner, Button, Right, Footer, FooterTab, Badge} from 'native-base';
+  Spinner, Button, Right, Footer, FooterTab, Badge, List} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
 import moment from 'moment';
 import IconM from 'react-native-vector-icons/Ionicons'
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { registerVersion } from 'firebase';
 IconM.loadFont()
 
 var reservation_list = [];
@@ -18,7 +20,7 @@ var reservation_info = {
     acceptance: null,
   },
 };
-
+var booking_data;
 class receiveScreen extends Component{
   state = {
     marked: null,
@@ -28,6 +30,7 @@ class receiveScreen extends Component{
   };
 
   componentDidMount() {
+    reservation_info.item_id = '' //init
     this.getToken();
     this.eventListener = DeviceEventEmitter.addListener('refreshList', this.handleEvent);
   }
@@ -50,18 +53,19 @@ class receiveScreen extends Component{
     this.getReservationList()
   }
 
-  showBookingDate(id, post_id, startDate, endDate, acceptance) {
+  showBookingDate(info) {
     nextDay = [];
-    
-    const start = moment(startDate);
-    const end = moment(endDate);
+    booking_data = info; //for sign
+
+    const start = moment(info.startDate);
+    const end = moment(info.endDate);
     
     for (let m = moment(start); m.diff(end, 'days') <= 0; m.add(1, 'days')) {
       nextDay.push(m.format('YYYY-MM-DD'));
     }
-    reservation_info.item_id = id;
-    reservation_info.booking.post_id = post_id;
-    if(acceptance === "accepted"){
+    reservation_info.item_id = info.id;
+    reservation_info.booking.post_id = info.post_id;
+    if(info.acceptance === "accepted"){
       reservation_info.booking.acceptance = true
     }
     else reservation_info.booking.acceptance = false
@@ -88,42 +92,29 @@ class receiveScreen extends Component{
     this.setState({ marked : obj});
   }
 
-  accept() {
-    reservation_info.booking.acceptance = 'accepted'
-    api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
-      headers: {
-        Authorization: this.state.token,
-      },
-    }).then((res) => {
-      console.log(res)
-      this.props.navigation.navigate("Sign", { booking_info: res.data.booking_info, who: 'consumer' });
-    }).catch((err) => {
-      console.log(err)
-      Alert.alert("요청 실패", err.response.data.error, [{ text: '확인', style: 'cancel' }])
-    })
-  }
-
   showOptionButton(){
     console.log('showoption button ---------- ')
     console.log(reservation_info)
-    if(reservation_info.booking.acceptance){
-      return(
-        <View style={ styles.footer }>
-          <Button transparent style={styles.bottomButtons}
-            onPress={() => { this.accept() }}>
-            <Text style={styles.footerText}>서명하기</Text>
-          </Button>
-        </View>
-      )
-    }
-    else if(reservation_info.booking.acceptance === false){
-      return(
-        <View style={ styles.disabledfooter }>
-          <Button disabled transparent style={styles.bottomButtons} >
-            <Text style={styles.footerText}>서명하기</Text>
-          </Button>
-        </View>
-      )
+    if(reservation_info.item_id){
+      if(reservation_info.booking.acceptance){
+        return(
+          <View style={ styles.footer }>
+            <Button transparent style={styles.bottomButtons}
+              onPress={() => { this.props.navigation.navigate("Sign", { booking_info: booking_data, who: 'consumer' }); }}>
+              <Text style={styles.footerText}>서명하기</Text>
+            </Button>
+          </View>
+        )
+      }
+      else if(reservation_info.booking.acceptance === false){
+        return(
+          <View style={ styles.disabledfooter }>
+            <Button disabled transparent style={styles.bottomButtons} >
+              <Text style={styles.footerText}>서명하기</Text>
+            </Button>
+          </View>
+        )
+      }
     }
     else{
       return null
@@ -146,25 +137,27 @@ class receiveScreen extends Component{
     return reservation_list.map((ele) => {
       console.log(ele)
       return (
-        <ListItem key={ele.booking_info.id}
-          button onPress={() => this.showBookingDate(ele.booking_info.id, ele.booking_info.post_id,
-           ele.booking_info.start_at, ele.booking_info.end_at, ele.booking_info.acceptance)}>
-          <Thumbnail source={{ uri: ele.booking_info.post_image }} />
-          <Body>
-            <Text>{ele.booking_info.title}</Text>
-            <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>
-              {ele.booking_info.result}
-            </Text> 
-            <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>
-              {ele.booking_info.price}
-            </Text> 
-          </Body>
-          <Right>
-            <Badge style={{ backgroundColor : this.setBadgeColor(ele.booking_info.result) }}>{/* 승인 success, 대기 회색, 거절 진홍색 */}
-              <Text style={{ fontWeight: 'bold' }}>{ele.booking_info.result}</Text>
-            </Badge>
-          </Right>
-        </ListItem>
+        <TouchableOpacity onPress={() => this.showBookingDate(ele.booking_info)}>
+          <ListItem key={ele.booking_info.id}>
+            <Thumbnail source={{ uri: ele.booking_info.post_image }} />
+            <Body>
+              <Text>{ele.booking_info.title}</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Text note numberOfLines={1} style={{ paddingTop : '2%' }}>
+                  {ele.booking_info.result}
+                </Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+              <Text note numberOfLines={1} style={{ paddingTop: '2%' }}>{ele.booking_info.price.toLocaleString() + '원 ('}{ele.booking_info.lent_day + "일)"}</Text>
+              </View>
+            </Body>
+            <Right>
+              <Badge style={{ backgroundColor : this.setBadgeColor(ele.booking_info.result) }}>{/* 승인 success, 대기 회색, 거절 진홍색 */}
+                <Text style={{ fontWeight: 'bold' }}>{ele.booking_info.result}</Text>
+              </Badge>
+            </Right>
+          </ListItem>
+        </TouchableOpacity>
       );
     });
   }
@@ -182,18 +175,18 @@ class receiveScreen extends Component{
     }
     else{
       return(
-        <Container>
-          <View>
+        <View style={styles.container}>
+          <ScrollView style={{flex : 5}}>
             <Calendar
             markedDates={this.state.marked}
             markingType={'period'}
             />
-          </View>
-          <Content>
-            {this.makeList()}
-          </Content>
-            {this.showOptionButton()}
-        </Container>
+            <Content>
+              <List>{this.makeList()}</List>
+            </Content>
+          </ScrollView>
+          {this.showOptionButton()}
+        </View>
       )
     } 
   };
@@ -210,11 +203,12 @@ const styles = StyleSheet.create({
     flex:0.1,
     left: 0,
     right: 0,
-    top : height * 0.75,
+    top : height * 0.74,
     backgroundColor:'#ff3377',
     flexDirection:'row',
-    height:60,
+    height:80,
     alignItems:'center',
+    paddingTop: 7
   },
   bottomButtons: {
     alignItems:'center',
@@ -232,10 +226,10 @@ const styles = StyleSheet.create({
     flex: 0.1,
     left: 0,
     right: 0,
-    top : height * 0.75,
+    top : height * 0.74,
     backgroundColor: '#dddddd',
     flexDirection: 'row',
-    height: 60,
+    height: 80,
     alignItems: 'center',
   }
  });

@@ -1,6 +1,6 @@
-//import axios from 'axios';
+
 import React, {Component} from 'react';
-import {StyleSheet, Platform, View, Alert} from 'react-native';
+import {StyleSheet, KeyboardAvoidingView, View, Alert, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { Container, Header, Content, Form, Item, Input, Label, 
   Button, Text, Right, Body, Left, Icon, Title, Footer} from 'native-base';
@@ -61,7 +61,8 @@ export default class FindPwScreen extends Component {
           <Body><Title style={{color:'black',alignSelf:'center'}}>비밀번호 찾기</Title></Body>
           <Right></Right>
         </Header>
-        <Content>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <KeyboardAvoidingView>
           <Form>
           <Item floatingLabel>
               <Label>이메일</Label>
@@ -92,7 +93,8 @@ export default class FindPwScreen extends Component {
               />
             </Item>
           </Form>
-        </Content>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
         <Footer style={styles.footer}>
           <Button transparent style={styles.footerbutton}
             onPress={() => this.findPw()}>

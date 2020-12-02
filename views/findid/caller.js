@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {StyleSheet, Platform, View, Alert} from 'react-native';
+import {StyleSheet, Platform, View, Alert, TouchableWithoutFeedback, 
+  Keyboard, KeyboardAvoidingView} from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { Container, Header, Content, Form, Item, Input, Label, 
   Button, Text, Right, Body, Footer, Left, Icon, Title } from 'native-base';
@@ -53,7 +54,8 @@ export default class FindIdScreen extends Component {
           <Body><Title style={{color:'black',alignSelf:'center'}}>아이디 찾기</Title></Body>
           <Right></Right>
         </Header>
-        <Content>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <KeyboardAvoidingView>
           <Form>
             <Item floatingLabel>
               <Label>이름</Label>
@@ -77,7 +79,8 @@ export default class FindIdScreen extends Component {
               />
             </Item>
           </Form>
-        </Content>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
         <Footer style={styles.footer}>
           <Button transparent style={styles.footerbutton}
                 onPress={() => this.findId()}>

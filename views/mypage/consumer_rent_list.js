@@ -60,8 +60,8 @@ class ProviderRentList extends Component {
               <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원</Text>
             </Body>
             <Right>
-              <TouchableOpacity 
-              onPress={() => { this.showOptionModal(booking.booking_info)}}>
+              <TouchableOpacity disabled = {!booking.booking_info.has_review ? "disabled" : ""}
+              onPress={() => { this.showOptionModal()}}>
                 <Badge style={{ backgroundColor: booking.booking_info.has_review  ? '#dddddd' : '#fcf11e', height : 30}}>
                   <Text style={styles.returnbutton}>{booking.booking_info.has_review ? "작성 완료" : "리뷰 작성"}</Text>
                 </Badge>
@@ -73,11 +73,8 @@ class ProviderRentList extends Component {
     })
   }
 
-  showOptionModal(info) {
-    if(info.has_review){
-      Alert.alert("리뷰 관리에서 수정해 주세요")
-    }
-    else{
+  showOptionModal() {
+   
       Alert.alert("리뷰 작성", "리뷰를 작성하시겠습니까?", [
     {
       text: '확인',
@@ -87,7 +84,7 @@ class ProviderRentList extends Component {
       text: '취소',
       style: 'cancel'
     }])
-    }
+    
   }
 
   writeReviewRequest(image, title, booking_id){
