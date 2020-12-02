@@ -2,8 +2,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions, ScrollView} from 'react-native';
 import {Text, Header, Thumbnail, List, Body, Container, 
-  Content, ListItem, Spinner, Button, Footer, Badge, Right} from 'native-base';
+  Content, ListItem, Button, Footer, Badge, Right} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
+import Spinner from 'react-native-loading-spinner-overlay';
 import api from '../shared/server_address'
 import moment from 'moment';
 import IconM from 'react-native-vector-icons/Ionicons'
@@ -108,8 +109,50 @@ class receiveScreen extends Component{
     })
   }
 
+  getUserInfo = () => {
+    this.setState({ loading: true })
+    api.get(`/users/mypage`, {
+      headers: {
+        Authorization: this.state.token,
+      },
+    })
+      .then((res) => {
+        console.log(res)
+        console.log(res.data.user_info.name)
+        if(res.data.user_info.name === null ||
+          res.data.user_info.birthday === null ||
+          res.data.user_info.number === null){
+          Alert.alert("정보 누락", "본인 프로필에 실명, 전화번호, 생년월일이 있어야 인증이 가능합니다.", [{ text: '확인', style: 'cancel',
+            onPress: () => { this.setState({ loading: false }) }
+        }])
+          console.log("본인 프로필에 정보 없음 못가")
+          return
+        }
+        // else if(booking_info.consumer.name == "" ||
+        //   booking_info.provider.name == ""){
+        //   Alert.alert("정보 누락", "상대 프로필에 실명이 있어야 계약서가 작성됩니다.", [{ text: '확인', style: 'cancel',
+        //     onPress: () => { this.setState({ loading: false }) }
+        // }])
+        //   console.log('상대 프로필에 실명 없어서 계약서 작성 불가')
+        //   return
+        // }
+        else{
+          this.props.navigation.navigate("Sign", { booking_info: booking_info, who: 'provider' });
+        }
+          
+
+        this.setState({ loading: false })
+      })
+      .catch((err) => {
+        console.log("catch error")
+        console.log(err.response)
+        Alert.alert("요청 실패", err.response.data.error, [{ text: '확인', style: 'cancel' }])
+      })
+  }
+
   showOptionButton(){
     if(reservation_info.item_id){
+      console.log(booking_info)
       if(reservation_info.booking.acceptance === 'waiting'){
         return (
           <View style={styles.footer}>
@@ -130,7 +173,11 @@ class receiveScreen extends Component{
             <Button transparent style={styles.bottomButtons}
               onPress={() => { this.props.navigation.navigate("Sign", 
               { booking_info: booking_info, who: 'provider' });
-            }}>
+            }}
+              onPress={() => {
+                this.getUserInfo()
+              }}
+            >
               <Text style={styles.footerText}>서명하기</Text>
             </Button>
           </View>
@@ -171,7 +218,6 @@ class receiveScreen extends Component{
   
   showBookingDate(info) {
     nextDay = [];
-    console.log(info)
     const start = moment(info.start_at);
     const end = moment(info.end_at);
 
@@ -216,34 +262,23 @@ class receiveScreen extends Component{
   }
 
   render(){
-    if(this.state.loading) {
-      return (
-        <Container>
-          <Header />
+    return(
+      <View style={styles.container}>
+        <ScrollView style={{flex: 1}}>
+            <Calendar
+            markedDates={this.state.marked}
+            markingType={'period'}
+            />
+          <Spinner visible={this.state.loading} color="#ff3377"></Spinner>
           <Content>
-            <Spinner color='#ff3377' />
+            <List>{this.makeList()}</List>
           </Content>
-        </Container>
-      )
-    }
-    else{
-      return(
-        <View style={styles.container}>
-          <ScrollView style={{flex: 1}}>
-              <Calendar
-              markedDates={this.state.marked}
-              markingType={'period'}
-              />
-            <Content>
-              <List>{this.makeList()}</List>
-            </Content>
-          </ScrollView>
-          {this.showOptionButton()}
-        </View>
-       
-      )
-    } 
-  };
+        </ScrollView>
+        {this.showOptionButton()}
+      </View>
+      
+    )
+  }
 };
 
 let {height, width} = Dimensions.get('window');
@@ -272,7 +307,8 @@ const styles = StyleSheet.create({
     color:'white',
     fontWeight:'bold',
     alignItems:'center',
-    fontSize:18,
+    fontSize: 18,
+    paddingVertical: 5
   },
   disabledfooter: {
     position: 'absolute',

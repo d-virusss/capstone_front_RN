@@ -84,6 +84,7 @@ class MypageScreen extends Component {
       },
     })
     .then((res) => {
+      console.log(res)
       this.state.myName = res.data.user_info.nickname;
       this.state.myLocation = res.data.user_info.location_title;
       this.state.myImage = res.data.user_info.image;
