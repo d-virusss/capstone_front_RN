@@ -58,7 +58,7 @@ class ReviewScreen extends Component {
 		return reviewList.map((ele) => {
 			console.log(ele);
 			return(
-				<Card style={{flex: 0}}>
+				<Card style={{flex: 0, marginTop: '5%'}}>
 					<CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}
 					button onPress={() => {this.changeReview(ele.review_info)}}>
 						<Thumbnail source={{uri: ele.review_info.post_image}} />
@@ -142,7 +142,7 @@ class ReviewScreen extends Component {
 						</Right>
           </Header>
     
-					<Content>
+					<Content style={{ paddingHorizontal: '3%' }}>
 							{this.makeReviewList()}
 					</Content>
         </Container>
