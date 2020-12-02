@@ -187,7 +187,7 @@ function chat_room2 ({route, navigation}){
     renderTime={renderTime}
     renderComposer={renderComposer}
     renderMessage={renderMessage}
-
+    onPressAvatar={()=> navigation.navigate('ProfileShow',{profile_id : other_id})}
   />
   if(Platform.os === 'android'){
     return(

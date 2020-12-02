@@ -20,6 +20,7 @@
 		857CCD055AC51C95C275F36E /* libPods-capstone_frontend-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF94731A6E426334CC33FF9A /* libPods-capstone_frontend-tvOS.a */; };
 		A55447AAADD3E3C5C5741685 /* libPods-capstone_frontend.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BB51FC9B538354A66B74AC1 /* libPods-capstone_frontend.a */; };
 		AA481F5FE0FFE237508048ED /* libPods-capstone_frontend-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1C6A4FC244BBE383C703E70 /* libPods-capstone_frontend-tvOSTests.a */; };
+		B9272072257543B300FAF4BA /* ios in Resources */ = {isa = PBXBuildFile; fileRef = B9272071257543B300FAF4BA /* ios */; };
 		B96963B42552EB12003C8180 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B96963B32552EB12003C8180 /* GoogleService-Info.plist */; };
 		B9D5714A2574369E004265E5 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9D571492574369E004265E5 /* SplashScreen.storyboard */; };
 		FD73AA261E69C116D6E9A6CB /* libPods-capstone_frontend-capstone_frontendTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF56269F1BD8C947564605D /* libPods-capstone_frontend-capstone_frontendTests.a */; };
@@ -67,6 +68,7 @@
 		847B63811A0B517FEE8FF903 /* Pods-capstone_frontend-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-capstone_frontend-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-capstone_frontend-tvOSTests/Pods-capstone_frontend-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AF6B487C79443CC078B43F47 /* Pods-capstone_frontend-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-capstone_frontend-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-capstone_frontend-tvOSTests/Pods-capstone_frontend-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		B904D10A255658D3003EDEA0 /* capstone_frontend-tvOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "capstone_frontend-tvOS.entitlements"; path = "capstone_frontend-tvOS/capstone_frontend-tvOS.entitlements"; sourceTree = "<group>"; };
+		B9272071257543B300FAF4BA /* ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ios; sourceTree = "<group>"; };
 		B96963B32552EB12003C8180 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B969644F2552EFA1003C8180 /* capstone_frontend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = capstone_frontend.entitlements; path = capstone_frontend/capstone_frontend.entitlements; sourceTree = "<group>"; };
 		B9D571492574369E004265E5 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				52DAF006254E8F5A000FE947 /* File.swift */,
 				52DAF005254E8F5A000FE947 /* capstone_frontend-Bridging-Header.h */,
 				B9D571492574369E004265E5 /* SplashScreen.storyboard */,
+				B9272071257543B300FAF4BA /* ios */,
 			);
 			name = capstone_frontend;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				B9D5714A2574369E004265E5 /* SplashScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				B96963B42552EB12003C8180 /* GoogleService-Info.plist in Resources */,
+				B9272072257543B300FAF4BA /* ios in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
