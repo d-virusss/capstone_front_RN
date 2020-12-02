@@ -44,31 +44,36 @@ getAuthCodeRequest = async() => {
 showAuthForm () {
 	if(this.state.auth ==  false){
 		return (
+		<Form>
 			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<KeyboardAvoidingView>
 					<Item floatingLabel>
 						<Label>인증할 이메일을 입력하세요</Label>
 						<Input autoCapitalize="none"
 						keyboardType = "email-address"
-						autoCapitalize="none"
+					
 						onChangeText = {(eMail) => {this.state.user.email = eMail}}/>
 					</Item>
 				</KeyboardAvoidingView>
 			</TouchableWithoutFeedback>
+		</Form>
 		)
 	}
 	else if(this.state.auth == true){
 		return (
+		<Form>
 			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<KeyboardAvoidingView>
 					<Item floatingLabel>
 						<Label>인증할 이메일을 입력하세요</Label>
-						<Input autoCapitalize="none"
-						keyboardType = "email-address"
-						autoCapitalize="none"
+						<Input
 						value = {this.state.user.email}
 						disabled="disabled"/>
 					</Item>
+					</KeyboardAvoidingView>
+			</TouchableWithoutFeedback>
+			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+				<KeyboardAvoidingView>
 					<Item floatingLabel>
 						<Label>인증번호</Label>
 						<Input
@@ -76,8 +81,10 @@ showAuthForm () {
 						keyboardType="numeric"
 						onChangeText = {(code) => {this.state.user.code = code}}/>
 					</Item>
-				</KeyboardAvoidingView>
+					</KeyboardAvoidingView>
 			</TouchableWithoutFeedback>
+		</Form>
+				
 		)
 	}else{
 		return null;
@@ -127,7 +134,7 @@ sendAuthCodeRequest = async() => {
 	render() {
 		this.getToken();
 			return (
-				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<KeyboardAvoidingView>
 				<Container>
 					<Header style={{
@@ -143,10 +150,8 @@ sendAuthCodeRequest = async() => {
 						<Body><Title style={{color:'black', alignSelf:'center'}}>소속 인증</Title></Body>
 						<Right></Right>
 					</Header>
-
-					<Form>
+					
 					{this.showAuthForm()}
-					</Form>
 					{this.showRequestButton()}
 				</Container>
 				</KeyboardAvoidingView>
