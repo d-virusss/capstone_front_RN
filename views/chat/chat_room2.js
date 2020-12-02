@@ -192,7 +192,7 @@ function chat_room2 ({route, navigation}){
     onPressAvatar={()=> {
       if(Fire.getOtherId()){
         setTimeout(()=>{console.log(JSON.stringify(Fire.getOtherId()))},500)
-        navigation.navigate('ProfileShow',{profile_id : Fire.getOtherId()})
+        navigation.navigate('ProfileShow',{user_id : Fire.getOtherId()})
       }
       }}
   />
