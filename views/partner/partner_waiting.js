@@ -79,7 +79,7 @@ class Partner_waiting extends Component{
             justifyContent:'center'
           }}
         >
-          <Text>{'파트너 승인 대기중입니다'}</Text>
+          <Text>{'파트너 승인 대기중입니다.'}</Text>
         </Button>
         <Text style={{fontSize:20,marginLeft:15, marginTop:'3%'}}>파트너 신청 정보</Text>
         <Content>

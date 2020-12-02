@@ -57,7 +57,7 @@ export default class RegistrationScreen extends React.Component {
       .catch((err) =>  {
         console.log('fail to register');
         console.log(err.response.data.error)
-        Alert.alert("파트너 신청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])       
+        Alert.alert("파트너 신청 실패", err.response.data.error+".",[{text:'확인', style:'cancel'}])       
       });
   };
   componentDidMount(){
