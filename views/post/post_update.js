@@ -206,7 +206,7 @@ class PostUpdate extends Component {
                   }
                 ])
               }}>
-              <Text>수정완료</Text>
+              <Text>수정 완료</Text>
             </TouchableOpacity>
           </Right>
         </Header>

@@ -13,7 +13,7 @@ IconI.loadFont();
 IconM.loadFont();
 
 
-var Clist = ['전체','잡화', '의류', '뷰티', '전자제품', '레져용품', '생활용품', '요리', '자동차', '유아용품']
+var Clist = ['전체','잡화', '의류', '뷰티', '전자제품', '레져용품', '생활용품', '요리', '자동차', '유아용품', '기타']
 
 class categoryScreen extends Component {
   constructor() {
@@ -119,6 +119,12 @@ class categoryScreen extends Component {
               </Icon>
             </TouchableOpacity>
 
+            <TouchableOpacity style={ styles.categorybutton }
+                onPress={() => this.sendCategoryId(10)}>
+              <Icon type="MaterialCommunityIcons" name="dots-horizontal-circle-outline" style={styles.item}>
+              <Text style={styles.popoverel}> 기타</Text>
+              </Icon>
+            </TouchableOpacity>
         </Popover>
       </View>
     );
