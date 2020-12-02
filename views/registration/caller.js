@@ -66,7 +66,7 @@ authCodeRequest(){
   .then((res) => {
     console.log(res.data);
     Alert.alert("인증 완료", res.data.message, [{text:'확인'},{style:'cancel'}])
-    this.state.code = "success";
+    this.setState({code : "success"})
   }).catch((err) => {
     Alert.alert("인증 실패", err.response.data.error, [{text:'확인'},{style:'cancel'}])
   })
@@ -113,7 +113,8 @@ renderAuthCodeForm(){
           <Label>인증 번호</Label>
           <Input autoCapitalize="none"
             keyboardType="numeric"
-            onChangeText = {(text) => {this.setState({code : text}) }}
+            onChangeText = {(text) => {this.state.code = text }}
+            disabled={this.state.code == "success" ? "disable" : ""}
           />
         </Item>
         <Button NativeButton style={{ backgroundColor: '#ff3377', marginTop : '3%' }} onPress={() => this.authCodeRequest()}>
@@ -181,71 +182,73 @@ renderAuthCodeForm(){
           <Body><Title>회원가입</Title></Body>
           <Right></Right>
         </Header>
-        <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
-          <KeyboardAvoidingView>
-          <Form>
-          {/* email */}
-            <Item floatingLabel>
-                <Label>이메일</Label>
-                <Input
-                keyboardType="email-address"
-                autoCapitalize="none"
-                onChangeText = {(eMail) => { this.state.email = eMail}}/>
-            </Item>
+        <Content>
+          <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}>
+            <KeyboardAvoidingView>
+            <Form>
+            {/* email */}
+              <Item floatingLabel>
+                  <Label>이메일</Label>
+                  <Input
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  onChangeText = {(eMail) => { this.state.email = eMail}}/>
+              </Item>
 
-              {/* pw */}
-            <Item floatingLabel>
-              <Label>비밀번호</Label>
-              <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
-                onChangeText = {(pw) => {this.state.password = pw;}}/>
-            </Item>
+                {/* pw */}
+              <Item floatingLabel>
+                <Label>비밀번호</Label>
+                <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
+                  onChangeText = {(pw) => {this.state.password = pw;}}/>
+              </Item>
 
-            <Item floatingLabel>
-              <Label>비밀번호 확인</Label>
-              <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
-                onChangeText={(pw_confirmation) => {this.state.password_confirmation = pw_confirmation}}/>
-            </Item>
+              <Item floatingLabel>
+                <Label>비밀번호 확인</Label>
+                <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
+                  onChangeText={(pw_confirmation) => {this.state.password_confirmation = pw_confirmation}}/>
+              </Item>
 
 
-            <Item floatingLabel>
-              <Label>이름(실명)</Label>
-              <Input autoCapitalize="none"
-                onChangeText = {(text) => {this.state.name = text }}
-              />
-            </Item>
-
-            {/* nickname */}
-            <Item floatingLabel>
-              <Label>닉네임</Label>
-              <Input autoCapitalize="none"
-                onChangeText = {(name) => {this.state.nickname = name }}
-              />
-            </Item>
-
-            {/* phone */}
-            <View style={{flexDirection: 'row', alignItems: 'center',}}>
-              <Item floatingLabel style={{width : '80%'}}>
-                <Label>연락처 ex) 01012345678</Label>
+              <Item floatingLabel>
+                <Label>이름(실명)</Label>
                 <Input autoCapitalize="none"
-                  keyboardType="numeric"
-                  onChangeText = {(text) => {this.setState({number : text}) }}
+                  onChangeText = {(text) => {this.state.name = text }}
                 />
               </Item>
-              {this.renderSubmitButton()}
-            </View>
-            {this.renderAuthCodeForm()}
+
+              {/* nickname */}
+              <Item floatingLabel>
+                <Label>닉네임</Label>
+                <Input autoCapitalize="none"
+                  onChangeText = {(name) => {this.state.nickname = name }}
+                />
+              </Item>
+
+              {/* phone */}
+              <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                <Item floatingLabel style={{width : '80%'}}>
+                  <Label>연락처 ex) 01012345678</Label>
+                  <Input autoCapitalize="none"
+                    keyboardType="numeric"
+                    onChangeText = {(text) => {this.setState({number : text}) }}
+                    disabled={this.state.code == "success" ? "disable" : ""}
+                  />
+                </Item>
+                {this.renderSubmitButton()}
+              </View>
+              {this.renderAuthCodeForm()}
             
+              <Item floatingLabel>
+                <Label>생일 ex) 19960827</Label>
+                <Input autoCapitalize="none"
+                  onChangeText = {(birthday) => {this.state.birthday = birthday }}
+                />
+              </Item>
 
-            <Item floatingLabel>
-              <Label>생일 ex) 19960827</Label>
-              <Input autoCapitalize="none"
-                onChangeText = {(birthday) => {this.state.birthday = birthday }}
-              />
-            </Item>
-
-          </Form>
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+            </Form>
+            </KeyboardAvoidingView>
+          </TouchableWithoutFeedback>
+        </Content>
         <View style={styles.footer}>
           <Button transparent style={ styles.footerbutton }
             onPress={() => this.registrationRequest()}>

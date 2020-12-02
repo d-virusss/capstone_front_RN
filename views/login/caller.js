@@ -218,8 +218,8 @@ class LoginScreen extends Component {
                 buttonType={AppleButton.Type.SIGN_IN}
                 style={{
                   width: '100%', // You must specify a width
-                  height: 45, // You must specify a height
-                  fontWeight: 'bold'
+                  height: '100%', // You must specify a height
+                  fontWeight: 'bold',
                 }}
                 onPress={() => this.props.navigation.navigate('AppleLogin')}
               />

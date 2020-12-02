@@ -57,8 +57,8 @@ class receiveScreen extends Component{
     nextDay = [];
     booking_data = info; //for sign
 
-    const start = moment(info.startDate);
-    const end = moment(info.endDate);
+    const start = moment(info.start_at);
+    const end = moment(info.end_at);
     
     for (let m = moment(start); m.diff(end, 'days') <= 0; m.add(1, 'days')) {
       nextDay.push(m.format('YYYY-MM-DD'));
@@ -98,21 +98,21 @@ class receiveScreen extends Component{
     if(reservation_info.item_id){
       if(reservation_info.booking.acceptance){
         return(
-          <View style={ styles.footer }>
-            <Button transparent style={styles.bottomButtons}
-              onPress={() => { this.props.navigation.navigate("Sign", { booking_info: booking_data, who: 'consumer' }); }}>
-              <Text style={styles.footerText}>서명하기</Text>
-            </Button>
-          </View>
+          <View style = {styles.footer}>
+          <Button transparent style = {styles.footerbutton} onPress={() => {this.putRequest();}}>
+             <Text style={styles.footerText}>서명하기</Text>
+           </Button>
+         </View>
+         
         )
       }
       else if(reservation_info.booking.acceptance === false){
         return(
-          <View style={ styles.disabledfooter }>
-            <Button disabled transparent style={styles.bottomButtons} >
-              <Text style={styles.footerText}>서명하기</Text>
-            </Button>
-          </View>
+          <View style = {styles.disabledfooter}>
+          <Button transparent style = {styles.footerbutton} onPress={() => {this.putRequest();}}>
+             <Text style={styles.footerText}>서명하기</Text>
+           </Button>
+         </View>
         )
       }
     }
@@ -176,7 +176,7 @@ class receiveScreen extends Component{
     else{
       return(
         <View style={styles.container}>
-          <ScrollView style={{flex : 5}}>
+          <ScrollView style={{flex: 1, marginBottom : '20%'}}>
             <Calendar
             markedDates={this.state.marked}
             markingType={'period'}
@@ -195,7 +195,7 @@ class receiveScreen extends Component{
 let {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container:{
-    height : height,
+
     width : width,
   },
   footer: {
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   bottomButtons: {
     alignItems:'center',
     justifyContent: 'center',
-    flex:1,
+    flex:0.1,
   },
   footerText: {
     color:'white',
@@ -231,6 +231,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 80,
     alignItems: 'center',
+    paddingTop: 7
   }
  });
 
