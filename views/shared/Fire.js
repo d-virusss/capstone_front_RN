@@ -7,7 +7,8 @@ class Fire{
   state = {
     chat_id:0,
     sender_id:0,
-    avatar:''
+    avatar:'',
+    other_id:-1,
   }
 
   constructor(){
@@ -88,6 +89,7 @@ class Fire{
     }
     else {
       user._id = 2;
+      this.state.other_id=sender;
       user.avatar = this.state.avatar;
     }
     if(chat === this.state.chat_id){
@@ -104,6 +106,10 @@ class Fire{
     else{
       return{};
     }
+  }
+
+  getOtherId = ()=>{
+    return this.state.other_id;
   }
 
   get = callback => {

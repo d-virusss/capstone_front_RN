@@ -23,6 +23,7 @@ let postID;
 let postInfo;
 let userID = 1;
 let avatar='';
+let other_id=-1;
 
 function renderBubble (props) {
   return (
@@ -173,6 +174,7 @@ function chat_room2 ({route, navigation}){
         console.log(message)
         setMessages(previous=>GiftedChat.append(previous, message))
       })
+      //other_id = Fire.getOtherId();
     }
     inEffect();
   },[])
@@ -187,7 +189,12 @@ function chat_room2 ({route, navigation}){
     renderTime={renderTime}
     renderComposer={renderComposer}
     renderMessage={renderMessage}
-
+    onPressAvatar={()=> {
+      if(Fire.getOtherId()){
+        setTimeout(()=>{console.log(JSON.stringify(Fire.getOtherId()))},500)
+        navigation.navigate('ProfileShow',{profile_id : Fire.getOtherId()})
+      }
+      }}
   />
   if(Platform.os === 'android'){
     return(
