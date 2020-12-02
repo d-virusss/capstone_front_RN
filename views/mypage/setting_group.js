@@ -127,6 +127,8 @@ sendAuthCodeRequest = async() => {
 	render() {
 		this.getToken();
 			return (
+				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+				<KeyboardAvoidingView>
 				<Container>
 					<Header style={{
 						height: 60,
@@ -147,6 +149,8 @@ sendAuthCodeRequest = async() => {
 					</Form>
 					{this.showRequestButton()}
 				</Container>
+				</KeyboardAvoidingView>
+			</TouchableWithoutFeedback>
 		);
 	}
 }
