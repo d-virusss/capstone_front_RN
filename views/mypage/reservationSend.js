@@ -99,7 +99,10 @@ class receiveScreen extends Component{
       if(reservation_info.booking.acceptance){
         return(
           <View style = {styles.footer}>
-          <Button transparent style = {styles.footerbutton} onPress={() => {this.putRequest();}}>
+          <Button transparent style = {styles.footerbutton}
+            onPress={() => { this.props.navigation.navigate("Sign", 
+            { booking_info: booking_data, who: 'consumer' });
+          }}>
              <Text style={styles.footerText}>서명하기</Text>
            </Button>
          </View>
@@ -109,7 +112,7 @@ class receiveScreen extends Component{
       else if(reservation_info.booking.acceptance === false){
         return(
           <View style = {styles.disabledfooter}>
-          <Button transparent style = {styles.footerbutton} onPress={() => {this.putRequest();}}>
+          <Button transparent style = {styles.footerbutton} >
              <Text style={styles.footerText}>서명하기</Text>
            </Button>
          </View>
