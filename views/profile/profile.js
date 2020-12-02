@@ -18,7 +18,7 @@ IconM.loadFont();
 var posts = [];
 
 class ProfileShow extends Component {
-  profile_id = this.props.route.params.profile_id
+  profile_id = this.props.route.params.user_id
   state = {
     my_id: '',
     token: '',

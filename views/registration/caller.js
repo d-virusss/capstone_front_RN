@@ -87,7 +87,8 @@ authCodeRequest(){
   }
   else{
     return(
-      <Button NativeButton style={{ backgroundColor: '#ff3377', marginTop : '3%' }} onPress={() => this.authRequest()}>
+      <Button NativeButton style={{ backgroundColor: '#ff3377', marginTop : '3%' }} onPress={() => this.authRequest()}
+      disabled={this.state.code == "success" ? "disable" : ""}>
         <Text style={{ color: 'white', fontWeight:'bold' }}>인증</Text>
       </Button>
     )
@@ -117,7 +118,9 @@ renderAuthCodeForm(){
             disabled={this.state.code == "success" ? "disable" : ""}
           />
         </Item>
-        <Button NativeButton style={{ backgroundColor: '#ff3377', marginTop : '3%' }} onPress={() => this.authCodeRequest()}>
+        <Button NativeButton style={{ backgroundColor: '#ff3377', marginTop : '3%' }} 
+        disabled={this.state.code == "success" ? "disable" : ""}
+        onPress={() => this.authCodeRequest()}>
           <Text style={{ color: 'white', fontWeight:'bold' }}>확인</Text>
         </Button>
       </View>
