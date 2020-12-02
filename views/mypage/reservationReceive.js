@@ -128,14 +128,14 @@ class receiveScreen extends Component{
           console.log("본인 프로필에 정보 없음 못가")
           return
         }
-        // else if(booking_info.consumer.name == "" ||
-        //   booking_info.provider.name == ""){
-        //   Alert.alert("정보 누락", "상대 프로필에 실명이 있어야 계약서가 작성됩니다.", [{ text: '확인', style: 'cancel',
-        //     onPress: () => { this.setState({ loading: false }) }
-        // }])
-        //   console.log('상대 프로필에 실명 없어서 계약서 작성 불가')
-        //   return
-        // }
+        else if(booking_info.consumer.name == "" ||
+          booking_info.provider.name == ""){
+          Alert.alert("정보 누락", "상대 프로필에 실명이 있어야 계약서가 작성됩니다.", [{ text: '확인', style: 'cancel',
+            onPress: () => { this.setState({ loading: false }) }
+        }])
+          console.log('상대 프로필에 실명 없어서 계약서 작성 불가')
+          return
+        }
         else{
           this.props.navigation.navigate("Sign", { booking_info: booking_info, who: 'provider' });
         }

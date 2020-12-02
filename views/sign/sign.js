@@ -79,8 +79,8 @@ export default class Sign extends React.Component {
       })
       .catch((e) => {
         console.log('send post failed!!!!')
-        console.log(e)
-        Alert.alert("요청 실패", e.response.data.error,[{text:'확인', style:'cancel'}])
+        console.log(e.response)
+        Alert.alert("서명 요청 실패", e.response.data.message,[{text:'확인', style:'cancel'}])
       })
   }
 
