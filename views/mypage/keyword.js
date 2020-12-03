@@ -132,7 +132,7 @@ class Keyword extends Component {
     }
     else{
       return(
-        <Button NativeButton style={{ backgroundColor: '#ff3377' }} onPress={() => this.createKeywordRequest()}>
+        <Button style={{ backgroundColor: '#ff3377' }} onPress={() => this.createKeywordRequest()}>
           <Text style={{ color: 'white', fontWeight:'bold' }}>등록</Text>
         </Button>
       )
