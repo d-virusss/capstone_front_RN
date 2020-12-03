@@ -69,7 +69,7 @@ renderTransferButton(){
 	else{
 		return(
 			<Button bordered style={{ borderColor: '#aaaaaa', marginTop: '5%', marginLeft: '5%' }} disabled>
-				<Text style={{ color: '#aaaaaa' }}>전송</Text>
+				<Text style={{ color: '#aaaaaa', fontWeight: 'bold' }}>전송</Text>
 			</Button>
 		)
 	}
@@ -87,7 +87,7 @@ renderCertifyButton(){
 	else{
 		return (
 			<Button bordered style={{ borderColor: '#aaaaaa', marginTop: '5%', marginLeft: '5%' }} disabled>
-				<Text style={{ color: '#aaaaaa' }}>인증</Text>
+				<Text style={{ color: '#aaaaaa', fontWeight:'bold' }}>인증</Text>
 			</Button>
 		)
 	}
