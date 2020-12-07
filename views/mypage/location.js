@@ -2,7 +2,7 @@ import axios from 'axios' // for kakao
 import React, {Component} from 'react';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import {StyleSheet, Dimensions, View, Platform, TouchableOpacity, Alert, DeviceEventEmitter} from 'react-native';
-import {Button, Container, Content, Left, Right, Header, Body, Title, Icon, Spinner, FooterTab, Footer} from 'native-base';
+import {Button, Container, Content, Left, Right, Header, Body, Title, Icon, FooterTab, Footer} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
 import {Text} from 'native-base';
@@ -217,7 +217,7 @@ class MypageScreen extends Component{
         <Container>
           <Header />
           <Content>
-            <Spinner color='#ff3377' />
+            <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
           </Content>
         </Container>
       );

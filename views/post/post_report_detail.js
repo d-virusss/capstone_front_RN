@@ -114,10 +114,10 @@ class ReportDetail extends Component {
           </Left>
           <Body><Title>신고사유 작성</Title></Body>
           <Right></Right>
-        <Spinner visible={this.state.loading} />
+        
         </Header>
 
-        <Spinner visible={this.state.loading} />
+        <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
 
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <KeyboardAvoidingView style={styles.screen}>

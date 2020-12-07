@@ -52,7 +52,7 @@ class PostUpdate extends Component {
       this.state.images = [this.params.my_post.post_info.image];
     }
     else{
-      this.state.images = this.params.my_post.post_info.image_detail
+      this.state.images = this.params.my_post.post_info.image_detail;
     }
     this.setState({loading : false})
   
@@ -172,7 +172,7 @@ class PostUpdate extends Component {
             <Body><Title>물품 정보 수정</Title></Body>
             <Right></Right>
           </Header>
-          <Content><Spinner visible={this.state.loading}/></Content>
+          <Content><Spinner visible={this.state.loading} style={{ color: '#ff3377'}} /></Content>
         </ScrollView>
       )
     }else{

@@ -51,24 +51,30 @@ class ImageSelect extends Component{
   }
 
   render(){
-    return(
-      <View>
-        <SliderBox style={styles.swiper}
-          images={this.state.images}
-          onCurrentImagePressed={ () => this.doPickImage() }
-          sliderBoxHeight={300}
-          inactiveDotColor="#ffccdd"
-          dotColor="#ff3377" />
-        
-        {!this.state.isImage &&
-          <TouchableOpacity style={styles.imageArea}
-          onPress = { () => this.doPickImage() } >
-          {this.state.images.length === 0 && (
-            <IconM name = 'image-multiple' size = {100}/>
-          )}
-        </TouchableOpacity>}
-      </View>
-    )
+    if(this.state.isImage){
+      return(
+        <View>
+          <SliderBox style={styles.swiper}
+            images={this.state.images}
+            onCurrentImagePressed={ () => this.doPickImage() }
+            sliderBoxHeight={300}
+            inactiveDotColor="#ffccdd"
+            dotColor="#ff3377" />
+        </View>
+      )
+    }else{
+      return(
+        <View>
+            <TouchableOpacity style={styles.imageArea}
+            onPress = { () => this.doPickImage() } >
+            {this.state.images.length === 0 && (
+              <IconM name = 'image-multiple' size = {100}/>
+            )}
+          </TouchableOpacity>
+        </View>
+      )
+    }
+    
   }
 }
 

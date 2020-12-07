@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity, Alert, ScrollView, StyleSheet,} from 'react-native';
 import {Container, Card, CardItem, Thumbnail, Content,
-     Header, Left, Right, Icon, Body, Title, Spinner} from 'native-base';
+     Header, Left, Right, Icon, Body, Title} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import {Rating} from 'react-native-elements'
 import IconM from 'react-native-vector-icons/Ionicons'
 import { SliderBox } from "react-native-image-slider-box";
+import Spinner from 'react-native-loading-spinner-overlay';
 IconM.loadFont();
 
 var reviewList = []
@@ -123,7 +124,7 @@ class ReviewScreen extends Component {
 				<Container>
 					<Header />
 					<Content>
-						<Spinner color='#ff3377' />
+					<Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
 					</Content>
 				</Container>
 				)

@@ -1,13 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions, ScrollView} from 'react-native';
-import {Text, Header, Thumbnail, Body, Container, Content, ListItem, 
-  Spinner, Button, Right, Footer, FooterTab, Badge, List} from 'native-base';
+import {Text, Header, Thumbnail, Body, Container, Content, ListItem, Button, Right, Footer, FooterTab, Badge, List} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
 import moment from 'moment';
 import IconM from 'react-native-vector-icons/Ionicons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { registerVersion } from 'firebase';
 IconM.loadFont()
 
@@ -171,7 +171,7 @@ class receiveScreen extends Component{
         <Container>
           <Header />
           <Content>
-            <Spinner color='#ff3377' />
+          <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
           </Content>
         </Container>
       )

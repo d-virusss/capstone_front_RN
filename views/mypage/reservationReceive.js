@@ -269,7 +269,7 @@ class receiveScreen extends Component{
             markedDates={this.state.marked}
             markingType={'period'}
             />
-          <Spinner visible={this.state.loading} color="#ff3377"></Spinner>
+          <Spinner visible={this.state.loading} color="#ff3377"/>
           <Content>
             <List>{this.makeList()}</List>
           </Content>
