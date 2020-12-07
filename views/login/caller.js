@@ -14,8 +14,8 @@ import  {
 
 var user_obj = {
   user: {
-    email: 'tester1@test.com',
-    password: 'test123',
+    email: '',
+    password: '',
   },
 };
 
