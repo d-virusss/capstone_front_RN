@@ -41,7 +41,8 @@ export default class FindIdScreen extends Component {
 
   render() {
     return (
-      <Container>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <Container style={{flex:1}}>
         <Header style={{
           height:60,
           backgroundColor:'f8f8f8'
@@ -54,8 +55,7 @@ export default class FindIdScreen extends Component {
           <Body><Title style={{color:'black',alignSelf:'center'}}>아이디 찾기</Title></Body>
           <Right></Right>
         </Header>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <KeyboardAvoidingView>
+        <Content>
           <Form>
             <Item floatingLabel>
               <Label>이름</Label>
@@ -79,8 +79,7 @@ export default class FindIdScreen extends Component {
               />
             </Item>
           </Form>
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+        </Content>
         <Footer style={styles.footer}>
           <Button transparent style={styles.footerbutton}
                 onPress={() => this.findId()}>
@@ -88,6 +87,7 @@ export default class FindIdScreen extends Component {
           </Button>
         </Footer>
       </Container>
+      </TouchableWithoutFeedback>
     );
   }
 }

@@ -48,6 +48,7 @@ export default class FindPwScreen extends Component {
 
   render() {
     return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Container>
         <Header style={{
           height:60,
@@ -61,8 +62,7 @@ export default class FindPwScreen extends Component {
           <Body><Title style={{color:'black',alignSelf:'center'}}>비밀번호 찾기</Title></Body>
           <Right></Right>
         </Header>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <KeyboardAvoidingView>
+        <Content>
           <Form>
           <Item floatingLabel>
               <Label>이메일</Label>
@@ -93,8 +93,7 @@ export default class FindPwScreen extends Component {
               />
             </Item>
           </Form>
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+        </Content>
         <Footer style={styles.footer}>
           <Button transparent style={styles.footerbutton}
             onPress={() => this.findPw()}>
@@ -102,6 +101,7 @@ export default class FindPwScreen extends Component {
           </Button>
         </Footer>
       </Container>
+      </TouchableWithoutFeedback>
     );
   }
 }

@@ -26,7 +26,7 @@ class MypageScreen extends Component {
     refreshing : false,
     show_popover : false,
     isCompany: false,
-    company_id:-1,
+    company_id:null,
     myId : 0,
   };
 
@@ -95,8 +95,9 @@ class MypageScreen extends Component {
       }
       posts = res.data.user_info;
 
-      if(res.data.user_info.company_id)
+      if(res.data.user_info.company_id != null){
         this.state.company_id = res.data.user_info.company_id;
+      }
 
       this.state.isCompany = res.data.user_info.is_company;
       this.setState({loading: true})
@@ -147,7 +148,7 @@ class MypageScreen extends Component {
   }
 
   partnerCheckNavigate() {
-    if(this.state.company_id != -1){
+    if(this.state.company_id != null){
       if(this.state.isCompany){
         //navigate to partner_page
         this.props.navigation.navigate('Partner_Page',{company_id:this.state.company_id});
@@ -156,7 +157,7 @@ class MypageScreen extends Component {
         this.props.navigation.navigate('Partner_Waiting',{company_id:this.state.company_id});
       }
     }
-    else this.props.navigation.navigate('Partner_Apply');
+    else if(this.state.company_id == null) this.props.navigation.navigate('Partner_Apply');
   }
 
   renderPopover(){
