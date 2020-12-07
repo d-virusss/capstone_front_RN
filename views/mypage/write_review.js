@@ -68,7 +68,6 @@ class WriteReviewScreen extends Component {
 						onPress: () => this.props.navigation.goBack(),
 					},
 					{
-						text: '취소',
 						style: 'cancel',
 					}
 				]) 
