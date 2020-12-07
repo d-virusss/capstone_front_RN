@@ -1,5 +1,7 @@
 # 모두나눔_FRONT
 
+<p align="center"><a href="https://www.applepink.ml" target="_blank" rel="noopener noreferrer"><img width="150" src="https://www.applepink.ml/image/default.png" alt="Framework7"></a></p>
+
 <h1 align="center">모두나눔</h1>
 
 <p align="center">
@@ -10,6 +12,12 @@
 **Collaborator**
 
 | [<img src="https://avatars2.githubusercontent.com/u/52606560?s=400&u=2a492fa6991fe8fe79db9e5bc6442131ab4d5259&v=4" width="200">](https://github.com/oohyun15) <br> oohyun15| [<img src="https://avatars2.githubusercontent.com/u/52434222?s=400&v=4" width="200">](https://github.com/MaSungHo) <br> MaSungHo | 
+[<img src="https://avatars3.githubusercontent.com/u/55905801?s=400&v=4" width="200">]
+(https://github.com/d-virusss) <br> d-virusss |
+[<img src="https://avatars1.githubusercontent.com/u/55075628?s=400&v=4" width="200">]
+(https://github.com/miny-kim) <br> miny-kim |
+[<img src="https://avatars3.githubusercontent.com/u/56245165?s=400&v=4" width="200"]
+(https://github.com/ajkenny122) <br> ajkenny122 |
 | :-----------------------------------: | :---------------------------------------: |
 
 ## Intro
