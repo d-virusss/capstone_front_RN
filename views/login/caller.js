@@ -155,11 +155,11 @@ class LoginScreen extends Component {
       <View style={{flex: 1}}>
         <View style={{flex: 1}}></View>
         <View style={{flex: 4, width: '70%', alignSelf: 'center'}}>
-          <TouchableOpacity style={{ flex: 1,}} onPress={() => this.testLoginRequest()}>
+          <View style={{ flex: 1,}} >
             <Text style={{ color: 'black', fontSize: 40, textAlign: 'center', fontWeight: 'bold'}}>
               모두나눔
             </Text>
-          </TouchableOpacity>
+          </View>
 
          
               <View style={{flex: 1 }}>
