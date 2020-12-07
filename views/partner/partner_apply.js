@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Alert, TouchableOpacity, } from 'react-native';
+import { StyleSheet, View, Alert, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, 
   Left, Right, Body, Title, Icon, Footer, Button, Text} from 'native-base';
@@ -66,7 +66,8 @@ export default class RegistrationScreen extends React.Component {
 
   render() {
     return (
-      <Container>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <Container style={{flex:1}}>
         <Header style = {{
             backgroundColor: '#f8f8f8',
             alignItems: 'center',
@@ -153,13 +154,14 @@ export default class RegistrationScreen extends React.Component {
 
           </Form>
         </Content>
-        <View style={styles.footer}>
+        <Footer style={styles.footer}>
           <Button transparent style={ styles.footerbutton }
             onPress={() => this.registrationRequest()}>
             <Text style={styles.footerText}>신청하기</Text>
           </Button>
-        </View>
+        </Footer>
       </Container>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -167,15 +169,15 @@ export default class RegistrationScreen extends React.Component {
 const styles = StyleSheet.create({
   footer: {
     position: 'absolute',
-    flex:0.1,
+    flex: 0.1,
     left: 0,
     right: 0,
     bottom: -5,
-    backgroundColor:'#ff3377',
-    flexDirection:'row',
-    height:80,
-    alignItems:'center',
-    paddingTop: 7
+    backgroundColor: '#ff3377',
+    flexDirection: 'row',
+    height: 80,
+    alignItems: 'center',
+    paddingTop: 7,
   },
   footerbutton: {
     alignItems:'center',
