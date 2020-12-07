@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
-import {Dimensions,  DeviceEventEmitter,  StyleSheet, Text, TextInput} from 'react-native';
+import {Dimensions,  DeviceEventEmitter,  StyleSheet, Text, TextInput, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import ProvideIndex from './provide_index';
 import AskIndex from './ask_index';
 import {Container, Tabs, Tab, TabHeading, Header, Item, Icon, Title, Input} from 'native-base'
@@ -66,6 +66,7 @@ class Search_Bar extends React.Component {
 
   render() {
     return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Container>
         <Header style={styles.header}>
             <Title style={{fontSize: 20, color: 'black',alignSelf: 'center'}}>{this.state.location}</Title>
@@ -97,7 +98,7 @@ class Search_Bar extends React.Component {
           </Tab>
         </Tabs>
       </Container>
-
+      </TouchableWithoutFeedback>
     );
   }
 }

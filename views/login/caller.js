@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Alert, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
 import CustomButton from './custom_button';
 import { Item, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -151,6 +151,7 @@ class LoginScreen extends Component {
 
   render() {
     return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={{flex: 1}}>
         <View style={{flex: 1}}></View>
         <View style={{flex: 4, width: '70%', alignSelf: 'center'}}>
@@ -160,43 +161,46 @@ class LoginScreen extends Component {
             </Text>
           </TouchableOpacity>
 
-          <View style={{flex: 1 }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                height: '50%',
-                alignItems: 'center',
-              }}>
-              <IconA name="person" type="MaterialIcons" size={30} color="black" style={{flex: 1}}/>
-              <Item style={{flex: 4, marginLeft: -10}}>
-                <Input
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  style={{fontSize: 20, }}
-                  placeholder="이메일"
-                  onChangeText={(text) => this.changeUsername(text, 'email')}
-                />
-              </Item>
-            </View> 
-            <View
-              style={{
-                flexDirection: 'row',
-                height: '50%',
-                alignItems: 'center',
-              }}>
-              <Icon name="key" size={30} color="black" style={{flex: 1}}></Icon>
-              <Item style={{flex: 4, marginLeft: -10}}>
-                <Input
-                  type="password"
-                  style={{fontSize: 20}}
-                  placeholder="비밀번호"
-                  autoCapitalize="none"
-                  secureTextEntry={true}
-                  onChangeText={(text) => this.changeUsername(text, 'password')}
-                />
-              </Item>
-            </View>
-          </View>
+         
+              <View style={{flex: 1 }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    height: '50%',
+                    alignItems: 'center',
+                  }}>
+                
+                    <IconA name="person" type="MaterialIcons" size={30} color="black" style={{flex: 1}}/>
+                    <Item style={{flex: 4, marginLeft: -10}}>
+                      <Input
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        style={{fontSize: 20, }}
+                        placeholder="이메일"
+                        onChangeText={(text) => this.changeUsername(text, 'email')}
+                      />
+                    </Item>
+                </View> 
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    height: '50%',
+                    alignItems: 'center',
+                  }}>
+                  <Icon name="key" size={30} color="black" style={{flex: 1}}></Icon>
+                  <Item style={{flex: 4, marginLeft: -10}}>
+                    <Input
+                      type="password"
+                      style={{fontSize: 20}}
+                      placeholder="비밀번호"
+                      autoCapitalize="none"
+                      secureTextEntry={true}
+                      onChangeText={(text) => this.changeUsername(text, 'password')}
+                    />
+                  </Item>
+                </View>
+              </View>
+         
           
           <View name="buttons" style={{flex: 3}}>
             <View style={{marginTop: '10%', height: '10%'}}>
@@ -290,6 +294,7 @@ class LoginScreen extends Component {
           </View>
         </View>
       </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
