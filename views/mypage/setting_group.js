@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { TouchableOpacity, StyleSheet, View, Alert,
 	TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Container, Header, Text, Form, Item, Input, Label, Left, Right, Icon, Body, Title, Button } from 'native-base';
+import { Container, Header, Text, Form, Item, Input, Label, Left, Right, Icon, Body, Title, Button, Content } from 'native-base';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/Ionicons'
 import { from } from 'form-data';
@@ -45,44 +45,37 @@ showAuthForm () {
 	if(this.state.auth ==  false){
 		return (
 		<Form>
-			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-				<KeyboardAvoidingView>
-					<Item floatingLabel>
-						<Label>인증할 이메일을 입력하세요</Label>
-						<Input autoCapitalize="none"
-						keyboardType = "email-address"
-					
-						onChangeText = {(eMail) => {this.state.user.email = eMail}}/>
-					</Item>
-				</KeyboardAvoidingView>
-			</TouchableWithoutFeedback>
+			
+			<Item floatingLabel>
+				<Label>인증할 이메일을 입력하세요</Label>
+				<Input autoCapitalize="none"
+				keyboardType = "email-address"
+			
+				onChangeText = {(eMail) => {this.state.user.email = eMail}}/>
+			</Item>
+				
 		</Form>
 		)
 	}
 	else if(this.state.auth == true){
 		return (
 		<Form>
-			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-				<KeyboardAvoidingView>
-					<Item floatingLabel>
-						<Label>인증할 이메일을 입력하세요</Label>
-						<Input
-						value = {this.state.user.email}
-						disabled="disabled"/>
-					</Item>
-					</KeyboardAvoidingView>
-			</TouchableWithoutFeedback>
-			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-				<KeyboardAvoidingView>
-					<Item floatingLabel>
-						<Label>인증번호</Label>
-						<Input
-						autoCapitalize="none"
-						keyboardType="numeric"
-						onChangeText = {(code) => {this.state.user.code = code}}/>
-					</Item>
-					</KeyboardAvoidingView>
-			</TouchableWithoutFeedback>
+			
+			<Item floatingLabel>
+				<Label>인증할 이메일을 입력하세요</Label>
+				<Input
+				value = {this.state.user.email}
+				disabled="disabled"/>
+			</Item>
+			
+			<Item floatingLabel>
+				<Label>인증번호</Label>
+				<Input
+				autoCapitalize="none"
+				keyboardType="numeric"
+				onChangeText = {(code) => {this.state.user.code = code}}/>
+			</Item>
+					
 		</Form>
 				
 		)
@@ -134,8 +127,9 @@ sendAuthCodeRequest = async() => {
 	render() {
 		this.getToken();
 			return (
+			<KeyboardAvoidingView>
 			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-				<KeyboardAvoidingView>
+				
 				<Container>
 					<Header style={{
 						height: 60,
@@ -150,12 +144,13 @@ sendAuthCodeRequest = async() => {
 						<Body><Title style={{color:'black', alignSelf:'center'}}>소속 인증</Title></Body>
 						<Right></Right>
 					</Header>
-					
+					<Content>
 					{this.showAuthForm()}
 					{this.showRequestButton()}
+					</Content>
 				</Container>
-				</KeyboardAvoidingView>
 			</TouchableWithoutFeedback>
+			</KeyboardAvoidingView>
 		);
 	}
 }
