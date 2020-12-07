@@ -118,6 +118,7 @@ package-lock.json
 
 # Android memory profiler files
 *.hprof
+ios/capstone_frontend/AppDelegate.m
 ios/Podfile.lock
 ios/Pods/Manifest.lock
 ios/Pods/Pods.xcodeproj/project.pbxproj
