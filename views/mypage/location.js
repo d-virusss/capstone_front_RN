@@ -9,6 +9,7 @@ import {Text} from 'native-base';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/Ionicons'
 import Slider from '@react-native-community/slider'
+import KAKAO_API_KEY from '../../key'
 
 IconM.loadFont()
 
@@ -61,7 +62,7 @@ class MypageScreen extends Component{
           y: coords.latitude,
         },
         headers: {
-          Authorization: 'KakaoAK ecce46f96915fbabc5b95a19f9a64ea7',
+          Authorization: `KakaoAK ${KAKAO_API_KEY}`,
         },
       })
       .then(function (response) {

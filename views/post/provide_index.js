@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
 import api from '../shared/server_address';
 import number_delimiter from '../shared/number_delimiter'
+import APP_KEY from '../../key'
 
 var searchModel= {
   id : '', // category_id
@@ -36,6 +37,8 @@ class ProvideIndex extends Component {
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       this._onRefresh()
     });
+    console.log('component did mount in post index --------')
+    console.log(APP_KEY)
   }
 
   _onRefresh = () => {
