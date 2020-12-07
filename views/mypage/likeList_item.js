@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {Text, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Header, ListItem, List, Container, Content, Body, Right, Spinner, 
-  Thumbnail, Left, Badge
+import { Header, ListItem, List, Container, Content, Body, Right,Thumbnail, Left, Badge
 } from 'native-base';
+import number_delimiter from '../shared/number_delimiter'
 import api from '../shared/server_address'
+import Spinner from 'react-native-loading-spinner-overlay';
 
 var like_item = [];
 
@@ -74,7 +75,7 @@ class LikeListItemScreen extends Component {
           </Left>
           <Body>
             <Text>{ele.like_info.title}</Text>
-            <Text note numberOfLines={1}>{ele.like_info.price} </Text>
+            <Text note numberOfLines={1}>{number_delimiter(ele.like_info.price)}원 / 일 </Text>
           </Body>
           <Right>
             <Badge style={{ backgroundColor : '#ff3377', width: 50 }}>
@@ -92,7 +93,7 @@ class LikeListItemScreen extends Component {
         <Container>
           <Header />
           <Content>
-            <Spinner color='#ff3377' />
+            <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
           </Content>
         </Container>
       );

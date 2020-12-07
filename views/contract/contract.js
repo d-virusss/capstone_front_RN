@@ -90,7 +90,7 @@ export default class Contract extends React.Component {
             </TouchableOpacity>
           </Right>
         </Header>
-        <Spinner visible={this.state.loading} style={{ color: '#ff3377'  }} />
+        <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
         <ScrollView>
           <Content style={{padding : 20}}>
             <Card style={ styles.card }>
