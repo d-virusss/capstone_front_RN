@@ -66,11 +66,12 @@ class Search_Bar extends React.Component {
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Container>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <Header style={styles.header}>
             <Title style={{fontSize: 20, color: 'black',alignSelf: 'center'}}>{this.state.location}</Title>
         </Header>
+      </TouchableWithoutFeedback>
 
         <Item style={{backgroundColor:'#ffffff',borderwidth : 0 }}>
           <Item style={{width : DEVICE_WIDTH*0.7, marginLeft: '4%', borderColor: 'transparent'}}>
@@ -98,7 +99,6 @@ class Search_Bar extends React.Component {
           </Tab>
         </Tabs>
       </Container>
-      </TouchableWithoutFeedback>
     );
   }
 }

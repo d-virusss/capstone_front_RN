@@ -163,7 +163,8 @@ class PostShow extends Component{
   makeReviewList() {
     if(reviewList.length == 0)
       return(<Title style={{ marginTop: '5%' }}>등록된 리뷰가 없습니다.</Title>)
-    return reviewList.map((ele) => {
+    else{
+      return reviewList.map((ele) => {
       console.log('ele-------------')
       console.log(ele)
       let year = ele.review_info.created_at.substr(0, 4);
@@ -172,8 +173,7 @@ class PostShow extends Component{
       let date = year+"."+month+"."+day
       return (
         <Card style={{margin:30}}>
-          <CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}
-          button onPress={() => { /*link to user profile show*/}}>
+          <CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}>
             <TouchableOpacity onPress={() => {this.props.navigation.push("ProfileShow", {user_id: ele.review_info.user_id} )}}>
               <Thumbnail source={{uri: ele.review_info.user_image}} />
             </TouchableOpacity>
@@ -187,20 +187,26 @@ class PostShow extends Component{
                 <Title style={{margin : '3%'}}> {ele.review_info.rating}</Title>
               </View>
               <View>
-                <Text style={styles.post_category}>{ele.review_info.user_nickname} / {date}</Text>
+                <Text style={styles.post_category}>{ele.review_info.user_nickname} / {date} / 신고</Text>
               </View>
             </Body>
           </CardItem>
-          
-          <CardItem>
-              <Body>
-                  <Text>{ele.review_info.body}</Text>
-              </Body>
+
+          <CardItem style={{flex: 1, flexDirection: 'row', paddingTop:'3%'}}>
+            <ScrollView>
+              <SliderBox style={styles.review_swiper}
+              images={ele.review_info.images}
+              sliderBoxHeight={200}
+              inactiveDotColor="#ffccdd"
+              dotColor="#ff3377" />
+              <Text style={{ paddingLeft: '3%' }}>{"\n"}{ele.review_info.body}</Text>
+            </ScrollView>
           </CardItem>
         </Card>
       );
     });
   }
+}
 
   likeRequest = () => {
     if (this.state.like_check) {
@@ -365,7 +371,7 @@ class PostShow extends Component{
                 sliderBoxHeight={300}
                 inactiveDotColor="#ffccdd"
                 dotColor="#ff3377" />
-                </View>
+              </View>
               <View>
                 <Form>
                   <Item regular style={styles.providerBar}>
@@ -414,9 +420,9 @@ class PostShow extends Component{
                           style={{ paddingVertical: 10 }}
                           />
                       </Item>
-                      <View style={{ padding: '3%' }}>
+                      <ScrollView style={{ padding: '3%' }}>
                         {this.makeReviewList()}
-                      </View>
+                      </ScrollView>
                     </Tab>
                   </Tabs>
                 </Form>
@@ -524,6 +530,12 @@ const styles = StyleSheet.create({
     height: 300,
     justifyContent: 'center',
     alignSelf: 'center',
+  },
+  review_swiper: {
+    width: 200,
+    height: 200,
+    alignSelf : 'center',
+    marginLeft : -60,
   },
   reviewNumberRating : {
     fontSize: 23,

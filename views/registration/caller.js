@@ -300,26 +300,23 @@ AuthCodeSubmit() {
 
 const styles = StyleSheet.create({
   footer: {
+    backgroundColor: '#ff3377',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '9%',
     position: 'absolute',
-    flex:0.1,
-    left: 0,
-    right: 0,
     bottom: -5,
-    backgroundColor:'#ff3377',
-    flexDirection:'row',
-    height:80,
-    alignItems:'center',
-    paddingTop: 7
   },
   footerbutton: {
-    alignItems:'center',
-    justifyContent: 'center',
-    flex:1,
+    alignSelf: 'center',
+    padding: 4,
+    marginBottom: '3%',
+    height: 80,
   },
   footerText: {
-    color:'white',
-    fontWeight:'bold',
-    alignItems:'center',
+    color: 'white',
+    fontWeight: 'bold',
     fontSize: 20,
   },
   inputForm : {

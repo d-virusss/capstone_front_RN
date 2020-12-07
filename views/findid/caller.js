@@ -42,51 +42,51 @@ export default class FindIdScreen extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <Container style={{flex:1}}>
-        <Header style={{
-          height:60,
-          backgroundColor:'f8f8f8'
-        }} androidStatusBarColor='#000'>
-          <Left>
-            <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name='chevron-back' type='Ionicons' />
-            </TouchableOpacity>
-          </Left>
-          <Body><Title style={{color:'black',alignSelf:'center'}}>아이디 찾기</Title></Body>
-          <Right></Right>
-        </Header>
-        <Content>
-          <Form>
-            <Item floatingLabel>
-              <Label>이름</Label>
-              <Input autoCapitalize='none'
-                placeholder="본명을 입력하세요"
-                onChangeText={(text)=>{this.state.name=text}}
-              />
-            </Item>
-            <Item floatingLabel>
-              <Label>생일 ex)20200101</Label>
-              <Input keyboardType='numeric'
-                placeholder="생일을 입력하세요"
-                onChangeText={(text)=>{this.state.birthday=text}}
-              />
-            </Item>
-            <Item floatingLabel>
-              <Label>연락처 ex)01012345678</Label>
-              <Input keyboardType='numeric'
-                placeholder="가입한 핸드폰 번호를 입력하세요"
-                onChangeText={(text)=>{this.state.number=text}}
-              />
-            </Item>
-          </Form>
-        </Content>
-        <Footer style={styles.footer}>
-          <Button transparent style={styles.footerbutton}
-                onPress={() => this.findId()}>
-            <Text style={styles.footerText}>찾기</Text>
-          </Button>
-        </Footer>
-      </Container>
+        <Container style={{flex:1}}>
+          <Header style={{
+            height:60,
+            backgroundColor:'f8f8f8'
+          }} androidStatusBarColor='#000'>
+            <Left>
+              <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
+                <Icon name='chevron-back' type='Ionicons' />
+              </TouchableOpacity>
+            </Left>
+            <Body><Title style={{color:'black',alignSelf:'center'}}>아이디 찾기</Title></Body>
+            <Right></Right>
+          </Header>
+          <Content>
+            <Form>
+              <Item floatingLabel>
+                <Label>이름</Label>
+                <Input autoCapitalize='none'
+                  placeholder="본명을 입력하세요"
+                  onChangeText={(text)=>{this.state.name=text}}
+                />
+              </Item>
+              <Item floatingLabel>
+                <Label>생일 ex)20200101</Label>
+                <Input keyboardType='numeric'
+                  placeholder="생일을 입력하세요"
+                  onChangeText={(text)=>{this.state.birthday=text}}
+                />
+              </Item>
+              <Item floatingLabel>
+                <Label>연락처 ex)01012345678</Label>
+                <Input keyboardType='numeric'
+                  placeholder="가입한 핸드폰 번호를 입력하세요"
+                  onChangeText={(text)=>{this.state.number=text}}
+                />
+              </Item>
+            </Form>
+          </Content>
+          <View style={styles.footer}>
+            <Button transparent style={styles.footerbutton}
+                  onPress={() => this.findId()}>
+              <Text style={styles.footerText}>찾기</Text>
+            </Button>
+          </View>
+        </Container>
       </TouchableWithoutFeedback>
     );
   }
@@ -94,26 +94,23 @@ export default class FindIdScreen extends Component {
 
 const styles = StyleSheet.create({
   footer: {
-    position: 'absolute',
-    flex: 0.1,
-    left: 0,
-    right: 0,
-    bottom: -5,
     backgroundColor: '#ff3377',
-    flexDirection: 'row',
-    height: 80,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 7,
+    width: '100%',
+    height: '9%',
+    position :'absolute',
+    bottom: -5,
   },
   footerbutton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
+    alignSelf: 'center',
+    padding: 4,
+    marginBottom: '3%',
+    height: 80,
   },
   footerText: {
     color: 'white',
     fontWeight: 'bold',
-    alignItems: 'center',
     fontSize: 20,
   },
 });

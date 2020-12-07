@@ -225,7 +225,7 @@ class bookingScreen extends Component{
           justifyContent : 'center',
           alignItems:'center',
           width : '100%',
-          height : '8%'
+          height : '9%'
         }}>
           {this.state.booked == false && (
             <Button transparent style = {{
@@ -248,7 +248,7 @@ class bookingScreen extends Component{
                 }
               }
             >
-              <Text style = {{color : 'white', fontSize:20, fontWeight: 'bold'}}>예약 신청하기</Text>
+              <Text style = {{color : 'white', fontSize: 20, fontWeight: 'bold'}}>예약 신청하기</Text>
             </Button>
           )}
           {this.state.booked == true && (

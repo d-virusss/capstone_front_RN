@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, Alert} from 'react-native';
+import {Text, TouchableOpacity, Alert, ScrollView, StyleSheet,} from 'react-native';
 import {Container, Card, CardItem, Thumbnail, Content,
      Header, Left, Right, Icon, Body, Title, Spinner} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
-import {AirbnbRating, Rating} from 'react-native-elements'
+import {Rating} from 'react-native-elements'
 import IconM from 'react-native-vector-icons/Ionicons'
+import { SliderBox } from "react-native-image-slider-box";
 IconM.loadFont();
 
 var reviewList = []
@@ -75,12 +76,17 @@ class ReviewScreen extends Component {
 									imageSize={20}/>
 							</Right>
 					</CardItem>
-						
-						<CardItem>
-								<Body>
-										<Text>{ele.review_info.body}</Text>
-								</Body>
-						</CardItem>
+
+					<CardItem style={{flex: 1, flexDirection: 'row', paddingTop:'3%'}}>
+            <ScrollView >
+              <SliderBox style={styles.review_swiper}
+              images={ele.review_info.images}
+              sliderBoxHeight={200}
+              inactiveDotColor="#ffccdd"
+              dotColor="#ff3377" />
+              <Text>{ele.review_info.body}</Text>
+            </ScrollView >
+          </CardItem>
 				</Card>
 			);
 		});
@@ -142,13 +148,23 @@ class ReviewScreen extends Component {
 						</Right>
           </Header>
     
-					<Content style={{ paddingHorizontal: '3%' }}>
-							{this.makeReviewList()}
-					</Content>
+			
+					<ScrollView style={{ paddingHorizontal: '3%' }}>
+						{this.makeReviewList()}
+					</ScrollView>
+		
         </Container>
       )
     }
   }
 }
 
+const styles = StyleSheet.create({
+	review_swiper: {
+    width: 200,
+    height: 200,
+    marginLeft : -60,
+    alignSelf: 'center',
+  },
+})
 export default ReviewScreen;
