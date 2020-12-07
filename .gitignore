@@ -1,5 +1,5 @@
-# ENV
-.env
+# APP KEY
+key.js
 
 # Xcode
 !**/*.xcodeproj
