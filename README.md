@@ -11,9 +11,8 @@
 
 **Collaborator**
 
-| [<img src="https://avatars3.githubusercontent.com/u/55905801?s=400&v=4" width="200">](https://github.com/d-virusss) <br>d-virusss| 
-[<img src="https://avatars1.githubusercontent.com/u/55075628?s=400&v=4" width="200">](https://github.com/miny-kim) <br> miny-kim | 
-| :-----------------------------------: | :---------------------------------------: |
+| [<img src="https://avatars3.githubusercontent.com/u/55905801?s=400&v=4" width="200">](https://github.com/d-virusss) <br> d-virusss| [<img src="https://avatars1.githubusercontent.com/u/55075628?s=400&v=4" width="200">](https://github.com/miny-kim) <br> miny-kim | [<img src="https://avatars3.githubusercontent.com/u/56245165?s=400&v=4" width="200">](https://github.com/ajkenny122) <br> ajkenny122 |
+| :-----------------------------------: | :---------------------------------------: | :---------------------------------------: |
 
 ## Intro
 This repository is Modunanum's Front-end repository built with **React Native**.
