@@ -137,7 +137,7 @@ export default class Sign extends React.Component {
               </CardItem>
             </Card>
             <Button block style={ styles.signbutton } onPress={() => this.certRequest()}>
-              <Text>서명하기</Text>
+              <Text style={{ fontSize: 17, fontWeight:'bold' }}>서명하기</Text>
             </Button>
           </Content>
         </ScrollView>

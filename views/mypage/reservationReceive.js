@@ -155,7 +155,7 @@ class receiveScreen extends Component{
       console.log(booking_info)
       if(reservation_info.booking.acceptance === 'waiting'){
         return (
-          <View style={styles.footer}>
+          <Footer style={styles.footer}>
             <Button transparent style={styles.bottomButtons}
               onPress={() => { this.accept() }}>
               <Text style={styles.footerText}>승인</Text>
@@ -164,12 +164,12 @@ class receiveScreen extends Component{
               onPress={() => { this.reject() }}>
               <Text style={styles.footerText}>거절</Text>
             </Button>
-          </View>
+          </Footer>
         )
       }
       else if(reservation_info.booking.acceptance === 'accepted'){
         return (
-          <View style={styles.footer}>
+          <Footer style={styles.footer}>
             <Button transparent style={styles.bottomButtons}
               onPress={() => { this.props.navigation.navigate("Sign", 
               { booking_info: booking_info, who: 'provider' });
@@ -180,16 +180,16 @@ class receiveScreen extends Component{
             >
               <Text style={styles.footerText}>서명하기</Text>
             </Button>
-          </View>
+          </Footer>
         )
       }
       else if(reservation_info.booking.acceptance === 'rejected'){
         return (
-          <View style={styles.disabledfooter}>
+          <Footer style={styles.disabledfooter}>
             <Button disabled transparent style={styles.bottomButtons} >
               <Text style={styles.footerText}>거절된 예약입니다.</Text>
             </Button>
-          </View>
+          </Footer>
         )
       }
     }else{
@@ -281,45 +281,34 @@ class receiveScreen extends Component{
   }
 };
 
-let {height, width} = Dimensions.get('window');
+let {width} = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container : {
-    width : width
+    width : '100%'
   },
   footer: {
-    position: 'absolute',
-    flex : 0.1,
-    left: 0,
-    right: 0,
-    top:height*0.74,
-    backgroundColor:'#ff3377',
-    flexDirection:'row',
-    height:80,
-    alignItems:'center',
-  
+    backgroundColor: '#ff3377',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '100%',
+    height: '6%',
+    flexDirection: 'row',
   },
   bottomButtons: {
-    alignItems:'center',
-    justifyContent: 'center',
-    flex : 1,
+    marginTop: '2%'
   },
   footerText: {
     color:'white',
     fontWeight:'bold',
-    alignItems:'center',
-    fontSize: 18,
-    paddingVertical: 5
+    fontSize: 20,
   },
   disabledfooter: {
-    position: 'absolute',
-    flex : 0.1,
-    left: 0,
-    right: 0,
-    top: height * 0.74,
     backgroundColor: '#dddddd',
-    flexDirection: 'row',
-    height: 80,
+    justifyContent: 'space-around',
     alignItems: 'center',
+    width: '100%',
+    height: '6%',
+    flexDirection: 'row',
   }
  });
 

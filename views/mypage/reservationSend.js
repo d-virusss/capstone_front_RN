@@ -98,24 +98,24 @@ class receiveScreen extends Component{
     if(reservation_info.item_id){
       if(reservation_info.booking.acceptance){
         return(
-          <View style = {styles.footer}>
-          <Button transparent style = {styles.footerbutton}
-            onPress={() => { this.props.navigation.navigate("Sign", 
-            { booking_info: booking_data, who: 'consumer' });
-          }}>
-             <Text style={styles.footerText}>서명하기</Text>
+          <Footer style = {styles.footer}>
+            <Button transparent style = {styles.footerbutton}
+              onPress={() => { this.props.navigation.navigate("Sign", 
+              { booking_info: booking_data, who: 'consumer' });
+            }}>
+              <Text style={styles.footerText}>서명하기</Text>
            </Button>
-         </View>
+         </Footer>
          
         )
       }
       else if(reservation_info.booking.acceptance === false){
         return(
-          <View style = {styles.disabledfooter}>
-          <Button transparent style = {styles.footerbutton} >
-             <Text style={styles.footerText}>서명하기</Text>
-           </Button>
-         </View>
+          <Footer style = {styles.disabledfooter}>
+            <Button transparent style = {styles.footerbutton} >
+              <Text style={styles.footerText}>서명하기</Text>
+            </Button>
+         </Footer>
         )
       }
     }
@@ -198,43 +198,31 @@ class receiveScreen extends Component{
 let {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container:{
-
     width : width,
   },
   footer: {
-    position: 'absolute',
-    flex:0.1,
-    left: 0,
-    right: 0,
-    top : height * 0.74,
-    backgroundColor:'#ff3377',
-    flexDirection:'row',
-    height:80,
-    alignItems:'center',
-    paddingTop: 7
+    backgroundColor: '#ff3377',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '100%',
+    height: '6%',
+    flexDirection: 'row',
   },
-  bottomButtons: {
-    alignItems:'center',
-    justifyContent: 'center',
-    flex:0.1,
+  footerbutton: {
+    marginTop: '2%',
   },
   footerText: {
-    color:'white',
-    fontWeight:'bold',
-    alignItems:'center',
-    fontSize:18,
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   disabledfooter: {
-    position: 'absolute',
-    flex: 0.1,
-    left: 0,
-    right: 0,
-    top : height * 0.74,
     backgroundColor: '#dddddd',
-    flexDirection: 'row',
-    height: 80,
+    justifyContent: 'space-around',
     alignItems: 'center',
-    paddingTop: 7
+    width: '100%',
+    height: '6%',
+    flexDirection: 'row',
   }
  });
 
