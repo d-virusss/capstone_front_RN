@@ -155,26 +155,6 @@ showAuthForm () {
 	}
 }
 
-showRequestButton() {
-	if(this.state.auth == false){
-		return(
-			<View style={styles.footer}>
-				<Button transparent style={styles.footerbutton} onPress={() => this.getAuthCodeRequest()}>
-					<Text style={styles.footerText}> 인증코드 발급 받기</Text>
-				</Button>
-			</View>
-		)
-	}else if(this.state.auth == true){
-		return(
-			<View style={styles.footer}>
-				<Button transparent style={styles.footerbutton} onPress={() => this.sendAuthCodeRequest()}>
-					<Text style={styles.footerText}> 인증하기</Text>
-				</Button>
-			</View>
-		)
-	}
-}
-
 sendAuthCodeRequest = async() => {
 	if(this.state.code){
 		this.state.user.code = this.state.code
@@ -222,29 +202,6 @@ render() {
 }
 
 const styles = StyleSheet.create({
-	footer: {
-		position: 'absolute',
-		flex:0.1,
-		left: 0,
-		right: 0,
-		bottom: -5,
-		backgroundColor:'#ff3377',
-		flexDirection:'row',
-		height:80,
-		alignItems:'center',
-		paddingTop: 7
-	  },
-	  footerbutton: {
-		alignItems:'center',
-		justifyContent: 'center',
-		flex:1,
-	  },
-	  footerText: {
-		color:'white',
-		fontWeight:'bold',
-		alignItems:'center',
-		fontSize: 20,
-	  },
 })
 
 export default SettingGroupScreen;

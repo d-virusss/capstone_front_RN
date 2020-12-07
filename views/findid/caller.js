@@ -81,12 +81,12 @@ export default class FindIdScreen extends Component {
           </Form>
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
-        <Footer style={styles.footer}>
+        <View style={styles.footer}>
           <Button transparent style={styles.footerbutton}
                 onPress={() => this.findId()}>
             <Text style={styles.footerText}>찾기</Text>
           </Button>
-        </Footer>
+        </View>
       </Container>
     );
   }
@@ -94,26 +94,23 @@ export default class FindIdScreen extends Component {
 
 const styles = StyleSheet.create({
   footer: {
-    position: 'absolute',
-    flex: 0.1,
-    left: 0,
-    right: 0,
-    bottom: -5,
     backgroundColor: '#ff3377',
-    flexDirection: 'row',
-    height: 80,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 7,
+    width: '100%',
+    height: '9%',
+    position :'absolute',
+    bottom: -5,
   },
   footerbutton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
+    alignSelf: 'center',
+    padding: 4,
+    marginBottom: '3%',
+    height: 80,
   },
   footerText: {
     color: 'white',
     fontWeight: 'bold',
-    alignItems: 'center',
     fontSize: 20,
   },
 });

@@ -145,10 +145,9 @@ export default class SignState extends React.Component {
             </Card>
           </Content>
         </ScrollView>
-        <TouchableOpacity onPress={()=> {this.RequestcheckCertstate()}}>
-          <Footer style={ styles.footer }>
+        <TouchableOpacity style={styles.footer}
+          onPress={()=> {this.RequestcheckCertstate()}}>
               <Text style={ styles.footertext }>확인</Text>
-          </Footer>
         </TouchableOpacity>
       </Container>
     );
@@ -165,16 +164,21 @@ const styles = StyleSheet.create({
   contractDate : {
     alignSelf : 'flex-end',    
   },
-  footer : {
+  footer: {
     backgroundColor: '#ff3377',
-    height: 35,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingTop : '3%'    
+    width: '100%',
+    height: '9%',
+    position: 'absolute',
+    bottom: -5,
   },
-  footertext : {
-    color : 'white',
-    fontSize : 20,
-    fontWeight : 'bold',
+  footertext: {
+    alignSelf: 'center',
+    marginBottom: '3%',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   cardmain : {
     paddingTop : '30%',
