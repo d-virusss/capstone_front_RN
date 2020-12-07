@@ -151,7 +151,7 @@ class LoginScreen extends Component {
 
   render() {
     return (
-      
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={{flex: 1}}>
         <View style={{flex: 1}}></View>
         <View style={{flex: 4, width: '70%', alignSelf: 'center'}}>
@@ -294,6 +294,7 @@ class LoginScreen extends Component {
           </View>
         </View>
       </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
