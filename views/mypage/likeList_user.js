@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {Text, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Header, ListItem, View, Left, Thumbnail, Body, Right, 
-  Spinner, Container, Content, Badge
+import { Header, ListItem, View, Left, Thumbnail, Body, Right, Container, Content, Badge
 } from 'native-base';
 import api from '../shared/server_address'
+import Spinner from 'react-native-loading-spinner-overlay';
 
 var like_user = [];
 
@@ -78,10 +78,10 @@ class LikeListUserScreen extends Component {
     if (this.state.loading) {
       return (
         <Container>
-        <Header />
-        <Content>
-          <Spinner color='#ff3377' />
-        </Content>
+          <Header />
+            <Content>
+            <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
+            </Content>
       </Container>
       );
     } else {

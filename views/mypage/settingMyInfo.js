@@ -22,7 +22,7 @@ var user_obj = {
   },
 };
 
-const image_info = {
+var image_info = {
   uri: '',
   type: '',
   name: '',
@@ -48,14 +48,15 @@ class SettingMyInfoScreen extends React.Component {
   };
 
   componentDidMount() {
+    this.initMyInfo();
+    this.setState({ loading: false }, () => {console.log(this.state)})
     this.getToken();
-    console.log(this.params)
+    
   }
 
   getToken = async () => {
     let token = await AsyncStorage.getItem('token');
     this.state.token = token;
-    this.initMyInfo();
   }
 
   initMyInfo() {
@@ -66,8 +67,6 @@ class SettingMyInfoScreen extends React.Component {
     this.state.birthday = this.params.post.birthday || "";
     this.state.image = this.params.post.image || "";
     this.state.id = this.params.post.id;
-    console.log(this.state.image)
-    this.setState({ loading: false }, () => {console.log(this.state)})
   }
 
   changeImage = (data) => {
@@ -143,24 +142,24 @@ class SettingMyInfoScreen extends React.Component {
 
   render() {
     if(this.state.loading){
-      return (
+      return(
         <Container>
-        <Header style={{
-          height: 60,
-          backgroundColor: '#f8f8f8',
-          justifyContent:'space-between'}}
-          androidStatusBarColor='#000'
-      >
-        <Left>
-          <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
-            <Icon name = 'chevron-back' type = 'Ionicons'/>
-          </TouchableOpacity>
-        </Left>
-        <Body><Title>프로필 수정</Title></Body>
-        <Right></Right>
-      </Header>
-      <Spinner visible={this.state.loading} />
-      </Container>
+          <Header style={{
+              height: 60,
+              backgroundColor: '#f8f8f8',
+              justifyContent:'space-between'}}
+              androidStatusBarColor='#000'
+          >
+            <Left>
+              <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+                <Icon name = 'chevron-back' type = 'Ionicons'/>
+              </TouchableOpacity>
+            </Left>
+            <Body><Title>프로필 수정</Title></Body>
+            <Right></Right>
+          </Header>
+          <Content><Spinner visible={this.state.loading} style={{ color: '#ff3377'}} /></Content>
+        </Container>
       )
     }else{
       return (
@@ -179,16 +178,13 @@ class SettingMyInfoScreen extends React.Component {
             <Body><Title>프로필 수정</Title></Body>
             <Right></Right>
           </Header>
-
+          
           <Content>
             <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}>
               <KeyboardAvoidingView>
+                <ImageSelect stateBus={this.changeImage} existing_image={[(this.state.image)]} isProfile={true}/>
+    
                 <Form> 
-                  <ImageSelect stateBus={this.changeImage} existing_image={[(this.state.image)]}
-                      isProfile={true}>
-                  </ImageSelect>
-
-
                   <Item floatingLabel>
                     <Label>이름(실명)</Label>
                     <Input autoCapitalize="none"

@@ -167,7 +167,7 @@ class UpdateReviewScreen extends Component {
 						<Right></Right>
 					</Header>
 				<Content>
-					<Spinner visible={this.state.loading}/>
+					<Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
 				</Content>
 				</Container>
 				</TouchableWithoutFeedback>
@@ -202,7 +202,7 @@ class UpdateReviewScreen extends Component {
 						</Right>
 					</Header>
 					<Content>
-					<Spinner visible={this.state.loading}/>
+		
 
 					<ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
 							<Left>

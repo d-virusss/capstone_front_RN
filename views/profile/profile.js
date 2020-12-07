@@ -200,7 +200,7 @@ class ProfileShow extends Component {
             {this.renderPopover()}
           </Right>
         </Header>
-        <Spinner visible={this.state.loading} />
+        <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
         <ScrollView refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} />}>
           <Content>
             <List>
