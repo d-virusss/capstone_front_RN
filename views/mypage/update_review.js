@@ -76,7 +76,6 @@ class UpdateReviewScreen extends Component {
 					onPress: () => this.props.navigation.goBack()
 				},
 				{
-					text: '취소',
 					style: 'cancel',
 				}
 			]) 
@@ -141,7 +140,6 @@ class UpdateReviewScreen extends Component {
 					onPress: () => this.props.navigation.goBack(),
 				},
 				{
-					text: '취소',
 					style: 'cancel',
 				}
 			]) 
