@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, Alert, StyleSheet, View} from 'react-native';
+import {Text, TouchableOpacity, Alert, StyleSheet, View, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView} from 'react-native';
 import {Container, Button, ListItem, Thumbnail, Content, Card, CardItem,
      Header, Left, Right, Icon, Body, Title, Textarea, Form} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -68,7 +68,6 @@ class WriteReviewScreen extends Component {
 						onPress: () => this.props.navigation.goBack(),
 					},
 					{
-						text: '취소',
 						style: 'cancel',
 					}
 				]) 
@@ -107,6 +106,7 @@ class WriteReviewScreen extends Component {
   render(){
     this.initParams();
     	return(
+		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <Container>
           <Header style={{
 						height: 60,
@@ -121,7 +121,7 @@ class WriteReviewScreen extends Component {
 						<Body><Title style={{color:'black',alignSelf:'center'}}>리뷰 작성</Title></Body>
 						<Right></Right>
           </Header>
-                
+            <Content>
           <Spinner visible={this.state.loading}/>
 
 					<ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
@@ -154,13 +154,14 @@ class WriteReviewScreen extends Component {
 							</ScrollView>
 						</CardItem>
 					</Card>
-                
-					<View style = {styles.footer}>
-						<Button transparent style = {styles.footerbutton} onPress={() => {this.putWriteReviewRequest()}}>
-							<Text style={styles.footerText}>작성하기</Text>
-						</Button>
-					</View>
+				</Content>
+				<View style = {styles.footer}>
+					<Button transparent style = {styles.footerbutton} onPress={() => {this.putWriteReviewRequest()}}>
+						<Text style={styles.footerText}>작성하기</Text>
+					</Button>
+				</View>
       </Container>
+	  </TouchableWithoutFeedback>
     )
   }
 }

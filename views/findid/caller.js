@@ -41,53 +41,53 @@ export default class FindIdScreen extends Component {
 
   render() {
     return (
-      <Container>
-        <Header style={{
-          height:60,
-          backgroundColor:'f8f8f8'
-        }} androidStatusBarColor='#000'>
-          <Left>
-            <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name='chevron-back' type='Ionicons' />
-            </TouchableOpacity>
-          </Left>
-          <Body><Title style={{color:'black',alignSelf:'center'}}>아이디 찾기</Title></Body>
-          <Right></Right>
-        </Header>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <KeyboardAvoidingView>
-          <Form>
-            <Item floatingLabel>
-              <Label>이름</Label>
-              <Input autoCapitalize='none'
-                placeholder="본명을 입력하세요"
-                onChangeText={(text)=>{this.state.name=text}}
-              />
-            </Item>
-            <Item floatingLabel>
-              <Label>생일 ex)20200101</Label>
-              <Input keyboardType='numeric'
-                placeholder="생일을 입력하세요"
-                onChangeText={(text)=>{this.state.birthday=text}}
-              />
-            </Item>
-            <Item floatingLabel>
-              <Label>연락처 ex)01012345678</Label>
-              <Input keyboardType='numeric'
-                placeholder="가입한 핸드폰 번호를 입력하세요"
-                onChangeText={(text)=>{this.state.number=text}}
-              />
-            </Item>
-          </Form>
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
-        <View style={styles.footer}>
-          <Button transparent style={styles.footerbutton}
-                onPress={() => this.findId()}>
-            <Text style={styles.footerText}>찾기</Text>
-          </Button>
-        </View>
-      </Container>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <Container style={{flex:1}}>
+          <Header style={{
+            height:60,
+            backgroundColor:'f8f8f8'
+          }} androidStatusBarColor='#000'>
+            <Left>
+              <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
+                <Icon name='chevron-back' type='Ionicons' />
+              </TouchableOpacity>
+            </Left>
+            <Body><Title style={{color:'black',alignSelf:'center'}}>아이디 찾기</Title></Body>
+            <Right></Right>
+          </Header>
+          <Content>
+            <Form>
+              <Item floatingLabel>
+                <Label>이름</Label>
+                <Input autoCapitalize='none'
+                  placeholder="본명을 입력하세요"
+                  onChangeText={(text)=>{this.state.name=text}}
+                />
+              </Item>
+              <Item floatingLabel>
+                <Label>생일 ex)20200101</Label>
+                <Input keyboardType='numeric'
+                  placeholder="생일을 입력하세요"
+                  onChangeText={(text)=>{this.state.birthday=text}}
+                />
+              </Item>
+              <Item floatingLabel>
+                <Label>연락처 ex)01012345678</Label>
+                <Input keyboardType='numeric'
+                  placeholder="가입한 핸드폰 번호를 입력하세요"
+                  onChangeText={(text)=>{this.state.number=text}}
+                />
+              </Item>
+            </Form>
+          </Content>
+          <View style={styles.footer}>
+            <Button transparent style={styles.footerbutton}
+                  onPress={() => this.findId()}>
+              <Text style={styles.footerText}>찾기</Text>
+            </Button>
+          </View>
+        </Container>
+      </TouchableWithoutFeedback>
     );
   }
 }

@@ -124,7 +124,7 @@ export default class SignState extends React.Component {
               </CardItem>
               <CardItem style={ styles.contractDate }>
                 <Text style={styles.dateText}>
-                  계약일 : {this.current_year} -
+                  계약일 : {this.current_year}-
                   { this.current_month}-
                   { this.current_day}
                 </Text>

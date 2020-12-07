@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Platform, View, Alert} from 'react-native';
+import {StyleSheet, Platform, View, Alert, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { Container, Header, Content, Form, Item, Input, Label, 
   Button, Text, Right, Body, Footer, Left, Icon, Title } from 'native-base';
@@ -54,6 +54,7 @@ export default class FindPwShow extends Component {
 
   render() {
     return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Container>
         <Header style={{
           height:60,
@@ -94,6 +95,7 @@ export default class FindPwShow extends Component {
           </Button>
         </View>
       </Container>
+      </TouchableWithoutFeedback>
     );
   }
 }

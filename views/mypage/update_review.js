@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, Alert, StyleSheet, View} from 'react-native';
+import {Text, TouchableOpacity, Alert, StyleSheet, View, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native';
 import {Container, Button, ListItem, Thumbnail, Content,
      Header, Left, Right, Icon, Body, Title, Textarea, CardItem, Card} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -76,7 +76,6 @@ class UpdateReviewScreen extends Component {
 					onPress: () => this.props.navigation.goBack()
 				},
 				{
-					text: '취소',
 					style: 'cancel',
 				}
 			]) 
@@ -141,7 +140,6 @@ class UpdateReviewScreen extends Component {
 					onPress: () => this.props.navigation.goBack(),
 				},
 				{
-					text: '취소',
 					style: 'cancel',
 				}
 			]) 
@@ -153,6 +151,7 @@ class UpdateReviewScreen extends Component {
 	render(){
 		if(this.state.loading){
 			return(
+				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<Container>
 					<Header style={{
 						height: 60,
@@ -171,10 +170,12 @@ class UpdateReviewScreen extends Component {
 					<Spinner visible={this.state.loading}/>
 				</Content>
 				</Container>
+				</TouchableWithoutFeedback>
 			)
 		}
 		else{
 			return(
+				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<Container>
 					<Header style={{
 						height: 60,
@@ -200,6 +201,7 @@ class UpdateReviewScreen extends Component {
 							</Popover>
 						</Right>
 					</Header>
+					<Content>
 					<Spinner visible={this.state.loading}/>
 
 					<ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
@@ -233,13 +235,14 @@ class UpdateReviewScreen extends Component {
 									</ScrollView>
 							</CardItem>
 					</Card>
-					
+					</Content>
 					<View style = {styles.footer}>
 							<Button transparent style = {styles.footerbutton} onPress={() => {this.putWriteReviewRequest()}}>
 									<Text style={styles.footerText}>수정하기</Text>
 							</Button>
 					</View>
 				</Container>
+				</TouchableWithoutFeedback>
 			)
 		}
 	}

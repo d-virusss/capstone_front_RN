@@ -186,7 +186,7 @@ class MypageScreen extends Component{
         >
           <Left>
           </Left>
-          <Body><Title style={{color:'black',alignSelf:'center'}}>동네 설정</Title></Body>
+          <Body><Title style={{color:'black',alignSelf:'center'}}>동네 인증</Title></Body>
           <Right></Right>
         </Header>
       )
@@ -203,7 +203,7 @@ class MypageScreen extends Component{
             <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title style={{color:'black',alignItems:'center'}}>동네 설정</Title></Body>
+          <Body><Title style={{color:'black',alignItems:'center'}}>동네 인증</Title></Body>
           <Right></Right>
         </Header>
       )
