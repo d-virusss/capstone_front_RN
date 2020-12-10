@@ -187,7 +187,7 @@ class Post_ask extends Component {
           </TouchableOpacity>
         </Right>
       </Header>
-      <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
+      <Spinner visible={this.state.loading} color="#ff3377" />
       <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
         <KeyboardAvoidingView>
           <ScrollView style={{ marginTop : '5%' }}>
