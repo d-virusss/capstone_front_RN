@@ -34,7 +34,9 @@ class TabScreen extends Component {
         }
       })
       .then((response) => {
-        total_unchecked = response.data
+        console.log("----------------------")
+        console.log(response.data.total)
+        total_unchecked = Number(response.data.total)
        
         this.setState({loading : false})
       })

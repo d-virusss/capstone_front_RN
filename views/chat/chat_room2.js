@@ -83,41 +83,41 @@ function chat_room2 ({route, navigation}){
     token = await AsyncStorage.getItem('token');
   }
 
-  const getPostInfo = async () => {
-    await api
-            .get(`posts/${post_id}`,{
-              headers:{
-                'Authorization': token
-              }
-            })
-            .then((response)=>{
-              postInfo = response.data;
-              console.log(postInfo);
-              //avatar=response.data.user.user_info.image;
-              setPostTitle(response.data.post_info.title);
-              setPostImg(response.data.post_info.image);
-            })
-            .catch((err)=>console.log(err))
+  const getPostInfo = () => {
+    api
+      .get(`posts/${post_id}`,{
+        headers:{
+          'Authorization': token
+        }
+      })
+      .then((response)=>{
+        postInfo = response.data;
+        console.log(postInfo);
+        //avatar=response.data.user.user_info.image;
+        setPostTitle(response.data.post_info.title);
+        setPostImg(response.data.post_info.image);
+      })
+      .catch((err)=>console.log(err))
   }
-  const getMyInfo = async()=>{
-    myID = await AsyncStorage.getItem('user_id');
+  const getMyInfo = ()=>{
+    myID = AsyncStorage.getItem('user_id');
     Fire.getSenderID(myID);
-    await api
-            .get(`/users/${myID}`,{
-              headers:{
-                'Authorization': token
-              }
-            })
-            .then((res)=>{
-              myName = res.data.user_info.nickname
-            })
-            .catch(err=>console.log(err))
+    api
+      .get(`/users/${myID}`,{
+        headers:{
+          'Authorization': token
+        }
+      })
+      .then((res)=>{
+        myName = res.data.user_info.nickname
+      })
+      .catch(err=>console.log(err))
   }
 
-  const messageGetRequest = async () => {
+  const messageGetRequest = () => {
     Fire.getAvatar(avatar);
     console.log(chat_id);
-    await api
+    api
       .get(`/chats/${chat_id}/messages`, 
       { 
         headers : {
@@ -166,9 +166,9 @@ function chat_room2 ({route, navigation}){
   useEffect(()=>{
     async function inEffect(){
       await getToken();
-      await getMyInfo();
-      await getPostInfo();
-      await messageGetRequest();
+      getMyInfo();
+      getPostInfo();
+      messageGetRequest();
       Fire.getChatID(chat_id);
       Fire.get(message=>{
         console.log(message)

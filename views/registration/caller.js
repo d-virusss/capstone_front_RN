@@ -171,12 +171,12 @@ AuthCodeSubmit() {
         return;
       }
       this.makeForm()
-      user_obj.user.device_token = await AsyncStorage.getItem('fcmToken');
       console.log("token")
       console.log(user_obj.user.device_token)
       api
       .post('/users/sign_up', user_obj)
       .then(async (res) =>  {
+        user_obj.user.device_token = await AsyncStorage.getItem('fcmToken');
         console.log(res);
         //await Fire.createUser(user_obj.user);
         console.log('send data for registration');
