@@ -184,10 +184,11 @@ class PostShow extends Component{
                   ratingCount={5}
                   imageSize={18}
                   style={{ paddingVertical: 10 }}/>
-                <Title style={{margin : '3%'}}> {ele.review_info.rating}</Title>
+                <Title style={{marginTop : '3%'}}> {ele.review_info.rating}</Title>
               </View>
-              <View>
-                <Text style={styles.post_category}>{ele.review_info.user_nickname} / {date} / 신고</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.post_category}>{ele.review_info.user_nickname} / {date} / </Text>
+                <Text style={styles.post_category} >신고</Text>
               </View>
             </Body>
           </CardItem>
@@ -515,6 +516,10 @@ const styles = StyleSheet.create({
     paddingVertical : '3%'
   },
   post_category :{
+    fontSize: 15,
+    color: 'grey',
+  },
+  report :{
     fontSize: 15,
     color: 'grey',
   },

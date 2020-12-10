@@ -7,8 +7,6 @@ import {
   Card, CardItem,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
-import api from '../shared/server_address'
-import FormData from 'form-data'
 
 class PostUserReportScreen extends Component {
   post = this.props.route.params
@@ -21,13 +19,10 @@ class PostUserReportScreen extends Component {
   getToken = async () => {
     let value = await AsyncStorage.getItem("token")
     this.state.token = value
-    console.log(this.state.token)
   }
 
   componentDidMount() {
     this.getToken()
-    console.log(this.post)
-    console.log("component did mount --- report")
   }
 
   postReportRequest() {

@@ -22,7 +22,6 @@ class ProfileAsk extends Component {
     const value = await AsyncStorage.getItem("token")
     const id = await AsyncStorage.getItem("user_id")
     this.state.token = value
-    this.state.myId = id
     this.askPostRequest();
   }
 
