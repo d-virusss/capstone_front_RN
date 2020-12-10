@@ -4,7 +4,7 @@ import {View, ScrollView, Image, StyleSheet, TouchableOpacity, Alert,
   DeviceEventEmitter, Dimensions} from 'react-native';
 import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, Card,
   FooterTab, Header, Body, Container, Title, Tab, Tabs, TabHeading,
-  CardItem, Thumbnail, Badge} from 'native-base';
+  CardItem, Thumbnail, Badge, Toast} from 'native-base';
 import Popover from 'react-native-popover-view';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../shared/server_address'
@@ -222,6 +222,10 @@ class PostShow extends Component{
       })
       .then((res) => {
         console.log(res)
+        Toast.show({
+          text: '좋아요!',
+          buttonText: '확인'
+        })
       })
       .catch((e) => {
         console.log(e)
@@ -304,31 +308,33 @@ class PostShow extends Component{
     console.log(postForm)
     if(this.state.is_your_post){
       return (
-        <FooterTab style={{backgroundColor:'#F8F8F8'}}>
-          <Button transparent onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.state, onGoBack: ()=>{this.getPostInfo();} }) }}>
-            <Text style={{ color: '#ff0055', fontWeight: 'bold', fontSize: 17, paddingVertical: 5}}>계약서 수정</Text>
+        <FooterTab style={{}}>
+          <Button style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '4%', marginTop: '4%'  }} 
+            onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.state, onGoBack: ()=>{this.getPostInfo();} }) }}>
+            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17, paddingVertical: 5, marginTop: '1%'}}>계약서 수정</Text>
           </Button>
-          <Button transparent
+          <Button style={{ backgroundColor: "#ff9a00", height: '70%', marginHorizontal: '4%', marginTop: '4%' }}
             onPress={() => { this.props.navigation.navigate('Reservation',{ onGoBack: ()=>{this.getPostInfo();} }) }} >
-            <Text style={{ fontWeight: 'bold', fontSize: 17, paddingVertical: 5 }}>예약 목록 확인</Text>
+            <Text style={{ color:'white', fontWeight: 'bold', fontSize: 17, paddingVertical: 5, marginTop: '1%' }}>예약 목록 확인</Text>
           </Button>
         </FooterTab>
       )
     }
     else{
       return(
-        <FooterTab style={{backgroundColor:'#F8F8F8', height: '100%'}}>
-          <Button vertical style={{ marginLeft: -30, width : '20%', }} onPress={() => this.likeRequest()}>
+        <FooterTab style={{ height: '100%'}}>
+          <Button vertical style={{ marginLeft: '-4%', marginTop: '4%', width: '10%' }} onPress={() => this.likeRequest()}>
             <Icon name={this.state.icon || "heart-outline"} style={styles.likeIcon} />
           </Button>
-          <Button vertical transparent onPress={() => { this.makeCallchat_navigate() }}>
-            <Text style={{color: '#ffb805', fontWeight : 'bold', fontSize:17}}>채팅</Text>
+          <Button vertical style={{ backgroundColor: '#ff9a00', height: '70%', marginLeft: '3%', marginTop: '4%'}}
+            onPress={() => { this.makeCallchat_navigate() }}>
+            <Text style={{ color: 'white', fontWeight : 'bold', fontSize:17, paddingVertical: '5%' }}>채팅하기</Text>
           </Button>
-          {this.state.isBooked == false && (<Button vertical transparent
+          {this.state.isBooked == false && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal:'3%', marginTop: '4%' }}
             onPress={() => { this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
-            <Text style={{ fontWeight: 'bold', fontSize:17, color: '#ff3377'}}>예약</Text>
+            <Text style={{ fontWeight: 'bold', fontSize:17, color: 'white'}}>예약하기</Text>
           </Button>)}
-          {this.state.isBooked == true && (<Button vertical transparent style={{ padding: 0 }}
+          {this.state.isBooked == true && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '3%', marginTop: '4%' }}
             onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize:16, padding: 0, color: '#ff3377'}}>예약 취소</Text>
           </Button>)}
@@ -342,7 +348,7 @@ class PostShow extends Component{
     else{
       console.log("render start")
       return(
-        <Container>
+        <Container style={{ backgroundColor: 'white' }}>
           <Header style={{height: 60, backgroundColor: '#f8f8f8',}} androidStatusBarColor='#000'>
             <Left style={{flex : 1}}>
               <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
@@ -431,7 +437,7 @@ class PostShow extends Component{
             </ScrollView>
           </Content>
 
-          <Footer style={{}}>
+          <Footer style={{ backgroundColor: 'white' }}>
             {this.renderFooter()}
           </Footer>
         </Container>
@@ -488,7 +494,7 @@ const styles = StyleSheet.create({
   },
   likeIcon : {
     color : 'red',
-    fontSize : 30
+    fontSize : 25,
   },
   popoverel : {
     paddingVertical : 10,

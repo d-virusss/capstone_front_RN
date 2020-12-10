@@ -184,7 +184,7 @@ class ProfileShow extends Component {
       if(this.state.like_check){
         return(
           <Button small bordered style={{
-            position: 'absolute', right: '10%', backgroundColor: 'white', borderColor: 'black',
+            position: 'absolute', left: '65%', top:'40%', backgroundColor: 'white', borderColor: 'black',
             width:100, justifyContent:'center'}}
             onPress={() => {this.userLikeRequest()}}
           >
@@ -195,7 +195,7 @@ class ProfileShow extends Component {
       else {
         return (
           <Button small style={{
-            position: 'absolute', right: '10%', backgroundColor: '#ff3377', borderColor: 'black',
+            position: 'absolute', left: '65%', top: '40%', backgroundColor: '#ff3377', borderColor: 'black',
             width: 100, justifyContent: 'center'}}
             onPress={() => {this.userLikeRequest()}}
           >
@@ -255,10 +255,10 @@ class ProfileShow extends Component {
                 thumbnail
                 style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop: '3%' }}>
                 <Thumbnail source={{ uri: this.state.profile_image }} />
+                  {this.renderFollowButton()}
                 <Body style={{ marginLeft: '5%' }}>
-                  <View style={{ flexDirection: 'row', width: '80%' }}>
+                  <View style={{ flexDirection: 'row', width: '50%' }}>
                     <Text numberOfLines={1}>{this.state.nickname}</Text>
-                    {this.renderFollowButton()}
                   </View>
                   <Text note numberOfLines={1} style={{ marginTop: '1%' }}>
                     {this.state.group}
