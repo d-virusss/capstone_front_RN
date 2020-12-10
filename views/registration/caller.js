@@ -7,6 +7,7 @@ import { Container, Content, Form, Item, Input, Label, Header,
 import api from '../shared/server_address';
 import { CheckBox } from 'react-native-elements'
 import Fire from '../shared/Fire';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 var {Height, Width} = Dimensions.get('window');
@@ -40,6 +41,7 @@ export default class RegistrationScreen extends React.Component {
   private_information_agree : false,
   service_rule_agree : false,
   location_agree : false,
+  saving : false,
  };
 
   authRequest(){
@@ -130,7 +132,7 @@ renderAuthCodeForm(){
         <View style={styles.codeForm}>
           <TextInput style={styles.keywordArea}
             placeholder='인증번호를 입력해주세요.'
-            autoCapitalize='none'
+            keyboardType='numeric'
             onChangeText={(text) => this.setState({code : text})}
             editable={this.state.code == "success" ? "false" : "true"}
             />
@@ -169,20 +171,19 @@ AuthCodeSubmit() {
   
 }
   registrationRequest = async () => {
+    
       if(this.state.code != "success"){
         Alert.alert("가입 실패", "핸드폰 인증이 필요합니다.", [{text:'확인'},{style:'cancel'}])
         return;
       }
+
+      this.setState({saving : true});
       this.makeForm()
       user_obj.user.device_token = await AsyncStorage.getItem('fcmToken');
       console.log("token")
-      console.log(user_obj.user.device_token)
-      api
-      .post('/users/sign_up', user_obj)
+
+      api.post('/users/sign_up', user_obj)
       .then(async (res) =>  {
-        console.log(res);
-        //await Fire.createUser(user_obj.user);
-        console.log('send data for registration');
         Alert.alert("모두나눔 가입 완료", "회원가입이 완료되었습니다.",[
           {
             text:'확인', 
@@ -194,12 +195,11 @@ AuthCodeSubmit() {
         ])
       })
       .catch((err) =>  {
-        console.log('fail to register');
         console.log(err.response.data.error)
         Alert.alert("가입 실패", err.response.data.error,[
           {
             text:'확인', 
-            onPress: () => {}
+            onPress: () => {this.props.navigation.goBack()}
           },
           {
             style:'cancel'
@@ -224,6 +224,7 @@ AuthCodeSubmit() {
         </Header>
         
         <ScrollView style={{ marginBottom: '24%' }}>
+        <Spinner visible={this.state.saving} color="#ff3377" />
         <Content>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <KeyboardAvoidingView>

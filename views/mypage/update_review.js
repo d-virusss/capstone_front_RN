@@ -5,7 +5,6 @@ import {Container, Button, ListItem, Thumbnail, Content,
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import {AirbnbRating,Rating } from 'react-native-elements'
-import Popover from 'react-native-popover-view';
 import _ from 'lodash';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImageSelect from '../post/imageselect';
@@ -34,10 +33,9 @@ class UpdateReviewScreen extends Component {
 		review_id : 0,
 		booking_id : '',
 		loading : true,
-		show_popover : false,
 		//for multi image
 		images: [],
-
+		saving : false,
 	}
 
 	getToken = async() => {
@@ -62,7 +60,7 @@ class UpdateReviewScreen extends Component {
 	}
 
 	putWriteReviewRequest(){ 
-		this.setState({loading : true})
+		this.setState({saving : true})
 		this.setInfo();
 		api.put(`/reviews/${this.state.review_id}`, formdata, {
 			headers: {
@@ -116,37 +114,8 @@ class UpdateReviewScreen extends Component {
 		this.getToken();
 	}
 
-	renderDelete() {
-		return(
-			<View>
-				<TouchableOpacity
-					onPress={() => this.setState({ show_popover: false },
-					() => { this.deleteRequest()})}>
-					<Text style={styles.popoverel}>삭제</Text>
-				</TouchableOpacity>
-			</View>
-		)
-	}
 
-	deleteRequest() {
-		api.delete(`/reviews/${this.state.review_id}`, {
-			headers : {
-				Authorization : this.state.token
-			}
-		}).then(()=> {
-			Alert.alert("삭제 완료", "리뷰가 정상적으로 삭제되었습니다.",[
-				{
-					text: '확인',
-					onPress: () => this.props.navigation.goBack(),
-				},
-				{
-					style: 'cancel',
-				}
-			]) 
-		}).catch((err) => {
-			Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}]) 
-		})
-	}
+	
 
 	render(){
 		if(this.state.loading){
@@ -167,7 +136,7 @@ class UpdateReviewScreen extends Component {
 						<Right></Right>
 					</Header>
 				<Content>
-					<Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
+					<Spinner visible={this.state.loading} color="#ff3377" />
 				</Content>
 				</Container>
 				</TouchableWithoutFeedback>
@@ -188,22 +157,9 @@ class UpdateReviewScreen extends Component {
 							</TouchableOpacity>
 						</Left>
 						<Body><Title style={{color:'black', alignSelf:'center'}}>리뷰 수정</Title></Body>
-						<Right>
-							<Popover
-								isVisible = {this.state.show_popover}
-								onRequestClose = {() => this.setState({ show_popover: false })}
-								from={(
-										<TouchableOpacity onPress={() => this.setState({ show_popover: true })}>
-										<Icon name="menu" />
-										</TouchableOpacity>
-								)}>
-								{this.renderDelete()}
-							</Popover>
-						</Right>
 					</Header>
+					<Spinner visible={this.state.saving} color="#ff3377" />
 					<Content>
-		
-
 					<ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
 							<Left>
 								<Thumbnail square source={{ uri: this.state.post_image }} />
@@ -274,11 +230,6 @@ const styles = StyleSheet.create({
 	textAreaContainer: {
 		marginHorizontal: '2%',
 		marginTop: '5%'
-	},
-	popoverel : {
-		paddingVertical : 10,
-		paddingHorizontal : 15,
-		margin : 5,
 	},
 	textAreaContainer: {
 		marginHorizontal: '2%',

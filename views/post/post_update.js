@@ -30,6 +30,7 @@ class PostUpdate extends Component {
     images : '',
     token: "",
     loading : true,
+    saving : false,
   }
 
   getToken = async () => {
@@ -75,7 +76,7 @@ class PostUpdate extends Component {
   }
 
   makeUpdateRequest() {
-    this.setState({loading : true})
+    this.setState({saving : true})
     this.setPostInfo()
 
     api
@@ -172,7 +173,7 @@ class PostUpdate extends Component {
             <Body><Title>물품 정보 수정</Title></Body>
             <Right></Right>
           </Header>
-          <Content><Spinner visible={this.state.loading} style={{ color: '#ff3377'}} /></Content>
+          <Content><Spinner visible={this.state.loading} color="#ff3377" /></Content>
         </ScrollView>
       )
     }else{
@@ -206,7 +207,7 @@ class PostUpdate extends Component {
                   }
                 ])
               }}>
-              <Text>수정 완료</Text>
+              <Title>수정 완료</Title>
             </TouchableOpacity>
           </Right>
         </Header>
@@ -221,6 +222,7 @@ class PostUpdate extends Component {
             <Text></Text>
           </TouchableOpacity>
           <Content>
+            <Spinner visible={this.state.saving} color="#ff3377" />
             <Form>
               <Item inlinelabel>
                 <Label>제목</Label>
@@ -235,7 +237,7 @@ class PostUpdate extends Component {
                   onChangeText={(text) => this.changedata(text, "price")}
                   value={this.state.price} />
               </Item>
-              <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
+              <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요." autoCapitalize='none'
                 onChangeText={(text) => this.changedata(text, "body")}
                 style={styles.textAreaContainer}
                 value={this.state.body} />

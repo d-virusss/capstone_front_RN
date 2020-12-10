@@ -158,7 +158,7 @@ class SettingMyInfoScreen extends React.Component {
             <Body><Title>프로필 수정</Title></Body>
             <Right></Right>
           </Header>
-          <Content><Spinner visible={this.state.loading} style={{ color: '#ff3377'}} /></Content>
+          <Content><Spinner visible={this.state.loading} color="#ff3377" /></Content>
         </Container>
       )
     }else{

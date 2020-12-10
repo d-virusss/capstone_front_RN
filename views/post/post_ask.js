@@ -187,7 +187,7 @@ class Post_ask extends Component {
           </TouchableOpacity>
         </Right>
       </Header>
-      <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
+      <Spinner visible={this.state.loading} color="#ff3377" />
       <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
         <KeyboardAvoidingView>
           <ScrollView style={{ marginTop : '5%' }}>
@@ -211,7 +211,7 @@ class Post_ask extends Component {
                     <Input keyboardType="numeric"
                       onChangeText={(text) => this.changedata(text, "price")} />
                   </Item>
-                  <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
+                  <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요." autoCapitalize='none'
                     onChangeText={(text) => this.changedata(text, "body")}
                     style={styles.textAreaContainer} />
                 </Form>

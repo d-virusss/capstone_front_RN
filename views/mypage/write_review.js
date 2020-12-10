@@ -122,14 +122,14 @@ class WriteReviewScreen extends Component {
 						<Right></Right>
           </Header>
             <Content>
-          <Spinner visible={this.state.loading}/>
+          <Spinner visible={this.state.loading} color="#ff3377"/>
 
 					<ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
 						<Left>
-							<Thumbnail square source={{ uri: this.state.post_image }} />
+							<Thumbnail square source={{ uri: this.state.post_image }}/>
 						</Left>
 						<Body>
-							<Text>{this.state.post_title}</Text>
+							<Title style={{fontSize : 17}}>{this.state.post_title}</Title>
 						</Body>
 					</ListItem>
 

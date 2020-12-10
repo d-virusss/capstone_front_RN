@@ -117,7 +117,7 @@ class ReportDetail extends Component {
         
         </Header>
 
-        <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
+        <Spinner visible={this.state.loading} color="#ff3377" />
 
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <KeyboardAvoidingView style={styles.screen}>

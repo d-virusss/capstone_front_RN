@@ -94,6 +94,18 @@ class ReviewScreen extends Component {
 		}
 	}
 
+	deleteRequest(id) {
+		api.delete(`/reviews/${id}`, {
+			headers : {
+				Authorization : this.state.token
+			}
+		}).then(()=> {
+			Alert.alert("삭제 완료", "리뷰가 정상적으로 삭제되었습니다.",[{text: '확인',},{style: 'cancel',}]) 
+		}).catch((err) => {
+			Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}]) 
+		})
+	}
+
 	changeReview(review) {
 		console.log(review)
 		let posts = {
@@ -106,14 +118,14 @@ class ReviewScreen extends Component {
 				review_images : review.images,
 		}//for review request
 
-		Alert.alert("리뷰 수정", "리뷰를 수정하시겠습니까?",[
+		Alert.alert("리뷰 관리", "리뷰를 수정하시겠습니까?",[
 			{
 				text: '리뷰 수정',
 				onPress: () => this.props.navigation.navigate('UpdateReview', {posts : posts})
 			},
 			{
-				text: '취소',
-				style: 'cancel',
+				text: '리뷰 삭제',
+				onPress: () => this.deleteRequest(posts.review_id)
 			}
 		]) 
 	}
@@ -124,7 +136,7 @@ class ReviewScreen extends Component {
 				<Container>
 					<Header />
 					<Content>
-					<Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
+					<Spinner visible={this.state.loading} color="#ff3377" />
 					</Content>
 				</Container>
 				)

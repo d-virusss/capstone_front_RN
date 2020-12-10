@@ -73,7 +73,7 @@ class ProfileShow extends Component {
         this.setState({ loading: false })
       })
       .catch((err) => {
-        console.log("my page err")
+        console.log("profile err")
         Alert.alert("요청 실패", err.response.data.error || err.response.data.message, [
           { text: '확인', style: 'cancel' }])
       })
@@ -96,13 +96,47 @@ class ProfileShow extends Component {
           <Text style={styles.popoverel}>신고하기</Text>
         </TouchableOpacity>}
         {this.state.is_my_profile && <TouchableOpacity
-          onPress={() => this.setState({ show_popover: false }, () => {
-            // this.props.navigation.navigate("SettingMyInfo", { post: posts })
-          })}>
+          onPress={() => {this.deleteUser()}}>
           <Text style={styles.popoverel}>회원탈퇴</Text>
         </TouchableOpacity>}
       </Popover>
     )
+  }
+
+  deleteUser() {
+    Alert.alert("회원 탈퇴", "회원 탈퇴를 진행하시겠습니까?", [
+      { 
+        text: '확인',
+        onPress: () => {this.withdrawal()}
+      },
+      { 
+        text: '취소',
+        style: 'cancel' ,
+        onPress : () => this.setState({ show_popover: false })
+      }
+    ])
+  }
+
+  withdrawal(){
+    api.delete('/users/withdrawal', {
+      headers: {
+        'Authorization': this.state.token
+      }
+    })
+    .then((res) => {
+      console.log(res)
+      AsyncStorage.clear();
+      //순서 중요
+      this.props.navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+        routes: [{ name: 'Logins' },],
+      })
+      ); // pop everything in stack navigation
+    })
+    .catch((err) => {
+      console.log(err.response.data.error)
+    })
   }
 
   userLikeRequest(){
@@ -200,7 +234,8 @@ class ProfileShow extends Component {
             {this.renderPopover()}
           </Right>
         </Header>
-        <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
+
+        <Spinner visible={this.state.loading} color="#ff3377" />
         <ScrollView refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} />}>
           <Content>
             <List>
@@ -232,7 +267,7 @@ class ProfileShow extends Component {
 
               <Separator bordered style={{ height: '1%' }}></Separator>
 
-              <ListItem onPress={() => { { this.props.navigation.navigate('ProfileProvide', {user_id: this.profile_id}) } }}>
+              <ListItem onPress={() => { { this.props.navigation.push('ProfileProvide', {user_id: this.profile_id}) } }}>
                 <Left>
                   <Icon type="MaterialCommunityIcons" name="receipt" />
                   <Text style={styles.listText}>등록 상품</Text>
@@ -242,7 +277,7 @@ class ProfileShow extends Component {
                 </Right>
               </ListItem>
 
-              <ListItem onPress={() => { this.props.navigation.navigate('ProfileAsk', { user_id: this.profile_id }) }}>
+              <ListItem onPress={() => { this.props.navigation.push('ProfileAsk', { user_id: this.profile_id }) }}>
                 <Left>
                   <Icon type="Ionicons" name="hand-left-outline" />
                   <Text style={styles.listText}>요청 상품</Text>
@@ -252,7 +287,7 @@ class ProfileShow extends Component {
                 </Right>
               </ListItem>
 
-              <ListItem onPress={() => { this.props.navigation.navigate('ReceivedReview', {user_id: this.profile_id}) }}>
+              <ListItem onPress={() => { this.props.navigation.push('ReceivedReview', {user_id: this.profile_id}) }}>
                 <Left>
                   <Icon type="MaterialCommunityIcons" name="comment-text-multiple-outline" />
                   <Text style={styles.listText}>받은 리뷰 확인하기</Text>
