@@ -103,8 +103,7 @@ class MypageScreen extends Component{
   putRequest = async() =>  {  
     user_addr.location.range = this.state.value;
     console.log("puterquest-------------------------")
-    api
-      .put('/locations/certificate', user_addr, {
+    api.put('/locations/certificate', user_addr, {
         headers: {
           Authorization: token_value,
         },
