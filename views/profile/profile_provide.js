@@ -13,7 +13,6 @@ class ProfileProvide extends Component {
   state = {
     token: '',
     myId: this.props.route.params.user_id,
-    after_booking: [],
     posts : [],
   }
 
@@ -29,71 +28,6 @@ class ProfileProvide extends Component {
     this.getToken()
     console.log('component did mount -------------')
   }
-
-  makeRentList(bookings) {
-    return bookings.map((booking) => {
-      console.log('in rent list------')
-      if (booking.booking_info.acceptance === "rent") {
-        return (
-          <ListItem thumbnail key={booking.booking_info.id} button
-            onPress={() => { console.log('not already exist booking_show') }}>
-            <Left>
-              <Thumbnail square source={{ uri: booking.booking_info.post_image }} />
-            </Left>
-            <Body>
-              <Text>{booking.booking_info.title}</Text>
-              <Text note numberOfLines={1} style={{ paddingVertical: 4 }}>
-                {booking.booking_info.start_at.split('T')[0]} ~
-                {booking.booking_info.end_at.split('T')[0]}
-              </Text>
-              <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원</Text>
-            </Body>
-          </ListItem>
-        )
-      }
-    })
-  }
-
-  makeCompletedList(bookings) {
-    return bookings.map((booking) => {
-      console.log('in completed list --------')
-      console.log(booking.booking_info.title)
-      if (booking.booking_info.acceptance === "completed") {
-        return (
-          <ListItem thumbnail key={booking.booking_info.id} button
-            onPress={() => { console.log('not already exist booking_show') }}>
-            <Left>
-              <Thumbnail square source={{ uri: booking.booking_info.post_image }} />
-            </Left>
-            <Body>
-              <Text>{booking.booking_info.title}</Text>
-              <Text note numberOfLines={1} style={{ paddingVertical: 4 }}>
-                {booking.booking_info.start_at.split('T')[0]} ~ {booking.booking_info.end_at.split('T')[0]}
-              </Text>
-              <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원</Text>
-            </Body>
-          </ListItem>
-        )
-      }
-    })
-  }
-
-  afterRequest() {
-    api
-      .get(`/bookings?received=true&status=after`, {
-        headers: {
-          'Authorization': this.state.token
-        }
-      })
-      .then((res) => {
-        console.log(res)
-        this.setState({ after_booking: res.data }, () => { })
-      })
-      .catch(function (e) {
-        console.log('send post failed!!!!' + e)
-        Alert.alert("요청 실패", e.response.data.error, [{ text: '확인', style: 'cancel' }])
-      })
-  } 
   
   providePostRequest() {
     api
@@ -149,30 +83,11 @@ class ProfileProvide extends Component {
           <Right></Right>
         </Header>
 
-        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#ff3377' }}>
-          <Tab heading="등록 상품" activeTextStyle={{ color: '#ff3377' }}>
-            <Content>
-              <List>
-                {this.renderPost(this.state.posts)}
-              </List>
-            </Content>
-          </Tab>
-          <Tab heading="대여 중" activeTextStyle={{ color: '#ff3377' }}>
-            <Content>
-              <List>
-                {this.makeRentList(this.state.after_booking)}
-              </List>
-            </Content>
-          </Tab>
-          <Tab heading="지난 대여" activeTextStyle={{ color: '#ff3377' }}>
-            <Content>
-              <List>
-                {this.makeCompletedList(this.state.after_booking)}
-              </List>
-            </Content>
-          </Tab>
-        </Tabs>
-
+        <Content>
+          <List>
+            {this.renderPost(this.state.posts)} 
+          </List>
+        </Content>
       </Container>
     );
   }

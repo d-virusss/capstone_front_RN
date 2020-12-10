@@ -61,7 +61,7 @@ class ProvideIndex extends Component {
             </Left>
             <Body style={{}}>
               <View style={{ flexDirection: 'row', width:'70%' }}>
-                <Text numberOfLines={1} style={{ marginBottom : 5, fontWeight:'bold'}}>{post.post_info.title}</Text>
+                <Text    style={{ marginBottom : 5, fontWeight:'bold'}}>{post.post_info.title}</Text>
                 <Text style={{  }} note numberOfLines={1}>{post.post_info.created_at_ago}</Text>
               </View>
               <View style={{ flexDirection: 'row', alignItems:'center', width:'50%' }}>
