@@ -91,7 +91,7 @@ class ProfileShow extends Component {
         )}>
         {!this.state.is_my_profile && <TouchableOpacity
           onPress={() => this.setState({ show_popover: false }, () => {
-            // this.props.navigation.navigate("SettingMyInfo", { post: posts })
+            this.props.navigation.navigate("PostUserReport", { post: posts })
           })}>
           <Text style={styles.popoverel}>신고하기</Text>
         </TouchableOpacity>}
@@ -101,6 +101,18 @@ class ProfileShow extends Component {
         </TouchableOpacity>}
       </Popover>
     )
+  }
+
+  reportUser(){
+    api.get('/reports?target_type={model_type}', {
+      headers:{
+
+      }
+    }).then((res)=> {
+
+    }).catch((err) => {
+
+    })
   }
 
   deleteUser() {
