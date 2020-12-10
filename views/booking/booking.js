@@ -233,6 +233,8 @@ class bookingScreen extends Component{
                 padding : 4,
                 marginBottom : '3%',
                 height: 80,
+                width: '100%',
+                justifyContent:'center'
               }}
               onPress = {() => {
                   Alert.alert("예약 신청", "예약을 신청하시겠습니까?", [

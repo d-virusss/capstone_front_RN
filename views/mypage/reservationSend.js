@@ -210,6 +210,8 @@ const styles = StyleSheet.create({
   },
   footerbutton: {
     marginTop: '2%',
+    width: '100%',
+    justifyContent: 'center',
   },
   footerText: {
     color: 'white',
