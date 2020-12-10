@@ -9,6 +9,7 @@ import {Text} from 'native-base';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/Ionicons'
 import Slider from '@react-native-community/slider'
+import Spinner from 'react-native-loading-spinner-overlay';
 import KAKAO_API_KEY from '../../key'
 
 IconM.loadFont()
@@ -176,6 +177,7 @@ class MypageScreen extends Component{
     { list: locationList[this.state.value].title, num : locationList[this.state.value].count })
   }
 
+  /*
   renderHeader(){
     if(myLocation == "null"){
       return(
@@ -210,7 +212,7 @@ class MypageScreen extends Component{
       )
     }
   }
-
+*/
   render(){
     console.log("enter location setting")
     if (this.state.loading == true) {
@@ -225,7 +227,21 @@ class MypageScreen extends Component{
     } //else
     return (
       <Container>
-        {this.renderHeader()}
+         <Header style={{
+          height: 60,
+          backgroundColor: '#f8f8f8',
+          justifyContent:'space-between'}}
+          androidStatusBarColor='#000'
+        >
+          <Left>
+            <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
+            <Icon name = 'chevron-back' type = 'Ionicons'/>
+            </TouchableOpacity>
+          </Left>
+          <Body><Title style={{color:'black',alignItems:'center'}}>동네 인증</Title></Body>
+          <Right></Right>
+        </Header>
+
         <Content scrollEnabled={false}>
           <View style={{alignItems:'center', textAlign:'center'}}>
             <Text/>

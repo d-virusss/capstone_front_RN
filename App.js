@@ -150,7 +150,7 @@ const App = () => {
           {/* mypage */}
           <Stack.Screen name="ProviderRentList" component={ProviderRentList} options={{ headerShown: false, }} />
           <Stack.Screen name="ConsumerRentList" component={ConsumerRentList} options={{ headerShown: false, }} />
-          <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{gestureEnabled: false, headerShown: false}}  />
+          <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{headerShown: false}}  />
           <Stack.Screen name="SettingGroup" component={SettingGroup} options={{ headerShown : false}} />
           <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{headerShown: false}}  />
           <Stack.Screen name="MyItemList" component={MyItemList} options={{ headerShown : false }} />
