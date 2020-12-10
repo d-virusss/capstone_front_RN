@@ -30,6 +30,8 @@ export default class CategoryPicker extends Component {
             mode="dropdown"
             iosIcon={<Icon type="AntDesign" name="down" />}
             placeholder="선택"
+            iosHeader="카테고리 선택"
+            headerBackButtonText="취소"
             placeholderStyle={{ color: "gray", }}
             placeholderIconColor="#007aff"
             selectedValue={this.state.selected}

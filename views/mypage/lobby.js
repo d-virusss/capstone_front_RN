@@ -111,24 +111,7 @@ class MypageScreen extends Component {
     })
   }
 
-  getFCMToken = async() =>{
-    let fcmToken = await AsyncStorage.getItem('fcmToken')
-    await api
-      .post('/users/add_device',
-        {
-          user:{
-            device_token: fcmToken
-          }
-        },
-        {
-          headers:{
-            'Authorization': this.state.token
-          }
-        }
-      )
-      .then((response)=>console.log(response))
-      .then((error)=>console.log(error))
-  }
+ 
   
   dropFCMToken = async() =>{
     let fcmToken = await AsyncStorage.getItem('fcmToken')
@@ -184,13 +167,6 @@ class MypageScreen extends Component {
             this.props.navigation.navigate('SettingGroup')
           })}>
           <Text style={styles.popoverel}>소속 인증</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => this.setState({ show_popover: false }, () => {
-            this.getFCMToken()
-          })}>
-          <Text style={styles.popoverel}>기기 인증 </Text>
         </TouchableOpacity>
 
         <TouchableOpacity

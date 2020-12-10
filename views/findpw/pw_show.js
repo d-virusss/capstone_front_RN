@@ -21,7 +21,12 @@ export default class FindPwShow extends Component {
   };
 
   changePw=async()=>{
-    await api
+    if(this.state.pw_confirm != this.state.pw){
+      return (
+        Alert.alert('비밀번호 오류',"비밀번호는 서로 일치해야합니다.",[{text:'확인',style:'cancel'}])
+      )
+    }else {
+      await api
             .put('users/reset',{
               user:{
                 for:'password',
@@ -42,6 +47,8 @@ export default class FindPwShow extends Component {
             .catch(error=>{
               Alert.alert('비밀번호 재설정 오류',error.response.data.error,[{text:'확인',style:'cancel'}])
             })
+    }
+    
   }
 
   componentDidMount(){

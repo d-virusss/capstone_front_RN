@@ -75,9 +75,9 @@ export default class PwInputCode extends Component {
         <Content>
           <Form>
             <Item floatingLabel>
-              <Label>이메일로 전송된 코드를 입력하세요</Label>
+              <Label>이메일로 전송된 코드를 입력하세요.</Label>
               <Input
-                placeholder='코드를 입력하세요'
+                placeholder='코드를 입력하세요.'
                 onChangeText={(text)=>this.state.code=text}
               />
             </Item>
@@ -86,7 +86,7 @@ export default class PwInputCode extends Component {
         <View style={styles.footer}>
           <Button transparent style={styles.footerbutton}
                 onPress={() => this.checkCodeInput()}>
-            <Text style={styles.footerText}>코드확인</Text>
+            <Text style={styles.footerText}>코드 확인</Text>
           </Button>
         </View>
       </Container>
