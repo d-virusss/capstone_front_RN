@@ -263,6 +263,8 @@ const styles = StyleSheet.create({
 		padding: 4,
 		marginBottom: '3%',
 		height: 80,
+		width: '100%',
+		justifyContent: 'center',
 	},
 	footerText: {
 		color: 'white',

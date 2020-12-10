@@ -295,7 +295,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   bottomButtons: {
-    marginTop: '2%'
+    marginTop: '2%',
+    width: '100%',
+    justifyContent: 'center',
   },
   footerText: {
     color:'white',
