@@ -6,8 +6,7 @@ import MyPage from '../mypage/lobby';
 import PostIndex from '../post/index'
 import ChatIndex from '../chat/chat_index';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
-import TouchableOpacity from 'react-native-gesture-handler';
-import Spinner from 'react-native-loading-spinner-overlay';
+
 import api from '../shared/server_address'
 import AsyncStorage from '@react-native-community/async-storage';
 

@@ -41,7 +41,7 @@ export default class FindPwShow extends Component {
             })
             .then(response=>{
               console.log(response)
-              Alert.alert('비밀번호 재설정 성공', '비밀번호 재설정에 성공했습니다!', [{text:'확인',style:'cancel'}])
+              Alert.alert('비밀번호 재설정 완료', '비밀번호를 재설정했습니다.', [{text:'확인',style:'cancel'}])
               this.props.navigation.navigate('Logins')
             })
             .catch(error=>{

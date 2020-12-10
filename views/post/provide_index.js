@@ -177,7 +177,7 @@ class ProvideIndex extends Component {
           <RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh}/>}>
-        <Spinner visible={this.state.loading} color="#ff3377"></Spinner>
+        <Spinner visible={this.state.loading} color="#ff3377"/>
         <Content>
           <List>{this.makeIndexList()}</List>
         </Content>

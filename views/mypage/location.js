@@ -219,7 +219,7 @@ class MypageScreen extends Component{
         <Container>
           <Header />
           <Content>
-            <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
+            <Spinner visible={this.state.loading} color="#ff3377" />
           </Content>
         </Container>
       );

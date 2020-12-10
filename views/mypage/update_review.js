@@ -35,7 +35,7 @@ class UpdateReviewScreen extends Component {
 		loading : true,
 		//for multi image
 		images: [],
-
+		saving : false,
 	}
 
 	getToken = async() => {
@@ -60,7 +60,7 @@ class UpdateReviewScreen extends Component {
 	}
 
 	putWriteReviewRequest(){ 
-		this.setState({loading : true})
+		this.setState({saving : true})
 		this.setInfo();
 		api.put(`/reviews/${this.state.review_id}`, formdata, {
 			headers: {
@@ -136,7 +136,7 @@ class UpdateReviewScreen extends Component {
 						<Right></Right>
 					</Header>
 				<Content>
-					<Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
+					<Spinner visible={this.state.loading} color="#ff3377" />
 				</Content>
 				</Container>
 				</TouchableWithoutFeedback>
@@ -158,9 +158,8 @@ class UpdateReviewScreen extends Component {
 						</Left>
 						<Body><Title style={{color:'black', alignSelf:'center'}}>리뷰 수정</Title></Body>
 					</Header>
+					<Spinner visible={this.state.saving} color="#ff3377" />
 					<Content>
-		
-
 					<ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
 							<Left>
 								<Thumbnail square source={{ uri: this.state.post_image }} />
