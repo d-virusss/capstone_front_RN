@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {StyleSheet, Alert} from 'react-native';
+import {StyleSheet, Alert, ViewPagerAndroid} from 'react-native';
 import React, { Component, ReactElement } from 'react';
 import {Icon, Text, Badge} from 'native-base'
 import MyPage from '../mypage/lobby';
@@ -9,7 +9,6 @@ import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import TouchableOpacity from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 import api from '../shared/server_address'
-import _ from 'lodash';
 import AsyncStorage from '@react-native-community/async-storage';
 
 IconM.loadFont();
@@ -27,30 +26,52 @@ class TabScreen extends Component {
 
   getTotalChat = async () => {
     total_unchecked = 0
-    console.log('chat index request ---------------')
     token = await AsyncStorage.getItem('token');
-    await api
-      .get(`/chats`, 
+    await api.get(`/chats/count`, 
       { 
         headers : {
           'Authorization': token,
         }
       })
       .then((response) => {
-        console.log('chat index request done --------------------')
-        chats = response.data
-        console.log(chats)
-        _.each(chats, (chat) => {
-          total_unchecked += chat.chat_info.num_unchecked;
-        })
+        total_unchecked = response.data
+       
         this.setState({loading : false})
       })
       .catch(function(e) {
-        Alert.alert("접근 실패", "로그인 정보를 확인해주세요.",
+        console.log(e.response.data.code)
+        let errMessage = "";
+        let page = "";
+
+        switch (e.response.data.code){
+          case 0 :
+            errMessage = "로그인 세션이 만료됐습니다."
+            page = "Logins"
+            break;
+          case 1 :
+            errMessage = "로그인이 필요합니다."
+            page = "Logins"
+            break;
+          case 2 :
+            AsyncStorage.setItem('my_location',String(null));
+            errMessage = "동네 인증이 만료됐습니다."
+            page = "MyPage_Location";
+            break;
+          case 3 :
+            errMessage = "로그인이 필요합니다."
+            page = "Logins"
+            break;
+          default : 
+            errMessage = e.response.data.error;
+            page = "Logins"
+            break;
+        }
+
+        Alert.alert("접근 실패", errMessage,
           [
             {
             text:'확인', 
-            onPress : () => this.props.navigation.navigate("Logins")
+            onPress : () => this.props.navigation.navigate(page)
             }, 
             {
               style:'cancel'
@@ -87,7 +108,7 @@ class TabScreen extends Component {
               }}/>
     
     
-          <Tab.Screen name="Chat" children={()=><ChatIndex navigation={this.props.navigation} chat_data={chats} getTotalChat={this.getTotalChat}/>}
+          <Tab.Screen name="Chat" children={()=><ChatIndex navigation={this.props.navigation} getTotalChat={this.getTotalChat}/>}
             options={{
               tabBarLabel:"채팅",
               tabBarIcon: ({focused, color}) => {

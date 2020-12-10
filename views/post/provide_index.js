@@ -91,7 +91,7 @@ class ProvideIndex extends Component {
   }
 
   sendIndexRequest() {
-    if(searchModel.id == 0){
+    if(searchModel.id == 0){ //default
       api
       .get('/posts?post_type=provide', {
         headers: {
@@ -107,8 +107,8 @@ class ProvideIndex extends Component {
       })
       .catch(function (e) {
         console.log(e.response);
-     
-        Alert.alert("접근 실패", "로그인 정보를 확인해주세요.",
+        this.setState({loading : false});
+        Alert.alert("접근 실패", e.response.data.error,
           [
             {
             text:'확인', 
@@ -138,7 +138,8 @@ class ProvideIndex extends Component {
         })
         .catch(function (e) {
           console.log('send post failed!!!!' + e);
-          Alert.alert("접근 실패", "로그인 정보를 확인해주세요.",
+          this.setState({loading : false});
+          Alert.alert("접근 실패", e.data.response.error,
           [
             {
             text:'확인', 

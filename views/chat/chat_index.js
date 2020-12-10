@@ -67,7 +67,7 @@ class ListProfile extends Component {
   }
 }
 
-function ChatList ({ navigation, chat_data, getTotalChat }){
+function ChatList ({ navigation, getTotalChat }){
   
   console.log("enter chatlist -----------------")
   console.log(chat_data)
