@@ -103,8 +103,7 @@ class MypageScreen extends Component{
   putRequest = async() =>  {  
     user_addr.location.range = this.state.value;
     console.log("puterquest-------------------------")
-    api
-      .put('/locations/certificate', user_addr, {
+    api.put('/locations/certificate', user_addr, {
         headers: {
           Authorization: token_value,
         },
@@ -220,7 +219,7 @@ class MypageScreen extends Component{
         <Container>
           <Header />
           <Content>
-            <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
+            <Spinner visible={this.state.loading} color="#ff3377" />
           </Content>
         </Container>
       );
@@ -317,6 +316,8 @@ const styles = StyleSheet.create({
     padding: 4,
     marginBottom: '3%',
     height: 80,
+    width: '100%',
+    justifyContent: 'center',
   },
   footerText: {
     color:'white',

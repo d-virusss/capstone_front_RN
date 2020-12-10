@@ -91,7 +91,7 @@ export default class PwInputCode extends Component {
             <Item floatingLabel>
             {this.labelText()}
               <Input
-                placeholder='코드를 입력하세요'
+                placeholder='코드를 입력하세요.'
                 onChangeText={(text)=>this.state.code=text}
               />
             </Item>
@@ -100,7 +100,7 @@ export default class PwInputCode extends Component {
         <View style={styles.footer}>
           <Button transparent style={styles.footerbutton}
                 onPress={() => this.checkCodeInput()}>
-            <Text style={styles.footerText}>코드확인</Text>
+            <Text style={styles.footerText}>코드 확인</Text>
           </Button>
         </View>
       </Container>
@@ -124,6 +124,8 @@ const styles = StyleSheet.create({
     padding: 4,
     marginBottom: '3%',
     height: 80,
+    width: '100%',
+    justifyContent: 'center',
   },
   footerText: {
     color: 'white',

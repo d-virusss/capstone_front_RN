@@ -111,6 +111,7 @@ export default class FindPwScreen extends Component {
             <Item floatingLabel>
                 <Label>이메일</Label>
                 <Input autoCapitalize='none'
+                  keyboardType="email-address"
                   placeholder="아이디를 입력하세요"
                   onChangeText={(text)=>{this.state.email=text}}
                 />

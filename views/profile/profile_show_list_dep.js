@@ -46,7 +46,7 @@ class UserListIndex extends Component{
       }})
       .then(function(response) {
         console.log('success');
-        this.props.navigation.navigate('PostShow', { post: response.data })
+        this.props.navigation.push('PostShow', { post: response.data })
       }.bind(this))
       .catch((err) => {
         console.log("err : ", err)

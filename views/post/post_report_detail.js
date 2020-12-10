@@ -117,7 +117,7 @@ class ReportDetail extends Component {
         
         </Header>
 
-        <Spinner visible={this.state.loading} style={{ color: '#ff3377'}} />
+        <Spinner visible={this.state.loading} color="#ff3377" />
 
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <KeyboardAvoidingView style={styles.screen}>
@@ -129,15 +129,16 @@ class ReportDetail extends Component {
                 value={this.state.body}
               ></TextInput>
             </View>
+
+            <View style={styles.footer}>
+              <Button transparent style={styles.footerbutton}
+                onPress={() => this.ReportRequest()}>
+                <Text style={styles.footerText}>신고하기</Text>
+              </Button>
+            </View>
+
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
-
-        <View style={styles.footer}>
-          <Button transparent style={styles.footerbutton}
-            onPress={() => this.ReportRequest()}>
-            <Text style={styles.footerText}>신고하기</Text>
-          </Button>
-        </View>
 
       </Container>
     );
@@ -159,6 +160,8 @@ const styles = StyleSheet.create({
     padding: 4,
     marginBottom: '3%',
     height: 80,
+    width: '100%',
+    justifyContent: 'center',
   },
   footerText: {
     color: 'white',

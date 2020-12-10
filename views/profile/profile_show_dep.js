@@ -97,7 +97,7 @@ function profileShow({route, navigation}){
            }}>{profile_location} 인증됨
            </Text>
           </View>
-          <TouchableOpacity onPress = {() => navigation.navigate('ProfileShowList',
+          <TouchableOpacity onPress = {() => navigation.push('ProfileShowList',
             {
               profile_id : profile_id, profile_nickname: profile_nickname,
             }

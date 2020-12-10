@@ -211,22 +211,23 @@ class LoginScreen extends Component {
                 borderWidth={5}
                 borderRadius={5}
                 width="100%"
-                height="100%"
-                fontWeight="bold"
+                height={43}
+                fontWeight="500"
+                fontSize={17}
                 onPress={() => {console.log(userinfo); this.makeRequest()}}
               />
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>
-            <AppleButton
-                buttonStyle={AppleButton.Style.BLACK}
-                buttonType={AppleButton.Type.SIGN_IN}
-                style={{
-                  width: '100%', // You must specify a width
-                  height: '100%', // You must specify a height
-                  fontWeight: 'bold',
-                }}
-                onPress={() => this.props.navigation.navigate('AppleLogin')}
-              />
+              <AppleButton
+                  buttonStyle={AppleButton.Style.BLACK}
+                  buttonType={AppleButton.Type.SIGN_IN}
+                  style={{
+                    width: '100%', // You must specify a width
+                    height: '100%', // You must specify a height
+                    fontWeight: 'bold',
+                  }}
+                  onPress={() => this.props.navigation.navigate('AppleLogin')}
+                />
               
             </View>
             
@@ -240,8 +241,9 @@ class LoginScreen extends Component {
                 borderWidth={5}
                 borderRadius={5}
                 width="100%"
-                height="100%"
-                fontWeight="bold"
+                height={43}
+                fontWeight="500"
+                fontSize={17}
                 onPress={() => this.props.navigation.navigate('KakaoLogin')}
               /> 
             </View>
@@ -252,8 +254,9 @@ class LoginScreen extends Component {
                 titleColor="black"
                 buttonColor="white"
                 width="100%"
-                height="100%"
-                fontWeight="bold"
+                height={43}
+                fontWeight="500"
+                fontSize={17}
                 onPress={() => this.props.navigation.navigate('Register')}
               />
             </View>

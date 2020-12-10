@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import { StyleSheet, View, Alert, TouchableOpacity, Button as NativeButton,  Dimensions, TextInput,
-  Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView} from 'react-native';
+  Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, 
-  Left, Right, Body, Title, Icon, Button, Text} from 'native-base';
+  Left, Right, Body, Title, Icon, Button, Text } from 'native-base';
 import api from '../shared/server_address';
+import { CheckBox } from 'react-native-elements'
 import Fire from '../shared/Fire';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 var {Height, Width} = Dimensions.get('window');
@@ -36,6 +38,10 @@ export default class RegistrationScreen extends React.Component {
   number : '',
   auth : false,
   code:'',
+  private_information_agree : false,
+  service_rule_agree : false,
+  location_agree : false,
+  saving : false,
  };
 
   authRequest(){
@@ -84,7 +90,7 @@ authCodeRequest(){
  renderSubmitButton(){
   if(this.is_input_idle(this.state.number)){
     return (
-      <Button bordered style={{ borderColor: '#aaaaaa'}} disabled>
+      <Button bordered style={{ borderColor: '#aaaaaa',  }} disabled>
         <Text style={{ color: '#aaaaaa', fontWeight:'bold'  }}>인증</Text>
       </Button>
     )
@@ -92,7 +98,7 @@ authCodeRequest(){
   else{
     if(this.state.code == "success"){
       return(
-        <Button NativeButton style={{ backgroundColor: '#aaaaaa' }} disabled>
+        <Button NativeButton style={{ backgroundColor: '#aaaaaa',  }} disabled>
           <Text style={{ color: 'white',fontWeight:'bold'}}>인증</Text>
         </Button>
       )
@@ -126,7 +132,7 @@ renderAuthCodeForm(){
         <View style={styles.codeForm}>
           <TextInput style={styles.keywordArea}
             placeholder='인증번호를 입력해주세요.'
-            autoCapitalize='none'
+            keyboardType='numeric'
             onChangeText={(text) => this.setState({code : text})}
             editable={this.state.code == "success" ? "false" : "true"}
             />
@@ -135,7 +141,6 @@ renderAuthCodeForm(){
       </View>
     )
   }else{
-    console.log("fail")
     return null;
   }
 }
@@ -166,20 +171,18 @@ AuthCodeSubmit() {
   
 }
   registrationRequest = async () => {
+    
       if(this.state.code != "success"){
         Alert.alert("가입 실패", "핸드폰 인증이 필요합니다.", [{text:'확인'},{style:'cancel'}])
         return;
       }
+
+      this.setState({saving : true});
       this.makeForm()
       console.log("token")
-      console.log(user_obj.user.device_token)
-      api
-      .post('/users/sign_up', user_obj)
+
+      api.post('/users/sign_up', user_obj)
       .then(async (res) =>  {
-        user_obj.user.device_token = await AsyncStorage.getItem('fcmToken');
-        console.log(res);
-        //await Fire.createUser(user_obj.user);
-        console.log('send data for registration');
         Alert.alert("모두나눔 가입 완료", "회원가입이 완료되었습니다.",[
           {
             text:'확인', 
@@ -191,12 +194,11 @@ AuthCodeSubmit() {
         ])
       })
       .catch((err) =>  {
-        console.log('fail to register');
         console.log(err.response.data.error)
         Alert.alert("가입 실패", err.response.data.error,[
           {
             text:'확인', 
-            onPress: () => {}
+            onPress: () => {this.props.navigation.goBack()}
           },
           {
             style:'cancel'
@@ -219,74 +221,113 @@ AuthCodeSubmit() {
           <Body><Title>회원가입</Title></Body>
           <Right></Right>
         </Header>
+        
+        <ScrollView style={{ marginBottom: '24%' }}>
+        <Spinner visible={this.state.saving} color="#ff3377" />
         <Content>
-          <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <KeyboardAvoidingView>
             <Form>
-            {/* email */}
-              <Item floatingLabel>
-                  <Label>이메일</Label>
-                  <Input
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  onChangeText = {(eMail) => { this.state.email = eMail}}/>
-              </Item>
+              {/* email */}
+                <Item floatingLabel>
+                    <Label>이메일</Label>
+                    <Input
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    onChangeText = {(eMail) => { this.state.email = eMail}}/>
+                </Item>
 
-                {/* pw */}
-              <Item floatingLabel>
-                <Label>비밀번호</Label>
-                <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
-                  onChangeText = {(pw) => {this.state.password = pw;}}/>
-              </Item>
+                  {/* pw */}
+                <Item floatingLabel>
+                  <Label>비밀번호</Label>
+                  <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
+                    onChangeText = {(pw) => {this.state.password = pw;}}/>
+                </Item>
 
-              <Item floatingLabel>
-                <Label>비밀번호 확인</Label>
-                <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
-                  onChangeText={(pw_confirmation) => {this.state.password_confirmation = pw_confirmation}}/>
-              </Item>
+                <Item floatingLabel>
+                  <Label>비밀번호 확인</Label>
+                  <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
+                    onChangeText={(pw_confirmation) => {this.state.password_confirmation = pw_confirmation}}/>
+                </Item>
 
 
-              <Item floatingLabel>
-                <Label>이름(실명)</Label>
-                <Input autoCapitalize="none"
-                  onChangeText = {(text) => {this.state.name = text }}
-                />
-              </Item>
+                <Item floatingLabel>
+                  <Label>이름(실명)</Label>
+                  <Input autoCapitalize="none"
+                    onChangeText = {(text) => {this.state.name = text }}
+                  />
+                </Item>
 
-              {/* nickname */}
-              <Item floatingLabel>
-                <Label>닉네임</Label>
-                <Input autoCapitalize="none"
-                  onChangeText = {(name) => {this.state.nickname = name }}
-                />
-              </Item>
+                {/* nickname */}
+                <Item floatingLabel>
+                  <Label>닉네임</Label>
+                  <Input autoCapitalize="none"
+                    onChangeText = {(name) => {this.state.nickname = name }}
+                  />
+                </Item>
 
-              <Item floatingLabel>
-                <Label>생일 ex) 19960827</Label>
-                <Input autoCapitalize="none"
-                  onChangeText = {(birthday) => {this.state.birthday = birthday }}
-                />
-              </Item>
+                <Item floatingLabel>
+                  <Label>생일 ex) 19960827</Label>
+                  <Input autoCapitalize="none"
+                    onChangeText = {(birthday) => {this.state.birthday = birthday }}
+                  />
+                </Item>
 
-              <Content scrollEnabled={false}>
-                <Text style={styles.textForm}>SMS 인증</Text>
-                <View style={styles.inputForm}>
-                  <TextInput style={styles.keywordArea}
-                    ref={(input) => { this.textInput = input }}
-                    placeholder='연락처 ex) 01012345678'
-                    autoCapitalize='none'
-                    onChangeText={(text) => this.setState({number : text})}
-                    editable={this.state.code == "success" ? "false" : "true"}
-                    />
-                    {this.renderSubmitButton()}
+                <Content scrollEnabled={false}>
+                  <Text style={styles.textForm}>SMS 인증</Text>
+                  <View style={styles.inputForm}>
+                    <TextInput style={styles.keywordArea}
+                      ref={(input) => { this.textInput = input }}
+                      placeholder='연락처 ex) 01012345678'
+                      autoCapitalize='none'
+                      onChangeText={(text) => this.setState({number : text})}
+                      editable={this.state.code == "success" ? "false" : "true"}
+                      />
+                      {this.renderSubmitButton()}
+                  </View>
+                  {this.renderAuthCodeForm()}
+                </Content>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <CheckBox
+                    checked={this.state.private_information_agree}
+                    onPress={() => this.setState({ private_information_agree: !this.state.private_information_agree })}
+                    checkedColor='#ff3377'
+                  />
+                  <TouchableOpacity onPress={() => { console.log("sadfads") }}>
+                    <Text style={{ textDecorationLine: 'underline' }} >개인정보 처리방침</Text>
+                  </TouchableOpacity>
+                  <Text>에 동의합니다.</Text>
                 </View>
-                {this.renderAuthCodeForm()}
-              </Content>
 
-            </Form>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <CheckBox
+                    checked={this.state.service_rule_agree}
+                    onPress={() => this.setState({ service_rule_agree: !this.state.service_rule_agree })}
+                    checkedColor='#ff3377'
+                  />
+                  <TouchableOpacity onPress={() => { console.log("sadfads") }}>
+                    <Text style={{ textDecorationLine: 'underline' }} >서비스 이용약관</Text>
+                  </TouchableOpacity>
+                  <Text>에 동의합니다.</Text>
+                </View>
+
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <CheckBox
+                    checked={this.state.location_agree}
+                    onPress={() => this.setState({ location_agree: !this.state.location_agree })}
+                    checkedColor='#ff3377'
+                  />
+                  <TouchableOpacity onPress={() => { console.log("sadfads") }}>
+                    <Text style={{ textDecorationLine: 'underline' }} >위치기반서비스 이용약관</Text>
+                  </TouchableOpacity>
+                  <Text>에 동의합니다.</Text>
+                </View>
+              </Form>
+
             </KeyboardAvoidingView>
           </TouchableWithoutFeedback>
         </Content>
+        </ScrollView>
         <View style={styles.footer}>
           <Button transparent style={ styles.footerbutton }
             onPress={() => this.registrationRequest()}>
@@ -307,12 +348,15 @@ const styles = StyleSheet.create({
     height: '9%',
     position: 'absolute',
     bottom: -5,
+    flex: 1,
   },
   footerbutton: {
     alignSelf: 'center',
     padding: 4,
     marginBottom: '3%',
     height: 80,
+    width: '100%',
+    justifyContent: 'center',
   },
   footerText: {
     color: 'white',
@@ -329,7 +373,7 @@ const styles = StyleSheet.create({
   textForm : {
     width : '100%',
     paddingHorizontal: '4%',
-    marginTop: '5%',
+    marginTop: '6%',
     marginBottom: '-1%',
     alignItems : 'center',
     color :'#666666'
@@ -351,13 +395,13 @@ const styles = StyleSheet.create({
     padding : '3%'
   },
   keywordArea : {
-    width : '83%',
+    width : '80%',
     fontSize : 17,
     borderWidth : 1,
     borderRadius : 5,
     borderColor : '#aaaaaa',
     padding: '3%',
-    marginRight : '3%'
+    marginRight : '3%',
   },
 });
 

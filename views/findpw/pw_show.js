@@ -21,7 +21,12 @@ export default class FindPwShow extends Component {
   };
 
   changePw=async()=>{
-    await api
+    if(this.state.pw_confirm != this.state.pw){
+      return (
+        Alert.alert('비밀번호 오류',"비밀번호는 서로 일치해야합니다.",[{text:'확인',style:'cancel'}])
+      )
+    }else {
+      await api
             .put('users/reset',{
               user:{
                 for:'password',
@@ -36,12 +41,14 @@ export default class FindPwShow extends Component {
             })
             .then(response=>{
               console.log(response)
-              Alert.alert('비밀번호 재설정 성공', '비밀번호 재설정에 성공했습니다!', [{text:'확인',style:'cancel'}])
+              Alert.alert('비밀번호 재설정 완료', '비밀번호를 재설정했습니다.', [{text:'확인',style:'cancel'}])
               this.props.navigation.navigate('Logins')
             })
             .catch(error=>{
               Alert.alert('비밀번호 재설정 오류',error.response.data.error,[{text:'확인',style:'cancel'}])
             })
+    }
+    
   }
 
   componentDidMount(){
@@ -115,6 +122,8 @@ const styles = StyleSheet.create({
     padding: 4,
     marginBottom: '3%',
     height: 80,
+    width: '100%',
+    justifyContent: 'center',
   },
   footerText: {
     color: 'white',
