@@ -235,7 +235,7 @@ class PostUpdate extends Component {
                   onChangeText={(text) => this.changedata(text, "price")}
                   value={this.state.price} />
               </Item>
-              <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요" autoCapitalize='none'
+              <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요." autoCapitalize='none'
                 onChangeText={(text) => this.changedata(text, "body")}
                 style={styles.textAreaContainer}
                 value={this.state.body} />

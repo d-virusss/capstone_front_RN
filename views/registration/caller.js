@@ -126,7 +126,7 @@ renderAuthCodeForm(){
         <View style={styles.codeForm}>
           <TextInput style={styles.keywordArea}
             placeholder='인증번호를 입력해주세요.'
-            autoCapitalize='none'
+            keyboardType='numeric'
             onChangeText={(text) => this.setState({code : text})}
             editable={this.state.code == "success" ? "false" : "true"}
             />
@@ -225,7 +225,7 @@ AuthCodeSubmit() {
             <Form>
             {/* email */}
               <Item floatingLabel>
-                  <Label>이메일</Label>
+                  <Label>이메일 *</Label>
                   <Input
                   keyboardType="email-address"
                   autoCapitalize="none"
@@ -234,13 +234,13 @@ AuthCodeSubmit() {
 
                 {/* pw */}
               <Item floatingLabel>
-                <Label>비밀번호</Label>
+                <Label>비밀번호 *</Label>
                 <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
                   onChangeText = {(pw) => {this.state.password = pw;}}/>
               </Item>
 
               <Item floatingLabel>
-                <Label>비밀번호 확인</Label>
+                <Label>비밀번호 확인 *</Label>
                 <Input placeholder="password" secureTextEntry={true} autoCapitalize="none"
                   onChangeText={(pw_confirmation) => {this.state.password_confirmation = pw_confirmation}}/>
               </Item>
@@ -255,7 +255,7 @@ AuthCodeSubmit() {
 
               {/* nickname */}
               <Item floatingLabel>
-                <Label>닉네임</Label>
+                <Label>닉네임 *</Label>
                 <Input autoCapitalize="none"
                   onChangeText = {(name) => {this.state.nickname = name }}
                 />
@@ -263,18 +263,18 @@ AuthCodeSubmit() {
 
               <Item floatingLabel>
                 <Label>생일 ex) 19960827</Label>
-                <Input autoCapitalize="none"
+                <Input keyboardType='numeric'
                   onChangeText = {(birthday) => {this.state.birthday = birthday }}
                 />
               </Item>
 
               <Content scrollEnabled={false}>
-                <Text style={styles.textForm}>SMS 인증</Text>
+                <Text style={styles.textForm}>SMS 인증 *</Text>
                 <View style={styles.inputForm}>
                   <TextInput style={styles.keywordArea}
                     ref={(input) => { this.textInput = input }}
                     placeholder='연락처 ex) 01012345678'
-                    autoCapitalize='none'
+                    keyboardType='numeric'
                     onChangeText={(text) => this.setState({number : text})}
                     editable={this.state.code == "success" ? "false" : "true"}
                     />
