@@ -129,15 +129,16 @@ class ReportDetail extends Component {
                 value={this.state.body}
               ></TextInput>
             </View>
+
+            <View style={styles.footer}>
+              <Button transparent style={styles.footerbutton}
+                onPress={() => this.ReportRequest()}>
+                <Text style={styles.footerText}>신고하기</Text>
+              </Button>
+            </View>
+
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
-
-        <View style={styles.footer}>
-          <Button transparent style={styles.footerbutton}
-            onPress={() => this.ReportRequest()}>
-            <Text style={styles.footerText}>신고하기</Text>
-          </Button>
-        </View>
 
       </Container>
     );
