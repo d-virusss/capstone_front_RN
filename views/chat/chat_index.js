@@ -70,7 +70,7 @@ class ListProfile extends Component {
 function ChatList ({ navigation, getTotalChat }){
   
   console.log("enter chatlist -----------------")
-  console.log(chat_data)
+
   const [chats, setChats] = useState([]);
   const [refreshing, setRefresh] = useState();
   const [unchecked, setUnchecked] = useState();
