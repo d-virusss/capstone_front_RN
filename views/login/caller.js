@@ -74,11 +74,11 @@ class LoginScreen extends Component {
     
           if (response.data.location_auth != null) {// already has location
             //await Fire.signIn(userinfo.user);
-            this.props.navigation.navigate('Main')
+            this.props.navigation.push('Main')
           }
           else {
             //await Fire.signIn(userinfo.user);
-            this.props.navigation.navigate('MyPage_Location')
+            this.props.navigation.push('MyPage_Location')
           }
           //this.addUserIDtoDB(response.data.id);
         })

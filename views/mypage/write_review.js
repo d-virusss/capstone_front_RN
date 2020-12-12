@@ -145,7 +145,7 @@ class WriteReviewScreen extends Component {
 						onFinishRating={this.raitingCompleted}
 						style={{ paddingVertical: 10 }}/>
 				
-					<Card>
+					<Card style={{marginLeft : 10, marginRight : 10}}>
 						<CardItem>
 							<ScrollView>
 								<Body>

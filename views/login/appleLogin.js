@@ -38,10 +38,10 @@ class AppleLoginScreen extends Component {
     })
 
     if (res.location_auth != '') {// already has location
-      this.props.navigation.navigate('Main')
+      this.props.navigation.push('Main')
       AsyncStorage.setItem('my_location', res.location_auth);
     } else {
-      this.props.navigation.navigate('MyPage_Location')
+      this.props.navigation.push('MyPage_Location')
       AsyncStorage.setItem('my_location', String(null));
     }
     
