@@ -162,11 +162,11 @@ class receiveScreen extends Component{
       if(reservation_info.booking.acceptance === 'waiting'){
         return (
           <Footer style={styles.footer}>
-            <Button transparent style={styles.bottomButtons}
+            <Button transparent style={styles.acceptButton}
               onPress={() => { this.accept() }}>
               <Text style={styles.footerText}>승인</Text>
             </Button>
-            <Button transparent style={styles.bottomButtons}
+            <Button transparent style={styles.rejectButton}
               onPress={() => { this.reject() }}>
               <Text style={styles.footerText}>거절</Text>
             </Button>
@@ -312,6 +312,16 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '6%',
     flexDirection: 'row',
+  },
+  acceptButton: {
+    marginTop: '2%',
+    width: '50%',
+    justifyContent: 'center',
+  },
+  rejectButton: {
+    marginTop: '2%',
+    width: '50%',
+    justifyContent: 'center',
   }
  });
 
