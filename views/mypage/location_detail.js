@@ -34,7 +34,7 @@ class LocationDetailScreen extends Component{
                     <Icon name = 'chevron-back' type = 'Ionicons'/>
                   </TouchableOpacity>
                 </Left>
-                <Body><Title style={{color:'black',alignSelf:'center'}}>근처 동네 {num}개</Title></Body>
+                    <Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>근처 동네 {num}개</Title></Body>
                 <Right/>
             </Header>
             <Content>

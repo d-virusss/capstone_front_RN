@@ -114,7 +114,7 @@ class ReportDetail extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>신고사유 작성</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>신고사유 작성</Title></Body>
           <Right></Right>
         
         </Header>

@@ -119,8 +119,8 @@ class receiveScreen extends Component{
       },
     })
       .then((res) => {
+        console.log("reservationReceive ---- getUserInfo")
         console.log(res)
-        console.log(res.data.user_info.name)
         if(res.data.user_info.name === null ||
           res.data.user_info.birthday === null ||
           res.data.user_info.number === null){
@@ -173,12 +173,7 @@ class receiveScreen extends Component{
         return (
           <Footer style={styles.footer}>
             <Button transparent style={styles.bottomButtons}
-              onPress={() => { this.props.navigation.navigate("Sign", 
-              { booking_info: booking_info, who: 'provider' });
-            }}
-              onPress={() => {
-                this.getUserInfo()
-              }}
+              onPress={() => { this.getUserInfo() }}
             >
               <Text style={styles.footerText}>서명하기</Text>
             </Button>
@@ -240,7 +235,7 @@ class receiveScreen extends Component{
       return (
         <TouchableOpacity onPress={() => this.showBookingDate(ele.booking_info)}>
           <ListItem key={ele.booking_info.id}>
-            <Thumbnail source={{ uri: ele.booking_info.post_image }} />
+            <Thumbnail source={ele.booking_info.post_image=='/image/default.png' ? require('../../assets/default.png') : { uri: ele.booking_info.post_image }} />
             <Body>
               <Text>{ele.booking_info.title}</Text>
               <View style={{ flexDirection: 'row' }}>
@@ -307,7 +302,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   disabledfooter: {
-    backgroundColor: '#dddddd',
+    backgroundColor: '#999999',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',

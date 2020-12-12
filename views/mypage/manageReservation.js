@@ -33,7 +33,7 @@ class reservationScreen extends Component{
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>예약 관리</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>예약 관리</Title></Body>
           <Right>
             <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
               <Icon name = 'refresh' type = 'Ionicons'/>

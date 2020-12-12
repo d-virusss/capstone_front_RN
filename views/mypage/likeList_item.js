@@ -71,7 +71,7 @@ class LikeListItemScreen extends Component {
         <ListItem thumbnail key={ele.like_info.id} button
           onPress={() => this.props.navigation.push('PostShow', { post_id : ele.like_info.target_id })}>
           <Left>
-            <Thumbnail square source={{ uri: ele.like_info.post_image }} />
+            <Thumbnail square source={ele.like_info.post_image=='/image/default.png' ? require('../../assets/default.png') : {uri: ele.like_info.post_image }} />
           </Left>
           <Body>
             <Text>{ele.like_info.title}</Text>

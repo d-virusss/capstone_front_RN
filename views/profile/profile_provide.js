@@ -53,7 +53,7 @@ class ProfileProvide extends Component {
         <ListItem thumbnail key={post.post_info.id} button
           onPress={() => this.props.navigation.push('PostShow', { post_id: post.post_info.id })}>
           <Left>
-            <Thumbnail square source={{ uri: post.post_info.image }} />
+            <Thumbnail square source={post.post_info.image=='/image/default.png' ? require('../../assets/default.png') :{ uri: post.post_info.image }} />
           </Left>
           <Body>
             <Text>{post.post_info.title}</Text>
@@ -79,7 +79,7 @@ class ProfileProvide extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>등록한 물품</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>등록한 물품</Title></Body>
           <Right></Right>
         </Header>
 

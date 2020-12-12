@@ -135,7 +135,7 @@ class ProviderRentList extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>빌린 물품</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>빌린 물품</Title></Body>
           <Right></Right>
         </Header>
 

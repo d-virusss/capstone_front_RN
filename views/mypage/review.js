@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, Alert, ScrollView, StyleSheet,} from 'react-native';
+import {Text, TouchableOpacity, Alert, ScrollView, StyleSheet, View} from 'react-native';
 import {Container, Card, CardItem, Thumbnail, Content,
-     Header, Left, Right, Icon, Body, Title} from 'native-base';
+     Header, Left, Right, Icon, Body, Title, Badge} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import {Rating} from 'react-native-elements'
@@ -63,7 +63,7 @@ class ReviewScreen extends Component {
 				<Card style={{flex: 0, marginTop: '5%'}}>
 					<CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}
 					button onPress={() => {this.changeReview(ele.review_info)}}>
-						<Thumbnail source={{uri: ele.review_info.post_image}} />
+						<Thumbnail source={ele.review_info.post_image=='/image/default.png' ? require('../../assets/default.png') :{uri: ele.review_info.post_image}} />
 							<Body style={{marginLeft : '5%'}}>
 								<Title style={{color:'black'}}>{ele.review_info.post_title}</Title>
 								<Text> {ele.review_info.created_at}</Text>
@@ -85,7 +85,19 @@ class ReviewScreen extends Component {
               sliderBoxHeight={200}
               inactiveDotColor="#ffccdd"
               dotColor="#ff3377" />
-              <Text>{ele.review_info.body}</Text>
+							<Text>{ele.review_info.body}</Text>
+							<View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
+								<TouchableOpacity style={{ marginRight: '2%' }}>
+									<Badge style={{ backgroundColor: '#edc72f' }}> 
+										<Text style={styles.badgeText}>수정하기</Text> 
+									</Badge>
+								</TouchableOpacity>
+								<TouchableOpacity>
+									<Badge> 
+										<Text style={styles.badgeText}>삭제하기</Text> 
+									</Badge>
+								</TouchableOpacity>
+							</View>
             </ScrollView >
           </CardItem>
 				</Card>
@@ -124,8 +136,12 @@ class ReviewScreen extends Component {
 				onPress: () => this.props.navigation.navigate('UpdateReview', {posts : posts})
 			},
 			{
-				text : '취소',
-				style : 'cancel',
+				text: '리뷰 삭제',
+				onPress: () => this.deleteRequest(posts.review_id)
+			},
+			{
+				text: '취소',
+				style: 'cancel'
 			}
 		]) 
 	}
@@ -153,7 +169,7 @@ class ReviewScreen extends Component {
 							<Icon name = 'chevron-back' type = 'Ionicons'/>
 							</TouchableOpacity>
 						</Left>
-						<Body><Title style={{color:'black',alignSelf:'center'}}>작성한 리뷰</Title></Body>
+						<Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>작성한 리뷰</Title></Body>
 						<Right>
 							<TouchableOpacity transparent onPress = {() => this.onRefresh()}>
 								<Icon name = 'refresh' type = 'Ionicons'/>
@@ -178,6 +194,10 @@ const styles = StyleSheet.create({
     height: 200,
     marginLeft : -60,
     alignSelf: 'center',
-  },
+	},
+	badgeText: {
+		color: 'white',
+		fontWeight: 'bold'
+	}
 })
 export default ReviewScreen;

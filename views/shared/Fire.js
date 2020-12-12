@@ -84,13 +84,13 @@ class Fire{
     let {user, text, timestamp, sender, chat} = message.val()
     const {key: _id} = message;
     const createdAt = new Date(timestamp);
-    if(sender === this.state.sender_id){
+    if(this.state.sender_id === sender){
       user._id = 1;
     }
     else {
       user._id = 2;
-      this.state.other_id=sender;
-      user.avatar = this.state.avatar;
+      this.state.other_id = sender;
+      user.avatar = this.state.avatar=="/image/default.png" ? require("../../assets/default.png") : this.state.avatar;
     }
     if(chat === this.state.chat_id){
       /*dbS.transaction((tx)=>{

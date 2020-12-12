@@ -190,7 +190,7 @@ render() {
 						<Icon name = 'chevron-back' type = 'Ionicons'/>
 					</TouchableOpacity>
 					</Left>
-					<Body><Title style={{color:'black', alignSelf:'center'}}>소속 인증</Title></Body>
+						<Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>소속 인증</Title></Body>
 					<Right></Right>
 				</Header>
 				<Spinner visible={this.state.loading} color="#ff3377"/>

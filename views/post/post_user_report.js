@@ -43,7 +43,7 @@ class PostUserReportScreen extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title style={{alignSelf:'center', color:'black'}}>신고하기</Title></Body>
+          <Body><Title style={{ alignSelf: 'center', color: 'black', fontSize: 20}}>신고하기</Title></Body>
           <Right></Right>
         </Header>
 

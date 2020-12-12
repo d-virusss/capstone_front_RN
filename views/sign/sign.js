@@ -31,7 +31,6 @@ export default class Sign extends React.Component {
     console.log(this.state)
     console.log(this.booking_info)
     console.log(this.who)
-    
   }
 
   getToken = async () => {
@@ -90,6 +89,23 @@ export default class Sign extends React.Component {
     // 대여중 목록화면으로 navigate
   }
 
+  renderSignButton(){
+    if(this.booking_info[this.who].sign_datetime === null){
+      return(
+        <Button block style={styles.signbutton} onPress={() => this.certRequest()}>
+          <Text style={{ fontSize: 17, fontWeight: 'bold' }}>서명하기</Text>
+        </Button>
+      )
+    }
+    else{
+      return(
+        <Button disabled block style={styles.completed_signbutton} onPress={() => this.certRequest()}>
+          <Text style={{ fontSize: 17, fontWeight: 'bold' }}>서명완료</Text>
+        </Button>
+      )
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -99,7 +115,7 @@ export default class Sign extends React.Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>계약서 서명</Title>
+          <Body><Title style={{ fontSize: 20 }}>계약서 서명</Title>
           </Body>
           <Right>
           </Right>
@@ -136,9 +152,7 @@ export default class Sign extends React.Component {
                 </Text>
               </CardItem>
             </Card>
-            <Button block style={ styles.signbutton } onPress={() => this.certRequest()}>
-              <Text style={{ fontSize: 17, fontWeight:'bold' }}>서명하기</Text>
-            </Button>
+            {this.renderSignButton()}
           </Content>
         </ScrollView>
       </Container>
@@ -165,5 +179,9 @@ const styles = StyleSheet.create({
   signbutton : {
     marginTop: '3%',
     backgroundColor : "#ff3377",
+  },
+  completed_signbutton : {
+    marginTop: '3%',
+    backgroundColor: "#999999",
   },
 });

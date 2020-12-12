@@ -45,7 +45,7 @@ class ProviderRentList extends Component {
                 {booking.booking_info.start_at.split('T')[0]} ~
                 {booking.booking_info.end_at.split('T')[0]}
               </Text>
-              <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원</Text>
+              <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원 by {booking.booking_info.consumer.nickname}</Text>
             </Body>
             <Right>
               <TouchableOpacity onPress={() => {Alert.alert("반납 완료", "반납 완료 상태로 수정하시겠습니까?", [
@@ -78,14 +78,14 @@ class ProviderRentList extends Component {
           <ListItem thumbnail key={booking.booking_info.id} button
             onPress={() => { console.log('not already exist booking_show') }}>
             <Left>
-              <Thumbnail square source={{ uri: booking.booking_info.post_image }} />
+              <Thumbnail square source={booking.booking_info=='/image/default.png' ? require('../../assets/default.png') : { uri: booking.booking_info.post_image }} />
             </Left>
             <Body>
               <Text>{booking.booking_info.title}</Text>
               <Text note numberOfLines={1} style={{ paddingVertical : 4}}>
                 {booking.booking_info.start_at.split('T')[0]} ~ { booking.booking_info.end_at.split('T')[0]}
               </Text>
-              <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원</Text>
+              <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원 by {booking.booking_info.consumer.nickname}</Text>
             </Body>
           </ListItem>
         )
@@ -145,7 +145,7 @@ class ProviderRentList extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>등록한 물품</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>등록한 물품</Title></Body>
           <Right></Right>
         </Header>
 

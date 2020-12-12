@@ -12,11 +12,13 @@ import UserAgent from 'react-native-user-agent';
 import number_delimiter from '../shared/number_delimiter'
 import {Rating} from 'react-native-elements'
 import { SliderBox } from "react-native-image-slider-box";
+import FormData from 'form-data'
 
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
 
 
+var review_report_form = new FormData()
 var user_id;
 var reviewList = [];
 var postForm = {}; // for navigation props
@@ -158,7 +160,28 @@ class PostShow extends Component{
 		}).catch((err) => {
 			console.log(err.response)
 		})
-	}
+  }
+
+  setReviewReportForm(){
+    review_report_form = new FormData();
+  }
+  
+  reportReviewRequest(){
+    this.setReviewReportForm();
+    api
+      .post('/reports', (formdata), {
+        headers: {
+          'Authorization': this.state.token,
+        }
+      })
+      .then((res) => {
+        console.log(res)
+
+      })
+      .catch((e) => {
+        console.log(e.response)
+      })
+  }
   //make review list
   makeReviewList() {
     if(reviewList.length == 0)
@@ -185,23 +208,27 @@ class PostShow extends Component{
                   imageSize={18}
                   style={{ paddingVertical: 10 }}/>
                 <Title style={{marginTop : '3%'}}> {ele.review_info.rating}</Title>
+                <TouchableOpacity style={styles.reportBadge}
+                  onPress={() => console.log('asdfsf')}
+                >
+                  <Badge>
+                    <Text style={{fontWeight: 'bold'}}>신고</Text>
+                  </Badge>
+                </TouchableOpacity>
               </View>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.post_category}>{ele.review_info.user_nickname} / {date} / </Text>
-                <Text style={styles.post_category} >신고</Text>
               </View>
             </Body>
           </CardItem>
 
           <CardItem style={{flex: 1, flexDirection: 'row', paddingTop:'3%'}}>
-
-            <SliderBox style={styles.review_swiper}
-            images={ele.review_info.images}
-            sliderBoxHeight={200}
-            inactiveDotColor="#ffccdd"
-            dotColor="#ff3377" />
-            <Text style={{ paddingLeft: '3%' }}>{"\n"}{ele.review_info.body}</Text>
-
+              <SliderBox style={styles.review_swiper}
+              images={ele.review_info.images}
+              sliderBoxHeight={200}
+              inactiveDotColor="#ffccdd"
+              dotColor="#ff3377" />
+              <Text style={{ paddingLeft: '3%' }}>{"\n"}{ele.review_info.body}</Text>
           </CardItem>
         </Card>
       );
@@ -222,10 +249,6 @@ class PostShow extends Component{
       })
       .then((res) => {
         console.log(res)
-        Toast.show({
-          text: '좋아요!',
-          buttonText: '확인'
-        })
       })
       .catch((e) => {
         console.log(e)
@@ -336,7 +359,7 @@ class PostShow extends Component{
           </Button>)}
           {this.state.isBooked == true && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '3%', marginTop: '4%' }}
             onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
-            <Text style={{ fontWeight: 'bold', fontSize:16, padding: 0, color: '#ff3377'}}>예약 취소</Text>
+            <Text style={{ fontWeight: 'bold', fontSize:16, padding: 0, color: 'white'}}>예약 취소</Text>
           </Button>)}
         </FooterTab>
       )
@@ -355,7 +378,7 @@ class PostShow extends Component{
                 <Icon name = 'chevron-back' type = 'Ionicons'/>
               </TouchableOpacity>
             </Left>
-            <Body style={{flex : 8}}><Title style={{color:'black', alignSelf:'center'}}>{this.state.title}</Title></Body>
+            <Body style={{flex : 8}}><Title style={{color:'black', alignSelf:'center', fontSize: 20}}>{this.state.title}</Title></Body>
             <Right style={{flex : 1}}>
               <Popover
                 isVisible = {this.state.show_popover}
@@ -392,7 +415,7 @@ class PostShow extends Component{
                     </View>
                   
                     <Right style={styles.rentCountArea}>
-                      <Text style={styles.providerLocation}>지난 대여 {this.state.rent_count}</Text>
+                      <Text style={styles.providerLocation} >지난 대여 {this.state.rent_count}</Text>
                     </Right>
                   </Item>
 
@@ -448,7 +471,7 @@ class PostShow extends Component{
 
 const styles = StyleSheet.create({
   container : {
-    paddingBottom : 50,
+    // marginBottom : 10,
   },
   imageArea : {
     width: '100%',
@@ -552,7 +575,12 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: 'bold',
     marginTop: '2%',
-  }
+  },
+  reportBadge: {
+    position : 'absolute',
+    left: '83%',
+    top: '10%'
+  },
 })
 
 export default PostShow;

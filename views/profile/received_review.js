@@ -55,7 +55,7 @@ class ReceivedReview extends Component {
         <Card style={{ marginTop: '3%' }}>
           <CardItem style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop: '3%' }}>
             <TouchableOpacity onPress={() => { this.props.navigation.push("ProfileShow", {user_id : ele.review_info.user_id}) }}>
-              <Thumbnail source={{ uri: ele.review_info.user_image }} />
+              <Thumbnail source={ele.review_info.user_image=='/image/default.png' ? require('../../assets/default.png') :{ uri: ele.review_info.user_image }} />
             </TouchableOpacity>
             <Body style={{ marginLeft: '5%' }} >
               <View style={{ flexDirection: 'row' }}>
@@ -92,7 +92,7 @@ class ReceivedReview extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>받은 리뷰</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>받은 리뷰</Title></Body>
           <Right></Right>
         </Header>
 

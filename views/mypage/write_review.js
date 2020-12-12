@@ -120,7 +120,7 @@ class WriteReviewScreen extends Component {
 							<Icon name = 'chevron-back' type = 'Ionicons'/>
 							</TouchableOpacity>
 						</Left>
-						<Body><Title style={{color:'black',alignSelf:'center'}}>리뷰 작성</Title></Body>
+							<Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>리뷰 작성</Title></Body>
 						<Right></Right>
           </Header>
             <Content>

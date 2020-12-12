@@ -274,7 +274,7 @@ function ChatRoom ({route , navigation}) {
           </Button>
         </Left>
         <Body>
-          <Text style = {{fontSize : 17,}}>{other_nickname}</Text>
+          <Text style = {{fontSize : 20,}}>{other_nickname}</Text>
         </Body>
         <Right>
         <Popover

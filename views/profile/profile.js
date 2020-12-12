@@ -18,7 +18,10 @@ IconM.loadFont();
 var user_info = [];
 
 class ProfileShow extends Component {
-  profile_id = this.props.route.params.user_id
+  constructor(props){
+    super(props)
+    this.state.profile_id = this.props.route.params.user_id
+  }
   state = {
     my_id: '',
     token: '',
@@ -43,19 +46,19 @@ class ProfileShow extends Component {
     this.state.my_id = parseInt(id)
     this.state.token = value
 
-    this.setState({ is_my_profile : (this.profile_id === this.state.my_id ? true : false) }, () => console.log(this.state))
+    this.setState({ is_my_profile : (this.state.profile_id === this.state.my_id ? true : false) }, () => console.log(this.state))
     this.getMyInfo();
   }
 
   componentDidMount() {
     console.log("profile show--------------------")
-    console.log(this.profile_id)
+    console.log(this.state.profile_id)
     this.getToken();
   }
 
   getMyInfo = () => {
     api
-      .get(`/users/${this.profile_id}`, {
+      .get(`/users/${this.state.profile_id}`, {
         headers: {
           Authorization: this.state.token,
         },
@@ -65,7 +68,7 @@ class ProfileShow extends Component {
         this.state.nickname = res.data.user_info.nickname
         this.state.location = res.data.user_info.location_title
         this.state.group = res.data.user_info.group || "소속 없음"
-        this.state.profile_image = res.data.user_info.image
+        this.state.profile_image = res.data.user_info.image || '/image/default.png'
         this.state.isCompany = res.data.user_info.is_company
         this.state.avg_rating = res.data.user_info.avg
         this.state.received_reviews_count = res.data.user_info.received_reviews_count
@@ -237,7 +240,7 @@ class ProfileShow extends Component {
             </TouchableOpacity>
           </Left>
           <Body>
-            <Title>프로필</Title>
+            <Title style={{ fontSize: 20 }}>프로필</Title>
           </Body>
           <Right>
             {this.renderPopover()}

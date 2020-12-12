@@ -18,12 +18,7 @@ import api from '../shared/server_address';
 
 let myID;
 let token='';
-let myName;
-let postID;
 let postInfo;
-let userID = 1;
-let avatar='';
-let other_id=-1;
 
 function renderBubble (props) {
   return (
@@ -79,43 +74,46 @@ function chat_room2 ({route, navigation}){
   const [post_title, setPostTitle] = useState('');
   const [post_img, setPostImg] = useState('');
   let [messages, setMessages] = useState([]);
+  let [other_id, setOtherId] = useState(-1);
   const getToken = async() => {
     token = await AsyncStorage.getItem('token');
   }
 
-  const getPostInfo = async () => {
-    await api
-            .get(`posts/${post_id}`,{
-              headers:{
-                'Authorization': token
-              }
-            })
-            .then((response)=>{
-              postInfo = response.data;
-              setPostTitle(response.data.post_info.title);
-              setPostImg(response.data.post_info.image);
-            })
-            .catch((err)=>console.log(err))
+  const getPostInfo = () => {
+    api
+      .get(`posts/${post_id}`,{
+        headers:{
+          'Authorization': token
+        }
+      })
+      .then((response)=>{
+        postInfo = response.data;
+        console.log(postInfo);
+        //avatar=response.data.user.user_info.image;
+        setPostTitle(response.data.post_info.title);
+        setPostImg(response.data.post_info.image);
+      })
+      .catch((err)=>console.log(err))
   }
   const getMyInfo = async()=>{
     myID = await AsyncStorage.getItem('user_id');
     Fire.getSenderID(myID);
-    await api
-            .get(`/users/${myID}`,{
-              headers:{
-                'Authorization': token
-              }
-            })
-            .then((res)=>{
-              myName = res.data.user_info.nickname
-            })
-            .catch(err=>console.log(err))
+    api
+      .get(`/users/${myID}`,{
+        headers:{
+          'Authorization': token
+        }
+      })
+      .then((res)=>{
+        myName = res.data.user_info.nickname
+      })
+      .catch(err=>console.log(err))
   }
 
-  const messageGetRequest = async () => {
+  const messageGetRequest = () => {
     Fire.getAvatar(avatar);
     console.log(chat_id);
-    await api
+    api
       .get(`/chats/${chat_id}/messages`, 
       { 
         headers : {
@@ -158,21 +156,20 @@ function chat_room2 ({route, navigation}){
       });
     console.log(messages[0]);
     Fire.send(messages);
-    //setMessages(previous=>GiftedChat.append(previous, messages))
   },[])
 
   useEffect(()=>{
     async function inEffect(){
       await getToken();
       await getMyInfo();
-      await getPostInfo();
-      await messageGetRequest();
+      getPostInfo();
+      messageGetRequest();
       Fire.getChatID(chat_id);
       Fire.get(message=>{
         console.log(message)
         setMessages(previous=>GiftedChat.append(previous, message))
       })
-      //other_id = Fire.getOtherId();
+      setOtherId(Number(Fire.getOtherId()))
     }
     inEffect();
   },[])
@@ -188,10 +185,9 @@ function chat_room2 ({route, navigation}){
     renderComposer={renderComposer}
     renderMessage={renderMessage}
     onPressAvatar={()=> {
-      if(Fire.getOtherId()){
-        setTimeout(()=>{console.log(JSON.stringify(Fire.getOtherId()))},500)
-        navigation.navigate('ProfileShow',{user_id : Fire.getOtherId()})
-      }
+        console.log(other_id)
+        console.log(other_id)
+        navigation.navigate('ProfileShow',{user_id : other_id})
       }}
   />
   if(Platform.os === 'android'){

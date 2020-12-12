@@ -22,7 +22,7 @@ class UserListIndex extends Component{
       return(
         <ListItem thumbnail key={post.id}>
           <Left>
-            <Thumbnail square source={{ uri: post.image.url }} />
+            <Thumbnail square source={post.image.url=='/image/default.png' ? require('../../assets/default.png') : { uri: post.image.url }} />
           </Left>
           <Body>
             <Text>{post.title}</Text>
@@ -130,7 +130,7 @@ function profileShowList({route, navigation}){
           </Button>
         </Left>
         <Body>
-          <Text style = {{fontSize : 17}}>글 목록</Text>
+          <Text style = {{fontSize : 20}}>글 목록</Text>
         </Body>
         <Right>
         </Right>

@@ -142,7 +142,7 @@ class receiveScreen extends Component{
       return (
         <TouchableOpacity onPress={() => this.showBookingDate(ele.booking_info)}>
           <ListItem key={ele.booking_info.id}>
-            <Thumbnail source={{ uri: ele.booking_info.post_image }} />
+            <Thumbnail source={ele.booking_info.post_image=='/image/default.png' ? require('../../assets/default.png') : { uri: ele.booking_info.post_image }} />
             <Body>
               <Text>{ele.booking_info.title}</Text>
               <View style={{ flexDirection: 'row' }}>
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   disabledfooter: {
-    backgroundColor: '#dddddd',
+    backgroundColor: '#999999',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
