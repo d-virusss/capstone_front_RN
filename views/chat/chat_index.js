@@ -42,7 +42,7 @@ class ListProfile extends Component {
   }
   render(){
     return(
-      <TouchableOpacity style = {{paddingBottom:14}} onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI,})}>
+      <TouchableOpacity style = {{paddingBottom:14}} onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI, other_id:this.props.other_user})}>
       <ListItem avatar noBorder style={{
         borderColor:'#cccccc'
       }}>
@@ -146,6 +146,8 @@ function ChatList ({ navigation, getTotalChat }){
           unchecked = { chat.chat_info.num_unchecked }
           exist_unchecked = {chat.chat_info.num_unchecked > 0 && true}
           imgURI = {chat.chat_info.image}
+          key = {chat.chat_info.id}
+          other_user={chat.chat_info.other_users[0]}
         /> 
       )
     })
