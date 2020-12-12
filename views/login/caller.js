@@ -274,8 +274,8 @@ class LoginScreen extends Component {
                     buttonColor="#aaaaaa"
                     width="100%"
                     height="100%"
-                    fontSize={15}
-                    fontWeight="bold"
+                    fontSize={16}
+                    fontWeight="600"
                     onPress={() => this.props.navigation.navigate('Find_id')}
                   />
                 </View>
@@ -286,8 +286,8 @@ class LoginScreen extends Component {
                     buttonColor="#aaaaaa"
                     width="100%"
                     height="100%"
-                    fontSize={15}
-                    fontWeight="bold"
+                    fontSize={16}
+                    fontWeight="600"
                     onPress={() => this.props.navigation.navigate('Find_pw')}
                   />
                 </View>
