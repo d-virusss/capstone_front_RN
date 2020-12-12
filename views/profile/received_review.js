@@ -92,7 +92,7 @@ class ReceivedReview extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>받은 리뷰</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>받은 리뷰</Title></Body>
           <Right></Right>
         </Header>
 

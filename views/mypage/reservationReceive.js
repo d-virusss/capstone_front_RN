@@ -77,6 +77,7 @@ class receiveScreen extends Component{
   }
 
   accept (){
+    debugger
     reservation_info.booking.acceptance='accepted'
     api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
       headers: {
@@ -94,6 +95,7 @@ class receiveScreen extends Component{
   }
 
   reject() {
+    debugger
     reservation_info.booking.acceptance='rejected'
     api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
       headers: {
@@ -117,8 +119,8 @@ class receiveScreen extends Component{
       },
     })
       .then((res) => {
+        console.log("reservationReceive ---- getUserInfo")
         console.log(res)
-        console.log(res.data.user_info.name)
         if(res.data.user_info.name === null ||
           res.data.user_info.birthday === null ||
           res.data.user_info.number === null){
@@ -171,12 +173,7 @@ class receiveScreen extends Component{
         return (
           <Footer style={styles.footer}>
             <Button transparent style={styles.bottomButtons}
-              onPress={() => { this.props.navigation.navigate("Sign", 
-              { booking_info: booking_info, who: 'provider' });
-            }}
-              onPress={() => {
-                this.getUserInfo()
-              }}
+              onPress={() => { this.getUserInfo() }}
             >
               <Text style={styles.footerText}>서명하기</Text>
             </Button>
@@ -264,7 +261,7 @@ class receiveScreen extends Component{
   render(){
     return(
       <View style={styles.container}>
-        <ScrollView style={{flex: 1, marginBottom : '20%'}}>
+        <ScrollView style={{flex: 1}}>
             <Calendar
             markedDates={this.state.marked}
             markingType={'period'}
@@ -305,7 +302,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   disabledfooter: {
-    backgroundColor: '#dddddd',
+    backgroundColor: '#999999',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',

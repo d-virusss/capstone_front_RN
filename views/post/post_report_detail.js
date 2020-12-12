@@ -42,7 +42,7 @@ class ReportDetail extends Component {
   setReportInfo = () => {
     formdata = new FormData();
     if(this.state.type === 'user'){
-      formdata.append('report[target_id]', this.props.route.params.post.user.user_info.id)
+      formdata.append('report[target_id]', this.props.route.params.post)
     }
     else{
       formdata.append('report[target_id]', this.props.route.params.post.post_info.id)
@@ -71,7 +71,7 @@ class ReportDetail extends Component {
           [
             {
               text: '확인',
-              onPress: () => {this.props.navigation.navigate("PostShow")}
+              onPress: () => {this.props.navigation.navigate("Main")}
             }
             ,
             {
@@ -104,6 +104,8 @@ class ReportDetail extends Component {
   }
 
   render() {
+    console.log("--------------detail---------------");
+    console.log(this.props.route.params.post)
     return (
       <Container>
         <Header>
@@ -112,7 +114,7 @@ class ReportDetail extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>신고사유 작성</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>신고사유 작성</Title></Body>
           <Right></Right>
         
         </Header>
@@ -130,15 +132,15 @@ class ReportDetail extends Component {
               ></TextInput>
             </View>
 
+
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
             <View style={styles.footer}>
               <Button transparent style={styles.footerbutton}
                 onPress={() => this.ReportRequest()}>
                 <Text style={styles.footerText}>신고하기</Text>
               </Button>
             </View>
-
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
 
       </Container>
     );

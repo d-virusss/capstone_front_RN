@@ -4,21 +4,20 @@ import {TouchableOpacity, View, StyleSheet, DeviceEventEmitter,} from 'react-nat
 import {Text, Header, Icon, Body, Container, Content, Left, 
   Right, Title, Tabs, Tab, TabHeading, Footer, Button, FooterTab } from 'native-base';
 import IconM from 'react-native-vector-icons/Ionicons'
-import ReceiveList from './reservationReceive'
-import SendList from './reservationSend'
+import ReceiveList from '../mypage/reservationReceive'
 IconM.loadFont()
 
-class reservationScreen extends Component{
+class reservationListScreen extends Component{
 
-  makeRefreshRequest(){
-    DeviceEventEmitter.emit('refreshList');
-  }
-
-  onRefresh(){
-    console.log("상태 refresh")
-    this.makeRefreshRequest();
-  }
-
+	makeRefreshRequest(){
+		DeviceEventEmitter.emit('refreshList');
+	}
+	
+	onRefresh(){
+		console.log("상태 refresh")
+		this.makeRefreshRequest();
+	}
+      
   render(){
     return(
       <Container>
@@ -33,7 +32,7 @@ class reservationScreen extends Component{
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title style={{ fontSize: 20 }}>예약 관리</Title></Body>
+          <Body><Title>예약 목록 확인</Title></Body>
           <Right>
             <TouchableOpacity transparent onPress = {() => this.onRefresh()}>
               <Icon name = 'refresh' type = 'Ionicons'/>
@@ -41,18 +40,10 @@ class reservationScreen extends Component{
           </Right>
         </Header>
           
-        <Tabs Style={{marginTop : '0%',}}>
-          <Tab heading={ <TabHeading transparent><Text>받은 예약</Text></TabHeading>}>
-            <FooterTab scrollEnabled={false}>
-                <ReceiveList navigation={this.props.navigation}></ReceiveList>
-            </FooterTab>
-          </Tab>
-          <Tab heading={ <TabHeading transparent><Text>신청한 예약</Text></TabHeading>}>
-            <Footer>
-              <SendList navigation={this.props.navigation}></SendList>
-            </Footer>
-          </Tab>
-        </Tabs>
+        <FooterTab scrollEnabled={false}>
+            <ReceiveList navigation={this.props.navigation}></ReceiveList>
+        </FooterTab>
+         
 
       </Container>
         
@@ -66,4 +57,4 @@ const styles = StyleSheet.create({
  
  });
 
-export default reservationScreen;
+export default reservationListScreen;

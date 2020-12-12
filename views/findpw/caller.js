@@ -103,7 +103,7 @@ export default class FindPwScreen extends Component {
                 <Icon name='chevron-back' type='Ionicons' />
               </TouchableOpacity>
             </Left>
-            <Body><Title style={{color:'black',alignSelf:'center'}}>비밀번호 찾기</Title></Body>
+            <Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>비밀번호 찾기</Title></Body>
             <Right></Right>
           </Header>
           <Content>

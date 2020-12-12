@@ -153,7 +153,7 @@ class Keyword extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title style={{color:'black',alignSelf:'center'}}>키워드 알림</Title></Body>
+          <Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>키워드 알림</Title></Body>
           <Right></Right>
         </Header>
         <Content style={styles.screen}>

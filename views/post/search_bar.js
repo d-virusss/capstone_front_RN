@@ -69,7 +69,7 @@ class Search_Bar extends React.Component {
       <Container>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <Header style={styles.header}>
-            <Title style={{fontSize: 20, color: 'black',alignSelf: 'center'}}>{this.state.location}</Title>
+          <Title style={{fontSize: 20, color: 'black',alignSelf: 'center'}}>{this.state.location}</Title>
         </Header>
       </TouchableWithoutFeedback>
 

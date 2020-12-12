@@ -177,7 +177,7 @@ class Post_ask extends Component {
             <Icon name='chevron-back' type='Ionicons' />
           </TouchableOpacity>
         </Left>
-        <Body><Title>대여 요청</Title>
+        <Body><Title style={{ fontSize: 20 }}>대여 요청</Title>
         </Body>
         <Right>
           <TouchableOpacity

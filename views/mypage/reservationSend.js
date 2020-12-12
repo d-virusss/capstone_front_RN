@@ -179,7 +179,7 @@ class receiveScreen extends Component{
     else{
       return(
         <View style={styles.container}>
-          <ScrollView style={{flex: 1, marginBottom : '20%'}}>
+          <ScrollView style={{flex: 1}}>
             <Calendar
             markedDates={this.state.marked}
             markingType={'period'}
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   disabledfooter: {
-    backgroundColor: '#dddddd',
+    backgroundColor: '#999999',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',

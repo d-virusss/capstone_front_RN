@@ -25,6 +25,8 @@ var user_obj = {
   },
 };
 
+var toggleOverlay = false;
+
 
 export default class RegistrationScreen extends React.Component {
  state = {
@@ -42,6 +44,7 @@ export default class RegistrationScreen extends React.Component {
   service_rule_agree : false,
   location_agree : false,
   saving : false,
+  visible : false,
  };
 
   authRequest(){
@@ -218,7 +221,7 @@ AuthCodeSubmit() {
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>회원가입</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>회원가입</Title></Body>
           <Right></Right>
         </Header>
         
@@ -294,7 +297,9 @@ AuthCodeSubmit() {
                     checkedColor='#ff3377'
                   />
                   <TouchableOpacity onPress={() => { console.log("sadfads") }}>
-                    <Text style={{ textDecorationLine: 'underline' }} >개인정보 처리방침</Text>
+                    <Text style={{ textDecorationLine: 'underline' }} 
+                    onPress={() => this.props.navigation.navigate("policyDetail", {id : 0, title : "개인정보 처리방침"})}>
+                      개인정보 처리방침</Text>
                   </TouchableOpacity>
                   <Text>에 동의합니다.</Text>
                 </View>
@@ -306,7 +311,9 @@ AuthCodeSubmit() {
                     checkedColor='#ff3377'
                   />
                   <TouchableOpacity onPress={() => { console.log("sadfads") }}>
-                    <Text style={{ textDecorationLine: 'underline' }} >서비스 이용약관</Text>
+                    <Text style={{ textDecorationLine: 'underline' }} 
+                    onPress={() => this.props.navigation.navigate("policyDetail", {id : 1, title : "서비스 이용약관"})}>
+                      서비스 이용약관</Text>
                   </TouchableOpacity>
                   <Text>에 동의합니다.</Text>
                 </View>
@@ -318,7 +325,9 @@ AuthCodeSubmit() {
                     checkedColor='#ff3377'
                   />
                   <TouchableOpacity onPress={() => { console.log("sadfads") }}>
-                    <Text style={{ textDecorationLine: 'underline' }} >위치기반서비스 이용약관</Text>
+                    <Text style={{ textDecorationLine: 'underline' }} 
+                    onPress = {() => this.props.navigation.navigate("policyDetail", {id : 2, title : "위치 기반 서비스 이용약관"})}>
+                    위치 기반 서비스 이용약관</Text>
                   </TouchableOpacity>
                   <Text>에 동의합니다.</Text>
                 </View>
@@ -327,6 +336,7 @@ AuthCodeSubmit() {
             </KeyboardAvoidingView>
           </TouchableWithoutFeedback>
         </Content>
+
         </ScrollView>
         <View style={styles.footer}>
           <Button transparent style={ styles.footerbutton }

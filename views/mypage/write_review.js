@@ -4,7 +4,7 @@ import {Container, Button, ListItem, Thumbnail, Content, Card, CardItem,
      Header, Left, Right, Icon, Body, Title, Textarea, Form} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
-import {AirbnbRating, Rating} from 'react-native-elements'
+import {Rating} from 'react-native-elements'
 import ImageSelect from '../post/imageselect';
 import { ScrollView } from 'react-native-gesture-handler';
 import _ from 'lodash';
@@ -32,6 +32,8 @@ class WriteReviewScreen extends Component {
 		body : '',
 		booking_id : '',
 		loading : false,
+		setRating : false,
+
 	}
 
 	getToken = async() => {
@@ -118,11 +120,11 @@ class WriteReviewScreen extends Component {
 							<Icon name = 'chevron-back' type = 'Ionicons'/>
 							</TouchableOpacity>
 						</Left>
-						<Body><Title style={{color:'black',alignSelf:'center'}}>리뷰 작성</Title></Body>
+							<Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>리뷰 작성</Title></Body>
 						<Right></Right>
           </Header>
             <Content>
-          <Spinner visible={this.state.loading} color="#ff3377"/>
+          		<Spinner visible={this.state.loading} color="#ff3377"/>
 
 					<ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
 						<Left>
@@ -134,7 +136,7 @@ class WriteReviewScreen extends Component {
 					</ListItem>
 
 					<ImageSelect stateBus={this.changeImage}></ImageSelect>
-			
+					
 					<Rating
 						fractions={1}
 						ratingCount={5}
@@ -142,7 +144,7 @@ class WriteReviewScreen extends Component {
 						startingValue={0}
 						onFinishRating={this.raitingCompleted}
 						style={{ paddingVertical: 10 }}/>
-
+				
 					<Card>
 						<CardItem>
 							<ScrollView>

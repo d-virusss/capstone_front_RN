@@ -79,7 +79,7 @@ class ProfileProvide extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>등록한 물품</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>등록한 물품</Title></Body>
           <Right></Right>
         </Header>
 

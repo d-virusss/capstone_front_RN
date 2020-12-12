@@ -134,7 +134,7 @@ function ChatList ({ navigation, getTotalChat }){
   }
 
   const makeIndexList = () => {
-    console.log(JSON.stringify(chats));
+    console.log(chats);
     return chats.map((chat) => {
       return(
         <ListProfile navigation = {navigation}
