@@ -337,7 +337,7 @@ class PostShow extends Component{
             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17, paddingVertical: 5, marginTop: '1%'}}>계약서 수정</Text>
           </Button>
           <Button style={{ backgroundColor: "#ff9a00", height: '70%', marginHorizontal: '4%', marginTop: '4%' }}
-            onPress={() => { this.props.navigation.navigate('Reservation',{ onGoBack: ()=>{this.getPostInfo();} }) }} >
+            onPress={() => { this.props.navigation.navigate('ReservationList',{ onGoBack: ()=>{this.getPostInfo();} }) }} >
             <Text style={{ color:'white', fontWeight: 'bold', fontSize: 17, paddingVertical: 5, marginTop: '1%' }}>예약 목록 확인</Text>
           </Button>
         </FooterTab>

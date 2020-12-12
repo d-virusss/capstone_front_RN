@@ -105,7 +105,7 @@ class ReviewScreen extends Component {
 		});
 		}
 	}
-
+////////////////for delete
 	deleteRequest(id) {
 		api.delete(`/reviews/${id}`, {
 			headers : {
