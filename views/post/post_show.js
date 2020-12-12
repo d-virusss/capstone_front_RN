@@ -98,7 +98,7 @@ class PostShow extends Component{
 				this.state.provider_name = response.data.user.user_info.nickname,
 				this.state.provider_location = response.data.user.user_info.location_title,
 				this.state.provider_id = response.data.user.user_info.id,
-				this.state.provider_profile_image = response.data.user.user_info.image
+				this.state.provider_profile_image = response.data.user.user_info.image || '/image/default.png'
 				this.state.is_your_post = response.data.user.user_info.id == parseInt(user_id) ? true : false;
         
         
@@ -411,7 +411,7 @@ class PostShow extends Component{
                   <Item regular style={styles.providerBar}>
                     <TouchableOpacity style={{ marginLeft: '3%' }}
                     onPress={() => { this.props.navigation.push("ProfileShow", { user_id : this.state.provider_id }) } }>
-                      <Image source={{ uri: this.state.provider_profile_image || "empty " }} style={styles.providerProfileiimage}></Image>
+                      <Image source={this.state.provider_profile_image=="/image/default.png" ? require("../../assets/default.png") :{ uri: this.state.provider_profile_image}} style={styles.providerProfileiimage}></Image>
                     </TouchableOpacity>
                     <View style={styles.providerProfile}>
                       <Text style={styles.providerName}>{this.state.provider_name}</Text>
