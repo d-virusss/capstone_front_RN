@@ -23,7 +23,7 @@ class LikeListUserScreen extends Component {
         // onPress={() => console.log(ele.like_info.target_id)}
         >
           <Left>
-            <Thumbnail square source={{uri: ele.like_info.image}} />
+            <Thumbnail square source={ele.like_info.image=='/image/default.png' ? require('../../assets/default.png') : {uri: ele.like_info.image}} />
           </Left>
           <Body>
             <Text>{ele.like_info.name}</Text>
