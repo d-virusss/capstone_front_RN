@@ -92,8 +92,6 @@ function chat_room2 ({route, navigation}){
             })
             .then((response)=>{
               postInfo = response.data;
-              console.log(postInfo);
-              //avatar=response.data.user.user_info.image;
               setPostTitle(response.data.post_info.title);
               setPostImg(response.data.post_info.image);
             })

@@ -194,14 +194,14 @@ class PostShow extends Component{
           </CardItem>
 
           <CardItem style={{flex: 1, flexDirection: 'row', paddingTop:'3%'}}>
-            <ScrollView>
-              <SliderBox style={styles.review_swiper}
-              images={ele.review_info.images}
-              sliderBoxHeight={200}
-              inactiveDotColor="#ffccdd"
-              dotColor="#ff3377" />
-              <Text style={{ paddingLeft: '3%' }}>{"\n"}{ele.review_info.body}</Text>
-            </ScrollView>
+
+            <SliderBox style={styles.review_swiper}
+            images={ele.review_info.images}
+            sliderBoxHeight={200}
+            inactiveDotColor="#ffccdd"
+            dotColor="#ff3377" />
+            <Text style={{ paddingLeft: '3%' }}>{"\n"}{ele.review_info.body}</Text>
+
           </CardItem>
         </Card>
       );
@@ -314,7 +314,7 @@ class PostShow extends Component{
             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17, paddingVertical: 5, marginTop: '1%'}}>계약서 수정</Text>
           </Button>
           <Button style={{ backgroundColor: "#ff9a00", height: '70%', marginHorizontal: '4%', marginTop: '4%' }}
-            onPress={() => { this.props.navigation.navigate('Reservation',{ onGoBack: ()=>{this.getPostInfo();} }) }} >
+            onPress={() => { this.props.navigation.navigate('ReservationList',{ onGoBack: ()=>{this.getPostInfo();} }) }} >
             <Text style={{ color:'white', fontWeight: 'bold', fontSize: 17, paddingVertical: 5, marginTop: '1%' }}>예약 목록 확인</Text>
           </Button>
         </FooterTab>

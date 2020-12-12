@@ -157,6 +157,7 @@ class UpdateReviewScreen extends Component {
 							</TouchableOpacity>
 						</Left>
 						<Body><Title style={{color:'black', alignSelf:'center'}}>리뷰 수정</Title></Body>
+						<Right></Right>
 					</Header>
 					<Spinner visible={this.state.saving} color="#ff3377" />
 					<Content>
@@ -165,7 +166,7 @@ class UpdateReviewScreen extends Component {
 								<Thumbnail square source={{ uri: this.state.post_image }} />
 							</Left>
 							<Body>
-								<Text>{this.state.post_title}</Text>
+								<Title>{this.state.post_title}</Title>
 							</Body>
 					</ListItem>
 					<ImageSelect stateBus={this.changeImage} existing_image={this.state.images}/>

@@ -93,7 +93,7 @@ class ReviewScreen extends Component {
 		});
 		}
 	}
-
+////////////////for delete
 	deleteRequest(id) {
 		api.delete(`/reviews/${id}`, {
 			headers : {
@@ -124,8 +124,8 @@ class ReviewScreen extends Component {
 				onPress: () => this.props.navigation.navigate('UpdateReview', {posts : posts})
 			},
 			{
-				text: '리뷰 삭제',
-				onPress: () => this.deleteRequest(posts.review_id)
+				text : '취소',
+				style : 'cancel',
 			}
 		]) 
 	}

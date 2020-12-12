@@ -9,6 +9,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import FormData from 'form-data'
 
+
+//report detail에 신고타입 id만 넘겨주면됌.
 class PostReportScreen extends Component {
   post = this.props.route.params
 
@@ -30,11 +32,9 @@ class PostReportScreen extends Component {
    
   }
   
-  postReportRequest(){
-    
-  }
-
   render() {
+    console.log("신고하기================")
+    console.log(this.props.route.params.post.user.user_info)
     return (
       <Container>
         <Header style = {{
@@ -102,7 +102,7 @@ class PostReportScreen extends Component {
               <Text style={styles.reportreason}> 신고</Text>
             </ListItem>
 
-            <ListItem button onPress={() => { this.props.navigation.navigate("PostUserReport", { post: this.post.post }) }}>
+            <ListItem button onPress={() => { this.props.navigation.navigate("PostUserReport", { post: this.post.post.user.user_info }) }}>
               <Left style={styles.elmargin}>
                 <Icon type="AntDesign" name="addusergroup" />
                 <Text> 사용자 신고</Text>

@@ -9,7 +9,7 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 
 class PostUserReportScreen extends Component {
-  post = this.props.route.params
+  post = this.props.route.params // need nickname, 
 
   state = {
     token: '',
@@ -25,11 +25,10 @@ class PostUserReportScreen extends Component {
     this.getToken()
   }
 
-  postReportRequest() {
-
-  }
 
   render() {
+    console.log("----------user-------------")
+    console.log(this.post)
     return (
       <Container>
 
@@ -51,13 +50,13 @@ class PostUserReportScreen extends Component {
         <Content>
           <List>
             <ListItem itemHeader first style={{ flexDirection: 'column'}}>
-              <Text style={styles.reportreason}>'{this.post.post.user.user_info.nickname}'</Text>
+              <Text style={styles.reportreason}>'{this.post.post.nickname}'</Text>
               <Text style={styles.reportreason}> 이 사용자를 신고하는 이유를 선택해주세요.</Text>
             </ListItem>
 
             <Separator bordered></Separator>
-
-            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post : this.post.post, reason: 'break_rule', type: 'user' }) }}>
+            {/* pass user's id */}
+            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post : this.post.post.id, reason: 'break_rule', type: 'user' }) }}>
               <Left style={styles.elmargin}>
                 <Text>계약사항을 지키지 않아요.</Text>
               </Left>
@@ -66,7 +65,7 @@ class PostUserReportScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post : this.post.post, reason: 'lost_contact', type: 'user' }) }}>
+            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post : this.post.post.id, reason: 'lost_contact', type: 'user' }) }}>
               <Left style={styles.elmargin}>
                 <Text>대여 후 연락이 두절됐어요.</Text>
               </Left>
@@ -75,7 +74,7 @@ class PostUserReportScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post: this.post.post, reason: 'impertinence', type: 'user' }) }}>
+            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post: this.post.post.id, reason: 'impertinence', type: 'user' }) }}>
               <Left style={styles.elmargin}>
                 <Text>무례하거나, 혐오스런 표현 혹은 차별적 발언을 해요.</Text>
               </Left>
@@ -84,7 +83,7 @@ class PostUserReportScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post: this.post.post, reason: 'fraud', type: 'user' }) }}>
+            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post: this.post.post.id, reason: 'fraud', type: 'user' }) }}>
               <Left style={styles.elmargin}>
                 <Text>사기가 의심돼요.</Text>
               </Left>
@@ -93,7 +92,7 @@ class PostUserReportScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post: this.post.post, reason: 'threat_violence', type: 'user' }) }}>
+            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post: this.post.post.id, reason: 'threat_violence', type: 'user' }) }}>
               <Left style={styles.elmargin}>
                 <Text>폭력 및 협박, 위협을 가해요.</Text>
               </Left>
@@ -102,7 +101,7 @@ class PostUserReportScreen extends Component {
               </Right>
             </ListItem>
 
-            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post:this.post.post, reason: 'etc', type: 'user' }) }}>
+            <ListItem button onPress={() => { this.props.navigation.navigate("ReportDetail", { post:this.post.post.id, reason: 'etc', type: 'user' }) }}>
               <Left style={styles.elmargin}>
                 <Text>기타 사유</Text>
               </Left>
