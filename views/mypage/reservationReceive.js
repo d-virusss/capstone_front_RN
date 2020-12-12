@@ -77,6 +77,8 @@ class receiveScreen extends Component{
   }
 
   accept (){
+    console.log("승인 request ---------")
+    this.setState({ loading: true })
     reservation_info.booking.acceptance='accepted'
     api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
       headers: {
@@ -89,12 +91,15 @@ class receiveScreen extends Component{
       ])
     }).catch((err) => {
       console.log(err)
-      Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+      Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel',
+        onPress: () => {this.setState({ loading: false })} }])
     })
   }
 
   reject() {
-    reservation_info.booking.acceptance='rejected'
+    console.log("거절 request ---------")
+    this.setState({ loading: true })
+    reservation_info.booking.acceptance ='rejected'
     api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
       headers: {
         Authorization: this.state.token,
@@ -105,7 +110,8 @@ class receiveScreen extends Component{
         {text:'확인', style:'cancel', onPress: () => { this._onRefresh()  }}
       ])
     }).catch((err) => {
-      Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+      Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel',
+        onPress: () => this.setState({ loading: false }) }])
     })
   }
 
@@ -194,7 +200,7 @@ class receiveScreen extends Component{
 
   _onRefresh(){
     console.log('refresh screen --------------')
-    this.setState({ refreshing : true })
+    this.setState({ refreshing : true, loading: false })
     this.getReservationList()
     this.setState({ refreshing : false })
   }
@@ -259,7 +265,7 @@ class receiveScreen extends Component{
   render(){
     return(
       <View style={styles.container}>
-        <ScrollView style={{flex: 1}}>
+        <ScrollView style={{flex: 1 }}>
             <Calendar
             markedDates={this.state.marked}
             markingType={'period'}
