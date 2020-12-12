@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   disabledfooter: {
-    backgroundColor: '#dddddd',
+    backgroundColor: '#999999',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',

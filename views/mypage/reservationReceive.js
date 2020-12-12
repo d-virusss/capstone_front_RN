@@ -117,8 +117,8 @@ class receiveScreen extends Component{
       },
     })
       .then((res) => {
+        console.log("reservationReceive ---- getUserInfo")
         console.log(res)
-        console.log(res.data.user_info.name)
         if(res.data.user_info.name === null ||
           res.data.user_info.birthday === null ||
           res.data.user_info.number === null){
@@ -171,12 +171,7 @@ class receiveScreen extends Component{
         return (
           <Footer style={styles.footer}>
             <Button transparent style={styles.bottomButtons}
-              onPress={() => { this.props.navigation.navigate("Sign", 
-              { booking_info: booking_info, who: 'provider' });
-            }}
-              onPress={() => {
-                this.getUserInfo()
-              }}
+              onPress={() => { this.getUserInfo() }}
             >
               <Text style={styles.footerText}>서명하기</Text>
             </Button>
@@ -305,7 +300,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   disabledfooter: {
-    backgroundColor: '#dddddd',
+    backgroundColor: '#999999',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
