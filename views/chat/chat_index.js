@@ -42,19 +42,20 @@ class ListProfile extends Component {
   }
   render(){
     return(
+      <TouchableOpacity style = {{paddingBottom:14}} onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI,})}>
       <ListItem avatar noBorder style={{
         borderColor:'#cccccc'
       }}>
         <Left>
-          <TouchableOpacity style = {{paddingBottom:14}} onPress = {() => this.props.navigation.navigate('ChatRoom', {chat_id : this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI,})}>
+          
             <Thumbnail source={{ uri: this.props.imgURI||'https://applepink.s3.amazonaws.com/uploads/user/image/1/square_447087af-da95-4a04-94c4-2ccccc782c28applePink_logo.png'}} style={{ width : 60, height: 60, }} />
-          </TouchableOpacity>
+          
         </Left>
         <Body style={{paddingVertical: 30, alignSelf: 'center'}} >
-          <TouchableOpacity onPress = {() => {this.props.navigation.navigate('ChatRoom', {chat_id: this.props.chatID, post_id: this.props.postID, nickname:this.props.nickname, avatar:this.props.imgURI})}}>
+          
             <Text> {this.props.nickname} </Text>
             <Text note> {this.props.body} </Text>
-          </TouchableOpacity>
+          
         </Body>
         <Right style={{ flexDirection:'row', alignItems : 'center', justifyContent : 'flex-end', paddingVertical: 0}}>
           {this.props.exist_unchecked ? 
@@ -63,6 +64,7 @@ class ListProfile extends Component {
             <Text note style={{ marginLeft : '5%' }}> {this.props.time}</Text>
         </Right>
       </ListItem>
+      </TouchableOpacity>
     );
   }
 }
@@ -70,7 +72,6 @@ class ListProfile extends Component {
 function ChatList ({ navigation, getTotalChat }){
   
   console.log("enter chatlist -----------------")
-
   const [chats, setChats] = useState([]);
   const [refreshing, setRefresh] = useState();
   const [unchecked, setUnchecked] = useState();

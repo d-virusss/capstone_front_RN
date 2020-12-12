@@ -179,7 +179,6 @@ AuthCodeSubmit() {
 
       this.setState({saving : true});
       this.makeForm()
-      user_obj.user.device_token = await AsyncStorage.getItem('fcmToken');
       console.log("token")
 
       api.post('/users/sign_up', user_obj)

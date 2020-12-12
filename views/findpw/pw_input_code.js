@@ -11,6 +11,7 @@ import api from '../shared/server_address';
 export default class PwInputCode extends Component {
   state = {
     for:'',
+    by:'',
     email:'',
     name:'',
     birthday:'',
@@ -50,10 +51,23 @@ export default class PwInputCode extends Component {
   }
 
   componentDidMount(){
-    this.state.email=this.props.route.params.email
-    this.state.name=this.props.route.params.name
-    this.state.birthday=this.props.route.params.birthday
-    this.state.number=this.props.route.params.number
+    this.setState({email:this.props.route.params.email,
+      by:this.props.route.params.by,
+      name:this.props.route.params.name,
+      birthday:this.props.route.params.birthday,
+      number:this.props.route.params.number
+    })
+  }
+  labelText=()=>{
+    if(this.state.by=='')
+      return(
+        <Label>SMS로 전송된 코드를 입력하세요</Label>
+      )
+    else{
+      return(
+        <Label>이메일로 전송된 코드를 입력하세요</Label>
+      )
+    }
   }
 
   render() {
@@ -75,7 +89,7 @@ export default class PwInputCode extends Component {
         <Content>
           <Form>
             <Item floatingLabel>
-              <Label>이메일로 전송된 코드를 입력하세요.</Label>
+            {this.labelText()}
               <Input
                 placeholder='코드를 입력하세요.'
                 onChangeText={(text)=>this.state.code=text}
