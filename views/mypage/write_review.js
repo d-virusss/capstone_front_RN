@@ -79,7 +79,7 @@ class WriteReviewScreen extends Component {
 
   changeImage = (data) => {
     this.setState({images: data})
-
+	multi_images=[]
     _.each(this.state.images, (image, index) => {
       multi_images.push(new Object)
       multi_images[index].uri = image.sourceURL
