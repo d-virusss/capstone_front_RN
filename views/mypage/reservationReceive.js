@@ -77,12 +77,8 @@ class receiveScreen extends Component{
   }
 
   accept (){
-<<<<<<< HEAD
     console.log("승인 request ---------")
     this.setState({ loading: true })
-=======
-    debugger
->>>>>>> 3636fd0330ba74b385a346c70d0a6af55db6379d
     reservation_info.booking.acceptance='accepted'
     api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
       headers: {
