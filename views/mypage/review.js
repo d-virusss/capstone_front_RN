@@ -63,7 +63,7 @@ class ReviewScreen extends Component {
 				<Card style={{flex: 0, marginTop: '5%'}}>
 					<CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}
 					button onPress={() => {this.changeReview(ele.review_info)}}>
-						<Thumbnail source={{uri: ele.review_info.post_image}} />
+						<Thumbnail source={ele.review_info.post_image=='/image/default.png' ? require('../../assets/default.png') :{uri: ele.review_info.post_image}} />
 							<Body style={{marginLeft : '5%'}}>
 								<Title style={{color:'black'}}>{ele.review_info.post_title}</Title>
 								<Text> {ele.review_info.created_at}</Text>

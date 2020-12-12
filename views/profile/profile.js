@@ -68,7 +68,7 @@ class ProfileShow extends Component {
         this.state.nickname = res.data.user_info.nickname
         this.state.location = res.data.user_info.location_title
         this.state.group = res.data.user_info.group || "소속 없음"
-        this.state.profile_image = res.data.user_info.image
+        this.state.profile_image = res.data.user_info.image || '/image/default.png'
         this.state.isCompany = res.data.user_info.is_company
         this.state.avg_rating = res.data.user_info.avg
         this.state.received_reviews_count = res.data.user_info.received_reviews_count

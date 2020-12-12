@@ -78,7 +78,7 @@ class ProviderRentList extends Component {
           <ListItem thumbnail key={booking.booking_info.id} button
             onPress={() => { console.log('not already exist booking_show') }}>
             <Left>
-              <Thumbnail square source={{ uri: booking.booking_info.post_image }} />
+              <Thumbnail square source={booking.booking_info=='/image/default.png' ? require('../../assets/default.png') : { uri: booking.booking_info.post_image }} />
             </Left>
             <Body>
               <Text>{booking.booking_info.title}</Text>
