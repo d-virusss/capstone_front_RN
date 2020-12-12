@@ -18,12 +18,7 @@ import api from '../shared/server_address';
 
 let myID;
 let token='';
-let myName;
-let postID;
 let postInfo;
-let userID = 1;
-let avatar='';
-let other_id=-1;
 
 function renderBubble (props) {
   return (
@@ -79,6 +74,7 @@ function chat_room2 ({route, navigation}){
   const [post_title, setPostTitle] = useState('');
   const [post_img, setPostImg] = useState('');
   let [messages, setMessages] = useState([]);
+  let [other_id, setOtherId] = useState(-1);
   const getToken = async() => {
     token = await AsyncStorage.getItem('token');
   }
@@ -99,8 +95,8 @@ function chat_room2 ({route, navigation}){
       })
       .catch((err)=>console.log(err))
   }
-  const getMyInfo = ()=>{
-    myID = AsyncStorage.getItem('user_id');
+  const getMyInfo = async()=>{
+    myID = await AsyncStorage.getItem('user_id');
     Fire.getSenderID(myID);
     api
       .get(`/users/${myID}`,{
@@ -160,13 +156,12 @@ function chat_room2 ({route, navigation}){
       });
     console.log(messages[0]);
     Fire.send(messages);
-    //setMessages(previous=>GiftedChat.append(previous, messages))
   },[])
 
   useEffect(()=>{
     async function inEffect(){
       await getToken();
-      getMyInfo();
+      await getMyInfo();
       getPostInfo();
       messageGetRequest();
       Fire.getChatID(chat_id);
@@ -174,7 +169,7 @@ function chat_room2 ({route, navigation}){
         console.log(message)
         setMessages(previous=>GiftedChat.append(previous, message))
       })
-      //other_id = Fire.getOtherId();
+      setOtherId(Number(Fire.getOtherId()))
     }
     inEffect();
   },[])
@@ -190,10 +185,9 @@ function chat_room2 ({route, navigation}){
     renderComposer={renderComposer}
     renderMessage={renderMessage}
     onPressAvatar={()=> {
-      if(Fire.getOtherId()){
-        setTimeout(()=>{console.log(JSON.stringify(Fire.getOtherId()))},500)
-        navigation.navigate('ProfileShow',{user_id : Fire.getOtherId()})
-      }
+        console.log(other_id)
+        console.log(other_id)
+        navigation.navigate('ProfileShow',{user_id : other_id})
       }}
   />
   if(Platform.os === 'android'){

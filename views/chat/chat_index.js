@@ -48,7 +48,7 @@ class ListProfile extends Component {
       }}>
         <Left>
           
-            <Thumbnail source={{ uri: this.props.imgURI||'https://applepink.s3.amazonaws.com/uploads/user/image/1/square_447087af-da95-4a04-94c4-2ccccc782c28applePink_logo.png'}} style={{ width : 60, height: 60, }} />
+            <Thumbnail source={(this.props.imgURI == "/image/default.png" ? require("../../assets/default.png") : {uri : this.props.imgURI})} style={{ width : 60, height: 60, }} />
           
         </Left>
         <Body style={{paddingVertical: 30, alignSelf: 'center'}} >
@@ -137,7 +137,7 @@ function ChatList ({ navigation, getTotalChat }){
     console.log(chats);
     return chats.map((chat) => {
       return(
-        <ListProfile navigation = {navigation} imageURI={imgURI} 
+        <ListProfile navigation = {navigation}
           nickname = {chat.chat_info.nickname} 
           postID = {chat.chat_info.post_id} 
           body = {chat.chat_info.message} 
