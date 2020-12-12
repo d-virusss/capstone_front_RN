@@ -243,7 +243,7 @@ class ProfileShow extends Component {
             </TouchableOpacity>
           </Left>
           <Body>
-            <Title>프로필</Title>
+            <Title style={{ fontSize: 20 }}>프로필</Title>
           </Body>
           <Right>
             {this.renderPopover()}

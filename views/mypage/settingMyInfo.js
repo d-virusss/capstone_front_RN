@@ -155,7 +155,7 @@ class SettingMyInfoScreen extends React.Component {
                 <Icon name = 'chevron-back' type = 'Ionicons'/>
               </TouchableOpacity>
             </Left>
-            <Body><Title>프로필 수정</Title></Body>
+            <Body><Title style={{ fontSize: 20 }}>프로필 수정</Title></Body>
             <Right></Right>
           </Header>
           <Content><Spinner visible={this.state.loading} color="#ff3377" /></Content>
@@ -175,7 +175,7 @@ class SettingMyInfoScreen extends React.Component {
                 <Icon name = 'chevron-back' type = 'Ionicons'/>
               </TouchableOpacity>
             </Left>
-            <Body><Title>프로필 수정</Title></Body>
+            <Body><Title style={{ fontSize: 20 }}>프로필 수정</Title></Body>
             <Right></Right>
           </Header>
           

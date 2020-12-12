@@ -218,7 +218,7 @@ AuthCodeSubmit() {
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>회원가입</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>회원가입</Title></Body>
           <Right></Right>
         </Header>
         

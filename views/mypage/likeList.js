@@ -16,7 +16,7 @@ class LikeListScreen extends Component {
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title>관심 목록</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>관심 목록</Title></Body>
           <Right></Right>
         </Header>
 

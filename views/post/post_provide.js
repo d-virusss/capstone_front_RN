@@ -184,7 +184,7 @@ class Post_provide extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>물품 등록</Title>
+          <Body><Title style={{ fontSize: 20 }}>물품 등록</Title>
           </Body>
           <Right>
             <TouchableOpacity 

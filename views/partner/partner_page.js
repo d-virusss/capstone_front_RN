@@ -109,7 +109,7 @@ class Partner_page extends Component{
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title style={{color:'black', alignSelf:'center'}}>파트너 페이지</Title></Body>
+          <Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>파트너 페이지</Title></Body>
           <Right></Right>
         </Header>
         <Card style={{width:'95%', alignSelf:'center'}}>

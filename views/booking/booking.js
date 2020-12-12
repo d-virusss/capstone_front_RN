@@ -186,7 +186,7 @@ class bookingScreen extends Component{
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body style={{flex:8}}><Title style={{color:'black', alignSelf:'center'}}>{this.state.post_title}</Title></Body>
+          <Body style={{flex:8}}><Title style={{color:'black', alignSelf:'center', fontSize: 20}}>{this.state.post_title}</Title></Body>
           <Right style={{flex:1}}></Right>
         </Header>
         <Header style = {{height: 100, backgroundColor:'white'}} androidStatusBarColor='#000'>

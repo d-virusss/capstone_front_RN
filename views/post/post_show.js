@@ -378,7 +378,7 @@ class PostShow extends Component{
                 <Icon name = 'chevron-back' type = 'Ionicons'/>
               </TouchableOpacity>
             </Left>
-            <Body style={{flex : 8}}><Title style={{color:'black', alignSelf:'center'}}>{this.state.title}</Title></Body>
+            <Body style={{flex : 8}}><Title style={{color:'black', alignSelf:'center', fontSize: 20}}>{this.state.title}</Title></Body>
             <Right style={{flex : 1}}>
               <Popover
                 isVisible = {this.state.show_popover}

@@ -74,7 +74,7 @@ class ProfileAsk extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>요청 상품</Title></Body>
+          <Body><Title style={{ fontSize: 20 }}>요청 상품</Title></Body>
           <Right></Right>
         </Header>
 

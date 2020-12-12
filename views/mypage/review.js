@@ -153,7 +153,7 @@ class ReviewScreen extends Component {
 							<Icon name = 'chevron-back' type = 'Ionicons'/>
 							</TouchableOpacity>
 						</Left>
-						<Body><Title style={{color:'black',alignSelf:'center'}}>작성한 리뷰</Title></Body>
+						<Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>작성한 리뷰</Title></Body>
 						<Right>
 							<TouchableOpacity transparent onPress = {() => this.onRefresh()}>
 								<Icon name = 'refresh' type = 'Ionicons'/>

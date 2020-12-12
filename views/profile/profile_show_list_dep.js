@@ -130,7 +130,7 @@ function profileShowList({route, navigation}){
           </Button>
         </Left>
         <Body>
-          <Text style = {{fontSize : 17}}>글 목록</Text>
+          <Text style = {{fontSize : 20}}>글 목록</Text>
         </Body>
         <Right>
         </Right>
