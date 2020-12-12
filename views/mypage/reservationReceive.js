@@ -77,6 +77,7 @@ class receiveScreen extends Component{
   }
 
   accept (){
+    debugger
     reservation_info.booking.acceptance='accepted'
     api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
       headers: {
@@ -94,6 +95,7 @@ class receiveScreen extends Component{
   }
 
   reject() {
+    debugger
     reservation_info.booking.acceptance='rejected'
     api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
       headers: {

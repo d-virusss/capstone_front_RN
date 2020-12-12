@@ -166,7 +166,7 @@ class UpdateReviewScreen extends Component {
 								<Thumbnail square source={{ uri: this.state.post_image }} />
 							</Left>
 							<Body>
-								<Text>{this.state.post_title}</Text>
+								<Title>{this.state.post_title}</Title>
 							</Body>
 					</ListItem>
 					<ImageSelect stateBus={this.changeImage} existing_image={this.state.images}/>
