@@ -101,7 +101,7 @@ export default class SignState extends React.Component {
         <Header>
           <Left>
           </Left>
-          <Body><Title>서명 확인</Title>
+          <Body><Title style={{ fontSize: 20 }}>서명 확인</Title>
           </Body>
           <Right>
           </Right>

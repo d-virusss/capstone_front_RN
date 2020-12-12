@@ -79,7 +79,7 @@ export default class RegistrationScreen extends React.Component {
               <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title style={{color:'black',alignSelf:'center'}}>파트너 신청</Title></Body>
+            <Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>파트너 신청</Title></Body>
           <Right></Right>
         </Header>
         <Content>

@@ -55,7 +55,7 @@ function profileShow({route, navigation}){
           </Button>
         </Left>
         <Body>
-          <Text style = {{fontSize : 17}}>상대방 프로필</Text>
+          <Text style = {{fontSize : 20 }}>상대방 프로필</Text>
         </Body>
         <Right>
           <Button dark transparent>

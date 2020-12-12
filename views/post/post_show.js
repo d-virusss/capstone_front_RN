@@ -359,7 +359,7 @@ class PostShow extends Component{
           </Button>)}
           {this.state.isBooked == true && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '3%', marginTop: '4%' }}
             onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
-            <Text style={{ fontWeight: 'bold', fontSize:16, padding: 0, color: '#ff3377'}}>예약 취소</Text>
+            <Text style={{ fontWeight: 'bold', fontSize:16, padding: 0, color: 'white'}}>예약 취소</Text>
           </Button>)}
         </FooterTab>
       )
@@ -378,7 +378,7 @@ class PostShow extends Component{
                 <Icon name = 'chevron-back' type = 'Ionicons'/>
               </TouchableOpacity>
             </Left>
-            <Body style={{flex : 8}}><Title style={{color:'black', alignSelf:'center'}}>{this.state.title}</Title></Body>
+            <Body style={{flex : 8}}><Title style={{color:'black', alignSelf:'center', fontSize: 20}}>{this.state.title}</Title></Body>
             <Right style={{flex : 1}}>
               <Popover
                 isVisible = {this.state.show_popover}

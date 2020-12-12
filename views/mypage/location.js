@@ -237,7 +237,7 @@ class MypageScreen extends Component{
             <Icon name = 'chevron-back' type = 'Ionicons'/>
             </TouchableOpacity>
           </Left>
-          <Body><Title style={{color:'black',alignItems:'center'}}>동네 인증</Title></Body>
+          <Body><Title style={{ color: 'black', alignItems: 'center', fontSize: 20}}>동네 인증</Title></Body>
           <Right></Right>
         </Header>
 

@@ -170,7 +170,7 @@ class PostUpdate extends Component {
                 <Icon name='chevron-back' type='Ionicons' />
               </TouchableOpacity>
             </Left>
-            <Body><Title>물품 정보 수정</Title></Body>
+            <Body><Title style={{ fontSize: 20 }}>물품 정보 수정</Title></Body>
             <Right></Right>
           </Header>
           <Content><Spinner visible={this.state.loading} color="#ff3377" /></Content>
@@ -190,7 +190,7 @@ class PostUpdate extends Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>물품 정보 수정</Title>
+          <Body><Title style={{ fontSize: 20 }}>물품 정보 수정</Title>
           </Body>
           <Right>
             <TouchableOpacity

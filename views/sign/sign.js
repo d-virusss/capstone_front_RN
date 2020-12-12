@@ -115,7 +115,7 @@ export default class Sign extends React.Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title>계약서 서명</Title>
+          <Body><Title style={{ fontSize: 20 }}>계약서 서명</Title>
           </Body>
           <Right>
           </Right>
