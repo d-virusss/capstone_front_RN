@@ -55,16 +55,14 @@ class PolicyDetailScreen extends Component{
 				<Content style={{padding : 20}}>
 					<Card>
 						<ScrollView>
-							<CardItem>
-								<Body>
-									<View style={styles.textareaContainer}>
-									<TextInput multiline={true} numberOfLines={10}
-                          style={styles.textarea}
-                          value={this.state.content}
-													editable={false}/>
-									</View>
-								</Body>
-							</CardItem>
+							<Body>
+								<View style={styles.textareaContainer}>
+								<TextInput multiline={true} numberOfLines={10}
+												style={styles.textarea}
+												value={this.state.content}
+												editable={false}/>
+								</View>
+							</Body>
 						</ScrollView>
 					</Card>
 			

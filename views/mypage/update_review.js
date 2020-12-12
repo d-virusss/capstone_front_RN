@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity, Alert, StyleSheet, View, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native';
 import {Container, Button, ListItem, Thumbnail, Content,
-     Header, Left, Right, Icon, Body, Title, Textarea, CardItem, Card} from 'native-base';
+     Header, Left, Right, Icon, Body, Title, Textarea, CardItem, Card, Form} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import {AirbnbRating,Rating } from 'react-native-elements'
@@ -114,9 +114,6 @@ class UpdateReviewScreen extends Component {
 		this.getToken();
 	}
 
-
-	
-
 	render(){
 		if(this.state.loading){
 			return(
@@ -146,6 +143,7 @@ class UpdateReviewScreen extends Component {
 			return(
 				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<Container>
+				
 					<Header style={{
 						height: 60,
 						backgroundColor: '#f8f8f8',
@@ -160,7 +158,11 @@ class UpdateReviewScreen extends Component {
 						<Right></Right>
 					</Header>
 					<Spinner visible={this.state.saving} color="#ff3377" />
-					<Content>
+
+					
+	
+					<ScrollView>
+						<Content>
 					<ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
 							<Left>
 								<Thumbnail square source={{ uri: this.state.post_image }} />
@@ -179,20 +181,25 @@ class UpdateReviewScreen extends Component {
 						style={{ paddingVertical: 10 }}
 						startingValue={0}/>
 
-					<Card>
+						<Card style={{marginLeft : 10, marginRight : 10}}>
 							<CardItem>
-									<ScrollView>
-											<Body>
-													<Textarea rowSpan={8} autoCapitalize='none'
-													onChangeText={(text) => {this.setState({body : text}, () =>{})}}
-													value={this.state.body}
-													style={styles.textAreaContainer}
-													/>
-											</Body>
-									</ScrollView>
+								<ScrollView>
+										
+									<Form>
+										<Textarea rowSpan={10} autoCapitalize='none'
+										onChangeText={(text) => {this.setState({body : text}, () =>{})}}
+										value={this.state.body}
+										style={styles.textAreaContainer}
+										/>
+									</Form>
+							
+								</ScrollView>
 							</CardItem>
-					</Card>
-					</Content>
+						</Card>
+						</Content>
+					</ScrollView>
+			
+					
 					<View style = {styles.footer}>
 							<Button transparent style = {styles.footerbutton} onPress={() => {this.putWriteReviewRequest()}}>
 									<Text style={styles.footerText}>수정하기</Text>
@@ -227,10 +234,6 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontWeight: 'bold',
 		fontSize: 20,
-	},
-	textAreaContainer: {
-		marginHorizontal: '2%',
-		marginTop: '5%'
 	},
 	textAreaContainer: {
 		marginHorizontal: '2%',

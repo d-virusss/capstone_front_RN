@@ -61,8 +61,7 @@ class ReviewScreen extends Component {
 			console.log(ele);
 			return(
 				<Card style={{flex: 0, marginTop: '5%'}}>
-					<CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}
-					button onPress={() => {this.changeReview(ele.review_info)}}>
+					<CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}>
 						<Thumbnail source={ele.review_info.post_image=='/image/default.png' ? require('../../assets/default.png') :{uri: ele.review_info.post_image}} />
 							<Body style={{marginLeft : '5%'}}>
 								<Title style={{color:'black'}}>{ele.review_info.post_title}</Title>
@@ -85,16 +84,16 @@ class ReviewScreen extends Component {
               sliderBoxHeight={200}
               inactiveDotColor="#ffccdd"
               dotColor="#ff3377" />
-							<Text>{ele.review_info.body}</Text>
+							<Text>{"\n\n"}{ele.review_info.body}</Text>
 							<View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
-								<TouchableOpacity style={{ marginRight: '2%' }}>
-									<Badge style={{ backgroundColor: '#edc72f' }}> 
-										<Text style={styles.badgeText}>수정하기</Text> 
+								<TouchableOpacity style={{ marginRight: '2%' }} onPress = {() =>this.changeReview(ele.review_info)}>
+									<Badge style={{ backgroundColor: '#ffe812'}}> 
+										<Text style={{color: 'black',fontWeight: 'bold'}}>수정하기</Text> 
 									</Badge>
 								</TouchableOpacity>
-								<TouchableOpacity>
+								<TouchableOpacity onPress={() => this.deleteRequest(ele.review_info.review.id)}>
 									<Badge> 
-										<Text style={styles.badgeText}>삭제하기</Text> 
+										<Text style={{color: 'white',fontWeight: 'bold'}}>삭제하기</Text> 
 									</Badge>
 								</TouchableOpacity>
 							</View>
@@ -119,7 +118,6 @@ class ReviewScreen extends Component {
 	}
 
 	changeReview(review) {
-		console.log(review)
 		let posts = {
 				id :review.booking_id,
 				image : review.post_image,
@@ -130,20 +128,7 @@ class ReviewScreen extends Component {
 				review_images : review.images,
 		}//for review request
 
-		Alert.alert("리뷰 관리", "리뷰를 수정하시겠습니까?",[
-			{
-				text: '리뷰 수정',
-				onPress: () => this.props.navigation.navigate('UpdateReview', {posts : posts})
-			},
-			{
-				text: '리뷰 삭제',
-				onPress: () => this.deleteRequest(posts.review_id)
-			},
-			{
-				text: '취소',
-				style: 'cancel'
-			}
-		]) 
+		this.props.navigation.navigate('UpdateReview', {posts : posts})
 	}
 
   render(){
@@ -195,9 +180,5 @@ const styles = StyleSheet.create({
     marginLeft : -60,
     alignSelf: 'center',
 	},
-	badgeText: {
-		color: 'white',
-		fontWeight: 'bold'
-	}
 })
 export default ReviewScreen;
