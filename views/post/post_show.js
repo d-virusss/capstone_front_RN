@@ -98,7 +98,7 @@ class PostShow extends Component{
 				this.state.provider_name = response.data.user.user_info.nickname,
 				this.state.provider_location = response.data.user.user_info.location_title,
 				this.state.provider_id = response.data.user.user_info.id,
-				this.state.provider_profile_image = response.data.user.user_info.image
+				this.state.provider_profile_image = response.data.user.user_info.image || '/image/default.png'
 				this.state.is_your_post = response.data.user.user_info.id == parseInt(user_id) ? true : false;
         
         
@@ -353,11 +353,15 @@ class PostShow extends Component{
             onPress={() => { this.makeCallchat_navigate() }}>
             <Text style={{ color: 'white', fontWeight : 'bold', fontSize:17, paddingVertical: '5%' }}>채팅하기</Text>
           </Button>
-          {this.state.isBooked == false && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal:'3%', marginTop: '4%' }}
+          {this.state.status == "unable" && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '3%', marginTop: '4%' }}
+            onPress={() => { Alert.alert("신청 불가", "대여중인 상품입니다.", [{ text:'확인', style:'cancel' }]) }} >
+            <Text style={{ fontWeight: 'bold', fontSize: 17, color: 'white' }}>예약하기</Text>
+          </Button>)}
+          {this.state.status == "able" && this.state.isBooked == false && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal:'3%', marginTop: '4%' }}
             onPress={() => { this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize:17, color: 'white'}}>예약하기</Text>
           </Button>)}
-          {this.state.isBooked == true && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '3%', marginTop: '4%' }}
+          {this.state.status == "able" && this.state.isBooked == true && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '3%', marginTop: '4%' }}
             onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize:16, padding: 0, color: 'white'}}>예약 취소</Text>
           </Button>)}
@@ -407,7 +411,7 @@ class PostShow extends Component{
                   <Item regular style={styles.providerBar}>
                     <TouchableOpacity style={{ marginLeft: '3%' }}
                     onPress={() => { this.props.navigation.push("ProfileShow", { user_id : this.state.provider_id }) } }>
-                      <Image source={{ uri: this.state.provider_profile_image || "empty " }} style={styles.providerProfileiimage}></Image>
+                      <Image source={this.state.provider_profile_image=="/image/default.png" ? require("../../assets/default.png") :{ uri: this.state.provider_profile_image}} style={styles.providerProfileiimage}></Image>
                     </TouchableOpacity>
                     <View style={styles.providerProfile}>
                       <Text style={styles.providerName}>{this.state.provider_name}</Text>

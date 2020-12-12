@@ -69,12 +69,11 @@ function renderMessage(props){
 }
 //ChatRoom view function
 function chat_room2 ({route, navigation}){
-  const {chat_id, post_id, nickname, avatar} = route.params;
+  const {chat_id, post_id, nickname, avatar, other_id} = route.params;
   const [show_popover, setShowPopover] = useState(false);
   const [post_title, setPostTitle] = useState('');
   const [post_img, setPostImg] = useState('');
   let [messages, setMessages] = useState([]);
-  let [other_id, setOtherId] = useState(-1);
   const getToken = async() => {
     token = await AsyncStorage.getItem('token');
   }
@@ -169,7 +168,6 @@ function chat_room2 ({route, navigation}){
         console.log(message)
         setMessages(previous=>GiftedChat.append(previous, message))
       })
-      setOtherId(Number(Fire.getOtherId()))
     }
     inEffect();
   },[])
@@ -185,8 +183,8 @@ function chat_room2 ({route, navigation}){
     renderComposer={renderComposer}
     renderMessage={renderMessage}
     onPressAvatar={()=> {
-        console.log(other_id)
-        console.log(other_id)
+        console.log("상대방id: "+other_id)
+        if(other_id!=-1)
         navigation.navigate('ProfileShow',{user_id : other_id})
       }}
   />

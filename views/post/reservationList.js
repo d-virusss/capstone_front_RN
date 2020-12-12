@@ -17,7 +17,7 @@ class reservationListScreen extends Component{
 		console.log("상태 refresh")
 		this.makeRefreshRequest();
 	}
-      
+
   render(){
     return(
       <Container>

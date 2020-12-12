@@ -205,7 +205,7 @@ class MypageScreen extends Component {
                 thumbnail
                 style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop:'3%'}}>
                 <TouchableOpacity style={{ flexDirection: 'row' }}>
-                  <Thumbnail source={{uri: this.state.myImage}} />
+                  <Thumbnail source={this.state.myImage=='/image/default.png' ? require('../../assets/default.png') :{uri: this.state.myImage}} />
                   <Body style={{ marginLeft : '5%' }}>
                     <View style={{ flexDirection : 'row', width:'60%' }}>
                       <Text numberOfLines={1}>{this.state.myName}</Text>

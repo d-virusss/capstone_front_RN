@@ -48,7 +48,7 @@ class ProviderRentList extends Component {
               <Text note numberOfLines={1}>{booking.booking_info.price.toLocaleString()} 원 by {booking.booking_info.consumer.nickname}</Text>
             </Body>
             <Right>
-              <TouchableOpacity onPress={() => {Alert.alert("반납 완료", "반납 완료 상태로 수정하시겠습니까?", [
+              <TouchableOpacity onPress={() => {Alert.alert("납 완료", "반납 완료 상태로 수정하시겠습니까?", [
                 {
                   text: '확인',
                   onPress: () => { this.changeToCompletedRequest(booking.booking_info.id) }
@@ -58,7 +58,7 @@ class ProviderRentList extends Component {
                   style: 'cancel'
                 }
               ])}}>
-                <Badge style={{ backgroundColor: '#fcf11e', height : 30}}>
+                <Badge style={{ backgroundColor: '#ffe812', height : 30}}>
                   <Text style={styles.returnbutton}>반납 확인</Text>
                 </Badge>
               </TouchableOpacity>
