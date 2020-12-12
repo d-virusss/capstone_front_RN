@@ -259,7 +259,7 @@ class receiveScreen extends Component{
   render(){
     return(
       <View style={styles.container}>
-        <ScrollView style={{flex: 1, marginBottom : '20%'}}>
+        <ScrollView style={{flex: 1}}>
             <Calendar
             markedDates={this.state.marked}
             markingType={'period'}

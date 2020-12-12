@@ -134,7 +134,6 @@ class categoryScreen extends Component {
 
 const styles = StyleSheet.create({
   popoverel : {
-    paddingVertical : 10,
     paddingHorizontal : 10,
     marginLeft : 20
   },
@@ -153,7 +152,8 @@ const styles = StyleSheet.create({
     paddingRight : 10
   },
   categorybutton : {
-    margin : 10
+    marginHorizontal : 10,
+    marginVertical : 5
   }
 })
 

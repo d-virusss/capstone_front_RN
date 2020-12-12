@@ -156,7 +156,8 @@ class UpdateReviewScreen extends Component {
 							<Icon name = 'chevron-back' type = 'Ionicons'/>
 							</TouchableOpacity>
 						</Left>
-							<Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>리뷰 수정</Title></Body>
+						<Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>리뷰 수정</Title></Body>
+						<Right></Right>
 					</Header>
 					<Spinner visible={this.state.saving} color="#ff3377" />
 					<Content>
