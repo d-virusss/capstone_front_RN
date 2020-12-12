@@ -24,7 +24,7 @@ class myItemListScreen extends Component{
         <ListItem thumbnail key={post.post_info.id} button
         onPress={() =>  this.props.navigation.push('PostShow', { post_id: post.post_info.id })}>
           <Left>
-            <Thumbnail square source={{ uri: post.post_info.image }} />
+            <Thumbnail square source={post.post_info.image=='/image/default.png' ? require('../../assets/default.png') : {uri: post.post_info.image }} />
           </Left>
           <Body>
             <Text>{post.post_info.title}</Text>
