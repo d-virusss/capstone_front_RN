@@ -221,10 +221,6 @@ class PostShow extends Component{
       })
       .then((res) => {
         console.log(res)
-        Toast.show({
-          text: '좋아요!',
-          buttonText: '확인'
-        })
       })
       .catch((e) => {
         console.log(e)
@@ -391,7 +387,7 @@ class PostShow extends Component{
                     </View>
                   
                     <Right style={styles.rentCountArea}>
-                      <Text style={styles.providerLocation}>지난 대여 {this.state.rent_count}</Text>
+                      <Text style={styles.providerLocation} >지난 대여 {this.state.rent_count}</Text>
                     </Right>
                   </Item>
 
