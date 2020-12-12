@@ -353,11 +353,15 @@ class PostShow extends Component{
             onPress={() => { this.makeCallchat_navigate() }}>
             <Text style={{ color: 'white', fontWeight : 'bold', fontSize:17, paddingVertical: '5%' }}>채팅하기</Text>
           </Button>
-          {this.state.isBooked == false && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal:'3%', marginTop: '4%' }}
+          {this.state.status == "unable" && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '3%', marginTop: '4%' }}
+            onPress={() => { Alert.alert("신청 불가", "대여중인 상품입니다.", [{ text:'확인', style:'cancel' }]) }} >
+            <Text style={{ fontWeight: 'bold', fontSize: 17, color: 'white' }}>예약하기</Text>
+          </Button>)}
+          {this.state.status == "able" && this.state.isBooked == false && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal:'3%', marginTop: '4%' }}
             onPress={() => { this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize:17, color: 'white'}}>예약하기</Text>
           </Button>)}
-          {this.state.isBooked == true && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '3%', marginTop: '4%' }}
+          {this.state.status == "able" && this.state.isBooked == true && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '3%', marginTop: '4%' }}
             onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
             <Text style={{ fontWeight: 'bold', fontSize:16, padding: 0, color: 'white'}}>예약 취소</Text>
           </Button>)}

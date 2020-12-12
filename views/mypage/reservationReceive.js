@@ -77,7 +77,8 @@ class receiveScreen extends Component{
   }
 
   accept (){
-    debugger
+    console.log("승인 request ---------")
+    this.setState({ loading: true })
     reservation_info.booking.acceptance='accepted'
     api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
       headers: {
@@ -90,13 +91,15 @@ class receiveScreen extends Component{
       ])
     }).catch((err) => {
       console.log(err)
-      Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+      Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel',
+        onPress: () => {this.setState({ loading: false })} }])
     })
   }
 
   reject() {
-    debugger
-    reservation_info.booking.acceptance='rejected'
+    console.log("거절 request ---------")
+    this.setState({ loading: true })
+    reservation_info.booking.acceptance ='rejected'
     api.put(`/bookings/${reservation_info.item_id}/accept`, reservation_info, {
       headers: {
         Authorization: this.state.token,
@@ -107,7 +110,8 @@ class receiveScreen extends Component{
         {text:'확인', style:'cancel', onPress: () => { this._onRefresh()  }}
       ])
     }).catch((err) => {
-      Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+      Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel',
+        onPress: () => this.setState({ loading: false }) }])
     })
   }
 
@@ -158,11 +162,11 @@ class receiveScreen extends Component{
       if(reservation_info.booking.acceptance === 'waiting'){
         return (
           <Footer style={styles.footer}>
-            <Button transparent style={styles.bottomButtons}
+            <Button transparent style={styles.acceptButton}
               onPress={() => { this.accept() }}>
               <Text style={styles.footerText}>승인</Text>
             </Button>
-            <Button transparent style={styles.bottomButtons}
+            <Button transparent style={styles.rejectButton}
               onPress={() => { this.reject() }}>
               <Text style={styles.footerText}>거절</Text>
             </Button>
@@ -196,7 +200,7 @@ class receiveScreen extends Component{
 
   _onRefresh(){
     console.log('refresh screen --------------')
-    this.setState({ refreshing : true })
+    this.setState({ refreshing : true, loading: false })
     this.getReservationList()
     this.setState({ refreshing : false })
   }
@@ -261,7 +265,7 @@ class receiveScreen extends Component{
   render(){
     return(
       <View style={styles.container}>
-        <ScrollView style={{flex: 1}}>
+        <ScrollView style={{flex: 1 }}>
             <Calendar
             markedDates={this.state.marked}
             markingType={'period'}
@@ -308,6 +312,16 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '6%',
     flexDirection: 'row',
+  },
+  acceptButton: {
+    marginTop: '2%',
+    width: '50%',
+    justifyContent: 'center',
+  },
+  rejectButton: {
+    marginTop: '2%',
+    width: '50%',
+    justifyContent: 'center',
   }
  });
 
