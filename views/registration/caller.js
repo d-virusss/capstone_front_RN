@@ -283,6 +283,7 @@ AuthCodeSubmit() {
                       ref={(input) => { this.textInput = input }}
                       placeholder='연락처 ex) 01012345678'
                       placeholderTextColor="#666" 
+                      keyboardType='numeric'
                       autoCapitalize='none'
                       onChangeText={(text) => this.setState({number : text})}
                       editable={this.state.code == "success" ? "false" : "true"}

@@ -256,7 +256,7 @@ class ProfileShow extends Component {
               <ListItem
                 thumbnail
                 style={{flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop: '3%' }}>
-                <Thumbnail source={{ uri: this.state.profile_image }} />
+                <Thumbnail source={ this.state.profile_image == '/image/default.png' ? require('../../assets/default.png') : { uri: this.state.profile_image } } />
                 <Body style={{ marginLeft: '5%'}}>
                   <View style={{ flexDirection: 'row', width: '50%' }}>
                     <Text numberOfLines={1}>{this.state.nickname}</Text>
