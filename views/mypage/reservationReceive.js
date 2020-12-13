@@ -125,9 +125,9 @@ class receiveScreen extends Component{
       .then((res) => {
         console.log("reservationReceive ---- getUserInfo")
         console.log(res)
-        if(res.data.user_info.name === null ||
-          res.data.user_info.birthday === null ||
-          res.data.user_info.number === null){
+        if(res.data.user_info.name === "" ||
+          res.data.user_info.birthday === "" ||
+          res.data.user_info.number === ""){
           Alert.alert("정보 누락", "본인 프로필에 실명, 전화번호, 생년월일이 있어야 인증이 가능합니다.", [{ text: '확인', style: 'cancel',
             onPress: () => { this.setState({ loading: false }) }
         }])

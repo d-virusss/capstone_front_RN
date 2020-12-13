@@ -68,7 +68,7 @@ class UpdateReviewScreen extends Component {
 			},
 		}).then((res)=> {
 
-			Alert.alert("수정 완료", "리뷰가 정상적으로 수정되었습니다",[
+			Alert.alert("수정 완료", "리뷰가 정상적으로 수정되었습니다.",[
 				{
 					text: '확인',
 					onPress: () => this.props.navigation.goBack()
