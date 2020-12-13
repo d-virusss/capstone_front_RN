@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { TouchableOpacity, StyleSheet, View, Alert,
+import { TouchableOpacity, StyleSheet, View, Alert,DeviceEventEmitter,
 	TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Header, Text, Form, Item, Input, Label, Left, Right, 
@@ -166,6 +166,7 @@ sendAuthCodeRequest = async() => {
 			}
 		})
 		.then((res) =>  {
+			DeviceEventEmitter.emit('updateMypage', {id : 1, group : res.data.group_title});
 			Alert.alert("인증 성공", "정상적으로 등록됐습니다.",[{text:'확인', onPress : () => this.props.navigation.goBack()}, {style:'cancel'}])
 		})
 		.catch((err) =>  {

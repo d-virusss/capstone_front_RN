@@ -56,6 +56,7 @@ class UpdateReviewScreen extends Component {
 			})
 			formdata.append('review[image]', thumb_image)
 		}
+		console.log("------------------")
 		console.log(formdata)
 	}
 
@@ -78,7 +79,15 @@ class UpdateReviewScreen extends Component {
 				}
 			]) 
 		}).catch((err) => {
-			Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}]) 
+			Alert.alert("요청 실패", err.response.data.error,[
+				{
+					text:'확인',
+					onPress : () =>this.setState({saving : false})
+				 },
+				 {
+					style:'cancel'
+				}
+			]) 
 		})
 	}
 

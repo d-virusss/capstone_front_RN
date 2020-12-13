@@ -93,7 +93,7 @@ class PostShow extends Component{
         }
         this.state.isBooked = response.data.post_info.is_booked
         this.state.category_id = response.data.post_info.category_id
-        
+
 				//writer info
 				this.state.provider_name = response.data.user.user_info.nickname,
 				this.state.provider_location = response.data.user.user_info.location_title,
