@@ -112,8 +112,8 @@ class SettingMyInfoScreen extends React.Component {
   }
 
   updateRequest = async () => {
-    this.setState({ loading : true })
     if(this.profileValidateCheck()){
+      this.setState({ loading : true })
       api
       .put(`/users/${this.state.id}`, (formdata),
       {
