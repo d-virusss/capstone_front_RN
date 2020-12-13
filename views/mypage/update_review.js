@@ -20,7 +20,7 @@ const thumb_image = {
 
 var multi_images = []
 var formdata = new FormData();
-var rating =''; //for rating component
+var rating =0; //for rating component
 
 class UpdateReviewScreen extends Component {
 	params = this.props.route.params;
@@ -56,7 +56,6 @@ class UpdateReviewScreen extends Component {
 			})
 			formdata.append('review[image]', thumb_image)
 		}
-		console.log("------------------")
 		console.log(formdata)
 	}
 
@@ -91,7 +90,7 @@ class UpdateReviewScreen extends Component {
 		})
 	}
 
-	raitingCompleted(rate){
+	ratingCompleted(rate){
 		rating = rate;
 	}
 
@@ -107,9 +106,9 @@ class UpdateReviewScreen extends Component {
 			multi_images[index].name = image.filename
 		})
 
-		thumb_image.uri = data[0].sourceURL;
-		thumb_image.type = data[0].mime;
-		thumb_image.name = data[0].filename;
+		thumb_image.uri = data.sourceURL;
+		thumb_image.type = data.mime;
+		thumb_image.name = data.filename;
 	}
 
 	componentDidMount(){
@@ -120,7 +119,15 @@ class UpdateReviewScreen extends Component {
 		this.state.post_title = this.params.posts.title;
 		this.state.post_image = this.params.posts.image;
 		this.state.booking_id = this.params.posts.id;
+		console.log(this.params.posts)
 		this.state.images = this.params.posts.review_images;
+		
+		// if(this.params.my_post.post_info.image_detail.length === 0){
+    //   this.state.images = [this.params.my_post.post_info.image];
+    // }
+    // else{
+    //   this.state.images = this.params.my_post.post_info.image_detail;
+    // }
 		this.getToken();
 	}
 
@@ -174,10 +181,10 @@ class UpdateReviewScreen extends Component {
 					<ScrollView>
 						<Content>
 					<ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
-							<Left>
-								<Thumbnail square source={{ uri: this.state.post_image }} />
-							</Left>
-							<Body>
+						
+							<Thumbnail square source={{ uri: this.state.post_image }} />
+					
+							<Body style={{justifyContent : 'center', alignItems : 'center', marginLeft : '-5%'}}>
 								<Title>{this.state.post_title}</Title>
 							</Body>
 					</ListItem>
@@ -187,9 +194,10 @@ class UpdateReviewScreen extends Component {
 						fractions={1}
 						ratingCount={5}
 						imageSize={30}
-						onFinishRating={this.raitingCompleted}
-						style={{ paddingVertical: 10 }}
-						startingValue={0}/>
+						defaultRating={0}
+						startingValue={this.state.rate}
+						onFinishRating={this.ratingCompleted}
+						style={{ paddingVertical: 10 }}/>
 
 						<Card style={{marginLeft : 20, marginRight : 20}}>
 							<CardItem>

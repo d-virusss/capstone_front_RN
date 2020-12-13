@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Alert, TouchableOpacity, DeviceEventEmitter,
+import { StyleSheet, View, Alert, TouchableOpacity,
   TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, 
@@ -130,7 +130,6 @@ class SettingMyInfoScreen extends React.Component {
         ])
       })
       .catch((err) =>  {
-        console.log('fail to register');
         console.log(err.response)
         Alert.alert("요청 실패", err.response.data.message || err.response.data.error,[
           {text:'확인', style:'cancel',

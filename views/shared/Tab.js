@@ -33,6 +33,7 @@ class TabScreen extends Component {
         }
       })
       .then((response) => {
+        console.log("-------------------render tab---------------")
         console.log(response)
         total_unchecked = response.data.total
        
@@ -46,10 +47,12 @@ class TabScreen extends Component {
         switch (e.response.data.code){
           case 0 :
             errMessage = "로그인 세션이 만료됐습니다."
+            AsyncStorage.removeItem('token');
             page = "Logins"
             break;
           case 1 :
             errMessage = "로그인이 필요합니다."
+            AsyncStorage.removeItem('token');
             page = "Logins"
             break;
           case 2 :
@@ -59,10 +62,12 @@ class TabScreen extends Component {
             break;
           case 3 :
             errMessage = "로그인이 필요합니다."
+            AsyncStorage.removeItem('token');
             page = "Logins"
             break;
           default : 
             errMessage = e.response.data.error;
+            AsyncStorage.removeItem('token');
             page = "Logins"
             break;
         }
