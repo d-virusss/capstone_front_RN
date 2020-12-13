@@ -181,7 +181,9 @@ class ProfileShow extends Component {
   }
 
   renderFollowButton(){
-    if(this.state.my_id === this.profile_id){
+    // this.state.my_id: 내 id
+    // this.state.profile_id: 현재 프로필 유저 id
+    if(this.state.my_id === this.state.profile_id){
       return
     }
     else{
@@ -254,7 +256,7 @@ class ProfileShow extends Component {
               <ListItem
                 thumbnail
                 style={{flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop: '3%' }}>
-                <Thumbnail source={{ uri: this.state.profile_image }} />
+                <Thumbnail source={ this.state.profile_image == '/image/default.png' ? require('../../assets/default.png') : { uri: this.state.profile_image } } />
                 <Body style={{ marginLeft: '5%'}}>
                   <View style={{ flexDirection: 'row', width: '50%' }}>
                     <Text numberOfLines={1}>{this.state.nickname}</Text>
@@ -267,9 +269,7 @@ class ProfileShow extends Component {
                       {this.state.location}
                     </Text>
                   </View>
-              
                   {this.renderFollowButton()}
-        
                 </Body>
                 
               </ListItem>

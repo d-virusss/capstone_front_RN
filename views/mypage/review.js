@@ -91,7 +91,7 @@ class ReviewScreen extends Component {
 										<Text style={{color: 'black',fontWeight: 'bold'}}>수정하기</Text> 
 									</Badge>
 								</TouchableOpacity>
-								<TouchableOpacity onPress={() => this.deleteRequest(ele.review_info.review.id)}>
+								<TouchableOpacity onPress={() => this.deleteRequest(ele.review_info.id)}>
 									<Badge> 
 										<Text style={{color: 'white',fontWeight: 'bold'}}>삭제하기</Text> 
 									</Badge>

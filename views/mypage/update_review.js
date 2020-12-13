@@ -182,12 +182,12 @@ class UpdateReviewScreen extends Component {
 						style={{ paddingVertical: 10 }}
 						startingValue={0}/>
 
-						<Card style={{marginLeft : 10, marginRight : 10}}>
+						<Card style={{marginLeft : 20, marginRight : 20}}>
 							<CardItem>
 								<ScrollView>
 										
 									<Form>
-										<Textarea rowSpan={10} autoCapitalize='none'
+										<Textarea rowSpan={8} placeholder="물품의 후기를 작성해주세요." autoCapitalize='none'
 										onChangeText={(text) => {this.setState({body : text}, () =>{})}}
 										value={this.state.body}
 										style={styles.textAreaContainer}
