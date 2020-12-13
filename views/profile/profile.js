@@ -161,7 +161,7 @@ class ProfileShow extends Component {
     api
       .post('/users/like', {
         like:{
-          target_id: this.profile_id,
+          target_id: user_info.id,
           target_type: 'user'
         }
       },{
@@ -305,7 +305,7 @@ class ProfileShow extends Component {
               <ListItem onPress={() => { this.props.navigation.push('ReceivedReview', {user_id: user_info.id}) }}>
                 <Left>
                   <Icon type="MaterialCommunityIcons" name="comment-text-multiple-outline" />
-                  <Text style={styles.listText}>받은 리뷰 확인하기</Text>
+                  <Text style={styles.listText}>받은 리뷰</Text>
                 </Left>
                 <Right>
                   <Icon type="AntDesign" name="right" />
