@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, Alert, StyleSheet, View, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView} from 'react-native';
+import {Text, TouchableOpacity, Alert, StyleSheet, View, TouchableWithoutFeedback, Keyboard, DeviceEventEmitter} from 'react-native';
 import {Container, Button, ListItem, Thumbnail, Content, Card, CardItem,
      Header, Left, Right, Icon, Body, Title, Textarea, Form} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -64,6 +64,7 @@ class WriteReviewScreen extends Component {
 					Authorization: this.state.token,
 				},
 			}).then((res)=> {
+				DeviceEventEmitter.emit('refreshReviewList');
 				Alert.alert("작성 완료", "리뷰가 정상적으로 등록되었습니다.",[
 					{
 						text: '확인',
