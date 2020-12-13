@@ -282,7 +282,7 @@ class ProfileShow extends Component {
 
               <Separator bordered style={{ height: '1%' }}></Separator>
 
-              <ListItem onPress={() => { { this.props.navigation.push('ProfileProvide', {user_id: this.profile_id}) } }}>
+              <ListItem onPress={() => { { this.props.navigation.push('ProfileProvide', {user_id: user_info.id}) } }}>
                 <Left>
                   <Icon type="MaterialCommunityIcons" name="receipt" />
                   <Text style={styles.listText}>등록 상품</Text>
@@ -292,7 +292,7 @@ class ProfileShow extends Component {
                 </Right>
               </ListItem>
 
-              <ListItem onPress={() => { this.props.navigation.push('ProfileAsk', { user_id: this.profile_id }) }}>
+              <ListItem onPress={() => { this.props.navigation.push('ProfileAsk', { user_id: user_info.id }) }}>
                 <Left>
                   <Icon type="Ionicons" name="hand-left-outline" />
                   <Text style={styles.listText}>요청 상품</Text>
@@ -302,7 +302,7 @@ class ProfileShow extends Component {
                 </Right>
               </ListItem>
 
-              <ListItem onPress={() => { this.props.navigation.push('ReceivedReview', {user_id: this.profile_id}) }}>
+              <ListItem onPress={() => { this.props.navigation.push('ReceivedReview', {user_id: user_info.id}) }}>
                 <Left>
                   <Icon type="MaterialCommunityIcons" name="comment-text-multiple-outline" />
                   <Text style={styles.listText}>받은 리뷰 확인하기</Text>
