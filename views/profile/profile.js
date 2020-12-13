@@ -181,7 +181,9 @@ class ProfileShow extends Component {
   }
 
   renderFollowButton(){
-    if(this.state.my_id === this.profile_id){
+    // this.state.my_id: 내 id
+    // this.state.profile_id: 현재 프로필 유저 id
+    if(this.state.my_id === this.state.profile_id){
       return
     }
     else{
@@ -267,9 +269,7 @@ class ProfileShow extends Component {
                       {this.state.location}
                     </Text>
                   </View>
-              
                   {this.renderFollowButton()}
-        
                 </Body>
                 
               </ListItem>
