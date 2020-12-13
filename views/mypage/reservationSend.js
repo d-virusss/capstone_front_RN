@@ -38,7 +38,7 @@ class receiveScreen extends Component{
   componentWillUnmount(){
     //remove listener
     this.eventListener.remove();
-}
+  }
 
   handleEvent = (e) => {
     console.log("event handler")

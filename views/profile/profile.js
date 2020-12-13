@@ -45,7 +45,6 @@ class ProfileShow extends Component {
     let id = await AsyncStorage.getItem('user_id')
     this.state.my_id = parseInt(id)
     this.state.token = value
-
     this.setState({ is_my_profile : (this.state.profile_id === this.state.my_id ? true : false) }, () => console.log(this.state))
     this.getMyInfo();
   }

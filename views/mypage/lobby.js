@@ -85,7 +85,7 @@ class MypageScreen extends Component {
       },
     })
     .then((res) => {
-      
+      console.log(res)
       this.state.myName = res.data.user_info.nickname;
       this.state.myLocation = res.data.user_info.location_title;
       this.state.myImage = res.data.user_info.image;
@@ -164,7 +164,7 @@ class MypageScreen extends Component {
 
         <TouchableOpacity
           onPress={() => this.setState({ show_popover: false }, () => {
-            this.props.navigation.navigate('SettingGroup')
+            this.props.navigation.push('SettingGroup')
           })}>
           <Text style={styles.popoverel}>소속 인증</Text>
         </TouchableOpacity>

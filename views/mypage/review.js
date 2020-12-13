@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, Alert, ScrollView, StyleSheet, View} from 'react-native';
+import {Text, TouchableOpacity, Alert, ScrollView, StyleSheet, View, DeviceEventEmitter} from 'react-native';
 import {Container, Card, CardItem, Thumbnail, Content,
      Header, Left, Right, Icon, Body, Title, Badge} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -25,9 +25,20 @@ class ReviewScreen extends Component {
 		this.getReviewRequest();
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		this.getToken().then(() => {
 			this.getReviewRequest();})
+		this.eventListener = DeviceEventEmitter.addListener('updateReviewList', this.handleEvent);
+	}
+	
+	componentWillUnmount(){
+	//remove listener
+	this.eventListener.remove();
+	}
+
+	handleEvent = (e) => {
+	console.log("updateReviewList event handler")
+	this.getReviewRequest()
 	}
 
 	getToken = async () => {
@@ -111,6 +122,7 @@ class ReviewScreen extends Component {
 				Authorization : this.state.token
 			}
 		}).then(()=> {
+			this.onRefresh();
 			Alert.alert("삭제 완료", "리뷰가 정상적으로 삭제되었습니다.",[{text: '확인',},{style: 'cancel',}]) 
 		}).catch((err) => {
 			Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}]) 
@@ -156,9 +168,6 @@ class ReviewScreen extends Component {
 						</Left>
 						<Body><Title style={{ color: 'black', alignSelf: 'center', fontSize: 20}}>작성한 리뷰</Title></Body>
 						<Right>
-							<TouchableOpacity transparent onPress = {() => this.onRefresh()}>
-								<Icon name = 'refresh' type = 'Ionicons'/>
-							</TouchableOpacity>
 						</Right>
           </Header>
     

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, Alert, StyleSheet, View, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native';
+import {Text, TouchableOpacity, Alert, StyleSheet, View, TouchableWithoutFeedback, DeviceEventEmitter, Keyboard} from 'react-native';
 import {Container, Button, ListItem, Thumbnail, Content,
      Header, Left, Right, Icon, Body, Title, Textarea, CardItem, Card, Form} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -67,7 +67,7 @@ class UpdateReviewScreen extends Component {
 				Authorization: this.state.token,
 			},
 		}).then((res)=> {
-
+			DeviceEventEmitter.emit('updateReviewList');
 			Alert.alert("수정 완료", "리뷰가 정상적으로 수정되었습니다.",[
 				{
 					text: '확인',

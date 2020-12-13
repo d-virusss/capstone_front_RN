@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView, ActionSheetIOS, Alert } from 'react-native';
+import { StyleSheet, TouchableOpacity, ScrollView, DeviceEventEmitter, Alert } from 'react-native';
 import {
   Container, Content, Header, Left, Right, Body, Icon, Badge,
   Title, Text, List, ListItem, Tabs, Tab, TabHeading, Thumbnail,
@@ -119,7 +119,19 @@ class ProviderRentList extends Component {
   }
 
   componentDidMount() {
-    this.getToken()
+    this.getToken();
+    this.eventListener = DeviceEventEmitter.addListener('refreshReviewList', this.handleEvent);
+  }
+
+  componentWillUnmount(){
+    //remove listener
+    this.eventListener.remove();
+  }
+
+  handleEvent = (e) => {
+    console.log("refreshReviewList event handler")
+    this.onrentRequest()
+    this.makeCompletedList(this.state.after_booking)
   }
 
   render() {
