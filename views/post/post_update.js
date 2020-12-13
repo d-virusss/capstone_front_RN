@@ -27,7 +27,7 @@ class PostUpdate extends Component {
     category_id: '', // 잡화 의류 뷰티 전자제품 레져용품 생활용품 요리 자동차 유아용품
     price: '',
     body: '',
-    images : '',
+    images : [],
     token: "",
     loading : true,
     saving : false,
@@ -146,9 +146,9 @@ class PostUpdate extends Component {
 			multi_images[index].type = image.mime
 			multi_images[index].name = image.filename
 		})
-    image_info.uri = data.sourceURL;
-    image_info.type = data.mime;
-    image_info.name = data.filename;
+    image_info.uri = data[0].sourceURL;
+    image_info.type = data[0].mime;
+    image_info.name = data[0].filename;
   }
 
   shownowstate() {
@@ -185,7 +185,7 @@ class PostUpdate extends Component {
             backgroundColor: '#f8f8f8',
             alignItems: 'center',
             justifyContent: 'space-between',
-          }} androidStatusBarColor='#000'    >
+          }} androidStatusBarColor='#000' >
           <Left>
             <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='chevron-back' type='Ionicons' />
@@ -215,37 +215,34 @@ class PostUpdate extends Component {
         
         <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
           <KeyboardAvoidingView>
-        <View style={styles.imageArea}>
-          <ImageSelect stateBus={this.changeImage} existing_image={this.state.images} />
-        </View>
-        <Container>
-          <TouchableOpacity onPress={this.shownowstate()} style={{ padding: 10 }}>
-            <Text></Text>
-          </TouchableOpacity>
-          <Content>
-            <Spinner visible={this.state.saving} color="#ff3377" />
-            <Form>
-              <Item inlinelabel>
-                <Label>제목</Label>
-                <Input autoCapitalize='none'
-                  onChangeText={(text) => this.changedata(text, "title")}
-                  value={this.state.title} />
-              </Item>
-              <CategoryPicker setParent={this.setSelect} existing_category={this.state.category_id} ></CategoryPicker>
-              <Item inlinelabel last>
-                <Label>가격</Label>
-                <Input keyboardType="numeric"
-                  onChangeText={(text) => this.changedata(text, "price")}
-                  value={this.state.price} />
-              </Item>
-              <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요." autoCapitalize='none'
-                onChangeText={(text) => this.changedata(text, "body")}
-                style={styles.textAreaContainer}
-                value={this.state.body} />
-            </Form>
-          </Content>
-        </Container>
-        </KeyboardAvoidingView>
+            <View style={styles.imageArea}>
+              <ImageSelect stateBus={this.changeImage} existing_image={this.state.images} />
+            </View>
+            <Container>
+              <Content>
+                <Spinner visible={this.state.saving} color="#ff3377" />
+                <Form>
+                  <Item inlinelabel>
+                    <Label>제목</Label>
+                    <Input autoCapitalize='none'
+                      onChangeText={(text) => this.changedata(text, "title")}
+                      value={this.state.title} />
+                  </Item>
+                  <CategoryPicker setParent={this.setSelect} existing_category={this.state.category_id} ></CategoryPicker>
+                  <Item inlinelabel last>
+                    <Label>가격</Label>
+                    <Input keyboardType="numeric"
+                      onChangeText={(text) => this.changedata(text, "price")}
+                      value={this.state.price} />
+                  </Item>
+                  <Textarea rowSpan={8} placeholder="게시글 내용을 입력해주세요." autoCapitalize='none'
+                    onChangeText={(text) => this.changedata(text, "body")}
+                    style={styles.textAreaContainer}
+                    value={this.state.body} />
+                </Form>
+              </Content>
+            </Container>
+          </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
       </ScrollView>
     );}
@@ -257,9 +254,8 @@ const styles = StyleSheet.create({
     marginTop: '5%'
   },
   imageArea: {
-    marginVertical: 50,
-    width: '70%',
-    height: 200,
+    width: 300,
+    height: 300,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center'

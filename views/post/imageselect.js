@@ -74,7 +74,6 @@ class ImageSelect extends Component{
         </View>
       )
     }
-    
   }
 }
 
