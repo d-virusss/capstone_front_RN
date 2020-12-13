@@ -28,6 +28,7 @@ class ImageSelect extends Component{
   }
 
   doPickImage = () => {
+    ImagePicker.clean()
     this.state.images=[]
     ImagePicker.openPicker({
       width: 300,

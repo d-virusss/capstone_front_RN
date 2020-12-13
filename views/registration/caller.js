@@ -173,8 +173,35 @@ AuthCodeSubmit() {
   }
   
 }
+
+checkValidation() {
+
+  if(this.state.code != "success"){
+    Alert.alert("가입 실패", "핸드폰 인증이 필요합니다.", [{text:'확인'},{style:'cancel'}])
+    return false;
+  }
+  if(this.state.private_information_agree == false){
+    Alert.alert("가입 실패", "개인정보 처리방침 동의가 필요합니다.", [{text:'확인'},{style:'cancel'}])
+    return false;
+  }
+  if(this.state.service_rule_agree == false){
+    Alert.alert("가입 실패", "서비스 이용약관 동의가 필요합니다.", [{text:'확인'},{style:'cancel'}])
+    return false;
+  }
+  if(this.state.location_agree == false){
+    Alert.alert("가입 실패", "위치기반 서비스 이용약관 동의가 필요합니다.", [{text:'확인'},{style:'cancel'}])
+    return false;
+  }
+
+  return true;
+}
+
   registrationRequest = async () => {
     
+    if(!this.checkValidation()){
+      return;
+    }
+
       if(this.state.code != "success"){
         Alert.alert("가입 실패", "핸드폰 인증이 필요합니다.", [{text:'확인'},{style:'cancel'}])
         return;

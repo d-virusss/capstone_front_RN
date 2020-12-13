@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Alert, TouchableOpacity,
+import { StyleSheet, View, Alert, TouchableOpacity, DeviceEventEmitter,
   TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, 

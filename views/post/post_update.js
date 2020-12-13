@@ -138,6 +138,7 @@ class PostUpdate extends Component {
   }
 
   changeImage = (data) => {
+    multi_images = [];
     this.setState({images: data})
     _.each(this.state.images, (image, index) => {
 			multi_images.push(new Object)

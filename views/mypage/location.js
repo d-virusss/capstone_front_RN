@@ -110,7 +110,7 @@ class MypageScreen extends Component{
       })
       .then(() => {
         Alert.alert("동네 인증 완료", "동네 인증이 완료되었습니다.",[{text:'확인', style:'cancel'}])
-        DeviceEventEmitter.emit('updateMypage', {location : user_addr.location.title});
+        DeviceEventEmitter.emit('updateMypage', {id : 0, location : user_addr.location.title});
  
         AsyncStorage.setItem('my_location', user_addr.location.title);
         if(myLocation == "null"){ // first location auth

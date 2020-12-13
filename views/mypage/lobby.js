@@ -68,8 +68,13 @@ class MypageScreen extends Component {
   }
 
   updateEventHandler = (e) => {
-		console.log("listen update mypage event")
-		this.setState({myLocation : e.location})
+    console.log("listen update mypage event")
+    if(e.id == 0){ //from location
+      this.setState({myLocation : e.location})
+    }else if(e.id == 1){ //from setting group
+      this.setState({myGroup : e.group})
+    }
+		
 	}
 
   componentWillUnmount() {
