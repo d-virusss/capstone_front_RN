@@ -6,8 +6,6 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { Container, Header, Content, Form, Item, Input, Label, 
   Button, Text, Right, Body, Left, Icon, Title,} from 'native-base';
 import IconA from 'react-native-vector-icons/AntDesign'
-//import getLoginClient from '../../apiAuth/loggedInClient';
-//Import the file if you are logged in
 import api from '../shared/server_address'
 
 IconA.loadFont()

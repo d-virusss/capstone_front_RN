@@ -19,7 +19,7 @@ const thumb_image = {
 
 var multi_images = []
 var formdata = new FormData();
-var rating =''; //for rating component
+var rating =0; //for rating component
 
 class WriteReviewScreen extends Component {
 	params = this.props.route.params;
@@ -53,6 +53,7 @@ class WriteReviewScreen extends Component {
 			})
 			formdata.append('review[image]', thumb_image)
 		}
+		console.log(formdata)
 	}
 
 	putWriteReviewRequest(){ 
@@ -89,7 +90,7 @@ class WriteReviewScreen extends Component {
 
   changeImage = (data) => {
     this.setState({images: data})
-	multi_images=[]
+	multi_images =[]
     _.each(this.state.images, (image, index) => {
       multi_images.push(new Object)
       multi_images[index].uri = image.sourceURL
@@ -102,7 +103,7 @@ class WriteReviewScreen extends Component {
     thumb_image.name = data[0].filename;
   }
 
-	raitingCompleted(rate){
+	ratingCompleted(rate){
 		console.log(rate)
 		rating = rate;
 	}
@@ -135,10 +136,9 @@ class WriteReviewScreen extends Component {
           		<Spinner visible={this.state.loading} color="#ff3377"/>
 
 					<ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
-						<Left>
-							<Thumbnail square source={{ uri: this.state.post_image }}/>
-						</Left>
-						<Body>
+						
+						<Thumbnail square source={{ uri: this.state.post_image }}/>
+						<Body style={{justifyContent : 'center', alignItems : 'center', marginLeft : '-5%'}}>
 							<Title style={{fontSize : 17}}>{this.state.post_title}</Title>
 						</Body>
 					</ListItem>
@@ -146,11 +146,12 @@ class WriteReviewScreen extends Component {
 					<ImageSelect stateBus={this.changeImage}></ImageSelect>
 					
 					<Rating
+						defaultRating={0}
 						fractions={1}
 						ratingCount={5}
 						imageSize={30}
 						startingValue={0}
-						onFinishRating={this.raitingCompleted}
+						onFinishRating={this.ratingCompleted}
 						style={{ paddingVertical: 10 }}/>
 				
 					<Card style={{marginLeft : 20, marginRight : 20}}>

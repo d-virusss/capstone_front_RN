@@ -17,6 +17,7 @@ class ReviewScreen extends Component {
 		token : '',
 		id : '',
 		loading : true,
+		images : [],
 	}
 
 	onRefresh(){
@@ -54,8 +55,10 @@ class ReviewScreen extends Component {
 				Authorization: this.state.token,
 			},
 		}).then((res)=> {
+			console.log("================")
 			console.log(res);
 			reviewList = res.data;
+			
 			this.setState({loading : false})
 		}).catch((err) => {
 			Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}]) 
@@ -63,13 +66,13 @@ class ReviewScreen extends Component {
 	}
 
 	makeReviewList() {
+		console.log(reviewList)
 		if(reviewList.length == 0){
 			return(
-				<Title style={{marginTop : '70%', fontSize : 17}}>작성된 리뷰가 없습니다.</Title>
+				<Title style={{marginTop : '70%', fontSize : 17}}>작성한 리뷰가 없습니다.</Title>
 			)
 		}else{
 		return reviewList.map((ele) => {
-			console.log(ele);
 			return(
 				<Card style={{flex: 0, marginTop: '5%'}}>
 					<CardItem style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', paddingTop:'3%'}}>
@@ -112,6 +115,7 @@ class ReviewScreen extends Component {
           </CardItem>
 				</Card>
 			);
+			console.log("000")
 		});
 		}
 	}

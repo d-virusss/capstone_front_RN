@@ -60,26 +60,12 @@ class MypageScreen extends Component {
   }
 
   componentDidMount() {
-    this.getToken();
-    this.eventListener = DeviceEventEmitter.addListener('updateMypage', this.updateEventHandler);
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       this.getToken();
     });
   }
 
-  updateEventHandler = (e) => {
-    console.log("listen update mypage event")
-    if(e.id == 0){ //from location
-      this.setState({myLocation : e.location})
-    }else if(e.id == 1){ //from setting group
-      this.setState({myGroup : e.group})
-    }
-		
-	}
-
   componentWillUnmount() {
-    //remove listener
-    this.eventListener.remove();
     this._unsubscribe();
   }
 
