@@ -326,8 +326,8 @@ AuthCodeSubmit() {
                   />
                   <TouchableOpacity onPress={() => { console.log("sadfads") }}>
                     <Text style={{ textDecorationLine: 'underline' }} 
-                    onPress = {() => this.props.navigation.navigate("policyDetail", {id : 2, title : "위치 기반 서비스 이용약관"})}>
-                    위치 기반 서비스 이용약관</Text>
+                    onPress = {() => this.props.navigation.navigate("policyDetail", {id : 2, title : "위치기반서비스 이용약관"})}>
+                    위치기반서비스 이용약관</Text>
                   </TouchableOpacity>
                   <Text>에 동의합니다.</Text>
                 </View>
