@@ -160,7 +160,7 @@ class ProfileShow extends Component {
     api
       .post('/users/like', {
         like:{
-          target_id: this.profile_id,
+          target_id: user_info.id,
           target_type: 'user'
         }
       },{
@@ -180,6 +180,8 @@ class ProfileShow extends Component {
   }
 
   renderFollowButton(){
+    // this.state.my_id: 내 id
+    // this.state.profile_id: 현재 프로필 유저 id
     if(this.state.my_id === this.state.profile_id){
       return
     }
@@ -253,7 +255,7 @@ class ProfileShow extends Component {
               <ListItem
                 thumbnail
                 style={{flexDirection: 'row', justifyContent: 'flex-start', marginLeft: '5%', paddingTop: '3%' }}>
-                <Thumbnail source={{ uri: this.state.profile_image }} />
+                <Thumbnail source={ this.state.profile_image == '/image/default.png' ? require('../../assets/default.png') : { uri: this.state.profile_image } } />
                 <Body style={{ marginLeft: '5%'}}>
                   <View style={{ flexDirection: 'row', width: '50%' }}>
                     <Text numberOfLines={1}>{this.state.nickname}</Text>
@@ -266,9 +268,7 @@ class ProfileShow extends Component {
                       {this.state.location}
                     </Text>
                   </View>
-              
                   {this.renderFollowButton()}
-        
                 </Body>
                 
               </ListItem>
@@ -281,7 +281,7 @@ class ProfileShow extends Component {
 
               <Separator bordered style={{ height: '1%' }}></Separator>
 
-              <ListItem onPress={() => { { this.props.navigation.push('ProfileProvide', {user_id: this.profile_id}) } }}>
+              <ListItem onPress={() => { { this.props.navigation.push('ProfileProvide', {user_id: user_info.id}) } }}>
                 <Left>
                   <Icon type="MaterialCommunityIcons" name="receipt" />
                   <Text style={styles.listText}>등록 상품</Text>
@@ -291,7 +291,7 @@ class ProfileShow extends Component {
                 </Right>
               </ListItem>
 
-              <ListItem onPress={() => { this.props.navigation.push('ProfileAsk', { user_id: this.profile_id }) }}>
+              <ListItem onPress={() => { this.props.navigation.push('ProfileAsk', { user_id: user_info.id }) }}>
                 <Left>
                   <Icon type="Ionicons" name="hand-left-outline" />
                   <Text style={styles.listText}>요청 상품</Text>
@@ -301,10 +301,10 @@ class ProfileShow extends Component {
                 </Right>
               </ListItem>
 
-              <ListItem onPress={() => { this.props.navigation.push('ReceivedReview', {user_id: this.profile_id}) }}>
+              <ListItem onPress={() => { this.props.navigation.push('ReceivedReview', {user_id: user_info.id}) }}>
                 <Left>
                   <Icon type="MaterialCommunityIcons" name="comment-text-multiple-outline" />
-                  <Text style={styles.listText}>받은 리뷰 확인하기</Text>
+                  <Text style={styles.listText}>받은 리뷰</Text>
                 </Left>
                 <Right>
                   <Icon type="AntDesign" name="right" />

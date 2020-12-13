@@ -218,7 +218,7 @@ class MypageScreen extends Component {
                         {this.state.myLocation}
                       </Text>
                     </View>
-                    <Button small style={{ position: 'absolute', top:'40%', left : '65%', 
+                    <Button small bordered style={{ position: 'absolute', top:'40%', left : '65%', 
                     backgroundColor: 'white', borderColor: 'black',width:100, justifyContent:'center'}}
                       onPress={() => this.props.navigation.navigate('ProfileShow', {user_id : posts.id})}>
                       <Text style={{ color: 'black',fontWeight:'bold'}}>프로필 보기</Text>
