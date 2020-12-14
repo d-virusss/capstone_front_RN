@@ -106,9 +106,9 @@ class UpdateReviewScreen extends Component {
 			multi_images[index].name = image.filename
 		})
 
-		thumb_image.uri = data.sourceURL;
-		thumb_image.type = data.mime;
-		thumb_image.name = data.filename;
+		thumb_image.uri = data[0].sourceURL;
+		thumb_image.type = data[0].mime;
+		thumb_image.name = data[0].filename;
 	}
 
 	componentDidMount(){
