@@ -222,14 +222,14 @@ class PostShow extends Component{
             </Body>
           </CardItem>
 
-          <CardItem style={{flex: 1, flexDirection: 'row', paddingTop:'3%'}}>
-              <SliderBox style={styles.review_swiper}
-              images={ele.review_info.images}
-              sliderBoxHeight={200}
-              inactiveDotColor="#ffccdd"
-              dotColor="#ff3377" />
-              <Text style={{ paddingLeft: '3%' }}>{"\n"}{ele.review_info.body}</Text>
+          <CardItem style={{flex: 1, flexDirection: 'row', paddingTop:'3%', justifyContent: 'center'}}>
+            <SliderBox style={styles.review_swiper}
+            images={ele.review_info.images}
+            sliderBoxHeight={200}
+            inactiveDotColor="#ffccdd"
+            dotColor="#ff3377" />
           </CardItem>
+          <Text style={{ paddingHorizontal: '5%', paddingBottom: '3%', marginBottom: '3%' }}>{"\n"}{ele.review_info.body}ㄹㅇㄹㅁㄴㅇㄹ</Text>
         </Card>
       );
     });
@@ -573,7 +573,6 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     alignSelf : 'center',
-    marginLeft : -60,
   },
   reviewNumberRating : {
     fontSize: 23,
