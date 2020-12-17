@@ -64,7 +64,7 @@ class ImageSelect extends Component{
     }else{
       return(
         <View>
-            <TouchableOpacity style={styles.imageArea}
+          <TouchableOpacity style={styles.imageArea}
             onPress = { () => this.doPickImage() } >
             {this.state.images.length === 0 && (
               <IconM name = 'image-multiple' size = {100}/>
