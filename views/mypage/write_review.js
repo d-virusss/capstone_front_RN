@@ -117,7 +117,7 @@ class WriteReviewScreen extends Component {
   render(){
     this.initParams();
     	return(
-		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <Container>
           <Header style={{
 						height: 60,
@@ -135,7 +135,7 @@ class WriteReviewScreen extends Component {
             <Content>
           		<Spinner visible={this.state.loading} color="#ff3377"/>
 
-					<ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
+					<ListItem thumbnail key={this.state.booking_id} style={{ marginBottom: '3%' }}>
 						
 						<Thumbnail square source={{ uri: this.state.post_image }}/>
 						<Body style={{justifyContent : 'center', alignItems : 'center', marginLeft : '-5%'}}>
