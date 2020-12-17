@@ -29,7 +29,7 @@ class UpdateReviewScreen extends Component {
 		post_image: '',
 		post_title: '',
 		body : '',
-		rate : '',
+		rate : 0,
 		review_id : 0,
 		booking_id : '',
 		loading : true,
