@@ -180,40 +180,40 @@ class UpdateReviewScreen extends Component {
 	
 					<ScrollView>
 						<Content>
-					<ListItem thumbnail key={this.state.booking_id} style={{height : 100}}>
+							<ListItem thumbnail key={this.state.booking_id} style={{ marginBottom: '3%'}}>
 						
-							<Thumbnail square source={{ uri: this.state.post_image }} />
-					
-							<Body style={{justifyContent : 'center', alignItems : 'center', marginLeft : '-5%'}}>
-								<Title>{this.state.post_title}</Title>
-							</Body>
-					</ListItem>
-					<ImageSelect stateBus={this.changeImage} existing_image={this.state.images}/>
+								<Thumbnail square source={{ uri: this.state.post_image }} style={{ }} />
+						
+								<Body style={{justifyContent : 'center', alignItems : 'center', marginLeft : '-5%'}}>
+									<Title>{this.state.post_title}</Title>
+								</Body>
+							</ListItem>
+							<ImageSelect stateBus={this.changeImage} existing_image={this.state.images}/>
 				
-					<Rating
-						fractions={1}
-						ratingCount={5}
-						imageSize={30}
-						defaultRating={0}
-						startingValue={this.state.rate}
-						onFinishRating={this.ratingCompleted}
-						style={{ paddingVertical: 10 }}/>
+							<Rating
+								fractions={1}
+								ratingCount={5}
+								imageSize={30}
+								defaultRating={0}
+								startingValue={this.state.rate}
+								onFinishRating={this.ratingCompleted}
+								style={{ paddingVertical: 10 }}/>
 
-						<Card style={{marginLeft : 20, marginRight : 20}}>
-							<CardItem>
-								<ScrollView>
-										
-									<Form>
-										<Textarea rowSpan={8} placeholder="물품의 후기를 작성해주세요." autoCapitalize='none'
-										onChangeText={(text) => {this.setState({body : text}, () =>{})}}
-										value={this.state.body}
-										style={styles.textAreaContainer}
-										/>
-									</Form>
-							
-								</ScrollView>
-							</CardItem>
-						</Card>
+							<Card style={{marginLeft : 20, marginRight : 20}}>
+								<CardItem>
+									<ScrollView>
+											
+										<Form>
+											<Textarea rowSpan={8} placeholder="물품의 후기를 작성해주세요." autoCapitalize='none'
+											onChangeText={(text) => {this.setState({body : text}, () =>{})}}
+											value={this.state.body}
+											style={styles.textAreaContainer}
+											/>
+										</Form>
+								
+									</ScrollView>
+								</CardItem>
+							</Card>
 						</Content>
 					</ScrollView>
 			
