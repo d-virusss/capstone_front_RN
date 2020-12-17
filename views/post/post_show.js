@@ -229,7 +229,7 @@ class PostShow extends Component{
             inactiveDotColor="#ffccdd"
             dotColor="#ff3377" />
           </CardItem>
-          <Text style={{ paddingHorizontal: '5%', paddingBottom: '3%', marginBottom: '3%' }}>{"\n"}{ele.review_info.body}ㄹㅇㄹㅁㄴㅇㄹ</Text>
+          <Text style={{ paddingHorizontal: '5%', paddingBottom: '3%', marginBottom: '3%' }}>{"\n"}{ele.review_info.body}</Text>
         </Card>
       );
     });
