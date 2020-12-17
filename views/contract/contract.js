@@ -80,7 +80,7 @@ export default class Contract extends React.Component {
               <Icon name='chevron-back' type='Ionicons' />
             </TouchableOpacity>
           </Left>
-          <Body><Title style={{ fontSize: 20}}>계약서 수성</Title>
+          <Body><Title style={{ fontSize: 20}}>계약서 수정</Title>
           </Body>
           <Right>
             <TouchableOpacity
