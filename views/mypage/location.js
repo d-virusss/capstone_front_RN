@@ -64,6 +64,7 @@ class MypageScreen extends Component{
         },
         headers: {
           Authorization: `KakaoAK ${KAKAO_API_KEY}`,
+         
         },
       })
       .then(function (response) {

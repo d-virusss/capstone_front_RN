@@ -1,10 +1,8 @@
-import axios from 'axios';
+
 import AsyncStorage from '@react-native-community/async-storage';
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {View, Image, Alert, StyleSheet} from 'react-native';
-import { Text, Form, Icon, Textarea, Item, Input, Button, 
-  Container, Content, Header, Body, Title, Left, Right,
-} from 'native-base';
+import { Text, Icon, Button, Container, Header, Body, Title, Left, Right} from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Calendar } from 'react-native-calendario';
 import api from '../shared/server_address'
@@ -35,6 +33,7 @@ class bookingScreen extends Component{
     post_price : "",
     booking_id:0,
     image_info:'',
+    today : '',
   };
 
   componentDidMount() {
@@ -49,9 +48,24 @@ class bookingScreen extends Component{
         image_info : this.post_info.image
       }, () => { console.log(this.state) })
     }
+    this.state.today = this.getTodayDate();
     setTimeout(this.isBooked, 50);
     setTimeout(this.getPostInfo, 200);
   }
+
+  getTodayDate() {
+    var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 
   getToken = async () => {
     let value = await AsyncStorage.getItem("token")
@@ -201,13 +215,15 @@ class bookingScreen extends Component{
           </View>
         </Header>
         {this.state.booked == false && (<Calendar
-          onChange={(range) => { 
+          onChange={(range) => {
             console.log(range); 
             if(typeof(range.endDate) != "undefined"){
               this.calculateDate(range); 
               this.calculatePrice();
             }
           }} 
+          minDate={this.state.today}
+          disableOffsetDays = {true}
           startDate = {new Date(this.state.startYear, this.state.startMonth, this.state.startDay)}
           endDate = {new Date(this.state.endYear, this.state.endMonth, this.state.endDay)}
           numberOfMonths = {3}
