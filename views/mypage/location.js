@@ -96,7 +96,12 @@ class MypageScreen extends Component{
         this.setState({loading: false})
       }).catch((err) => {
         console.log(err)
-        Alert.alert("요청 실패", err.response.data.error,[{text:'확인', style:'cancel'}])
+        Alert.alert("요청 실패", err.response.data.error,[
+          {
+              text: '확인',
+              onPress: () => this.props.navigation.goBack()
+          },
+      ]) 
       })
     })
   }
