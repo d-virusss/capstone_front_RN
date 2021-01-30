@@ -161,7 +161,7 @@ class receiveScreen extends Component{
       console.log(booking_info)
       if(reservation_info.booking.acceptance === 'waiting'){
         return (
-          <Footer style={styles.footer}>
+          <Footer style = {styles.footer}>
             <Button transparent style={styles.acceptButton}
               onPress={() => { this.accept() }}>
               <Text style={styles.footerText}>승인</Text>
@@ -177,8 +177,7 @@ class receiveScreen extends Component{
         return (
           <Footer style={styles.footer}>
             <Button transparent style={styles.bottomButtons}
-              onPress={() => { this.getUserInfo() }}
-            >
+              onPress={() => { this.getUserInfo() }}>
               <Text style={styles.footerText}>서명하기</Text>
             </Button>
           </Footer>
@@ -265,7 +264,7 @@ class receiveScreen extends Component{
   render(){
     return(
       <View style={styles.container}>
-        <ScrollView style={{flex: 1 }}>
+        <ScrollView style={{flex: 1}}>
             <Calendar
             markedDates={this.state.marked}
             markingType={'period'}
@@ -275,24 +274,28 @@ class receiveScreen extends Component{
             <List>{this.makeList()}</List>
           </Content>
         </ScrollView>
+        <View style = {styles.footer_area}>
         {this.showOptionButton()}
+        </View>
       </View>
       
     )
   }
 };
 
-let {width} = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container : {
-    width : '100%'
+    width : '100%',
+  },
+  footer_area : {
+    height : '10%'
   },
   footer: {
     backgroundColor: '#ff3377',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: '6%',
+    height: '100%',
     flexDirection: 'row',
   },
   bottomButtons: {
@@ -310,7 +313,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: '6%',
+    height: '100%',
     flexDirection: 'row',
   },
   acceptButton: {

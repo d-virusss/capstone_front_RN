@@ -327,20 +327,19 @@ class PostShow extends Component{
   }
 
   renderFooter(){
-    console.log("------------------")
     console.log(postForm)
     if(this.state.is_your_post){
       return (
-        <FooterTab style={{}}>
-          <Button style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '4%', marginTop: '4%'  }} 
+        <Footer style={styles.footer}>
+          <Button style={styles.modify_btn} 
             onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.state, onGoBack: ()=>{this.getPostInfo();} }) }}>
             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17, paddingVertical: 5, marginTop: '1%'}}>계약서 수정</Text>
           </Button>
-          <Button style={{ backgroundColor: "#ff9a00", height: '70%', marginHorizontal: '4%', marginTop: '4%' }}
+          <Button style={styles.booking_list_btn}
             onPress={() => { this.props.navigation.navigate('ReservationList',{ onGoBack: ()=>{this.getPostInfo();} }) }} >
             <Text style={{ color:'white', fontWeight: 'bold', fontSize: 17, paddingVertical: 5, marginTop: '1%' }}>예약 목록 확인</Text>
           </Button>
-        </FooterTab>
+        </Footer>
       )
     }
     else{
@@ -349,7 +348,7 @@ class PostShow extends Component{
           <Button vertical style={{ marginLeft: '-4%', marginTop: '4%', width: '10%' }} onPress={() => this.likeRequest()}>
             <Icon name={this.state.icon || "heart-outline"} style={styles.likeIcon} />
           </Button>
-          <Button vertical style={{ backgroundColor: '#ff9a00', height: '70%', marginLeft: '3%', marginTop: '4%'}}
+          <Button vertical style={{ backgroundColor: '#ff9a00', height: '90%', marginLeft: '3%', marginTop: '4%'}}
             onPress={() => { this.makeCallchat_navigate() }}>
             <Text style={{ color: 'white', fontWeight : 'bold', fontSize:17, paddingVertical: '5%' }}>채팅하기</Text>
           </Button>
@@ -398,7 +397,7 @@ class PostShow extends Component{
           </Header>
 
           <Content style={{flex : 1}}>
-            <ScrollView style={styles.container}>
+            <ScrollView>
               <View>
               <SliderBox style={styles.swiper}
                 images={this.state.images}
@@ -464,7 +463,7 @@ class PostShow extends Component{
             </ScrollView>
           </Content>
 
-          <Footer style={{ backgroundColor: 'white' }}>
+          <Footer style={styles.footer_area}>
             {this.renderFooter()}
           </Footer>
         </Container>
@@ -474,8 +473,27 @@ class PostShow extends Component{
 }
 
 const styles = StyleSheet.create({
-  container : {
-    // marginBottom : 10,
+  footer_area : {
+    height : '10%',
+    backgroundColor : 'white'
+  },
+  footer: {
+    height : '100%',
+    flexDirection : 'row',
+    justifyContent : 'center',
+    alignItems : 'center',
+  },
+  modify_btn : {
+    backgroundColor: "#ff3377", 
+    margin: '4%',
+    width : '40%',
+    justifyContent : 'center',
+  },
+  booking_list_btn: {
+    backgroundColor: "#ff9a00",
+    justifyContent : 'center',
+    margin: '4%', 
+    width : '40%',
   },
   imageArea : {
     width: '100%',

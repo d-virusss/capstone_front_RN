@@ -93,7 +93,6 @@ class receiveScreen extends Component{
   }
 
   showOptionButton(){
-    console.log('showoption button ---------- ')
     console.log(reservation_info)
     if(reservation_info.item_id){
       if(reservation_info.booking.acceptance){
@@ -188,25 +187,29 @@ class receiveScreen extends Component{
               <List>{this.makeList()}</List>
             </Content>
           </ScrollView>
+          <View style = {styles.footer_area}>
           {this.showOptionButton()}
+          </View>
         </View>
       )
     } 
   };
 };
 
-let {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container:{
-    width : width,
+    width : '100%',
   },
   footer: {
     backgroundColor: '#ff3377',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: '6%',
+    height: '100%',
     flexDirection: 'row',
+  },
+  footer_area : {
+    height : '10%'
   },
   footerbutton: {
     marginTop: '2%',
@@ -223,7 +226,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: '6%',
+    height: '100%',
     flexDirection: 'row',
   }
  });
