@@ -47,8 +47,12 @@ class ListProfile extends Component {
         borderColor:'#cccccc'
       }}>
         <Left>
-          
-            <Thumbnail source={(this.props.imgURI == "/image/default.png" ? require("../../assets/default.png") : {uri : this.props.imgURI})} style={{ width : 60, height: 60, }} />
+          {this.props.imgURI &&
+            <Thumbnail source={(this.props.imgURI == "/image/default.png" ? require("../../assets/default.png") : { uri: this.props.imgURI })} style={{ width: 60, height: 60, }} />
+          }
+          {!this.props.imgURI && 
+            <Thumbnail source={( require("../../assets/default.png") )} style={{ width: 60, height: 60, }} />
+          }
           
         </Left>
         <Body style={{paddingVertical: 30, alignSelf: 'center'}} >
