@@ -28,6 +28,7 @@ var userinfo = {
 };
 
 const max_width=Dimensions.get('window').width;
+const max_height=Dimensions.get('window').height;
 
 IconB.loadFont()
 
@@ -45,10 +46,12 @@ class LoginScreen extends Component {
       console.log('is modified? : yes')
       this.setState({button_fontSize:13})
     }
-    else if(max_width<=414){
+    else if(max_width<=414&&max_height<=736){
       console.log('is modified? : yes')
+      console.log('height: '+max_height)
       this.setState({button_fontSize:14})
     }
+    else console.log('not modified')
   }
 
 
