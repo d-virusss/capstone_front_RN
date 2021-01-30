@@ -25,7 +25,7 @@ export default class CategoryPicker extends Component {
   render() {
     return (
         <Item picker style={{ justifyContent: "space-between" }}>
-          <Label style={{ fontSize: 17, paddingHorizontal: '3%', marginLeft: '1%', marginRight: '1%' }}>카테고리</Label>
+          <Label style={{ fontSize: 17, paddingHorizontal: '3%', marginLeft: '1%' }}>카테고리</Label>
           <Picker
             mode="dropdown"
             iosIcon={<Icon type="AntDesign" name="down" />}
