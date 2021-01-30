@@ -202,7 +202,7 @@ class MypageScreen extends Component {
                       <View>
                         <View style={{ flexDirection : 'row', width:'60%' }}>
                           <Text numberOfLines={1}>{this.state.myName}</Text>
-                          <Text note numberOfLines={1}>
+                          <Text note numberOfLines={1} style={{marginRight:0}}>
                             {this.state.myGroup}
                           </Text>
                         </View>
@@ -214,7 +214,7 @@ class MypageScreen extends Component {
                       </View>
                       <Button small bordered style={{ 
                           backgroundColor: 'white', borderColor: 'black',width:100, justifyContent:'center',
-                          marginRight: 10
+                          marginRight: '4%'
                         }}
                         onPress={() => this.props.navigation.navigate('ProfileShow', {user_id : posts.id})}
                       >
