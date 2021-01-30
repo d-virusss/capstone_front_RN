@@ -1,10 +1,10 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Alert, TouchableOpacity, 
+import { StyleSheet, View, Alert, TouchableOpacity, 
   TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard, Dimensions } from 'react-native';
 import CustomButton from './custom_button';
-import { Item, Input} from 'native-base';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Item, Input, Button, Text, Icon} from 'native-base';
+import IconB from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconA from 'react-native-vector-icons/MaterialIcons';
 import api from '../shared/server_address';
 import db from '../shared/chat_db';
@@ -27,10 +27,28 @@ var userinfo = {
   },
 };
 
+const max_width=Dimensions.get('window').width;
+
+IconB.loadFont()
+
 
 class LoginScreen extends Component {
   constructor(props){
     super(props);
+    this.state={
+      button_fontSize:17
+    }
+  }
+
+  componentDidMount() {
+    if(max_width<=375){
+      console.log('is modified? : yes')
+      this.setState({button_fontSize:13})
+    }
+    else if(max_width<=414){
+      console.log('is modified? : yes')
+      this.setState({button_fontSize:14})
+    }
   }
 
 
@@ -151,72 +169,67 @@ class LoginScreen extends Component {
   }
 
   render() {
+    console.log(max_width)
+
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={{flex: 1}}>
         <View style={{flex: 1}}></View>
-        <View style={{flex: 4, width: '70%', alignSelf: 'center'}}>
-          <View style={{ flex: 1,}} >
-            <Text style={{ color: 'black', fontSize: 40, textAlign: 'center', fontWeight: 'bold'}}>
+          <View style={{flex: 4, width: '70%', alignSelf: 'center'}}>
+            <View style={{ flex: 1,}} >
+              <Text style={{ color: 'black', fontSize: 40, textAlign: 'center', fontWeight: 'bold'}}>
               모두나눔
-            </Text>
-          </View>
-
-         
-              <View style={{flex: 1 }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    height: '50%',
-                    alignItems: 'center',
-                  }}>
-                
-                    <IconA name="person" type="MaterialIcons" size={30} color="black" style={{flex: 1}}/>
-                    <Item style={{flex: 4, marginLeft: -10}}>
-                      <Input
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        style={{fontSize: 20, }}
-                        placeholder="이메일"
-                        onChangeText={(text) => this.changeUsername(text, 'email')}
-                      />
-                    </Item>
-                </View> 
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    height: '50%',
-                    alignItems: 'center',
-                  }}>
-                  <Icon name="key" size={30} color="black" style={{flex: 1}}></Icon>
+              </Text>
+            </View>
+            <View style={{flex: 1 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  height: '50%',
+                  alignItems: 'center',
+                }}>
+              
+                  <IconA name="person" type="MaterialIcons" size={30} color="black" style={{flex: 1}}/>
                   <Item style={{flex: 4, marginLeft: -10}}>
                     <Input
-                      type="password"
-                      style={{fontSize: 20}}
-                      placeholder="비밀번호"
+                      keyboardType="email-address"
                       autoCapitalize="none"
-                      secureTextEntry={true}
-                      onChangeText={(text) => this.changeUsername(text, 'password')}
+                      style={{fontSize: 20, }}
+                      placeholder="이메일"
+                      onChangeText={(text) => this.changeUsername(text, 'email')}
                     />
+                  </Item>
+              </View> 
+              <View
+                style={{
+                  flexDirection: 'row',
+                  height: '50%',
+                  alignItems: 'center',
+                }}>
+                <IconB name="key" size={30} color="black" style={{flex: 1}}></IconB>
+                <Item style={{flex: 4, marginLeft: -10}}>
+                  <Input
+                    type="password"
+                    style={{fontSize: 20}}
+                    placeholder="비밀번호"
+                    autoCapitalize="none"
+                    secureTextEntry={true}
+                    onChangeText={(text) => this.changeUsername(text, 'password')}
+                  />
                   </Item>
                 </View>
               </View>
-         
-          
+                
           <View name="buttons" style={{flex: 3}}>
-            <View style={{marginTop: '10%', height: '10%'}}>
-              <CustomButton
-                title="이메일로 로그인"
-                titleColor="white"
-                buttonColor="#ff3377"
-                borderWidth={5}
-                borderRadius={5}
-                width="100%"
-                height={43}
-                fontWeight="500"
-                fontSize={17}
-                onPress={() => {console.log(userinfo); this.makeRequest()}}
-              />
+            <View style={{marginTop: '10%', height:'10%'}}>
+              <Button onPress={() => {console.log(userinfo); this.makeRequest()}} style={{
+                width: '100%',
+                height: '100%',
+                backgroundColor:'#ff3377',
+                justifyContent:'center'
+                }}>
+                <Text style={{fontWeight:'500', fontSize:this.state.button_fontSize, alignSelf:'center'}}>이메일로 로그인</Text>
+              </Button>
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>
               <AppleButton
@@ -233,33 +246,28 @@ class LoginScreen extends Component {
             </View>
             
             <View style={{marginTop: '3%', height: '10%'}}>
-            <CustomButton
-                title=" 카카오로 로그인"
-                icon_name="chat"
-                icon_type="MaterialCommunityIcons"
-                titleColor="black"
-                buttonColor="#fae100"
-                borderWidth={5}
-                borderRadius={5}
-                width="100%"
-                height={43}
-                fontWeight="500"
-                fontSize={17}
-                onPress={() => this.props.navigation.navigate('KakaoLogin')}
-              /> 
+              <Button onPress={() => {this.props.navigation.navigate('KakaoLogin')}} style={{
+                width: '100%',
+                height: '100%',
+                backgroundColor:'#fae100',
+                justifyContent:'center',
+                alignItems:'center'
+                }}>
+                <Icon name='chat' type='MaterialCommunityIcons' style={{alignSelf:'center', color:'#000', fontSize:17,marginLeft:0,marginRight:0}} />
+                <Text style={{paddingLeft:4,fontWeight:'500', fontSize:this.state.button_fontSize, alignSelf:'center',color:'#000'}}>카카오로 로그인</Text>
+              </Button>
             </View>
 
             <View style={{marginTop: '3%', height: '10%'}}>
-              <CustomButton
-                title="회원가입"
-                titleColor="black"
-                buttonColor="white"
-                width="100%"
-                height={43}
-                fontWeight="500"
-                fontSize={17}
-                onPress={() => this.props.navigation.navigate('Register')}
-              />
+              <Button onPress={() => this.props.navigation.navigate('Register')} style={{
+                width: '100%',
+                height: '100%',
+                backgroundColor:'#fff',
+                justifyContent:'center',
+                alignItems:'center'
+                }}>
+                <Text style={{fontWeight:'500', fontSize:this.state.button_fontSize, alignSelf:'center',color:'#000'}}>회원가입</Text>
+              </Button>
             </View>
             <View style={{height: '10%', marginTop: '3%'}}>
               <View
@@ -269,28 +277,26 @@ class LoginScreen extends Component {
                   alignSelf: 'center',
                 }}>
                 <View style={{width: '49%', marginRight : '2%'}}>
-                  <CustomButton
-                    title="이메일 찾기"
-                    titleColor="#fff"
-                    buttonColor="#aaaaaa"
-                    width="100%"
-                    height="100%"
-                    fontSize={16}
-                    fontWeight="600"
-                    onPress={() => this.props.navigation.navigate('Find_id')}
-                  />
+                  <Button onPress={() => this.props.navigation.navigate('Find_id')} style={{
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor:'#aaaaaa',
+                    justifyContent:'center',
+                    alignItems:'center'
+                    }}>
+                    <Text style={{fontWeight:'600', fontSize:this.state.button_fontSize-1, alignSelf:'center',color:'#fff'}}>이메일 찾기</Text>
+                  </Button>
                 </View>
                 <View style={{width: '49%',}}>
-                  <CustomButton
-                    title="PW 찾기"
-                    titleColor="#fff"
-                    buttonColor="#aaaaaa"
-                    width="100%"
-                    height="100%"
-                    fontSize={16}
-                    fontWeight="600"
-                    onPress={() => this.props.navigation.navigate('Find_pw')}
-                  />
+                  <Button onPress={() => this.props.navigation.navigate('Find_pw')} style={{
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor:'#aaaaaa',
+                    justifyContent:'center',
+                    alignItems:'center'
+                    }}>
+                    <Text style={{fontWeight:'600', fontSize:this.state.button_fontSize-1, alignSelf:'center',color:'#fff'}}>PW 찾기</Text>
+                  </Button>
                 </View>
               </View>
 
