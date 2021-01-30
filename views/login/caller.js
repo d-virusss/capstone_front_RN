@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Alert, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableOpacity, 
+  TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard, Dimensions } from 'react-native';
 import CustomButton from './custom_button';
 import { Item, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
