@@ -74,7 +74,7 @@ class Search_Bar extends React.Component {
       </TouchableWithoutFeedback>
 
         <Item style={{backgroundColor:'#ffffff',borderwidth : 0 }}>
-          <Item style={{width : DEVICE_WIDTH*0.7, marginLeft: '4%', borderColor: 'transparent'}}>
+          <Item style={{width : DEVICE_WIDTH*0.7, marginLeft: '2%', borderColor: 'transparent'}}>
             <Icon name="ios-search"/>
             <Input style={{fontSize : 14, marginBottom: '1%'}}placeholder="제목, 내용, 닉네임으로 검색" onChangeText = {(content) => this.state.search = content}
             onSubmitEditing={() => this.searchRequest()}

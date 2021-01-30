@@ -198,22 +198,27 @@ class MypageScreen extends Component {
                 <TouchableOpacity style={{ flexDirection: 'row' }}>
                   <Thumbnail source={this.state.myImage=='/image/default.png' ? require('../../assets/default.png') :{uri: this.state.myImage}} />
                   <Body style={{ marginLeft : '5%' }}>
-                    <View style={{ flexDirection : 'row', width:'60%' }}>
-                      <Text numberOfLines={1}>{this.state.myName}</Text>
-                      <Text note numberOfLines={1}>
-                        {this.state.myGroup}
-                      </Text>
+                    <View style={{ flexDirection: 'row'}}>
+                      <View>
+                        <View style={{ flexDirection : 'row', width:'60%' }}>
+                          <Text numberOfLines={1}>{this.state.myName}</Text>
+                          <Text note numberOfLines={1} style={{marginRight:0}}>
+                          {this.state.myLocation}
+                          </Text>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                          <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
+                          {this.state.myGroup}
+                          </Text>
+                        </View>
+                      </View>
+                      <Button small bordered style={{ position: 'absolute',left:'60%',
+          backgroundColor: 'white', borderColor: 'black', width:100}}
+                        onPress={() => this.props.navigation.navigate('ProfileShow', {user_id : posts.id})}
+                      >
+                        <Text style={{ color: 'black',fontWeight:'bold',}}>프로필 보기</Text>
+                      </Button>
                     </View>
-                    <View sylte={{ flexDirection: 'row' }}>
-                      <Text note numberOfLines={2} style={{ paddingTop: '2%' }}>
-                        {this.state.myLocation}
-                      </Text>
-                    </View>
-                    <Button small bordered style={{ position: 'absolute', top:'40%', left : '65%', 
-                    backgroundColor: 'white', borderColor: 'black',width:100, justifyContent:'center'}}
-                      onPress={() => this.props.navigation.navigate('ProfileShow', {user_id : posts.id})}>
-                      <Text style={{ color: 'black',fontWeight:'bold'}}>프로필 보기</Text>
-                    </Button>
                   </Body>
                 </TouchableOpacity>
               </ListItem>
