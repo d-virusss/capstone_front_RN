@@ -3,12 +3,11 @@ import React, { Component } from 'react';
 import { View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView, Alert } from 'react-native';
 import {
   Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbnail,
-  Footer, FooterTab, Content, ListItem, List, Separator
+   Content, ListItem, List, Separator
 } from 'native-base';
-import { CommonActions, StackActions } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
-import Fire from '../shared/Fire';
 import Spinner from 'react-native-loading-spinner-overlay';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import { Rating } from 'react-native-elements'

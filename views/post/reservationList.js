@@ -1,8 +1,7 @@
 
 import React, {Component} from 'react';
 import {TouchableOpacity, View, StyleSheet, DeviceEventEmitter,} from 'react-native';
-import {Text, Header, Icon, Body, Container, Content, Left, 
-  Right, Title, Tabs, Tab, TabHeading, Footer, Button, FooterTab } from 'native-base';
+import {Header, Icon, Body, Container, Left, Right, Title, FooterTab } from 'native-base';
 import IconM from 'react-native-vector-icons/Ionicons'
 import ReceiveList from '../mypage/reservationReceive'
 IconM.loadFont()
@@ -21,12 +20,7 @@ class reservationListScreen extends Component{
   render(){
     return(
       <Container>
-        <Header style={{
-            height: 60,
-            backgroundColor: '#f8f8f8',
-            justifyContent:'space-between'}}
-            androidStatusBarColor='#000'
-        >
+        <Header style={styles.headerStyle} androidStatusBarColor='#000'>
           <Left>
             <TouchableOpacity transparent onPress = {() => this.props.navigation.goBack()}>
               <Icon name = 'chevron-back' type = 'Ionicons'/>
@@ -54,7 +48,11 @@ class reservationListScreen extends Component{
 
 
 const styles = StyleSheet.create({
- 
+  headerStyle : {
+    height: 60,
+    backgroundColor: '#f8f8f8',
+    justifyContent:'space-between'
+  }
  });
 
 export default reservationListScreen;

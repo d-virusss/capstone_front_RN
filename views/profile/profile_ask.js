@@ -1,10 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView, View } from 'react-native';
+import { StyleSheet, TouchableOpacity} from 'react-native';
 import {
   Container, Content, Header, Left, Right, Body, Icon,
-  Title, Text, List, ListItem, Tabs, Tab, TabHeading,
-  Thumbnail,
+  Title, Text, List, ListItem, Thumbnail,
 } from 'native-base';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/Ionicons'

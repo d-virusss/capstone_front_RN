@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView, Alert, DeviceEventEmitter} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView, Alert} from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbnail,
-       Footer, FooterTab, Content, ListItem, List, Separator } from 'native-base';
+         Content, ListItem, List, Separator } from 'native-base';
 import { CommonActions, } from '@react-navigation/native';
 import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';

@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import { StyleSheet, View, Alert, TouchableOpacity, Button as NativeButton,  Dimensions, TextInput,
   Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, ScrollView } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Form, Item, Input, Label, Header, 
   Left, Right, Body, Title, Icon, Button, Text } from 'native-base';
 import api from '../shared/server_address';
 import { CheckBox } from 'react-native-elements'
-import Fire from '../shared/Fire';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 

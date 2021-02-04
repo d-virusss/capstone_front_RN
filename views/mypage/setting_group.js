@@ -100,7 +100,7 @@ showAuthForm () {
 			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<KeyboardAvoidingView>
 					<View style={{ flexDirection: 'row' }}>
-						<Item floatingLabel style={{ width: '75%' }}>
+						<Item floatingLabel style={{ width: '72%' }}>
 							<Label>인증할 이메일을 입력하세요</Label>
 							<Input autoCapitalize="none" 
 								keyboardType = "email-address"
@@ -120,7 +120,7 @@ showAuthForm () {
 				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 					<KeyboardAvoidingView>
 						<View style={{ flexDirection: 'row' }}>
-							<Item floatingLabel style={{ width: '75%'}}>
+							<Item floatingLabel style={{ width: '72%'}}>
 								<Label>인증할 이메일을 입력하세요</Label>
 								<Input
 									value = {this.state.user.email}
@@ -136,7 +136,7 @@ showAuthForm () {
 					<KeyboardAvoidingView>
 						
 						<View style={{ flexDirection: 'row' }}>
-							<Item floatingLabel style={{ width: '75%' }}>
+							<Item floatingLabel style={{ width: '72%' }}>
 								<Label>인증번호</Label>
 								<Input
 									autoCapitalize="none"
