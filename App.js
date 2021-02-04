@@ -1,6 +1,5 @@
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen'
-import {Alert, View, Text, InputAccessoryView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { useEffect, useState } from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -17,7 +16,6 @@ import KakaoLogin from './views/login/kakao';
 import MyPgae_Location from './views/mypage/location';
 import Mypage_Like_List from './views/mypage/likeList';
 import ProfileShow from './views/profile/profile';
-import ProfileShowList from './views/profile/profile_show_list_dep';
 import SettingGroup from './views/mypage/setting_group'
 import Booking from './views/booking/booking';
 import {fcmService} from './views/shared/FCMService';

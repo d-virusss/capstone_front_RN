@@ -1,8 +1,8 @@
 
 import React, {Component} from 'react';
-import {TouchableOpacity, View, StyleSheet, DeviceEventEmitter,} from 'react-native';
-import {Text, Header, Icon, Body, Container, Content, Left, 
-  Right, Title, Tabs, Tab, TabHeading, Footer, Button, FooterTab } from 'native-base';
+import {TouchableOpacity, StyleSheet, DeviceEventEmitter,} from 'react-native';
+import {Text, Header, Icon, Body, Container, Left, 
+  Right, Title, Tabs, Tab, TabHeading, Footer, FooterTab } from 'native-base';
 import IconM from 'react-native-vector-icons/Ionicons'
 import ReceiveList from './reservationReceive'
 import SendList from './reservationSend'

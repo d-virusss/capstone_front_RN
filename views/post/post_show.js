@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {View, ScrollView, Image, StyleSheet, TouchableOpacity, Alert,
   DeviceEventEmitter, Dimensions} from 'react-native';
 import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, Card,
-  FooterTab, Header, Body, Container, Title, Tab, Tabs, TabHeading,
+   Header, Body, Container, Title, Tab, Tabs,
   CardItem, Thumbnail, Badge, Toast} from 'native-base';
 import Popover from 'react-native-popover-view';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons'

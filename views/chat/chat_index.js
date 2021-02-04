@@ -7,7 +7,6 @@ import {
   Title,
   Badge
 } from 'native-base';
-import BottomTab from '../shared/bottom_tab';
 import {TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';

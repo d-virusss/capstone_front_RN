@@ -1,8 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions, ScrollView} from 'react-native';
-import {Text, Header, Thumbnail, List, Body, Container, 
-  Content, ListItem, Button, Footer, Badge, Right} from 'native-base';
+import {View, StyleSheet, Alert, DeviceEventEmitter, ScrollView} from 'react-native';
+import {Text, Thumbnail, List, Body, Content, ListItem, Button, Footer, Badge, Right} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import Spinner from 'react-native-loading-spinner-overlay';
 import api from '../shared/server_address'
@@ -30,11 +29,12 @@ class receiveScreen extends Component{
     token: 0,
     loading: true,
     refreshing: '',
+    focused : false,
   };
 
   componentDidMount() {
-    //init var
-    reservation_info.item_id=''
+    //have to init 
+    this.state.focused = false
 
     this.getToken();
     this.eventListener = DeviceEventEmitter.addListener('refreshList', this.handleEvent);
@@ -157,7 +157,7 @@ class receiveScreen extends Component{
   }
 
   showOptionButton(){
-    if(reservation_info.item_id){
+    if(this.state.focused == true){
       console.log(booking_info)
       if(reservation_info.booking.acceptance === 'waiting'){
         return (
@@ -226,6 +226,7 @@ class receiveScreen extends Component{
     }
     booking_info = info;
 
+    this.setState({focused: true});
     reservation_info.item_id = info.id;
     reservation_info.booking.post_id = info.post_id;
     reservation_info.booking.acceptance = info.acceptance;
@@ -262,24 +263,43 @@ class receiveScreen extends Component{
   }
 
   render(){
-    return(
-      <View style={styles.container}>
-        <ScrollView style={{flex: 1}}>
-            <Calendar
-            markedDates={this.state.marked}
-            markingType={'period'}
-            />
-          <Spinner visible={this.state.loading} color="#ff3377"/>
-          <Content>
-            <List>{this.makeList()}</List>
-          </Content>
-        </ScrollView>
-        <View style = {styles.footer_area}>
-        {this.showOptionButton()}
+    if(this.state.focused == false){
+      return(
+        <View style={styles.container}>
+          <ScrollView style={{flex: 1}}>
+              <Calendar
+              markedDates={this.state.marked}
+              markingType={'period'}
+              />
+            <Spinner visible={this.state.loading} color="#ff3377"/>
+            <Content>
+              <List>{this.makeList()}</List>
+            </Content>
+          </ScrollView>
         </View>
-      </View>
-      
-    )
+        
+      )
+    }else{ //when item focused
+      console.log("focused")
+      return(
+        <View style={styles.container}>
+          <ScrollView style={{flex: 1}}>
+              <Calendar
+              markedDates={this.state.marked}
+              markingType={'period'}
+              />
+            <Spinner visible={this.state.loading} color="#ff3377"/>
+            <Content>
+              <List>{this.makeList()}</List>
+            </Content>
+          </ScrollView>
+          <View style = {styles.footer_area}>
+          {this.showOptionButton()}
+          </View>
+        </View>
+        
+      )
+    }
   }
 };
 

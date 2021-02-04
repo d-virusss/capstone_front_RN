@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import BottomTab from '../shared/bottom_tab';
+import {StyleSheet, TouchableOpacity } from 'react-native';
 import {
   Container, Header, Left, Body, Right, Button, Icon, Title,
-  Text, Thumbnail, Footer, FooterTab, Content, ListItem, List, Separator,
-  Card, CardItem,
+  Text, Content, ListItem, List, Separator,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 

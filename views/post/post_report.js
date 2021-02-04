@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, TouchableOpacity } from 'react-native';
-import BottomTab from '../shared/bottom_tab';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, 
-  Text, Thumbnail, Footer, FooterTab, Content, ListItem, List, Separator, 
-  Card, CardItem,
+  Text, Content, ListItem, List, Separator, 
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
-import api from '../shared/server_address'
-import FormData from 'form-data'
 
 
 //report detail에 신고타입 id만 넘겨주면됌.

@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView, View, Alert } from 'react-native';
+import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import {
   Container, Content, Header, Left, Right, Body, Icon,
-  Title, Text, List, ListItem, Tabs, Tab, TabHeading, Thumbnail, Badge,
-  FooterTab, Footer
+  Title, Text, List, ListItem,  Thumbnail,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
-import ReceiveList from '../mypage/reservationReceive'
 
 class ProfileProvide extends Component {
   state = {
@@ -67,13 +65,7 @@ class ProfileProvide extends Component {
   render() {
     return (
       <Container>
-        <Header style={{
-          height: 60,
-          backgroundColor: '#f8f8f8',
-          justifyContent: 'space-between'
-        }}
-          androidStatusBarColor='#000'
-        >
+        <Header style={styles.headerStyle} androidStatusBarColor='#000'>
           <Left>
             <TouchableOpacity transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='chevron-back' type='Ionicons' />
@@ -98,6 +90,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '400',
     color: 'black'
+  },
+  headerStyle : {
+    height: 60,
+    backgroundColor: '#f8f8f8',
+    justifyContent: 'space-between'
   }
 });
 
