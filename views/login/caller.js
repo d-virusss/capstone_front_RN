@@ -37,19 +37,19 @@ class LoginScreen extends Component {
   constructor(props){
     super(props);
     this.state={
-      button_fontSize:17
+      button_font_size:17
     }
   }
 
   componentDidMount() {
     if(max_width<=375){
       console.log('is modified? : yes')
-      this.setState({button_fontSize:13})
+      this.setState({button_font_size:13})
     }
     else if(max_width<=414&&max_height<=736){
       console.log('is modified? : yes')
       console.log('height: '+max_height)
-      this.setState({button_fontSize:14})
+      this.setState({button_font_size:14})
     }
     else console.log('not modified')
   }
@@ -231,7 +231,7 @@ class LoginScreen extends Component {
                 backgroundColor:'#ff3377',
                 justifyContent:'center'
                 }}>
-                <Text style={{fontWeight:'500', fontSize:this.state.button_fontSize, alignSelf:'center'}}>이메일로 로그인</Text>
+                <Text style={{fontWeight:'500', fontSize:this.state.button_font_size, alignSelf:'center'}}>이메일로 로그인</Text>
               </Button>
             </View>
             <View style={{marginTop: '3%', height: '10%'}}>
@@ -257,7 +257,7 @@ class LoginScreen extends Component {
                 alignItems:'center'
                 }}>
                 <Icon name='chat' type='MaterialCommunityIcons' style={{alignSelf:'center', color:'#000', fontSize:17,marginLeft:0,marginRight:0}} />
-                <Text style={{paddingLeft:4,fontWeight:'500', fontSize:this.state.button_fontSize, alignSelf:'center',color:'#000'}}>카카오로 로그인</Text>
+                <Text style={{paddingLeft:4,fontWeight:'500', fontSize:this.state.button_font_size, alignSelf:'center',color:'#000'}}>카카오로 로그인</Text>
               </Button>
             </View>
 
@@ -269,7 +269,7 @@ class LoginScreen extends Component {
                 justifyContent:'center',
                 alignItems:'center'
                 }}>
-                <Text style={{fontWeight:'500', fontSize:this.state.button_fontSize, alignSelf:'center',color:'#000'}}>회원가입</Text>
+                <Text style={{fontWeight:'500', fontSize:this.state.button_font_size, alignSelf:'center',color:'#000'}}>회원가입</Text>
               </Button>
             </View>
             <View style={{height: '10%', marginTop: '3%'}}>
@@ -287,7 +287,7 @@ class LoginScreen extends Component {
                     justifyContent:'center',
                     alignItems:'center'
                     }}>
-                    <Text style={{fontWeight:'600', fontSize:this.state.button_fontSize-1, alignSelf:'center',color:'#fff'}}>이메일 찾기</Text>
+                    <Text style={{fontWeight:'600', fontSize:this.state.button_font_size-1, alignSelf:'center',color:'#fff'}}>이메일 찾기</Text>
                   </Button>
                 </View>
                 <View style={{width: '49%',}}>
@@ -298,7 +298,7 @@ class LoginScreen extends Component {
                     justifyContent:'center',
                     alignItems:'center'
                     }}>
-                    <Text style={{fontWeight:'600', fontSize:this.state.button_fontSize-1, alignSelf:'center',color:'#fff'}}>PW 찾기</Text>
+                    <Text style={{fontWeight:'600', fontSize:this.state.button_font_size-1, alignSelf:'center',color:'#fff'}}>PW 찾기</Text>
                   </Button>
                 </View>
               </View>
