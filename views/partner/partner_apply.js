@@ -154,12 +154,12 @@ export default class RegistrationScreen extends React.Component {
 
           </Form>
         </Content>
-        <View style={styles.footer}>
-          <Button transparent style={ styles.footerbutton }
+        <Footer>
+          <Button transparent style={{width:'100%',height:'100%',backgroundColor:'#ff3377',borderRadius:0,justifyContent:'center',alignItems:'center'}}
             onPress={() => this.registrationRequest()}>
             <Text style={styles.footerText}>신청하기</Text>
           </Button>
-        </View>
+        </Footer>
       </Container>
       </TouchableWithoutFeedback>
     );

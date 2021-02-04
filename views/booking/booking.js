@@ -246,11 +246,11 @@ class bookingScreen extends Component{
           {this.state.booked == false && (
             <Button transparent style = {{
                 alignSelf : 'center',
-                padding : 4,
                 marginBottom : '3%',
-                height: 80,
+                height: '100%',
                 width: '100%',
-                justifyContent:'center'
+                justifyContent:'center',
+                alignItems:'center'
               }}
               onPress = {() => {
                   Alert.alert("예약 신청", "예약을 신청하시겠습니까?", [
@@ -266,7 +266,7 @@ class bookingScreen extends Component{
                 }
               }
             >
-              <Text style = {{color : 'white', fontSize: 20, fontWeight: 'bold'}}>예약 신청하기</Text>
+              <Text style = {{color : 'white', fontSize: 20, fontWeight: 'bold',alignSelf:'center'}}>예약 신청하기</Text>
             </Button>
           )}
           {this.state.booked == true && (
