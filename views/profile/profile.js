@@ -3,12 +3,11 @@ import React, { Component } from 'react';
 import { View, StyleSheet, TouchableOpacity, RefreshControl, ScrollView, Alert } from 'react-native';
 import {
   Container, Header, Left, Body, Right, Button, Icon, Title, Text, Thumbnail,
-  Footer, FooterTab, Content, ListItem, List, Separator
+   Content, ListItem, List, Separator
 } from 'native-base';
-import { CommonActions, StackActions } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 import Popover from 'react-native-popover-view';
 import api from '../shared/server_address';
-import Fire from '../shared/Fire';
 import Spinner from 'react-native-loading-spinner-overlay';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import { Rating } from 'react-native-elements'
@@ -100,7 +99,7 @@ class ProfileShow extends Component {
         </TouchableOpacity>}
         {this.state.is_my_profile && <TouchableOpacity
           onPress={() => {this.deleteUser()}}>
-          <Text style={styles.popoverel}>회원탈퇴</Text>
+          <Text style={styles.popoverel}>회원 탈퇴</Text>
         </TouchableOpacity>}
       </Popover>
     )
@@ -171,7 +170,6 @@ class ProfileShow extends Component {
       .then((res) => {
         this.setState({ loading: false })
         console.log('click 좋아요--------')
-        console.log(res)
       })
       .catch((e) => {
         this.setState({ loading: false })
@@ -188,8 +186,8 @@ class ProfileShow extends Component {
     else{
       if(this.state.like_check){
         return(
-          <Button small bordered style={{ position: 'absolute', top:'40%', left : '65%', 
-          backgroundColor: 'white', borderColor: 'black',width:100, justifyContent:'center'}}
+          <Button small bordered style={{ position: 'absolute', top:'40%', left : '60%', 
+          backgroundColor: 'white', borderColor: 'black',width:100}}
             onPress={() => this.userLikeRequest()}>
             <Text style={{ color: 'black', fontWeight: 'bold',  }}>팔로우 취소</Text>
           </Button>
@@ -197,8 +195,8 @@ class ProfileShow extends Component {
       }
       else {
         return (
-          <Button small style={{position: 'absolute', top : '40%',left : '65%', backgroundColor: '#ff3377', 
-           borderColor: 'black',  width: 100, justifyContent: 'center'}}
+          <Button small style={{position: 'absolute', top : '40%',left : '60%', 
+          backgroundColor: '#ff3377', borderColor: 'black',  width: 100, justifyContent : 'center'}}
           onPress={() => this.userLikeRequest()}>
           <Text style={{ color: 'white',fontWeight:'bold'}}>팔로우</Text>
         </Button>

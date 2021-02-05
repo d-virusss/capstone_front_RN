@@ -1,14 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {View, StyleSheet, Alert, DeviceEventEmitter, Dimensions, ScrollView} from 'react-native';
-import {Text, Header, Thumbnail, Body, Container, Content, ListItem, Button, Right, Footer, FooterTab, Badge, List} from 'native-base';
+import {View, StyleSheet, Alert, DeviceEventEmitter, ScrollView} from 'react-native';
+import {Text, Thumbnail, Body, Content, ListItem, Button, Right, Footer, Badge, List} from 'native-base';
 import {Calendar, } from 'react-native-calendars'
 import api from '../shared/server_address'
 import moment from 'moment';
 import IconM from 'react-native-vector-icons/Ionicons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { registerVersion } from 'firebase';
 IconM.loadFont()
 
 var reservation_list = [];
@@ -27,10 +26,13 @@ class receiveScreen extends Component{
     token: 0,
     loading: true,
     refreshing: '',
+    focused :  false,
   };
 
   componentDidMount() {
-    reservation_info.item_id = '' //init
+    //have to init
+    this.state.focused = false
+
     this.getToken();
     this.eventListener = DeviceEventEmitter.addListener('refreshList', this.handleEvent);
   }
@@ -63,6 +65,8 @@ class receiveScreen extends Component{
     for (let m = moment(start); m.diff(end, 'days') <= 0; m.add(1, 'days')) {
       nextDay.push(m.format('YYYY-MM-DD'));
     }
+
+    this.setState({focused : true});
     reservation_info.item_id = info.id;
     reservation_info.booking.post_id = info.post_id;
     if(info.acceptance === "accepted"){
@@ -93,9 +97,8 @@ class receiveScreen extends Component{
   }
 
   showOptionButton(){
-    console.log('showoption button ---------- ')
     console.log(reservation_info)
-    if(reservation_info.item_id){
+    if(this.state.focused == true){
       if(reservation_info.booking.acceptance){
         return(
           <Footer style = {styles.footer}>
@@ -166,17 +169,7 @@ class receiveScreen extends Component{
   }
 
   render(){
-    if(this.state.loading) {
-      return (
-        <Container>
-          <Header />
-          <Content>
-          <Spinner visible={this.state.loading} color="#ff3377" />
-          </Content>
-        </Container>
-      )
-    }
-    else{
+    if(this.state.focused == false){
       return(
         <View style={styles.container}>
           <ScrollView style={{flex: 1}}>
@@ -184,29 +177,50 @@ class receiveScreen extends Component{
             markedDates={this.state.marked}
             markingType={'period'}
             />
+            <Spinner visible={this.state.loading} color="#ff3377" />
             <Content>
               <List>{this.makeList()}</List>
             </Content>
           </ScrollView>
-          {this.showOptionButton()}
         </View>
       )
-    } 
-  };
+      
+    }else{
+      return(
+        <View style={styles.container}>
+          <ScrollView style={{flex: 1}}>
+            <Calendar
+            markedDates={this.state.marked}
+            markingType={'period'}
+            />
+            <Spinner visible={this.state.loading} color="#ff3377" />
+            <Content>
+              <List>{this.makeList()}</List>
+            </Content>
+          </ScrollView>
+          <View style = {styles.footer_area}>
+          {this.showOptionButton()}
+          </View>
+        </View>
+      )
+    }    
+  } 
 };
 
-let {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container:{
-    width : width,
+    width : '100%',
   },
   footer: {
     backgroundColor: '#ff3377',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: '6%',
+    height: '100%',
     flexDirection: 'row',
+  },
+  footer_area : {
+    height : '10%'
   },
   footerbutton: {
     marginTop: '2%',
@@ -223,7 +237,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: '6%',
+    height: '100%',
     flexDirection: 'row',
   }
  });

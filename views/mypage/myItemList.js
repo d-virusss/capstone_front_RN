@@ -1,9 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity, ScrollView, View} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Container, Content, Header, Left, Right, Body, Icon,
-  Title, Text, List, ListItem, Tabs, Tab, TabHeading,
-  Thumbnail,
+  Title, Text, List, ListItem, Tabs, Tab, Thumbnail,
 } from 'native-base';
 import api from '../shared/server_address'
 import IconM from 'react-native-vector-icons/Ionicons'
@@ -116,30 +115,5 @@ class myItemListScreen extends Component{
     );
   }
 }
-
-const styles = StyleSheet.create({
-  footer: {
-    position: 'absolute',
-    flex:0.1,
-    left: 0,
-    right: 0,
-    bottom: -5,
-    backgroundColor:'#50cebb',
-    flexDirection:'row',
-    height:80,
-    alignItems:'center',
-  },
-  bottomButtons: {
-    alignItems:'center',
-    justifyContent: 'center',
-    flex:1,
-  },
-  footerText: {
-    color:'white',
-    fontWeight:'bold',
-    alignItems:'center',
-    fontSize:18,
-  },
- });
 
 export default myItemListScreen;

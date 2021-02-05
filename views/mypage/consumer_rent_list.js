@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, ScrollView, DeviceEventEmitter, Alert } from 'react-native';
 import {
-  Container, Content, Header, Left, Right, Body, Icon, Badge,
-  Title, Text, List, ListItem, Tabs, Tab, TabHeading, Thumbnail,
-  Footer, FooterTab,
+  Container, Header, Left, Right, Body, Icon, Badge,
+  Title, Text, List, ListItem, Tabs, Tab, Thumbnail,FooterTab,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../shared/server_address'
 import SendList from './reservationSend'
-
-let BUTTONS = ["상품 리뷰", "", "취소"];
-let CANCEL_INDEX = 2;
 
 class ProviderRentList extends Component {
   state = {

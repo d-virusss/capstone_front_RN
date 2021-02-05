@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, TouchableOpacity, TextInput, Alert,
   TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
-import BottomTab from '../shared/bottom_tab';
 import {
-  Container, Header, Left, Body, Right, Button, Icon, Title,
-  Text, Thumbnail, Footer, FooterTab, Content, ListItem, List, Separator,
-  Card, CardItem,
+  Container, Header, Left, Body, Right, Button, Icon, Title, Text, 
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';

@@ -4,7 +4,7 @@ import {View, ScrollView, Image, StyleSheet, TouchableOpacity, Alert,
   DeviceEventEmitter, Dimensions} from 'react-native';
 import {Text, Icon, Content, Form, Left, Item, Right, Button, Footer, Card,
   FooterTab, Header, Body, Container, Title, Tab, Tabs, TabHeading,
-  CardItem, Thumbnail, Badge } from 'native-base';
+  CardItem, Thumbnail, Badge, Toast } from 'native-base';
 import Popover from 'react-native-popover-view';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../shared/server_address'
@@ -25,6 +25,9 @@ var reviewList = [];
 var postForm = {}; // for navigation props
 
 const windowHeight = Dimensions.get('window').height;
+
+const max_width=Dimensions.get('window').width;
+const max_height=Dimensions.get('window').height;
 
 class PostShow extends Component{
   params = this.props.route.params;
@@ -54,6 +57,7 @@ class PostShow extends Component{
 		rating : 0,
     images : [],
     status : "",
+    button_font_size: 17,
   };
 
   getToken = async () => {
@@ -114,6 +118,16 @@ class PostShow extends Component{
 
   componentDidMount() {
     console.log('------- enter post_show -------');
+    if(max_width<=375){
+      console.log('is modified? : yes')
+      this.setState({button_font_size:14,})
+    }
+    else if(max_width<=414&&max_height<=736){
+      console.log('is modified? : yes')
+      console.log('height: '+max_height)
+      this.setState({button_font_size:15})
+    }
+    else console.log('not modified')
     console.log(this.params)
 		this.state.post_id = this.params.post_id
     this.getToken().then(() => {
@@ -329,45 +343,46 @@ class PostShow extends Component{
   }
 
   renderFooter(){
-    console.log("------------------")
     console.log(postForm)
     if(this.state.is_your_post){
       return (
-        <FooterTab style={{}}>
-          <Button style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '4%', marginTop: '4%'  }} 
+        <Footer>
+        <Footer style={styles.footer}>
+          <Button style={styles.modify_btn} 
             onPress={() => { this.props.navigation.navigate("Contract", { my_post : this.state, onGoBack: ()=>{this.getPostInfo();} }) }}>
-            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17, paddingVertical: 5, marginTop: '1%'}}>계약서 수정</Text>
+            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17, alignSelf:'center'}}>계약서 수정</Text>
           </Button>
-          <Button style={{ backgroundColor: "#ff9a00", height: '70%', marginHorizontal: '4%', marginTop: '4%' }}
+          <Button style={styles.booking_list_btn}
             onPress={() => { this.props.navigation.navigate('ReservationList',{ onGoBack: ()=>{this.getPostInfo();} }) }} >
-            <Text style={{ color:'white', fontWeight: 'bold', fontSize: 17, paddingVertical: 5, marginTop: '1%' }}>예약 목록 확인</Text>
+            <Text style={{ color:'white', fontWeight: 'bold', fontSize: 17, alignSelf:'center'}}>예약 목록 확인</Text>
           </Button>
-        </FooterTab>
+        </Footer>
+        </Footer>
       )
     }
     else{
       return(
-        <FooterTab style={{ height: '100%'}}>
-          <Button vertical style={{ marginLeft: '-4%', marginTop: '4%', width: '10%' }} onPress={() => this.likeRequest()}>
+        <Footer style={{width:'100%',backgroundColor:'white', flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
+          <Button vertical transparent style={{ marginLeft: '4%', alignSelf:'center', width: '20%' }} onPress={() => this.likeRequest()}>
             <Icon name={this.state.icon || "heart-outline"} style={styles.likeIcon} />
           </Button>
-          <Button vertical style={{ backgroundColor: '#ff9a00', height: '70%', marginLeft: '3%', marginTop: '4%'}}
+          <Button vertical style={{ backgroundColor: '#ff9a00', width:'30%', height: '70%', marginLeft: '3%', alignSelf:'center',justifyContent:'center'}}
             onPress={() => { this.makeCallchat_navigate() }}>
-            <Text style={{ color: 'white', fontWeight : 'bold', fontSize:17, paddingVertical: '5%' }}>채팅하기</Text>
+            <Text style={{ color: 'white', fontWeight : 'bold', fontSize:this.state.button_font_size, alignSelf:'center' }}>채팅하기</Text>
           </Button>
-          {this.state.status == "unable" && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '3%', marginTop: '4%' }}
+          {this.state.status == "unable" && (<Button vertical style={{ backgroundColor: "#ff3377",width:'30%', height: '70%', marginHorizontal: '3%', alignSelf:'center',justifyContent:'center'}}
             onPress={() => { Alert.alert("신청 불가", "대여중인 상품입니다.", [{ text:'확인', style:'cancel' }]) }} >
-            <Text style={{ fontWeight: 'bold', fontSize: 17, color: 'white' }}>예약하기</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: this.state.button_font_size, color: 'white',alignSelf:'center'  }}>예약하기</Text>
           </Button>)}
-          {this.state.status == "able" && this.state.isBooked == false && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal:'3%', marginTop: '4%' }}
+          {this.state.status == "able" && this.state.isBooked == false && (<Button vertical style={{ backgroundColor: "#ff3377",width:'30%', height: '70%', marginHorizontal:'4%', alignSelf:'center',justifyContent:'center'}}
             onPress={() => { this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
-            <Text style={{ fontWeight: 'bold', fontSize:17, color: 'white'}}>예약하기</Text>
+            <Text style={{ fontWeight: 'bold', fontSize:this.state.button_font_size, color: 'white',alignSelf:'center'}}>예약하기</Text>
           </Button>)}
-          {this.state.status == "able" && this.state.isBooked == true && (<Button vertical style={{ backgroundColor: "#ff3377", height: '70%', marginHorizontal: '3%', marginTop: '4%' }}
+          {this.state.status == "able" && this.state.isBooked == true && (<Button vertical style={{ backgroundColor: "#ff3377",width:'30%', height: '70%', marginHorizontal: '4%', alignSelf:'center',justifyContent:'center'}}
             onPress={() => {this.props.navigation.navigate('Booking', { post_info: postForm.post_info, onGoBack: ()=>{this.getPostInfo(); }}) }} >
-            <Text style={{ fontWeight: 'bold', fontSize:16, padding: 0, color: 'white'}}>예약 취소</Text>
+            <Text style={{ fontWeight: 'bold', fontSize:this.state.button_font_size-1, alignSelf:'center', color: 'white'}}>예약 취소</Text>
           </Button>)}
-        </FooterTab>
+        </Footer>
       )
     }
   }
@@ -400,7 +415,7 @@ class PostShow extends Component{
           </Header>
 
           <Content style={{flex : 1}}>
-            <ScrollView style={styles.container}>
+            <ScrollView>
               <View>
               <SliderBox style={styles.swiper}
                 images={this.state.images}
@@ -466,9 +481,9 @@ class PostShow extends Component{
             </ScrollView>
           </Content>
 
-          <Footer style={{ backgroundColor: 'white' }}>
+          
             {this.renderFooter()}
-          </Footer>
+          
         </Container>
       )
     }
@@ -476,8 +491,32 @@ class PostShow extends Component{
 }
 
 const styles = StyleSheet.create({
-  container : {
-    // marginBottom : 10,
+  footer_area : {
+    height : '10%',
+    backgroundColor : 'white'
+  },
+  footer: {
+    height : '100%',
+    flexDirection : 'row',
+    justifyContent : 'center',
+    alignItems : 'center',
+    backgroundColor:'white'
+  },
+  modify_btn : {
+    backgroundColor: "#ff3377", 
+    margin: '4%',
+    width : '40%',
+    height: '70%',
+    justifyContent : 'center',
+    alignSelf:'center'
+  },
+  booking_list_btn: {
+    backgroundColor: "#ff9a00",
+    justifyContent : 'center',
+    margin: '4%', 
+    width : '40%',
+    height: '70%',
+    alignSelf:'center'
   },
   imageArea : {
     width: '100%',
