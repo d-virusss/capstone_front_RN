@@ -21,7 +21,9 @@ function HeadlessCheck({isHeadless}) {
     return null;
   } 
 
-  return <App/>;
+  return(
+    <App />
+  )
 }
 
 AppRegistry.registerComponent(appName, () => App);
