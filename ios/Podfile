@@ -1,31 +1,14 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-# React Native Maps dependencies
- rn_maps_path = '../node_modules/react-native-maps'
 
 platform :ios, '10.0'
 
-target 'capstone_frontend' do
-  pod 'react-native-google-maps', :path => rn_maps_path
-  pod 'GoogleMaps'
-  pod 'Google-Maps-iOS-Utils'
+target 'capstone_front_RN' do
   config = use_native_modules!
-
-  # add the Firebase pod for Google Analytics
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Messaging'
-  # add pods for any other desired Firebase products
-  # https://firebase.google.com/docs/ios/setup#available-pods
-
 
   use_react_native!(:path => config["reactNativePath"])
 
-
-
-
-
-
-  target 'capstone_frontendTests' do
+  target 'capstone_front_RNTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -40,10 +23,10 @@ target 'capstone_frontend' do
   end
 end
 
-target 'capstone_frontend-tvOS' do
-  # Pods for capstone_frontend-tvOS
+target 'capstone_front_RN-tvOS' do
+  # Pods for capstone_front_RN-tvOS
 
-  target 'capstone_frontend-tvOSTests' do
+  target 'capstone_front_RN-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
