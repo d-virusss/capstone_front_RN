@@ -1,12 +1,10 @@
-# APP KEY
-key.js
+# OSX
+#
+.DS_Store
 
 # Xcode
-!**/*.xcodeproj
-!**/*.pbxproj
-!**/*.xcworkspacedata
-!**/*.xcsettings
-!**/*.xcscheme
+#
+build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -22,257 +20,40 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-project.xcworkspace
-ios/Pods/Pods.xcodeproj/project.pbxproj
-*.pbxproj
 
-# Gradle
-/build/
-/packages/react-native-codegen/android/build/
-/packages/react-native-codegen/android/gradlePlugin-build/gradlePlugin/build
-/packages/rn-tester/android/app/.cxx/
-/packages/rn-tester/android/app/build/
-/packages/rn-tester/android/app/gradle/
-/packages/rn-tester/android/app/gradlew
-/packages/rn-tester/android/app/gradlew.bat
-/ReactAndroid/build/
-/ReactAndroid/gradle/
-/ReactAndroid/gradlew
-/ReactAndroid/gradlew.bat
-
-# Buck
-.buckd
-buck-out
-/.lsp.buckd
-/.lsp-buck-out
-/ReactAndroid/src/main/jni/prebuilt/lib/
-/ReactAndroid/src/main/gen
-
-# Android Studio
-.project
-.settings
-.classpath
-
-# Watchman
-.watchmanconfig
-
-# Android
+# Android/IntelliJ
+#
+build/
 .idea
 .gradle
 local.properties
 *.iml
-/android/
-/android/app/src/main/assets/fonts/
 
-# Node
-node_modules
-*.log
-.nvm
-/bots/node_modules/
-package-lock.json
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
 
-# OS X
-.DS_Store
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
+!debug.keystore
 
-# Test generated files
-/ReactAndroid/src/androidTest/assets/AndroidTestBundle.js
-*.js.meta
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
 
-/coverage
-/third-party
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
 
-# Root dir shouldn't have Xcode project
-/*.xcodeproj
-
-# ReactCommon subdir shouldn't have Xcode project
-/ReactCommon/**/*.xcodeproj
-/packages/rn-tester/build
-/packages/rn-tester/android/app/build/*
-
-# Libs that shouldn't have Xcode project
-/Libraries/FBLazyVector/**/*.xcodeproj
-/Libraries/FBReactNativeSpec/**/*.xcodeproj
-/Libraries/RCTRequired/**/*.xcodeproj
-/React/CoreModules/**/*.xcodeproj
-/packages/react-native-codegen/**/*.xcodeproj
+# Bundle artifact
+*.jsbundle
 
 # CocoaPods
-/template/ios/Pods/
-/template/ios/Podfile.lock
-/packages/rn-tester/Gemfile.lock
-
-# Ignore RNTester specific Pods, but keep the __offline_mirrors__ here.
-/packages/rn-tester/Pods/*
-!/packages/rn-tester/Pods/__offline_mirrors__
-
-# react-native-codegen
-/Libraries/FBReactNativeSpec/FBReactNativeSpec
-/packages/react-native-codegen/lib
-/ReactCommon/fabric/components/rncore/
-/schema-native-modules.json
-/schema-rncore.json
-
-# Visual studio
-.vscode
-.vs
-
-# Android memory profiler files
-*.hprof
-ios/capstone_frontend/AppDelegate.m
-ios/Podfile.lock
-ios/Pods/Manifest.lock
-ios/Pods/Pods.xcodeproj/project.pbxproj
-ios/Pods/Target Support Files/boost-for-react-native/boost-for-react-native.debug.xcconfig
-ios/Pods/Target Support Files/boost-for-react-native/boost-for-react-native.release.xcconfig
-ios/Pods/Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket.debug.xcconfig
-ios/Pods/Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket.release.xcconfig
-ios/Pods/Target Support Files/CocoaLibEvent/CocoaLibEvent.debug.xcconfig
-ios/Pods/Target Support Files/CocoaLibEvent/CocoaLibEvent.release.xcconfig
-ios/Pods/Target Support Files/DoubleConversion/DoubleConversion.debug.xcconfig
-ios/Pods/Target Support Files/DoubleConversion/DoubleConversion.release.xcconfig
-ios/Pods/Target Support Files/FBLazyVector/FBLazyVector.debug.xcconfig
-ios/Pods/Target Support Files/FBLazyVector/FBLazyVector.release.xcconfig
-ios/Pods/Target Support Files/FBReactNativeSpec/FBReactNativeSpec.debug.xcconfig
-ios/Pods/Target Support Files/FBReactNativeSpec/FBReactNativeSpec.release.xcconfig
-ios/Pods/Target Support Files/Firebase/Firebase.debug.xcconfig
-ios/Pods/Target Support Files/Firebase/Firebase.release.xcconfig
-ios/Pods/Target Support Files/FirebaseAnalytics/FirebaseAnalytics.debug.xcconfig
-ios/Pods/Target Support Files/FirebaseAnalytics/FirebaseAnalytics.release.xcconfig
-ios/Pods/Target Support Files/FirebaseCore/FirebaseCore.debug.xcconfig
-ios/Pods/Target Support Files/FirebaseCore/FirebaseCore.release.xcconfig
-ios/Pods/Target Support Files/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.debug.xcconfig
-ios/Pods/Target Support Files/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.release.xcconfig
-ios/Pods/Target Support Files/FirebaseInstallations/FirebaseInstallations.debug.xcconfig
-ios/Pods/Target Support Files/FirebaseInstallations/FirebaseInstallations.release.xcconfig
-ios/Pods/Target Support Files/FirebaseInstanceID/FirebaseInstanceID.debug.xcconfig
-ios/Pods/Target Support Files/FirebaseInstanceID/FirebaseInstanceID.release.xcconfig
-ios/Pods/Target Support Files/FirebaseMessaging/FirebaseMessaging.debug.xcconfig
-ios/Pods/Target Support Files/FirebaseMessaging/FirebaseMessaging.release.xcconfig
-ios/Pods/Target Support Files/Flipper-DoubleConversion/Flipper-DoubleConversion.debug.xcconfig
-ios/Pods/Target Support Files/Flipper-DoubleConversion/Flipper-DoubleConversion.release.xcconfig
-ios/Pods/Target Support Files/Flipper-Folly/Flipper-Folly.debug.xcconfig
-ios/Pods/Target Support Files/Flipper-Folly/Flipper-Folly.release.xcconfig
-ios/Pods/Target Support Files/Flipper-Glog/Flipper-Glog.debug.xcconfig
-ios/Pods/Target Support Files/Flipper-Glog/Flipper-Glog.release.xcconfig
-ios/Pods/Target Support Files/Flipper-PeerTalk/Flipper-PeerTalk.debug.xcconfig
-ios/Pods/Target Support Files/Flipper-PeerTalk/Flipper-PeerTalk.release.xcconfig
-ios/Pods/Target Support Files/Flipper-RSocket/Flipper-RSocket.debug.xcconfig
-ios/Pods/Target Support Files/Flipper-RSocket/Flipper-RSocket.release.xcconfig
-ios/Pods/Target Support Files/Flipper/Flipper.debug.xcconfig
-ios/Pods/Target Support Files/Flipper/Flipper.release.xcconfig
-ios/Pods/Target Support Files/FlipperKit/FlipperKit.debug.xcconfig
-ios/Pods/Target Support Files/FlipperKit/FlipperKit.release.xcconfig
-ios/Pods/Target Support Files/Folly/Folly.debug.xcconfig
-ios/Pods/Target Support Files/Folly/Folly.release.xcconfig
-ios/Pods/Target Support Files/glog/glog.debug.xcconfig
-ios/Pods/Target Support Files/glog/glog.release.xcconfig
-ios/Pods/Target Support Files/Google-Maps-iOS-Utils/Google-Maps-iOS-Utils.debug.xcconfig
-ios/Pods/Target Support Files/Google-Maps-iOS-Utils/Google-Maps-iOS-Utils.release.xcconfig
-ios/Pods/Target Support Files/GoogleAppMeasurement/GoogleAppMeasurement.debug.xcconfig
-ios/Pods/Target Support Files/GoogleAppMeasurement/GoogleAppMeasurement.release.xcconfig
-ios/Pods/Target Support Files/GoogleDataTransport/GoogleDataTransport.debug.xcconfig
-ios/Pods/Target Support Files/GoogleDataTransport/GoogleDataTransport.release.xcconfig
-ios/Pods/Target Support Files/GoogleMaps/GoogleMaps.debug.xcconfig
-ios/Pods/Target Support Files/GoogleMaps/GoogleMaps.release.xcconfig
-ios/Pods/Target Support Files/GoogleUtilities/GoogleUtilities.debug.xcconfig
-ios/Pods/Target Support Files/GoogleUtilities/GoogleUtilities.release.xcconfig
-ios/Pods/Target Support Files/nanopb/nanopb.debug.xcconfig
-ios/Pods/Target Support Files/nanopb/nanopb.release.xcconfig
-ios/Pods/Target Support Files/OpenSSL-Universal/OpenSSL-Universal.debug.xcconfig
-ios/Pods/Target Support Files/OpenSSL-Universal/OpenSSL-Universal.release.xcconfig
-ios/Pods/Target Support Files/Pods-capstone_frontend-capstone_frontendTests/Pods-capstone_frontend-capstone_frontendTests.debug.xcconfig
-ios/Pods/Target Support Files/Pods-capstone_frontend-capstone_frontendTests/Pods-capstone_frontend-capstone_frontendTests.release.xcconfig
-ios/Pods/Target Support Files/Pods-capstone_frontend-tvOS/Pods-capstone_frontend-tvOS.debug.xcconfig
-ios/Pods/Target Support Files/Pods-capstone_frontend-tvOS/Pods-capstone_frontend-tvOS.release.xcconfig
-ios/Pods/Target Support Files/Pods-capstone_frontend-tvOSTests/Pods-capstone_frontend-tvOSTests.debug.xcconfig
-ios/Pods/Target Support Files/Pods-capstone_frontend-tvOSTests/Pods-capstone_frontend-tvOSTests.release.xcconfig
-ios/Pods/Target Support Files/Pods-capstone_frontend/Pods-capstone_frontend.debug.xcconfig
-ios/Pods/Target Support Files/Pods-capstone_frontend/Pods-capstone_frontend.release.xcconfig
-ios/Pods/Target Support Files/PromisesObjC/PromisesObjC.debug.xcconfig
-ios/Pods/Target Support Files/PromisesObjC/PromisesObjC.release.xcconfig
-ios/Pods/Target Support Files/Protobuf/Protobuf.debug.xcconfig
-ios/Pods/Target Support Files/Protobuf/Protobuf.release.xcconfig
-ios/Pods/Target Support Files/RCTRequired/RCTRequired.debug.xcconfig
-ios/Pods/Target Support Files/RCTRequired/RCTRequired.release.xcconfig
-ios/Pods/Target Support Files/RCTTypeSafety/RCTTypeSafety.debug.xcconfig
-ios/Pods/Target Support Files/RCTTypeSafety/RCTTypeSafety.release.xcconfig
-ios/Pods/Target Support Files/React-callinvoker/React-callinvoker.debug.xcconfig
-ios/Pods/Target Support Files/React-callinvoker/React-callinvoker.release.xcconfig
-ios/Pods/Target Support Files/React-Core/React-Core.debug.xcconfig
-ios/Pods/Target Support Files/React-Core/React-Core.release.xcconfig
-ios/Pods/Target Support Files/React-CoreModules/React-CoreModules.debug.xcconfig
-ios/Pods/Target Support Files/React-CoreModules/React-CoreModules.release.xcconfig
-ios/Pods/Target Support Files/React-cxxreact/React-cxxreact.debug.xcconfig
-ios/Pods/Target Support Files/React-cxxreact/React-cxxreact.release.xcconfig
-ios/Pods/Target Support Files/React-jsi/React-jsi.debug.xcconfig
-ios/Pods/Target Support Files/React-jsi/React-jsi.release.xcconfig
-ios/Pods/Target Support Files/React-jsiexecutor/React-jsiexecutor.debug.xcconfig
-ios/Pods/Target Support Files/React-jsiexecutor/React-jsiexecutor.release.xcconfig
-ios/Pods/Target Support Files/React-jsinspector/React-jsinspector.debug.xcconfig
-ios/Pods/Target Support Files/React-jsinspector/React-jsinspector.release.xcconfig
-ios/Pods/Target Support Files/react-native-geolocation-service/react-native-geolocation-service.debug.xcconfig
-ios/Pods/Target Support Files/react-native-geolocation-service/react-native-geolocation-service.release.xcconfig
-ios/Pods/Target Support Files/react-native-geolocation/react-native-geolocation.debug.xcconfig
-ios/Pods/Target Support Files/react-native-geolocation/react-native-geolocation.release.xcconfig
-ios/Pods/Target Support Files/react-native-google-maps/react-native-google-maps.debug.xcconfig
-ios/Pods/Target Support Files/react-native-google-maps/react-native-google-maps.release.xcconfig
-ios/Pods/Target Support Files/react-native-maps/react-native-maps.debug.xcconfig
-ios/Pods/Target Support Files/react-native-maps/react-native-maps.release.xcconfig
-ios/Pods/Target Support Files/react-native-safe-area-context/react-native-safe-area-context.debug.xcconfig
-ios/Pods/Target Support Files/react-native-safe-area-context/react-native-safe-area-context.release.xcconfig
-ios/Pods/Target Support Files/react-native-slider/react-native-slider.debug.xcconfig
-ios/Pods/Target Support Files/react-native-slider/react-native-slider.release.xcconfig
-ios/Pods/Target Support Files/react-native-sqlite-storage/react-native-sqlite-storage.debug.xcconfig
-ios/Pods/Target Support Files/react-native-sqlite-storage/react-native-sqlite-storage.release.xcconfig
-ios/Pods/Target Support Files/react-native-user-agent/react-native-user-agent.debug.xcconfig
-ios/Pods/Target Support Files/react-native-user-agent/react-native-user-agent.release.xcconfig
-ios/Pods/Target Support Files/react-native-webview/react-native-webview.debug.xcconfig
-ios/Pods/Target Support Files/react-native-webview/react-native-webview.release.xcconfig
-ios/Pods/Target Support Files/React-RCTActionSheet/React-RCTActionSheet.debug.xcconfig
-ios/Pods/Target Support Files/React-RCTActionSheet/React-RCTActionSheet.release.xcconfig
-ios/Pods/Target Support Files/React-RCTAnimation/React-RCTAnimation.debug.xcconfig
-ios/Pods/Target Support Files/React-RCTAnimation/React-RCTAnimation.release.xcconfig
-ios/Pods/Target Support Files/React-RCTBlob/React-RCTBlob.debug.xcconfig
-ios/Pods/Target Support Files/React-RCTBlob/React-RCTBlob.release.xcconfig
-ios/Pods/Target Support Files/React-RCTImage/React-RCTImage.debug.xcconfig
-ios/Pods/Target Support Files/React-RCTImage/React-RCTImage.release.xcconfig
-ios/Pods/Target Support Files/React-RCTLinking/React-RCTLinking.debug.xcconfig
-ios/Pods/Target Support Files/React-RCTLinking/React-RCTLinking.release.xcconfig
-ios/Pods/Target Support Files/React-RCTNetwork/React-RCTNetwork.debug.xcconfig
-ios/Pods/Target Support Files/React-RCTNetwork/React-RCTNetwork.release.xcconfig
-ios/Pods/Target Support Files/React-RCTSettings/React-RCTSettings.debug.xcconfig
-ios/Pods/Target Support Files/React-RCTSettings/React-RCTSettings.release.xcconfig
-ios/Pods/Target Support Files/React-RCTText/React-RCTText.debug.xcconfig
-ios/Pods/Target Support Files/React-RCTText/React-RCTText.release.xcconfig
-ios/Pods/Target Support Files/React-RCTVibration/React-RCTVibration.debug.xcconfig
-ios/Pods/Target Support Files/React-RCTVibration/React-RCTVibration.release.xcconfig
-ios/Pods/Target Support Files/React/React.debug.xcconfig
-ios/Pods/Target Support Files/React/React.release.xcconfig
-ios/Pods/Target Support Files/ReactCommon/ReactCommon.debug.xcconfig
-ios/Pods/Target Support Files/ReactCommon/ReactCommon.release.xcconfig
-ios/Pods/Target Support Files/RNCAsyncStorage/RNCAsyncStorage.debug.xcconfig
-ios/Pods/Target Support Files/RNCAsyncStorage/RNCAsyncStorage.release.xcconfig
-ios/Pods/Target Support Files/RNCMaskedView/RNCMaskedView.debug.xcconfig
-ios/Pods/Target Support Files/RNCMaskedView/RNCMaskedView.release.xcconfig
-ios/Pods/Target Support Files/RNCPushNotificationIOS/RNCPushNotificationIOS.debug.xcconfig
-ios/Pods/Target Support Files/RNCPushNotificationIOS/RNCPushNotificationIOS.release.xcconfig
-ios/Pods/Target Support Files/RNFBApp/RNFBApp.debug.xcconfig
-ios/Pods/Target Support Files/RNFBApp/RNFBApp.release.xcconfig
-ios/Pods/Target Support Files/RNFBMessaging/RNFBMessaging.debug.xcconfig
-ios/Pods/Target Support Files/RNFBMessaging/RNFBMessaging.release.xcconfig
-ios/Pods/Target Support Files/RNGestureHandler/RNGestureHandler.debug.xcconfig
-ios/Pods/Target Support Files/RNGestureHandler/RNGestureHandler.release.xcconfig
-ios/Pods/Target Support Files/RNImageCropPicker/RNImageCropPicker.debug.xcconfig
-ios/Pods/Target Support Files/RNImageCropPicker/RNImageCropPicker.release.xcconfig
-ios/Pods/Target Support Files/RNReanimated/RNReanimated.debug.xcconfig
-ios/Pods/Target Support Files/RNReanimated/RNReanimated.release.xcconfig
-ios/Pods/Target Support Files/RNScreens/RNScreens.debug.xcconfig
-ios/Pods/Target Support Files/RNScreens/RNScreens.release.xcconfig
-ios/Pods/Target Support Files/RNVectorIcons/RNVectorIcons.debug.xcconfig
-ios/Pods/Target Support Files/RNVectorIcons/RNVectorIcons.release.xcconfig
-ios/Pods/Target Support Files/TOCropViewController/TOCropViewController.debug.xcconfig
-ios/Pods/Target Support Files/TOCropViewController/TOCropViewController.release.xcconfig
-ios/Pods/Target Support Files/Yoga/Yoga.debug.xcconfig
-ios/Pods/Target Support Files/Yoga/Yoga.release.xcconfig
-ios/Pods/Target Support Files/YogaKit/YogaKit.debug.xcconfig
-ios/Pods/Target Support Files/YogaKit/YogaKit.release.xcconfig
+/ios/Pods/

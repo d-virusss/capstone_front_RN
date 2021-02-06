@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "598410239232",
+    "firebase_url": "https://applepink-37bde.firebaseio.com",
+    "project_id": "applepink-37bde",
+    "storage_bucket": "applepink-37bde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598410239232:android:767c5cac6d313f16dbe7e5",
+        "android_client_info": {
+          "package_name": "com.capstone_front_rn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598410239232-bhrp728ep47im77ab2bjimduvsf7af6j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQvG8oup4Rhb-dWnkexwmBW3DPFUiKfVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598410239232-bhrp728ep47im77ab2bjimduvsf7af6j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "598410239232-78cb64i0npkjolki2panaohm3kp3lj66.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ttt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

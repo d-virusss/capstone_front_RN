@@ -1,8 +1,8 @@
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen'
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { useEffect, useState } from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './views/login/caller';
 import Register_form from './views/registration/caller';
 import FindId from './views/findid/caller';
@@ -18,8 +18,8 @@ import Mypage_Like_List from './views/mypage/likeList';
 import ProfileShow from './views/profile/profile';
 import SettingGroup from './views/mypage/setting_group'
 import Booking from './views/booking/booking';
-import {fcmService} from './views/shared/FCMService';
-import {localNotificationService} from './views/shared/localnotification';
+import { fcmService } from './views/shared/FCMService';
+import { localNotificationService } from './views/shared/localnotification';
 import PostReport from './views/post/post_report'
 import MyItemList from './views/mypage/myItemList'
 import ManageReservation from './views/mypage/manageReservation'
@@ -58,62 +58,62 @@ import * as RootNavigation from './RootNavigation';
 
 const Stack = createStackNavigator();
 var token = '';
-let dataNotify={};
+let dataNotify = {};
 
 const App = () => {
   const [loading, setLoading] = useState();
-  var [enterence,setEnterence] = useState("Logins")
-  
+  var [enterence, setEnterence] = useState("Logins")
+
   useEffect(() => {
 
     setLoading(loading => true)
     //token = AsyncStorage.getItem('token')
-    const asyncFunction=async()=>{
+    const asyncFunction = async () => {
       token = await AsyncStorage.getItem('token')
       console.log(token)
-      if(token){
+      if (token) {
         setEnterence("Main")
       }
     }
     asyncFunction();
     setTimeout(() => {
-			SplashScreen.hide();
+      SplashScreen.hide();
       setLoading(loading => false)
     }, 800);
-    
+
 
     fcmService.registerAppWithFCM()
     fcmService.register(onRegister, onNotification, onOpenNotification)
-    localNotificationService.configure(onOpenNotification,dataNotify)
+    localNotificationService.configure(onOpenNotification, dataNotify)
 
-    function onRegister(token){
+    function onRegister(token) {
       console.log("[App] onRegister : ", token)
     }
 
-    function onNotification(notify, data){
+    function onNotification(notify, data) {
       console.log("[App] onNotification: ", notify)
-      dataNotify=data;
+      dataNotify = data;
       console.log(dataNotify)
       const options = {
         soundName: 'default',
         playSound: true
       }
-      
+
       localNotificationService.showNotification(
         0, notify.title, notify.body, notify, options
       )
     }
 
-    function onOpenNotification(notify, data){
+    function onOpenNotification(notify, data) {
       console.log("[App] onOpenNotification: ", notify)
-      if(data.type=='keyword'){
-        RootNavigation.navigate('PostShow',{post_id:Number(data.post_id)})
+      if (data.type == 'keyword') {
+        RootNavigation.navigate('PostShow', { post_id: Number(data.post_id) })
       }
-      if(data.type=='message'){
-        RootNavigation.navigate('ChatRoom',{chat_id:Number(data.chat_id),post_id:Number(data.post_id),nickname:data.user_nickname,avatar:''})
+      if (data.type == 'message') {
+        RootNavigation.navigate('ChatRoom', { chat_id: Number(data.chat_id), post_id: Number(data.post_id), nickname: data.user_nickname, avatar: '' })
       }
 
-      return () =>{
+      return () => {
         console.log("[App] unregister")
         fcmService.unRegister()
         localNotificationService.unregister()
@@ -121,48 +121,48 @@ const App = () => {
     }
   }, []);
 
-  if(!loading){
+  if (!loading) {
     return (
       <NavigationContainer ref={navigationRef}>
         <Stack.Navigator initialRouteName={enterence}>
-          <Stack.Screen name="Logins" component={LoginScreen} options={{headerShown: false, gestureEnabled : false, }} />
-          <Stack.Screen name="KakaoLogin" component={KakaoLogin} options={{ gestureEnabled : false, headerTitle: "카카오 로그인", headerBackTitle: '뒤로'}} />
-          <Stack.Screen name="AppleLogin" component={AppleLogin} options={{ gestureEnabled : false, headerTitle: "Apple 로그인", headerBackTitle: '뒤로'}} />
-          <Stack.Screen name="Register" component={Register_form} options={{headerShown: false}} />
-          <Stack.Screen name="policyDetail" component={policyDetail} options={{headerShown: false}} />
-          <Stack.Screen name="Find_id" component={FindId} options={{headerShown: false}} />
-          <Stack.Screen name="FindIdShow" component={FindIdShow} options={{headerShown: false}} />
-          <Stack.Screen name="Find_pw" component={FindPw} options={{headerShown: false}} />
-          <Stack.Screen name="FindPwShow" component={FindPwShow} options={{headerShown: false}} />
-          <Stack.Screen name="PwInputCode" component={PwInputCode} options={{headerShown: false}} />
-          <Stack.Screen name="Main" component={BottomTab} options={{headerShown : false, gestureEnabled : false, }}/>
-  
+          <Stack.Screen name="Logins" component={LoginScreen} options={{ headerShown: false, gestureEnabled: false, }} />
+          <Stack.Screen name="KakaoLogin" component={KakaoLogin} options={{ gestureEnabled: false, headerTitle: "카카오 로그인", headerBackTitle: '뒤로' }} />
+          <Stack.Screen name="AppleLogin" component={AppleLogin} options={{ gestureEnabled: false, headerTitle: "Apple 로그인", headerBackTitle: '뒤로' }} />
+          <Stack.Screen name="Register" component={Register_form} options={{ headerShown: false }} />
+          <Stack.Screen name="policyDetail" component={policyDetail} options={{ headerShown: false }} />
+          <Stack.Screen name="Find_id" component={FindId} options={{ headerShown: false }} />
+          <Stack.Screen name="FindIdShow" component={FindIdShow} options={{ headerShown: false }} />
+          <Stack.Screen name="Find_pw" component={FindPw} options={{ headerShown: false }} />
+          <Stack.Screen name="FindPwShow" component={FindPwShow} options={{ headerShown: false }} />
+          <Stack.Screen name="PwInputCode" component={PwInputCode} options={{ headerShown: false }} />
+          <Stack.Screen name="Main" component={BottomTab} options={{ headerShown: false, gestureEnabled: false, }} />
+
           {/* post */}
-          <Stack.Screen name="P_W_p" component={Post_provide} options={{ headerShown : false }} />
-          <Stack.Screen name="P_W_c" component={Post_ask} options={{ headerShown : false }} />
+          <Stack.Screen name="P_W_p" component={Post_provide} options={{ headerShown: false }} />
+          <Stack.Screen name="P_W_c" component={Post_ask} options={{ headerShown: false }} />
           <Stack.Screen name="Search" component={SearchBar} />
-          <Stack.Screen name="PostShow" component={PostShow}options={{ headerShown: false }}/>
-          <Stack.Screen name="PostReport" component={PostReport} options={{headerShown: false,}} />
-          <Stack.Screen name="PostUserReport" component={PostUserReport} options={{headerShown: false,}} />
-          <Stack.Screen name="ReportDetail" component={ReportDetail} options={{headerShown: false,}} />
-          <Stack.Screen name="ChatRoom" component={ChatRoom} options={{headerShown: false}} />
-          <Stack.Screen name="PostUpdate" component={PostUpdate} options={{headerShown: false}} />
-          <Stack.Screen name="Booking" component={Booking} options={{ headerShown : false}} />
-          <Stack.Screen name="ReservationList" component={ReservationList} options={{ headerShown : false}} />
-  
+          <Stack.Screen name="PostShow" component={PostShow} options={{ headerShown: false }} />
+          <Stack.Screen name="PostReport" component={PostReport} options={{ headerShown: false, }} />
+          <Stack.Screen name="PostUserReport" component={PostUserReport} options={{ headerShown: false, }} />
+          <Stack.Screen name="ReportDetail" component={ReportDetail} options={{ headerShown: false, }} />
+          <Stack.Screen name="ChatRoom" component={ChatRoom} options={{ headerShown: false }} />
+          <Stack.Screen name="PostUpdate" component={PostUpdate} options={{ headerShown: false }} />
+          <Stack.Screen name="Booking" component={Booking} options={{ headerShown: false }} />
+          <Stack.Screen name="ReservationList" component={ReservationList} options={{ headerShown: false }} />
+
           {/* mypage */}
           <Stack.Screen name="ProviderRentList" component={ProviderRentList} options={{ headerShown: false, }} />
           <Stack.Screen name="ConsumerRentList" component={ConsumerRentList} options={{ headerShown: false, }} />
-          <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{headerShown: false}}  />
-          <Stack.Screen name="SettingGroup" component={SettingGroup} options={{ headerShown : false}} />
-          <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{headerShown: false}}  />
-          <Stack.Screen name="MyItemList" component={MyItemList} options={{ headerShown : false }} />
+          <Stack.Screen name="MyPage_Location" component={MyPgae_Location} options={{ headerShown: false }} />
+          <Stack.Screen name="SettingGroup" component={SettingGroup} options={{ headerShown: false }} />
+          <Stack.Screen name="Like_List" component={Mypage_Like_List} options={{ headerShown: false }} />
+          <Stack.Screen name="MyItemList" component={MyItemList} options={{ headerShown: false }} />
           <Stack.Screen name="Reservation" component={ManageReservation} options={{ headerShown: false }} />
-          <Stack.Screen name="LocationDetail" component={LocationDetail} options={{headerShown : false}}/>
-          <Stack.Screen name="SettingMyInfo" component={SettingMyInfo} options={{headerShown : false}}/>
-          <Stack.Screen name="Keyword" component={Keyword} options={{headerShown : false}}/>
-          <Stack.Screen name="Review" component={Review} options={{headerShown : false}}/>
-          <Stack.Screen name="WriteReview" component={WriteReview} options={{headerShown : false}}/>
+          <Stack.Screen name="LocationDetail" component={LocationDetail} options={{ headerShown: false }} />
+          <Stack.Screen name="SettingMyInfo" component={SettingMyInfo} options={{ headerShown: false }} />
+          <Stack.Screen name="Keyword" component={Keyword} options={{ headerShown: false }} />
+          <Stack.Screen name="Review" component={Review} options={{ headerShown: false }} />
+          <Stack.Screen name="WriteReview" component={WriteReview} options={{ headerShown: false }} />
           <Stack.Screen name="UpdateReview" component={UpdateReview} options={{ headerShown: false }} />
 
           {/* profile */}
@@ -170,21 +170,21 @@ const App = () => {
           <Stack.Screen name="ProfileProvide" component={ProfileProvide} options={{ headerShown: false, }} />
           <Stack.Screen name="ProfileAsk" component={ProfileAsk} options={{ headerShown: false, }} />
           <Stack.Screen name="ReceivedReview" component={ReceivedReview} options={{ headerShown: false, }} />
-  
-          <Stack.Screen name="Contract" component={Contract} options={{ headerShown : false }} />
-          <Stack.Screen name="Sign" component={Sign} options={{ headerShown : false }} />
-          <Stack.Screen name="SignState" component={SignState} options={{ headerShown : false }} />
-  
-          <Stack.Screen name="Partner_Apply" component={Partner_apply} options={{headerShown : false}}/>
-          <Stack.Screen name="Partner_Waiting" component={Partner_waiting} options={{headerShown : false}}/>
-          <Stack.Screen name="Partner_Page" component={Partner_page} options={{headerShown : false}}/>
-               
+
+          <Stack.Screen name="Contract" component={Contract} options={{ headerShown: false }} />
+          <Stack.Screen name="Sign" component={Sign} options={{ headerShown: false }} />
+          <Stack.Screen name="SignState" component={SignState} options={{ headerShown: false }} />
+
+          <Stack.Screen name="Partner_Apply" component={Partner_apply} options={{ headerShown: false }} />
+          <Stack.Screen name="Partner_Waiting" component={Partner_waiting} options={{ headerShown: false }} />
+          <Stack.Screen name="Partner_Page" component={Partner_page} options={{ headerShown: false }} />
+
         </Stack.Navigator>
       </NavigationContainer>
-  
+
     );
   }
-  else{
+  else {
     return null
   }
 };
