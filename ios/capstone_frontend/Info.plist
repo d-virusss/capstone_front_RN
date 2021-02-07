@@ -38,9 +38,9 @@
 		</dict>
 	</dict>
 	<key>NSCalendarsUsageDescription</key>
-	<string></string>
+	<string>서비스 동작을 위해 캘린더 권한이 필요합니다</string>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>서비스 동작을 위해 카메라 권한이 필요합니다</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>서비스 동작을 위해 위치 정보가 필요합니다</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -48,7 +48,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>서비스 동작을 위해 위치 정보가 필요합니다</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>서비스 동작을 위해 사진 접근 권한이 필요합니다</string>
 	<key>UIAppFonts</key>
 	<array/>
 	<key>UIBackgroundModes</key>
