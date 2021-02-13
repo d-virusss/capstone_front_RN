@@ -43,8 +43,15 @@ class LoginScreen extends Component {
 
   componentDidMount() {
     if(max_width<=375){
-      console.log('is modified? : yes')
-      this.setState({button_font_size:13})
+      if(max_height<812){
+        console.log('is modified? : yes')
+        console.log(max_height)
+        this.setState({button_font_size:13})
+      }
+      else{
+        console.log('is modified? : yes')
+        this.setState({button_font_size:16})
+      }
     }
     else if(max_width<=414&&max_height<=736){
       console.log('is modified? : yes')
