@@ -7,6 +7,7 @@ import { Container, Header, Text, Form, Item, Input, Label, Left,
 import api from '../shared/server_address'
 import _ from 'lodash'
 import FormData from 'form-data'
+import Toast from 'react-native-simple-toast';
 
 var formdata = new FormData()
 class Keyword extends Component {
@@ -78,6 +79,7 @@ class Keyword extends Component {
       })
       .then((res) => {
         console.log(res)
+        Toast.show("키워드 알림 추가 완료!")
         this.state.keyword = ''
         this.getKeywordRequest()
       })

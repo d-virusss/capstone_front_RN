@@ -11,6 +11,7 @@ import api from '../shared/server_address';
 import Spinner from 'react-native-loading-spinner-overlay';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import { Rating } from 'react-native-elements'
+import Toast from 'react-native-simple-toast';
 
 IconM.loadFont();
 
@@ -154,8 +155,14 @@ class ProfileShow extends Component {
   }
 
   userLikeRequest(){
-    if(this.state.like_check) this.setState({ like_check: false, loading: true })
-    else this.setState({ like_check: true })
+    if(this.state.like_check){
+      this.setState({ like_check: false, loading: true })
+      Toast.show("팔로우 취소!")
+    } 
+    else{
+      this.setState({ like_check: true })
+      Toast.show("팔로우!")
+    } 
     api
       .post('/users/like', {
         like:{
