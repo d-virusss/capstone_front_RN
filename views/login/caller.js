@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React, {Component} from 'react';
 import { StyleSheet, View, Alert, TouchableOpacity, 
   TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard, Dimensions } from 'react-native';
-import CustomButton from './custom_button';
 import { Item, Input, Button, Text, Icon} from 'native-base';
 import IconB from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconA from 'react-native-vector-icons/MaterialIcons';
@@ -12,7 +11,8 @@ import  {
 	AppleButton 
   } from '@invertase/react-native-apple-authentication';
 
-
+//this is test login object
+//using testLoginRequest func
 var user_obj = {
   user: {
     email: '',
@@ -59,6 +59,10 @@ class LoginScreen extends Component {
       this.setState({button_font_size:14})
     }
     else console.log('not modified')
+
+    //init var
+    userinfo.user.email = ''
+    userinfo.user.password = ''
   }
 
 
@@ -84,6 +88,7 @@ class LoginScreen extends Component {
   getToken = async() =>{
     myL = await AsyncStorage.getItem('my_location');
   }
+
   makeRequest = async()=>{
     if (userinfo.user.email == ''){
       Alert.alert('로그인',"이메일을 입력해주세요.",[{text: '확인', style:'cancel'}])
@@ -118,6 +123,7 @@ class LoginScreen extends Component {
     }
   }
 
+  //for test login
   testLoginRequest(){
     api
       .post('/users/sign_in', user_obj)
@@ -180,9 +186,8 @@ class LoginScreen extends Component {
 
   render() {
     console.log(max_width)
-
     return (
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={{flex: 1}}>
         <View style={{flex: 1}}></View>
           <View style={{flex: 4, width: '70%', alignSelf: 'center'}}>
@@ -314,7 +319,7 @@ class LoginScreen extends Component {
           </View>
         </View>
       </View>
-      </TouchableWithoutFeedback>
+    </TouchableWithoutFeedback>
     );
   }
 }
