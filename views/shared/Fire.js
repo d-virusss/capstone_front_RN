@@ -90,7 +90,12 @@ class Fire{
     else {
       user._id = 2;
       this.state.other_id = sender;
-      user.avatar = this.state.avatar=="/image/default.png" ? require("../../assets/default.png") : this.state.avatar;
+      if(this.state.avatar==null){
+        user.avatar = require("../../assets/default.png")
+      }
+      else{
+        user.avatar = this.state.avatar=="/image/default.png" ? require("../../assets/default.png") : this.state.avatar;
+      }
     }
     if(chat === this.state.chat_id){
       /*dbS.transaction((tx)=>{

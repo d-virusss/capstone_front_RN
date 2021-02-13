@@ -77,7 +77,7 @@ class ProfileShow extends Component {
       .catch((err) => {
         console.log("profile err")
         Alert.alert("요청 실패", err.response.data.error || err.response.data.message, [
-          { text: '확인', style: 'cancel' }])
+          { text: '확인', style: 'cancel', onPress: ()=> {this.props.navigation.goBack()} }])
       })
   }
 

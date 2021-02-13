@@ -13,6 +13,7 @@ import number_delimiter from '../shared/number_delimiter'
 import {Rating} from 'react-native-elements'
 import { SliderBox } from "react-native-image-slider-box";
 import FormData from 'form-data'
+import Toast from 'react-native-simple-toast';
 
 IconM.loadFont();
 UserAgent.getUserAgent(); //synchronous
@@ -253,6 +254,7 @@ class PostShow extends Component{
   likeRequest = () => {
     if (this.state.like_check) {
       this.setState({ icon: 'heart-outline', like_check: false })
+      Toast.show("좋아요!", Toast.SHORT)
     }
     else this.setState({ icon: "heart", like_check: true })
     api
