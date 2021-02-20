@@ -19,7 +19,6 @@ var user_obj = {
     number:'',
     device_token:'',
     name: '',
-    birthday: '',
   },
 };
 
@@ -34,7 +33,6 @@ export default class RegistrationScreen extends React.Component {
   password_confirmation: '',
   device_token:'',
   name : "",
-  birthday : "",
   number : '',
   auth : false,
   code:'',
@@ -122,7 +120,6 @@ makeForm() {
   user_obj.user.number = this.state.number;
   user_obj.user.device_token = this.state.device_token;
   user_obj.user.name = this.state.name;
-  user_obj.user.birthday = this.state.birthday;
 }
 
 renderAuthCodeForm(){
@@ -222,11 +219,11 @@ checkValidation() {
         ])
       })
       .catch((err) =>  {
-        console.log(err.response.data.error)
+        console.log(err.response)
         Alert.alert("가입 실패", err.response.data.error,[
           {
             text:'확인', 
-            onPress: () => {this.props.navigation.goBack()}
+            onPress: () => {this.setState({saving : false})}
           },
           {
             style:'cancel'
@@ -291,13 +288,6 @@ checkValidation() {
                   <Label>닉네임</Label>
                   <Input autoCapitalize="none"
                     onChangeText = {(name) => {this.state.nickname = name }}
-                  />
-                </Item>
-
-                <Item floatingLabel>
-                  <Label>생일 ex) 19960827</Label>
-                  <Input autoCapitalize="none"
-                    onChangeText = {(birthday) => {this.state.birthday = birthday }}
                   />
                 </Item>
 
