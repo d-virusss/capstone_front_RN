@@ -52,3 +52,62 @@ You can find our [Back-end repo](https://github.com/oohyun15/applePink-backend) 
 * Sentry             *[(link)](https://sentry.io/)*
 
 ## Features
+#### OAuth Social Sign-in
+* Kakao
+* Apple
+
+#### Regional Certification
+* Google Maps
+* Kakao Maps (for converting GPS coordinates to a legal county)
+  * Currently support Suwon only (57 counties)
+
+#### 1:1 Chatting
+* Firebase realtime database
+
+#### Keyword Notification
+* Up to 20 registered
+* FCM (Android & Apple)
+* APNS (Apple only)
+
+#### Electronic Signature
+* Kakaocert
+
+#### Email & SMS Notification
+* Sendgrid (Email)
+* Cafe24 (SMS)
+
+#### Association Certification
+* University
+  * Support 108 universities in Korea
+
+#### Converting from HEIC to PNG 
+* Cloudmersive
+
+#### Administrator Page
+* Activeadmin
+
+## Getting Started
+**1. Install npm modules
+```zsh
+# install npm modules
+npm install
+```
+
+**2. Set secret keys
+``` # for kakao map API key
+in views/key.js
+const APP_KEY = "..."
+
+export default APP_KEY;
+```
+
+``` # for google map API key
+you should specify api key value in ios/repo_name/AppDelegat.m
+```
+
+**3. Run local server and run emulator
+```zsh
+react-native run-ios
+or
+react-native run-android(You should turn on android emulator before run this command.)
+```
