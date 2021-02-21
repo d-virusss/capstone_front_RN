@@ -101,7 +101,8 @@ const APP_KEY = "..."
 export default APP_KEY;
 ```
 
-``` # for google map API key
+``` 
+# for google map API key
 # you should specify api key value in ios/repo_name/AppDelegat.m
 ```
 
