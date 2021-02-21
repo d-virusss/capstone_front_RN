@@ -87,25 +87,25 @@ You can find our [Back-end repo](https://github.com/oohyun15/applePink-backend) 
 * Activeadmin
 
 ## Getting Started
-**1. Install npm modules
+**1. Install npm modules**
 ```zsh
 # install npm modules
 npm install
 ```
 
-**2. Set secret keys
+**2. Set secret keys**
 ``` # for kakao map API key
-in views/key.js
+# in views/key.js
 const APP_KEY = "..."
 
 export default APP_KEY;
 ```
 
 ``` # for google map API key
-you should specify api key value in ios/repo_name/AppDelegat.m
+# you should specify api key value in ios/repo_name/AppDelegat.m
 ```
 
-**3. Run local server and run emulator
+**3. Run local server and run emulator**
 ```zsh
 react-native run-ios
 or
