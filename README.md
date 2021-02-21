@@ -111,5 +111,6 @@ export default APP_KEY;
 ``` zsh
 react-native run-ios
 or
-react-native run-android(You should turn on android emulator before run this command.)
+react-native run-android
+# You should turn on android emulator before run this command
 ```
