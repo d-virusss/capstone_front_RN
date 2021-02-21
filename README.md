@@ -94,20 +94,21 @@ npm install
 ```
 
 **2. Set secret keys**
-``` # for kakao map API key
+``` zsh
+# for kakao map API key
 # in views/key.js
 const APP_KEY = "..."
 
 export default APP_KEY;
 ```
 
-``` 
+``` zsh
 # for google map API key
 # you should specify api key value in ios/repo_name/AppDelegat.m
 ```
 
 **3. Run local server and run emulator**
-```zsh
+``` zsh
 react-native run-ios
 or
 react-native run-android(You should turn on android emulator before run this command.)
