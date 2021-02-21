@@ -20,8 +20,8 @@ This repository is Modunanum's Front-end repository built with **React Native**.
 You can find our [Back-end repo](https://github.com/oohyun15/applePink-backend) built with **Ruby on Rails**.
 *updated : 2021.02.21*
 
-## Intro Video
-[![IU(아이유) _ Into the I-LAND](http://img.youtube.com/vi/QYNwbZHmh8g/0.jpg)](https://youtu.be/QYNwbZHmh8g?t=0s)
+## Introduction Video
+https://drive.google.com/file/d/1IDJ6qU_vUmY9ckU7J_TFCDvQ7fKVc-ps/view
 
 ## Requirements
 #### Common factors
