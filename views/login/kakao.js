@@ -11,6 +11,10 @@ var user={
 
 class KakaoLoginScreen extends Component {
 
+  componentDidMount(){
+    console.log("enter kakao login webview!");
+  }
+
   onWebViewMessage = (e) => {
     //console.log(e.nativeEvent.data)
     let res = JSON.parse(e.nativeEvent.data);
